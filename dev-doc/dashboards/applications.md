@@ -20,3 +20,9 @@ An OIDC app is OK if:
 * either:
   - it is public _(`oidcRPMetaDataOptionsPublic`)_
   - or it has a secret in `oidcRPMetaDataOptionsClientSecret`
+
+## SAML rules
+
+A SAML app is OK if:
+* it has metadata into `samlSPMetaDataXML/<appname>/samlSPMetaDataXML`
+
