@@ -11,3 +11,12 @@ TODO: add description
   * if `issuerDBOpenIDConnectActivation` isn't set, display in red
 * apps in `samlSPMetaDataXML`
   * if `issuerDBSAMLActivation` isn't set, display in red
+
+
+## OIDC rules
+
+An OIDC app is OK if:
+* it has an ID `oidcRPMetaDataOptions/<appname>/oidcRPMetaDataOptionsClientID`
+* either:
+  - it is public _(`oidcRPMetaDataOptionsPublic`)_
+  - or it has a secret in `oidcRPMetaDataOptionsClientSecret`
