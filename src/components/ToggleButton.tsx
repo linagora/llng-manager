@@ -1,19 +1,26 @@
-import React, { Dispatch, SetStateAction } from "react";
-
+import { Dispatch, SetStateAction } from "react";
+import "./ToggleButton.css";
 function ToggleButton({
   toggled,
   setToggled,
+  testid,
 }: {
-  toggled: boolean;
+  toggled: boolean | number;
   setToggled: Dispatch<SetStateAction<boolean>>;
+  testid: string;
 }) {
   return (
-    <button
-      className={`toggleButton ${toggled ? "toggled" : ""}`}
-      onClick={() => setToggled(!toggled)}
-    >
-      <div className="thumb"></div>
-    </button>
+    <label className={`toggleButton ${toggled ? "toggled" : ""}`}>
+      <input
+        data-testid={testid}
+        type="checkbox"
+        onChange={() => {
+          setToggled(!toggled);
+        }}
+        checked={toggled ? true : false}
+      />
+      <span className="thumb"></span>
+    </label>
   );
 }
 

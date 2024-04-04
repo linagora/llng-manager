@@ -1,0 +1,26 @@
+.card {
+  background-color: rgb(215, 239, 247);
+  border: 2px solid #acacac;
+  padding: 5%;
+  border-radius: 15px;
+  align-content: center;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 5px 5px 5px #888888;
+}
+.maintenanceToggle {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.card.Maintenance {
+  background-color: rgb(255, 152, 67);
+}
+
+.card.issue {
+  color: white;
+  background-color: red;
+}

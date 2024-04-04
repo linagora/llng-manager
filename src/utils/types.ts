@@ -979,7 +979,7 @@ export interface oidcRPMetaDataOptions {
   oidcRPMetaDataOptionsAllowPasswordGrant: number;
   oidcRPMetaDataOptionsBypassConsent: number;
   oidcRPMetaDataOptionsClientSecret?: boolean;
-  oidcRPMetaDataOptionsClientID: string;
+  oidcRPMetaDataOptionsClientID?: string;
   oidcRPMetaDataOptionsIDTokenForceClaims: number;
   oidcRPMetaDataOptionsIDTokenSignAlg: string;
   oidcRPMetaDataOptionsLogoutSessionRequired: number;
@@ -991,7 +991,7 @@ export interface oidcRPMetaDataOptions {
 }
 
 export interface samlSPMetaDataXML {
-  samlSPMetaDataXML: string;
+  samlSPMetaDataXML?: string;
 }
 
 export interface MetaData {
