@@ -2,72 +2,17 @@
   text-align: center;
 }
 
-.navbar {
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #282c34;
-  color: gray;
-  display: flex;
-  justify-content: space-around;
-  z-index: 1100;
-}
-.navbar :hover {
-  color: white;
-}
-
 .main {
   margin-top: 75px;
 }
 
-.issuersList {
-  background-color: coral;
-  border-radius: 20px;
-  padding: 2%;
-  display: flex;
-  justify-content: space-around;
-  margin: 5%;
-}
-
-.issuers {
-  font-size: large;
-  display: flex;
-  align-items: center;
-}
-
-.toggleButton {
-  background-color: #282c34;
-  border: 1px solid #aaa;
-  border-radius: 90px;
-  width: 50px;
-  height: 28px;
-  transition: background-color 0.1s ease, border-color 0.2s ease;
-  cursor: pointer;
-  position: relative;
-}
-
-.toggleButton .thumb {
-  height: 20px;
-  width: 20px;
-  background-color: #aaa;
-  border-radius: 90px;
-  transform: translateX(0);
-  transition: left 0.15s ease;
-  position: absolute;
-  left: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.toggleButton.toggled {
-  background-color: chocolate;
-}
-.toggleButton:hover {
-  border-color: #aaa;
-}
-
-.toggleButton.toggled .thumb {
-  left: calc(50px - 25px);
+.cfgNum {
+  border-radius: 3px;
+  padding: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  background: #5cb85c;
+  color: white;
 }
 
 .grid {
@@ -88,83 +33,4 @@
   .grid {
     grid-template-columns: 30% 30% 30%;
   }
-}
-.card {
-  background-color: white;
-  border: 1px solid #282c34;
-  padding: 5%;
-  border-radius: 15px;
-  align-content: center;
-  cursor: pointer;
-}
-
-.maintenanceToggle {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.card.Maintenance {
-  background-color: orange;
-}
-
-.card.issue {
-  background-color: red;
-}
-
-.addButton {
-  position: fixed;
-  width: 75px;
-  height: 75px;
-  background: #fff;
-  cursor: pointer;
-  border: 2px solid coral;
-  border-radius: 50%;
-  /* Mittig */
-  bottom: 2%;
-  right: 2%;
-}
-
-.addButton:after {
-  content: "";
-  position: absolute;
-  transform: translate(-50%, -50%);
-  height: 4px;
-  width: 50%;
-  background: coral;
-  top: 50%;
-  left: 50%;
-}
-
-.addButton:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: coral;
-  height: 50%;
-  width: 4px;
-}
-
-.addButton:hover:before,
-.addButton:hover:after {
-  background: #fff;
-  transition: 0.2s;
-}
-
-.addButton:hover {
-  background-color: coral;
-  transition: 0.2s;
-}
-
-.createAssistant {
-  background-color: #fff;
-  border: 2px chocolate solid;
-  position: fixed;
-  width: 50%;
-  height: 25%;
-  top: 25%;
-  left: 25%;
-  text-align: center;
 }

@@ -1,17 +1,14 @@
-import React from "react";
-import "./App.css";
 import Navbar from "./components/Navbar";
-import "./App.css";
-import DataDisplayer from "./features/data/dataDisplayer";
+import ConfigDisplayer from "./ConfigDisplayer";
 import AddApp from "./components/AddApp";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <div className="main">
-        <strong> TITRE </strong>
-        <DataDisplayer />
+        <ConfigDisplayer />
         <AddApp />
       </div>
     </div>

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import Popup from "reactjs-popup";
+import { CreationAssistant } from "./CreationAssistant";
+import "./AddApp.css";
 
 function AddApp() {
   const [open, setOpen] = useState(false);
-  const closeModal = () => setOpen(false);
+  const closeModal = () => {
+    setOpen(false);
+  };
   return (
     <div>
       <button
@@ -18,11 +22,16 @@ function AddApp() {
         modal
         lockScroll
         overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
-        closeOnDocumentClick
+        closeOnDocumentClick={false}
         closeOnEscape
         onClose={closeModal}
       >
-        <div className="createAssistant"> Création Assistant Popup</div>
+        <div className="modal">
+          <button className="close" onClick={closeModal}>
+            &times;
+          </button>
+          <CreationAssistant />
+        </div>
       </Popup>
     </div>
   );

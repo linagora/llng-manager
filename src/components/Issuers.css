@@ -1,0 +1,20 @@
+.issuersList {
+  background-color: coral;
+  border-radius: 20px;
+  padding: 2%;
+  display: flex;
+  justify-content: space-around;
+  margin: 5%;
+}
+
+.issuers {
+  font-size: large;
+  display: flex;
+  align-items: center;
+}
+
+.warningPopup {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}

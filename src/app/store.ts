@@ -1,13 +1,19 @@
-import { configureStore } from "@reduxjs/toolkit";
-import dataReducer from "../features/data/dataSlice";
-import issuerReducer from "../features/toggles/issuerSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import configReducer from "../features/config/configSlice";
+import creationAssistantReducer from "../features/creationAssistantSlice";
 
-export const store = configureStore({
-  reducer: {
-    data: dataReducer,
-    issuerToggle: issuerReducer,
-  },
+const rootReducer = combineReducers({
+  config: configReducer,
+  creationAssistant: creationAssistantReducer,
 });
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+};
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore["dispatch"];
