@@ -1,0 +1,9 @@
+.filter {
+  border: 0px;
+  font-size: larger;
+  color: #aaa;
+}
+
+.filters {
+  justify-content: right;
+}
