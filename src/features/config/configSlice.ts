@@ -43,6 +43,14 @@ const configSlice = createSlice({
       state.data.config.issuerDBCASActivation =
         !state.data.config.issuerDBCASActivation;
     },
+    toggleOID2(state) {
+      state.data.config.issuerDBOpenIDActivation =
+        !state.data.config.issuerDBOpenIDActivation;
+    },
+    toggleGET(state) {
+      state.data.config.issuerDBGetActivation =
+        !state.data.config.issuerDBGetActivation;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -66,6 +74,12 @@ const configSlice = createSlice({
   },
 });
 
-export const { toggleMaintenance, toggleCAS, toggleOIDC, toggleSAML } =
-  configSlice.actions;
+export const {
+  toggleMaintenance,
+  toggleCAS,
+  toggleOIDC,
+  toggleSAML,
+  toggleGET,
+  toggleOID2,
+} = configSlice.actions;
 export default configSlice.reducer;

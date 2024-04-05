@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { MandatoryFields } from "./MandatoryFields";
 import "./CreationAssistant.css";
+import { t } from "i18next";
 export function CreationAssistant() {
   const [appType, setAppType] = useState("None");
   return (
     <div className="createAssistant">
-      <div>Create a New application</div>
+      <div>{t("newApp")}</div>
       <div>
-        <span>Select a type of application : </span>
+        <span>{t("type")}</span>
         <select
           name="type"
           id="applicationType"
@@ -15,21 +16,21 @@ export function CreationAssistant() {
           defaultValue={""}
         >
           <option value="" disabled hidden>
-            Choose here
+            {t("chooseType")}
           </option>
           <option value="native">Native</option>
-          <option value="saml">SAML</option>
-          <option value="oidc">OpenID Connect</option>
-          <option value="cas">CAS</option>
+          <option value="saml">{t("saml")}</option>
+          <option value="oidc">{t("OpenIDConnect")}</option>
+          <option value="cas">{t("issuerDBCAS")}</option>
         </select>
       </div>
       <div>
         <div>
-          <label title="test">Nom </label>
+          <label title="test">{t("name")} </label>
           <input type="text" />
         </div>
         <MandatoryFields type={appType}></MandatoryFields>
-        <button>next</button>
+        <button>{t("next")}</button>
       </div>
     </div>
   );

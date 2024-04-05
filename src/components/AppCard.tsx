@@ -8,6 +8,7 @@ import {
 import { toggleMaintenance } from "../features/config/configSlice";
 import ToggleButton from "./ToggleButton";
 import "./AppCard.css";
+import { t } from "i18next";
 
 function Maintenance(
   type: string,
@@ -66,12 +67,11 @@ function AppCard({
           </strong>
         </p>
         <p>
-          description mais pour l'instant c'est pas les vrais données parce que
-          c'est moche
+          {t("description")} : {t("description")}
         </p>
         {type === "native" ? (
           <div className="maintenanceToggle">
-            <p>Maintenance</p>
+            <p>{t("maintenance")}</p>
             <div
               data-testid={`maintenanceButton.${info.name}`}
               onClick={(e) => {

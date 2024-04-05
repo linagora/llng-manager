@@ -4,10 +4,13 @@ import ToggleButton from "./ToggleButton";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   toggleCAS,
+  toggleGET,
+  toggleOID2,
   toggleOIDC,
   toggleSAML,
 } from "../features/config/configSlice";
 import "./Issuers.css";
+import { t } from "i18next";
 
 function Issuers() {
   const dispatch = useAppDispatch();
@@ -34,10 +37,18 @@ function Issuers() {
             testid="issuer.toggle.saml"
           />
         </div>
-        SAMl{" "}
+        <label>{t("issuerDBSAML")}</label>
         <Popup
           data-testid="issuer.popup.saml"
-          trigger={<span> {warnings.samlWarning ? "⚠️" : ""}</span>}
+          trigger={
+            <span
+              style={{
+                visibility: warnings.samlWarning ? "visible" : "hidden",
+              }}
+            >
+              ⚠️
+            </span>
+          }
           position={"right center"}
           on={"hover"}
           closeOnDocumentClick
@@ -60,22 +71,29 @@ function Issuers() {
           }}
           testid="issuer.toggle.oidc"
         />
-        OIDC{" "}
+        <label>{t("issuerDBOpenIDConnect")}</label>
         <Popup
           data-testid="issuer.popup.oidc"
-          trigger={<span> {warnings.oidcWarning ? "⚠️" : ""}</span>}
+          trigger={
+            <span
+              style={{
+                visibility: warnings.oidcWarning ? "visible" : "hidden",
+              }}
+            >
+              ⚠️
+            </span>
+          }
           position={"right center"}
           on={"hover"}
           closeOnDocumentClick
           className="warningPopup"
         >
-          {" "}
           <div className="warningPopup">
             {Object.keys(
               config.oidcRPMetaDataOptions ? config.oidcRPMetaDataOptions : {}
             ).map((name) => (
               <div key={name}>{name}</div>
-            ))}{" "}
+            ))}
           </div>
         </Popup>
       </div>
@@ -88,10 +106,16 @@ function Issuers() {
           }}
           testid="issuer.toggle.cas"
         />
-        CAS
+        <label> {t("issuerDBCAS")}</label>
         <Popup
           data-testid="issuer.popup.cas"
-          trigger={<span> {warnings.casWarning ? "⚠️" : ""}</span>}
+          trigger={
+            <span
+              style={{ visibility: warnings.casWarning ? "visible" : "hidden" }}
+            >
+              ⚠️
+            </span>
+          }
           position={"right center"}
           on={"hover"}
           closeOnDocumentClick
@@ -102,7 +126,37 @@ function Issuers() {
               config.casAppMetaDataOptions ? config.casAppMetaDataOptions : {}
             ).map((name) => (
               <div key={name}>{name}</div>
-            ))}{" "}
+            ))}
+          </div>
+        </Popup>
+      </div>
+      <div className="issuers" data-testid="issuer.others">
+        <Popup
+          position="bottom center"
+          arrow={false}
+          trigger={
+            <div>
+              <img src={require("../static/more.png")} alt="More" />
+            </div>
+          }
+        >
+          <div className="otherIssuers">
+            <div className="menu-item">
+              <span>{t("issuerDBOpenID")}</span>
+              <input
+                type="checkbox"
+                checked={Boolean(config.issuerDBOpenIDActivation)}
+                onClick={() => dispatch(toggleOID2())}
+              />
+            </div>
+            <div className="menu-item">
+              <span>{t("issuerDBGet")}</span>
+              <input
+                type="checkbox"
+                checked={Boolean(config.issuerDBGetActivation)}
+                onClick={() => dispatch(toggleGET())}
+              />
+            </div>
           </div>
         </Popup>
       </div>

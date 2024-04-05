@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { setupStore } from "./app/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "./i18n";
 import "./index.css";
 
 const container = document.getElementById("root")!;

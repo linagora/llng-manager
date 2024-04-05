@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import { useAppSelector } from "../app/hooks";
 import "./MandatoryField.css";
 export function MandatoryFields({
@@ -33,24 +34,31 @@ export function MandatoryFields({
       return (
         <div className="mandatoryField">
           <div>
-            <input type="text" placeholder="OpenID Connect ID" />
+            {" "}
+            <th>{t("oidcRPMetaDataOptionsClientID")}</th>{" "}
+            <td>
+              <input
+                type="text"
+                placeholder={t("oidcRPMetaDataOptionsClientID")}
+              />{" "}
+            </td>
           </div>
           <div>
-            <th>Secret client</th>
+            <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>{" "}
             <td>
               <input type="text" />
             </td>
-          </div>{" "}
+          </div>
           <div>
-            <th>Client public</th>
+            <th>{t("oidcRPMetaDataOptionsPublic")}</th>
             <td>
               <label>
                 <input type="radio" name="Client public" />
-                <span>Activé</span>
+                <span>{t("on")}</span>
               </label>
               <label>
                 <input type="radio" name="Client public" />
-                <span>Désactivé</span>
+                <span>{t("off")}</span>
               </label>
             </td>
           </div>

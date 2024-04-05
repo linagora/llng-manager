@@ -8,6 +8,7 @@
 
 .cfgNum {
   border-radius: 3px;
+  margin: 5px;
   padding: 1px;
   padding-left: 2px;
   padding-right: 2px;
@@ -17,10 +18,11 @@
 
 .grid {
   display: grid;
-  justify-content: space-around;
+  justify-content: center;
   margin: 2%;
   grid-gap: 1%;
   grid-auto-flow: row;
+  align-items: center;
 }
 
 @media only screen and (min-width: 640px) {

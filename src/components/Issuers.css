@@ -1,10 +1,11 @@
 .issuersList {
   background-color: coral;
   border-radius: 20px;
-  padding: 2%;
+  padding: 15px;
   display: flex;
   justify-content: space-around;
-  margin: 5%;
+  flex-wrap: wrap;
+  margin: 15px;
 }
 
 .issuers {
@@ -13,8 +14,37 @@
   align-items: center;
 }
 
+.issuers label {
+  margin: 5px;
+  align-items: center;
+}
+
+.issuers img {
+  width: 40px;
+  top: 50%;
+  rotate: 90deg;
+  cursor: pointer;
+}
+
 .warningPopup {
   background-color: white;
   padding: 5px;
   border-radius: 5px;
+}
+
+.otherIssuers {
+  background-color: coral;
+  width: 150px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  height: 28px;
+  border-bottom: 1px solid rgb(187, 187, 187);
 }
