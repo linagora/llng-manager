@@ -157,6 +157,10 @@ function Issuers() {
                 onClick={() => dispatch(toggleGET())}
               />
             </div>
+            <div className="menu-item">
+              <span>{t("issuerJisty")}</span>
+              <input type="checkbox" checked={Boolean(false)} />
+            </div>
           </div>
         </Popup>
       </div>

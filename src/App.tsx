@@ -4,8 +4,10 @@ import AddApp from "./components/AddApp";
 import "./App.css";
 import { Suspense } from "react";
 import SaveButton from "./components/SaveButton";
+import { useTranslation } from "react-i18next";
 
 function App() {
+  useTranslation();
   return (
     <Suspense fallback="loading">
       <div className="App">

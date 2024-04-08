@@ -10,3 +10,20 @@
   bottom: 2%;
   left: 2%;
 }
+
+.notif {
+  position: fixed;
+  left: 50%;
+  padding: 2px;
+  transform: translateX(-50%);
+  height: 25px;
+  border-radius: 5px;
+  justify-items: center;
+  top: 65px;
+  align-content: center;
+  background-color: rgb(255, 220, 192);
+}
+
+.notif.hidden {
+  visibility: hidden;
+}

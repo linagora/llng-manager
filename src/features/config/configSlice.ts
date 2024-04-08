@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getMetadataConfig, getConfig } from "./configAPI";
+import { getMetadataConfig, getConfig, saveConfig } from "./configAPI";
 import { MetaData, llngConfig } from "../../utils/types";
 
 export interface ConfigState {
@@ -51,6 +51,9 @@ const configSlice = createSlice({
       state.data.config.issuerDBGetActivation =
         !state.data.config.issuerDBGetActivation;
     },
+    saveConfigCall(state) {
+      saveConfig(state.data.config);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -81,5 +84,6 @@ export const {
   toggleSAML,
   toggleGET,
   toggleOID2,
+  saveConfigCall,
 } = configSlice.actions;
 export default configSlice.reducer;
