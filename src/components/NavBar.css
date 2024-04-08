@@ -8,7 +8,32 @@
   display: flex;
   justify-content: space-around;
   z-index: 1100;
+  align-items: center;
 }
 .navbar :hover {
   color: white;
+}
+
+.bm-cross {
+  background: gray;
+}
+
+.menu {
+  overflow: hidden;
+  padding: 15px;
+  background: #333;
+  color: gray;
+  z-index: 1001;
+}
+.menu :hover {
+  color: white;
+}
+
+.language-options {
+  display: flex;
+}
+
+.language-options span {
+  cursor: pointer;
+  margin-right: 10px;
 }

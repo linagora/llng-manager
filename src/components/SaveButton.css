@@ -1,0 +1,12 @@
+.saveButton {
+  position: fixed;
+  width: 75px;
+  height: 75px;
+  background: #fff;
+  cursor: pointer;
+  border: 2px solid coral;
+  border-radius: 50%;
+  /* Mittig */
+  bottom: 2%;
+  left: 2%;
+}

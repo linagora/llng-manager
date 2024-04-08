@@ -3,6 +3,7 @@ import ConfigDisplayer from "./ConfigDisplayer";
 import AddApp from "./components/AddApp";
 import "./App.css";
 import { Suspense } from "react";
+import SaveButton from "./components/SaveButton";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Navbar />
         <div className="main">
           <ConfigDisplayer />
+          <SaveButton />
           <AddApp />
         </div>
       </div>
