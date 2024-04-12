@@ -1,0 +1,68 @@
+.issuerAssistant {
+  position: fixed;
+  left: 50%;
+  top: 45%;
+  padding: 15px;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 900;
+  border-radius: 15px;
+  text-align: center;
+  width: max-content;
+  height: max-content;
+}
+
+.issuerInitials {
+  margin-bottom: 5px;
+}
+
+.buttonContainer {
+  margin-top: 10px;
+}
+
+.generateButton,
+.nextButton,
+.ignoreButton {
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.ignoreButton {
+  margin-left: 10px;
+}
+
+.ignoreButton:last-child {
+  margin-right: 0;
+}
+.issuerAssistant.hidden {
+  visibility: hidden;
+}
+
+.text {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.formInput,
+.fileInput,
+.generateButton,
+.previousButton,
+.nextButton,
+.ignoreButton {
+  margin-top: 5px;
+}
+
+.fileInput {
+  display: block;
+  margin-top: 10px;
+}
+
+.buttonContainer {
+  margin-top: 10px;
+}
+
+.ignoreButton {
+  margin-left: 10px;
+}

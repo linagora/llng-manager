@@ -11,6 +11,7 @@ import {
 } from "../features/config/configSlice";
 import "./Issuers.css";
 import { t } from "i18next";
+import { IssuerAssistant } from "./IssuerAssistant";
 
 function Issuers() {
   const dispatch = useAppDispatch();
@@ -20,10 +21,14 @@ function Issuers() {
       !config.issuerDBSAMLActivation && Boolean(config.samlSPMetaDataXML),
     oidcWarning:
       !config.issuerDBOpenIDConnectActivation &&
-      Boolean(config.oidcOPMetaDataOptions),
+      Boolean(config.oidcRPMetaDataOptions),
     casWarning:
       !config.issuerDBCASActivation && Boolean(config.casAppMetaDataOptions),
   });
+
+  const [issuerSAMLAssistant, triggerSAMLIssuerAssistant] = useState(false);
+  const [issuerOIDCAssistant, triggerOIDCIssuerAssistant] = useState(false);
+
   return (
     <div className="issuersList">
       <div className="issuers" data-testid="issuer.saml">
@@ -31,12 +36,36 @@ function Issuers() {
           <ToggleButton
             toggled={config.issuerDBSAMLActivation}
             setToggled={() => {
-              setWarnings({ ...warnings, samlWarning: !warnings.samlWarning });
-              dispatch(toggleSAML());
+              if (
+                !config.issuerDBSAMLActivation &&
+                !config.samlServicePrivateKeySig &&
+                !config.samlServicePublicKeySig
+              ) {
+                triggerSAMLIssuerAssistant(!issuerSAMLAssistant);
+              } else {
+                dispatch(toggleSAML());
+                setWarnings({
+                  ...warnings,
+                  samlWarning: !warnings.samlWarning,
+                });
+              }
             }}
             testid="issuer.toggle.saml"
           />
         </div>
+        <IssuerAssistant
+          visible={issuerSAMLAssistant}
+          type="saml"
+          onIgnore={() => {
+            triggerSAMLIssuerAssistant(!issuerSAMLAssistant);
+          }}
+          setVisible={(e) => {
+            triggerSAMLIssuerAssistant(e);
+            setWarnings({ ...warnings, samlWarning: !warnings.samlWarning });
+            dispatch(toggleSAML());
+          }}
+        />
+
         <label>{t("issuerDBSAML")}</label>
         <Popup
           data-testid="issuer.popup.saml"
@@ -66,11 +95,33 @@ function Issuers() {
         <ToggleButton
           toggled={config.issuerDBOpenIDConnectActivation}
           setToggled={() => {
-            setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
-            dispatch(toggleOIDC());
+            if (
+              !config.issuerDBOpenIDConnectActivation &&
+              !config.oidcServicePrivateKeySig &&
+              !config.oidcServicePublicKeySig
+            ) {
+              triggerOIDCIssuerAssistant(!issuerOIDCAssistant);
+            } else {
+              dispatch(toggleOIDC());
+              setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
+            }
           }}
           testid="issuer.toggle.oidc"
         />
+
+        <IssuerAssistant
+          visible={issuerOIDCAssistant}
+          type="oidc"
+          onIgnore={() => {
+            triggerOIDCIssuerAssistant(!issuerOIDCAssistant);
+          }}
+          setVisible={(e) => {
+            triggerOIDCIssuerAssistant(e);
+            setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
+            dispatch(toggleOIDC());
+          }}
+        />
+
         <label>{t("issuerDBOpenIDConnect")}</label>
         <Popup
           data-testid="issuer.popup.oidc"

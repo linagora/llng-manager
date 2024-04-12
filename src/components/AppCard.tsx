@@ -66,9 +66,6 @@ function AppCard({
             {info.name} <span> {!rule ? "⚠️" : ""}</span>
           </strong>
         </p>
-        <p>
-          {t("description")} : {t("description")}
-        </p>
         {type === "native" ? (
           <div className="maintenanceToggle">
             <p>{t("maintenance")}</p>

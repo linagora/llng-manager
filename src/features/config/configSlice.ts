@@ -54,6 +54,24 @@ const configSlice = createSlice({
     saveConfigCall(state) {
       saveConfig(state.data.config);
     },
+    saveOIDCPrivSig(state, action: PayloadAction<string>) {
+      state.data.config.oidcServicePrivateKeySig = action.payload;
+    },
+    saveOIDCPrivIdSig(state, action: PayloadAction<string>) {
+      state.data.config.oidcServiceKeyIdSig = action.payload;
+    },
+    saveOIDCPubSig(state, action: PayloadAction<string>) {
+      state.data.config.oidcServicePublicKeySig = action.payload;
+    },
+    saveSAMLPrivSig(state, action: PayloadAction<string>) {
+      state.data.config.samlServicePrivateKeySig = action.payload;
+    },
+    saveSAMLPrivIdSig(state, action: PayloadAction<string>) {
+      state.data.config.samlServicePrivateKeySigPwd = action.payload;
+    },
+    saveSAMLPubSig(state, action: PayloadAction<string>) {
+      state.data.config.samlServicePublicKeySig = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -85,5 +103,11 @@ export const {
   toggleGET,
   toggleOID2,
   saveConfigCall,
+  saveOIDCPrivSig,
+  saveOIDCPrivIdSig,
+  saveOIDCPubSig,
+  saveSAMLPrivIdSig,
+  saveSAMLPrivSig,
+  saveSAMLPubSig,
 } = configSlice.actions;
 export default configSlice.reducer;
