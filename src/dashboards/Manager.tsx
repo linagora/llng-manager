@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { getConfigAsync } from "./features/config/configSlice";
-import AppCard from "./components/AppCard";
-import Issuers from "./components/Issuers";
-import FilterToggle from "./components/Filters";
-import { ruleCAS, ruleOIDC, ruleSAML } from "./utils/rules";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { getConfigAsync } from "../features/config/configSlice";
+import AppCard from "../components/managerComponents/AppCard";
+import Issuers from "../components/managerComponents/Issuers";
+import FilterToggle from "../components/managerComponents/Filters";
+import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import { useTranslation } from "react-i18next";
+import "./Manager.css";
 
-const ConfigDisplayer = () => {
+const Manager = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const config = useAppSelector((state) => state.config);
@@ -24,7 +25,6 @@ const ConfigDisplayer = () => {
   if (config.loading) {
     return (
       <div>
-        {" "}
         <strong> {t("currentConfiguration")} </strong>
         {t("loading")}
       </div>
@@ -107,7 +107,7 @@ const ConfigDisplayer = () => {
     }
 
     return (
-      <div>
+      <div className="main">
         <strong> {t("currentConfiguration")}</strong>
         <span className="cfgNum">{config.data.metadata.cfgNum}</span>
         <Issuers />
@@ -118,4 +118,4 @@ const ConfigDisplayer = () => {
   }
 };
 
-export default ConfigDisplayer;
+export default Manager;

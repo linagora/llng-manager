@@ -1,23 +1,41 @@
 import Navbar from "./components/Navbar";
-import ConfigDisplayer from "./ConfigDisplayer";
-import AddApp from "./components/AddApp";
 import "./App.css";
 import { Suspense } from "react";
-import SaveButton from "./components/SaveButton";
 import { useTranslation } from "react-i18next";
+import { HistoryRouter as Router } from "redux-first-history/rr6";
+import { Route, Routes } from "react-router-dom";
+import { history } from "./app/store";
+import { useAppSelector } from "./app/hooks";
+import { Configuration } from "./pages/Configuration";
 
 function App() {
   useTranslation();
+  const location = useAppSelector((state) => state.router.location);
+  const test = location?.hash.replace("#", "").split("/");
+
   return (
     <Suspense fallback="loading">
-      <div className="App">
+      <Router history={history}>
         <Navbar />
-        <div className="main">
-          <ConfigDisplayer />
-          <SaveButton />
-          <AddApp />
-        </div>
-      </div>
+        <Routes>
+          <Route
+            path="manager.html"
+            element={
+              <Configuration
+                location={{
+                  type: test ? test[0] : "",
+                  info: test
+                    ? {
+                        name: test.length === 3 ? test[2] : test[1],
+                        type: test.length === 3 ? test[1] : "",
+                      }
+                    : { name: "", type: "" },
+                }}
+              />
+            }
+          />
+        </Routes>
+      </Router>
     </Suspense>
   );
 }

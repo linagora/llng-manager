@@ -1,0 +1,69 @@
+.accessRules {
+  color: #bd0000;
+}
+
+.appDesc {
+  display: grid;
+  justify-content: center;
+  margin: 2%;
+  grid-gap: 1%;
+  grid-auto-flow: row;
+}
+
+@media (min-width: 981px) {
+  .appDesc {
+    grid-template-columns: 45% 45%;
+  }
+}
+
+.box {
+  background-color: #505050;
+  padding: 20px;
+  border-radius: 10px;
+  color: #fff;
+  justify-content: center;
+}
+
+.box tr {
+  text-align: left;
+}
+
+.box td {
+  max-width: 20%;
+}
+
+.authLevel {
+  width: 60px;
+}
+
+.plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  width: 15px;
+  height: 15px;
+  background-color: #007e11;
+  transform: translateX(-50%);
+  text-align: center;
+  align-content: center;
+  line-height: 15px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.minus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  transform: translateX(-50%);
+  text-align: center;
+  align-content: center;
+  line-height: 15px;
+  border-radius: 50%;
+  font-size: 16px;
+}

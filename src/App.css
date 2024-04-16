@@ -1,38 +1,7 @@
 .App {
   text-align: center;
 }
-
 .main {
   margin-top: 75px;
-}
-
-.cfgNum {
-  border-radius: 3px;
-  margin: 5px;
-  padding: 1px;
-  padding-left: 2px;
-  padding-right: 2px;
-  background: #5cb85c;
-  color: white;
-}
-
-.grid {
-  display: grid;
-  justify-content: center;
-  margin: 2%;
-  grid-gap: 1%;
-  grid-auto-flow: row;
-  align-items: center;
-}
-
-@media only screen and (min-width: 640px) {
-  .grid {
-    grid-template-columns: 45% 45%;
-  }
-}
-
-@media (min-width: 981px) {
-  .grid {
-    grid-template-columns: 30% 30% 30%;
-  }
+  text-align: center;
 }

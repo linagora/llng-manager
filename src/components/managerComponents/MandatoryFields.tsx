@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "./../../app/hooks";
 import "./MandatoryField.css";
 export function MandatoryFields({
   type,

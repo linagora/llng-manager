@@ -1,14 +1,16 @@
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   CasAppMetaDataOptions,
   VhostOption,
   oidcRPMetaDataOptions,
   samlSPMetaDataXML,
-} from "../utils/types";
-import { toggleMaintenance } from "../features/config/configSlice";
-import ToggleButton from "./ToggleButton";
+} from "../../utils/types";
+import { toggleMaintenance } from "../../features/config/configSlice";
+import ToggleButton from "../ToggleButton";
 import "./AppCard.css";
 import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
+import { push } from "redux-first-history";
 
 function Maintenance(
   type: string,
@@ -50,11 +52,14 @@ function AppCard({
   rule: boolean;
 }) {
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const maintenanceToggled = Maintenance(type, info);
 
   return (
-    <div data-testid="appcard">
+    <div
+      data-testid="appcard"
+      onClick={() => dispatch(push(`#app/${type}/${info.name}`))}
+    >
       <div
         className={`card ${
           (!issuer && !(type === "native")) || !rule ? "issue" : ""

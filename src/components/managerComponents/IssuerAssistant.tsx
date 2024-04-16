@@ -3,7 +3,7 @@ import { t } from "i18next";
 import "./IssuerAssistant.css";
 import Popup from "reactjs-popup";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   saveOIDCPrivIdSig,
   saveOIDCPrivSig,
@@ -11,9 +11,9 @@ import {
   saveSAMLPrivIdSig,
   saveSAMLPrivSig,
   saveSAMLPubSig,
-} from "../features/config/configSlice";
-import { handleChangeFile } from "../utils/readFiles";
-import { GenerateKeys } from "../utils/generateKey";
+} from "../../features/config/configSlice";
+import { handleChangeFile } from "../../utils/readFiles";
+import { GenerateKeys } from "../../utils/generateKey";
 
 export function IssuerAssistant({
   visible,
@@ -26,7 +26,7 @@ export function IssuerAssistant({
   onIgnore: Function;
   setVisible: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const dispatch = useAppDispatch();
   const config = useAppSelector((state) => state.config.data.config);
   const [newKeysOIDC, setNewKeysOIDC] = useState({
@@ -64,20 +64,26 @@ export function IssuerAssistant({
       overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
       nested
     >
-      {step === 1 && (
+      {step === 0 && (
         <div className="issuerAssistant">
-          <div className="issuerInitials">PB</div>
+          <div className="issuerInitials">{t("incompleteForm")}</div>
           <div className="buttonContainer">
             <button className="nextButton" onClick={() => handleNextStep()}>
-              Faire ensemble
+              {t("doItTogether")}
             </button>
-            <button className="ignoreButton" onClick={() => onIgnore()}>
-              Ignorer
+            <button
+              className="ignoreButton"
+              onClick={() => {
+                onIgnore();
+                setStep(0);
+              }}
+            >
+              {t("ignore")}
             </button>
           </div>
         </div>
       )}
-      {step === 2 && type === "saml" && (
+      {step === 1 && type === "saml" && (
         <div className="issuerAssistant">
           <span className="text">{t("samlServicePrivateKeySig")}</span>
           <textarea
@@ -117,13 +123,19 @@ export function IssuerAssistant({
             <button className="nextButton" onClick={() => handleNextStep()}>
               {t("next")}
             </button>
-            <button className="ignoreButton" onClick={() => onIgnore()}>
-              {t("quit")}
+            <button
+              className="ignoreButton"
+              onClick={() => {
+                onIgnore();
+                setStep(0);
+              }}
+            >
+              {t("cancel")}
             </button>
           </div>
         </div>
       )}
-      {step === 3 && type === "saml" && (
+      {step === 2 && type === "saml" && (
         <div className="issuerAssistant">
           <span className="text">{t("samlServicePublicKeySig")}</span>
           <textarea
@@ -165,13 +177,19 @@ export function IssuerAssistant({
             >
               {t("finish")}
             </button>
-            <button className="ignoreButton" onClick={() => onIgnore()}>
-              {t("quit")}
+            <button
+              className="ignoreButton"
+              onClick={() => {
+                onIgnore();
+                setStep(0);
+              }}
+            >
+              {t("cancel")}
             </button>
           </div>
         </div>
       )}
-      {step === 2 && type === "oidc" && (
+      {step === 1 && type === "oidc" && (
         <div className="issuerAssistant">
           <span className="text">{t("oidcServicePrivateKeySig")}</span>
           <textarea
@@ -211,13 +229,19 @@ export function IssuerAssistant({
             <button className="nextButton" onClick={() => handleNextStep()}>
               {t("next")}
             </button>
-            <button className="ignoreButton" onClick={() => onIgnore()}>
-              {t("quit")}
+            <button
+              className="ignoreButton"
+              onClick={() => {
+                onIgnore();
+                setStep(0);
+              }}
+            >
+              {t("cancel")}
             </button>
           </div>
         </div>
       )}
-      {step === 3 && type === "oidc" && (
+      {step === 2 && type === "oidc" && (
         <div className="issuerAssistant">
           <span className="text">{t("oidcServicePublicKeySig")}</span>
           <textarea
@@ -257,10 +281,16 @@ export function IssuerAssistant({
                 }
               }}
             >
-              {t("finish")}
+              {t("confirm")}
             </button>
-            <button className="ignoreButton" onClick={() => onIgnore()}>
-              {t("quit")}
+            <button
+              className="ignoreButton"
+              onClick={() => {
+                onIgnore();
+                setStep(0);
+              }}
+            >
+              {t("cancel")}
             </button>
           </div>
         </div>

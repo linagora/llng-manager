@@ -613,7 +613,7 @@ export interface llngConfig {
   portalSkinRules?: Record<string, Record<string, string>>;
   portalStatus?: boolean | number;
   portalUserAttr?: string;
-  post?: Record<string, object>;
+  post?: Record<string, Record<string, Record<string, string>>>;
   protection?: string;
   proxyAuthService?: string;
   proxyAuthServiceChoiceParam?: string;

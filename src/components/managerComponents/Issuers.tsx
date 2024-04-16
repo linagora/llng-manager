@@ -1,14 +1,14 @@
 import Popup from "reactjs-popup";
 import { useState } from "react";
-import ToggleButton from "./ToggleButton";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import ToggleButton from "../ToggleButton";
+import { useAppDispatch, useAppSelector } from "./../../app/hooks";
 import {
   toggleCAS,
   toggleGET,
   toggleOID2,
   toggleOIDC,
   toggleSAML,
-} from "../features/config/configSlice";
+} from "../../features/config/configSlice";
 import "./Issuers.css";
 import { t } from "i18next";
 import { IssuerAssistant } from "./IssuerAssistant";
@@ -187,7 +187,7 @@ function Issuers() {
           arrow={false}
           trigger={
             <div>
-              <img src={require("../static/more.png")} alt="More" />
+              <img src={require("../../static/more.png")} alt="More" />
             </div>
           }
         >
