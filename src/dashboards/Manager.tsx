@@ -25,15 +25,14 @@ const Manager = () => {
   if (config.loading) {
     return (
       <div>
-        <strong> {t("currentConfiguration")} </strong>
+        <strong className="title"> {t("currentConfiguration")} </strong>
         {t("loading")}
       </div>
     );
   } else if (config.error) {
     return (
       <div>
-        {" "}
-        <strong> {t("currentConfiguration")} </strong>
+        <strong className="title"> {t("currentConfiguration")} </strong>
         <strong>{t("failedLoading")}</strong>
         <span>{JSON.stringify(config.error)}</span>
       </div>
@@ -108,7 +107,7 @@ const Manager = () => {
 
     return (
       <div className="main">
-        <strong> {t("currentConfiguration")}</strong>
+        <strong className="title"> {t("currentConfiguration")}</strong>
         <span className="cfgNum">{config.data.metadata.cfgNum}</span>
         <Issuers />
         <FilterToggle filters={filters} setFilters={setFilters} />

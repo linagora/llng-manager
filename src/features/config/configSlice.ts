@@ -72,6 +72,30 @@ const configSlice = createSlice({
     saveSAMLPubSig(state, action: PayloadAction<string>) {
       state.data.config.samlServicePublicKeySig = action.payload;
     },
+    updateLocationRule(
+      state,
+      action: PayloadAction<{
+        appName: string;
+        locationRules: Record<string, string>;
+      }>
+    ) {
+      state.data.config.locationRules[action.payload.appName] =
+        action.payload.locationRules;
+    },
+    newLocationRule(state, action: PayloadAction<string>) {
+      state.data.config.locationRules[action.payload] = {
+        ...state.data.config.locationRules[action.payload],
+        "(?#New rule)^/new": "accept",
+      };
+    },
+    delLocationRule(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      delete state.data.config.locationRules[action.payload.name][
+        action.payload.key
+      ];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,5 +133,8 @@ export const {
   saveSAMLPrivIdSig,
   saveSAMLPrivSig,
   saveSAMLPubSig,
+  updateLocationRule,
+  newLocationRule,
+  delLocationRule,
 } = configSlice.actions;
 export default configSlice.reducer;

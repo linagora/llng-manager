@@ -6,6 +6,7 @@
   padding-right: 2px;
   background: #5cb85c;
   color: white;
+  font-size: xx-large;
 }
 
 .grid {
@@ -27,4 +28,11 @@
   .grid {
     grid-template-columns: 30% 30% 30%;
   }
+}
+
+.title {
+  font-size: xx-large;
+}
+.title2 {
+  font-size: larger;
 }

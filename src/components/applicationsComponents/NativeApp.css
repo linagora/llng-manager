@@ -1,13 +1,15 @@
-.accessRules {
-  color: #bd0000;
-}
-
 .appDesc {
   display: grid;
   justify-content: center;
   margin: 2%;
   grid-gap: 1%;
   grid-auto-flow: row;
+}
+
+@media (max-width: 500px) {
+  .box th {
+    font-size: smaller;
+  }
 }
 
 @media (min-width: 981px) {
@@ -17,11 +19,11 @@
 }
 
 .box {
-  background-color: #505050;
-  padding: 20px;
-  border-radius: 10px;
-  color: #fff;
-  justify-content: center;
+  background-color: rgb(215, 239, 247);
+  border: 2px solid #acacac;
+  padding: 5%;
+  border-radius: 15px;
+  align-content: center;
 }
 
 .box tr {
@@ -29,41 +31,36 @@
 }
 
 .box td {
-  max-width: 20%;
+  padding-right: 2%;
 }
 
 .authLevel {
-  width: 60px;
+  width: 50%;
 }
 
 .plus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-  width: 15px;
-  height: 15px;
-  background-color: #007e11;
-  transform: translateX(-50%);
-  text-align: center;
-  align-content: center;
-  line-height: 15px;
-  border-radius: 50%;
-  font-size: 16px;
+  padding: 0px 4px;
+  color: rgb(6, 190, 0);
+  font-size: xx-large;
+  background-color: transparent;
+  border: 1px solid rgb(6, 190, 0);
+  border-radius: 5px;
 }
 
 .minus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2px;
-  width: 15px;
-  height: 15px;
-  background-color: red;
-  transform: translateX(-50%);
-  text-align: center;
-  align-content: center;
-  line-height: 15px;
-  border-radius: 50%;
-  font-size: 16px;
+  padding: 0px 10px;
+  color: red;
+  font-size: xx-large;
+  background-color: transparent;
+  border: 1px solid red;
+  border-radius: 5px;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.box .form {
+  width: 100%;
 }

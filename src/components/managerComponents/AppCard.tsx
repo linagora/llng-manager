@@ -9,7 +9,6 @@ import { toggleMaintenance } from "../../features/config/configSlice";
 import ToggleButton from "../ToggleButton";
 import "./AppCard.css";
 import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
 import { push } from "redux-first-history";
 
 function Maintenance(
@@ -52,7 +51,6 @@ function AppCard({
   rule: boolean;
 }) {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const maintenanceToggled = Maintenance(type, info);
 
   return (
@@ -67,7 +65,7 @@ function AppCard({
         data-testid={info.name}
       >
         <p>
-          <strong>
+          <strong className="title2">
             {info.name} <span> {!rule ? "⚠️" : ""}</span>
           </strong>
         </p>
