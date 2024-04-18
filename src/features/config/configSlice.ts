@@ -96,6 +96,78 @@ const configSlice = createSlice({
         action.payload.key
       ];
     },
+    newVhostHeaders(state, action: PayloadAction<string>) {
+      if (!state.data.config.exportedHeaders) {
+        state.data.config.exportedHeaders = {};
+      }
+      state.data.config.exportedHeaders[action.payload] = {
+        ...state.data.config.exportedHeaders[action.payload],
+        new: "",
+      };
+    },
+
+    delVhostHeader(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.exportedHeaders) {
+        delete state.data.config.exportedHeaders[action.payload.name][
+          action.payload.key
+        ];
+      }
+    },
+    updateVhostHeaders(
+      state,
+      action: PayloadAction<{
+        appName: string;
+        exportedHeaders: Record<string, string>;
+      }>
+    ) {
+      if (!state.data.config.exportedHeaders) {
+        state.data.config.exportedHeaders = {};
+      }
+      state.data.config.exportedHeaders[action.payload.appName] =
+        action.payload.exportedHeaders;
+    },
+    newVhostPost(state, action: PayloadAction<string>) {
+      if (!state.data.config.post) {
+        state.data.config.post = {};
+      }
+      state.data.config.post[action.payload] = {
+        ...state.data.config.post[action.payload],
+        "/absolute/path/to/form": {},
+      };
+    },
+
+    delVhostPost(state, action: PayloadAction<{ name: string; key: string }>) {
+      if (state.data.config.post) {
+        delete state.data.config.post[action.payload.name][action.payload.key];
+      }
+    },
+    updateVhostPost(
+      state,
+      action: PayloadAction<{
+        appName: string;
+        post: Record<string, Record<string, string>>;
+      }>
+    ) {
+      if (!state.data.config.post) {
+        state.data.config.post = {};
+      }
+      state.data.config.post[action.payload.appName] = action.payload.post;
+    },
+    updateVhostOptions(
+      state,
+      action: PayloadAction<{
+        name: string;
+        option: string;
+        value: boolean | number | string;
+      }>
+    ) {
+      state.data.config.vhostOptions[action.payload.name][
+        action.payload.option
+      ] = action.payload.value;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -136,5 +208,12 @@ export const {
   updateLocationRule,
   newLocationRule,
   delLocationRule,
+  newVhostHeaders,
+  delVhostHeader,
+  updateVhostHeaders,
+  updateVhostPost,
+  delVhostPost,
+  newVhostPost,
+  updateVhostOptions,
 } = configSlice.actions;
 export default configSlice.reducer;
