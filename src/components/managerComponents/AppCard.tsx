@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   CasAppMetaDataOptions,
-  VhostOption,
   oidcRPMetaDataOptions,
   samlSPMetaDataXML,
 } from "../../utils/types";
@@ -19,15 +18,15 @@ function Maintenance(
       | oidcRPMetaDataOptions
       | CasAppMetaDataOptions
       | samlSPMetaDataXML
-      | VhostOption;
+      | Record<string, boolean | number | string>;
   }
-) {
+): boolean {
   const maintenanceToggled = useAppSelector(
     (state) => state.config.data.config.vhostOptions[info.name]
   );
 
   if (type === "native") {
-    return maintenanceToggled.vhostMaintenance;
+    return Boolean(maintenanceToggled.vhostMaintenance);
   }
   return false;
 }
@@ -44,7 +43,7 @@ function AppCard({
       | oidcRPMetaDataOptions
       | CasAppMetaDataOptions
       | samlSPMetaDataXML
-      | VhostOption;
+      | Record<string, boolean | number | string>;
   };
   type: string;
   issuer?: boolean | number;

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getConfigAsync } from "../features/config/configSlice";
+import { useState } from "react";
+import { ConfigState } from "../features/config/configSlice";
 import AppCard from "../components/managerComponents/AppCard";
 import Issuers from "../components/managerComponents/Issuers";
 import FilterToggle from "../components/managerComponents/Filters";
@@ -8,19 +7,9 @@ import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import { useTranslation } from "react-i18next";
 import "./Manager.css";
 
-const Manager = () => {
-  const dispatch = useAppDispatch();
+function Manager({ config }: { config: ConfigState }) {
   const { t } = useTranslation();
-  const config = useAppSelector((state) => state.config);
   const [filters, setFilters] = useState({ alpha: false, search: "" });
-  const [configPresent, setConfigPresent] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!configPresent) {
-      dispatch(getConfigAsync());
-      setConfigPresent(true);
-    }
-  }, [configPresent, dispatch]);
 
   if (config.loading) {
     return (
@@ -115,6 +104,6 @@ const Manager = () => {
       </div>
     );
   }
-};
+}
 
 export default Manager;

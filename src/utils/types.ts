@@ -912,7 +912,7 @@ export interface llngConfig {
   vhostDevOpsRulesUrl?: string;
   vhostHttps?: number;
   vhostMaintenance?: boolean | number;
-  vhostOptions: Record<string, VhostOption>;
+  vhostOptions: Record<string, Record<string, boolean | number | string>>;
   vhostPort?: number;
   vhostServiceTokenTTL?: number;
   vhostType?: Array<{ k: string; v: string }>;
@@ -954,16 +954,6 @@ export interface llngConfig {
   zimbraPreAuthKey?: string;
   zimbraSsoUrl?: string;
   zimbraUrl?: string;
-}
-
-export interface VhostOption {
-  vhostAccessToTrace: string;
-  vhostAliases: string;
-  vhostHttps: number;
-  vhostMaintenance: boolean | number;
-  vhostPort: number;
-  vhostServiceTokenTTL: number;
-  vhostType: string;
 }
 
 export interface CasAppMetaDataOptions {

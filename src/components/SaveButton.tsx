@@ -6,14 +6,8 @@ import { getConfigAsync, saveConfigCall } from "../features/config/configSlice";
 
 export default function SaveButton() {
   const [openSavePopup, setOpenSavePopup] = useState(false);
+  const [openSavingPopup, setOpenSavingPopup] = useState(false);
   const dispatch = useAppDispatch();
-
-  const tempSavePopup = () => {
-    setOpenSavePopup(true);
-    setTimeout(() => {
-      setOpenSavePopup(false);
-    }, 2000);
-  };
 
   return (
     <div>
@@ -21,13 +15,23 @@ export default function SaveButton() {
         className="saveButton"
         onClick={() => {
           dispatch(saveConfigCall());
-          tempSavePopup();
-          dispatch(getConfigAsync());
+          setOpenSavingPopup(true);
+          setTimeout(() => {
+            setOpenSavingPopup(false);
+            dispatch(getConfigAsync());
+            setOpenSavePopup(true);
+            setTimeout(() => {
+              setOpenSavePopup(false);
+            }, 2000);
+          }, 2000);
         }}
       >
         {t("save")}
       </button>
-      <div className={`notif ${openSavePopup ? "visible" : "hidden"}`}>
+      <div className={`notif orange ${openSavingPopup ? "visible" : "hidden"}`}>
+        {t("Saving...")}
+      </div>
+      <div className={`notif green ${openSavePopup ? "visible" : "hidden"}`}>
         {t("confSaved")}
       </div>
     </div>
