@@ -168,6 +168,56 @@ const configSlice = createSlice({
         action.payload.option
       ] = action.payload.value;
     },
+    changeAppName(
+      state,
+      action: PayloadAction<{ name: string; newName: string }>
+    ) {
+      state.data.config = JSON.parse(
+        JSON.stringify(state.data.config).replaceAll(
+          action.payload.name,
+          action.payload.newName
+        )
+      );
+    },
+    dupApp(
+      state,
+      action: PayloadAction<{ oldName: string; newAppName: string }>
+    ) {
+      for (const key of Object.keys(state.data.config) as Array<
+        keyof llngConfig
+      >) {
+        const value = state.data.config[key];
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value)
+        ) {
+          for (const name of Object.keys(value)) {
+            if (name === action.payload.oldName) {
+              value[action.payload.newAppName] = value[action.payload.oldName];
+            }
+          }
+        }
+      }
+    },
+    delApp(state, action: PayloadAction<string>) {
+      for (const key of Object.keys(state.data.config) as Array<
+        keyof llngConfig
+      >) {
+        const value = state.data.config[key];
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value)
+        ) {
+          for (const name of Object.keys(value)) {
+            if (name === action.payload) {
+              delete value[name];
+            }
+          }
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -215,5 +265,8 @@ export const {
   delVhostPost,
   newVhostPost,
   updateVhostOptions,
+  changeAppName,
+  delApp,
+  dupApp,
 } = configSlice.actions;
 export default configSlice.reducer;

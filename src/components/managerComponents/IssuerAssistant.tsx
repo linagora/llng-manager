@@ -115,7 +115,7 @@ export function IssuerAssistant({
           </div>
           <button className="generateButton" onClick={handleGenerateKeys}>
             {t("newRSAKey")}
-          </button>{" "}
+          </button>
           <div>
             <button className="nextButton" onClick={() => handlePreviousStep()}>
               {t("previous")}
@@ -221,7 +221,7 @@ export function IssuerAssistant({
           </div>
           <button className="generateButton" onClick={handleGenerateKeys}>
             {t("newRSAKey")}
-          </button>{" "}
+          </button>
           <div>
             <button className="nextButton" onClick={() => handlePreviousStep()}>
               {t("previous")}

@@ -15,7 +15,6 @@ export function MandatoryFields({
       return (
         <div className="mandatoryField">
           <div>
-            {" "}
             <textarea placeholder="XML MetaData">
               {name
                 ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
@@ -34,17 +33,16 @@ export function MandatoryFields({
       return (
         <div className="mandatoryField">
           <div>
-            {" "}
-            <th>{t("oidcRPMetaDataOptionsClientID")}</th>{" "}
+            <th>{t("oidcRPMetaDataOptionsClientID")}</th>
             <td>
               <input
                 type="text"
                 placeholder={t("oidcRPMetaDataOptionsClientID")}
-              />{" "}
+              />
             </td>
           </div>
           <div>
-            <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>{" "}
+            <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
             <td>
               <input type="text" />
             </td>

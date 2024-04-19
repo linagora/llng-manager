@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import "./NavBar.css";
 import i18n from "../i18n";
 import Popup from "reactjs-popup";
-import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { push } from "redux-first-history";
 
@@ -19,8 +18,7 @@ function Navbar() {
   return (
     <div className="navbar">
       <p onClick={() => dispatch(push("/manager.html"))}>
-        {" "}
-        {t("Configuration")}{" "}
+        {t("Configuration")}
       </p>
       <p> {t("sessions")} </p>
       <p> {t("notifications")} </p>

@@ -13,7 +13,6 @@ import {
   newLocationRule,
   newVhostHeaders,
   newVhostPost,
-  toggleMaintenance,
   updateLocationRule,
   updateVhostHeaders,
   updateVhostOptions,

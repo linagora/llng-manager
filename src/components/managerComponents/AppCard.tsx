@@ -4,11 +4,18 @@ import {
   oidcRPMetaDataOptions,
   samlSPMetaDataXML,
 } from "../../utils/types";
-import { toggleMaintenance } from "../../features/config/configSlice";
+import {
+  changeAppName,
+  delApp,
+  dupApp,
+  toggleMaintenance,
+} from "../../features/config/configSlice";
 import ToggleButton from "../ToggleButton";
 import "./AppCard.css";
 import { t } from "i18next";
 import { push } from "redux-first-history";
+import { useState } from "react";
+import Popup from "reactjs-popup";
 
 function Maintenance(
   type: string,
@@ -51,6 +58,8 @@ function AppCard({
 }) {
   const dispatch = useAppDispatch();
   const maintenanceToggled = Maintenance(type, info);
+  const [name, setName] = useState("");
+  const [popupOpen, setPopupOpen] = useState(false);
 
   return (
     <div
@@ -63,11 +72,107 @@ function AppCard({
         }${maintenanceToggled ? "Maintenance" : ""}`}
         data-testid={info.name}
       >
-        <p>
+        <div>
           <strong className="title2">
             {info.name} <span> {!rule ? "⚠️" : ""}</span>
           </strong>
-        </p>
+          <Popup
+            position="right center"
+            nested
+            on="hover"
+            open={popupOpen}
+            onOpen={() => setPopupOpen(true)}
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            trigger={
+              <img
+                src={require("../../static/more.png")}
+                alt="More"
+                className="more"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPopupOpen(true);
+                }}
+              />
+            }
+          >
+            <div className="moreOptions">
+              <Popup
+                nested
+                arrow={false}
+                onClose={() => setPopupOpen(false)}
+                overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
+                trigger={<div className="menu-item">{t("rename")}</div>}
+              >
+                <div className="popupConf">
+                  <label>
+                    <span>{t("hostname")} : </span>
+                    <input
+                      type="text"
+                      onChange={(e) => setName(e.target.value)}
+                    ></input>
+                  </label>
+                  <button
+                    onClick={() => {
+                      if (name) {
+                        dispatch(
+                          changeAppName({ name: info.name, newName: name })
+                        );
+                      }
+                    }}
+                  >
+                    {t("confirm")}
+                  </button>
+                </div>
+              </Popup>
+              <Popup
+                nested
+                arrow={false}
+                onClose={() => setPopupOpen(false)}
+                overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
+                trigger={<div className="menu-item">{t("duplicate")}</div>}
+              >
+                <div className="popupConf">
+                  <label>
+                    <span>{t("hostname")} : </span>
+                    <input
+                      type="text"
+                      onChange={(e) => setName(e.target.value)}
+                    ></input>
+                  </label>
+                  <button
+                    onClick={() => {
+                      if (name) {
+                        dispatch(
+                          dupApp({ oldName: info.name, newAppName: name })
+                        );
+                        setPopupOpen(false);
+                      }
+                    }}
+                  >
+                    {t("confirm")}
+                  </button>
+                </div>
+              </Popup>
+              <Popup
+                nested
+                arrow={false}
+                onClose={() => setPopupOpen(false)}
+                overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
+                trigger={<div className="menu-item">{t("deleteEntry")}</div>}
+              >
+                <div className="popupConf">
+                  <label>Are You Sure?</label>
+                  <div>
+                    <button onClick={() => dispatch(delApp(info.name))}>
+                      confirm
+                    </button>
+                  </div>
+                </div>
+              </Popup>
+            </div>
+          </Popup>
+        </div>
         {type === "native" ? (
           <div className="maintenanceToggle">
             <p>{t("maintenance")}</p>
