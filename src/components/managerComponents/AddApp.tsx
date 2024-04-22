@@ -26,12 +26,7 @@ function AddApp() {
         closeOnEscape
         onClose={closeModal}
       >
-        <div className="modal">
-          <button className="close" onClick={closeModal}>
-            &times;
-          </button>
-          <CreationAssistant />
-        </div>
+        <CreationAssistant closeModal={closeModal} />
       </Popup>
     </div>
   );

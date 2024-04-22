@@ -1,6 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getMetadataConfig, getConfig, saveConfig } from "./configAPI";
 import { MetaData, llngConfig } from "../../utils/types";
+import attributes from "../../static/attributes.json";
 
 export interface ConfigState {
   loading: boolean;
@@ -218,6 +219,82 @@ const configSlice = createSlice({
         }
       }
     },
+    newApp(state, action: PayloadAction<{ name: string; type: string }>) {
+      switch (action.payload.type) {
+        case "native":
+          state.data.config.locationRules[action.payload.name] =
+            attributes.locationRules.default;
+          state.data.config.vhostOptions[action.payload.name] = {
+            vhostAccessToTrace: attributes.vhostAccessToTrace.default,
+            vhostAliases: attributes.vhostAliases.default,
+            vhostHttps: attributes.vhostHttps.default,
+            vhostMaintenance: attributes.vhostMaintenance.default,
+            vhostPort: attributes.vhostPort.default,
+            vhostServiceTokenTTL: attributes.vhostServiceTokenTTL.default,
+            vhostType: attributes.vhostType.default,
+          };
+          if (!state.data.config.exportedHeaders) {
+            state.data.config.exportedHeaders = {};
+          }
+          state.data.config.exportedHeaders[action.payload.name] = {};
+          if (!state.data.config.post) {
+            state.data.config.post = {};
+          }
+          state.data.config.post[action.payload.name] = {};
+          break;
+        case "saml":
+          state.data.config.samlSPMetaDataXML[action.payload.name] = {
+            samlSPMetaDataXML: "",
+          };
+          break;
+        case "oidc":
+          state.data.config.oidcRPMetaDataOptions[action.payload.name] = {
+            oidcRPMetaDataOptionsAccessTokenClaims:
+              attributes.oidcRPMetaDataOptionsAccessTokenClaims.default,
+            oidcRPMetaDataOptionsAccessTokenJWT:
+              attributes.oidcRPMetaDataOptionsAccessTokenJWT.default,
+            oidcRPMetaDataOptionsAccessTokenSignAlg:
+              attributes.oidcRPMetaDataOptionsAccessTokenSignAlg.default,
+            oidcRPMetaDataOptionsAllowClientCredentialsGrant:
+              attributes.oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                .default,
+            oidcRPMetaDataOptionsAllowOffline:
+              attributes.oidcRPMetaDataOptionsAllowOffline.default,
+            oidcRPMetaDataOptionsAllowPasswordGrant:
+              attributes.oidcRPMetaDataOptionsAllowPasswordGrant.default,
+            oidcRPMetaDataOptionsBypassConsent:
+              attributes.oidcRPMetaDataOptionsBypassConsent.default,
+            oidcRPMetaDataOptionsIDTokenForceClaims:
+              attributes.oidcRPMetaDataOptionsIDTokenForceClaims.default,
+            oidcRPMetaDataOptionsIDTokenSignAlg:
+              attributes.oidcRPMetaDataOptionsIDTokenSignAlg.default,
+            oidcRPMetaDataOptionsLogoutSessionRequired:
+              attributes.oidcRPMetaDataOptionsLogoutSessionRequired.default,
+            oidcRPMetaDataOptionsLogoutType:
+              attributes.oidcRPMetaDataOptionsLogoutType.default,
+            oidcRPMetaDataOptionsPublic:
+              attributes.oidcRPMetaDataOptionsPublic.default,
+            oidcRPMetaDataOptionsRedirectUris: "",
+            oidcRPMetaDataOptionsRefreshToken:
+              attributes.oidcRPMetaDataOptionsRefreshToken.default,
+            oidcRPMetaDataOptionsRequirePKCE:
+              attributes.oidcRPMetaDataOptionsRequirePKCE.default,
+          };
+          break;
+        case "cas":
+          break;
+        default:
+          break;
+      }
+    },
+    updateSamlSPMetadata(
+      state,
+      action: PayloadAction<{ name: string; data: string }>
+    ) {
+      state.data.config.samlSPMetaDataXML[
+        action.payload.name
+      ].samlSPMetaDataXML = action.payload.data;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -268,5 +345,7 @@ export const {
   changeAppName,
   delApp,
   dupApp,
+  newApp,
+  updateSamlSPMetadata,
 } = configSlice.actions;
 export default configSlice.reducer;

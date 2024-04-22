@@ -395,18 +395,18 @@ export function NativeApp({ name }: { name: string }) {
   const locationRules = useAppSelector(
     (state) => state.config.data.config.locationRules[name]
   );
-  const exportedHeaders = useAppSelector((state) =>
-    state.config.data.config.exportedHeaders
+  const exportedHeaders = useAppSelector((state) => {
+    return state.config.data.config.exportedHeaders
       ? state.config.data.config.exportedHeaders[name]
-      : {}
-  );
+      : {};
+  });
   const post = useAppSelector((state) =>
     state.config.data.config.post ? state.config.data.config.post[name] : {}
   );
   const options = useAppSelector(
     (state) => state.config.data.config.vhostOptions[name]
   );
-  console.log(options);
+  console.log(exportedHeaders, post);
   const dispatch = useAppDispatch();
   return (
     <div>
