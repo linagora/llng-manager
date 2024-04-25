@@ -32,7 +32,13 @@
 
 .title {
   font-size: xx-large;
+  padding: 5px;
 }
 .title2 {
   font-size: larger;
+  padding: 15px;
+}
+.title2 {
+  font-size: large;
+  padding: 15px;
 }

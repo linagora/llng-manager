@@ -1,13 +1,11 @@
-import {
-  CasAppMetaDataOptions,
-  oidcRPMetaDataOptions,
-  samlSPMetaDataXML,
-} from "./types";
+import { CasAppMetaDataOptions, samlSPMetaDataXML } from "./types";
 
 export function ruleSAML(samlData: samlSPMetaDataXML): boolean {
   return samlData.samlSPMetaDataXML ? true : false;
 }
-export function ruleOIDC(oidcData: oidcRPMetaDataOptions): boolean {
+export function ruleOIDC(
+  oidcData: Record<string, string | number | boolean>
+): boolean {
   return (
     (oidcData.oidcRPMetaDataOptionsClientID ? true : false) &&
     (oidcData.oidcRPMetaDataOptionsPublic

@@ -4223,7 +4223,21 @@
       "default": {},
       "keyMsgFail": "__badMetadataName__",
       "msgFail": "__badValue__",
-      "type": "samlAttributeContainer"
+      "type": "samlAttributeContainer",
+      "select": [
+         {
+            "k": "urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified",
+            "v": "Unspecified"
+         },
+         {
+            "k": "urn:oasis:names:tc:SAML:2.0:attrname-format:uri",
+            "v": "URI"
+         },
+         {
+            "k": "urn:oasis:names:tc:SAML:2.0:attrname-format:basic",
+            "v": "Basic"
+         }
+      ]
    },
    "samlSPMetaDataMacros": {
       "default": {},

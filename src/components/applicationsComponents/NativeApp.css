@@ -1,6 +1,5 @@
 .appDesc {
   display: grid;
-  justify-content: center;
   margin: 2%;
   grid-gap: 1%;
   grid-auto-flow: row;
@@ -14,7 +13,8 @@
 
 @media (min-width: 981px) {
   .appDesc {
-    grid-template-columns: 45% 45%;
+    grid-template-columns: 47% 47%;
+    justify-content: center;
   }
 }
 
@@ -63,4 +63,23 @@ table {
 
 .box .form {
   width: 100%;
+}
+
+textarea {
+  height: 200px;
+  width: 100%;
+}
+
+.optionNavbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(37, 63, 63);
+  padding: 2%;
+  border-radius: 15px;
+  color: white;
+}
+
+.scopes {
+  display: flex;
+  justify-content: space-between;
 }

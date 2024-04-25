@@ -420,10 +420,13 @@ export interface llngConfig {
   oidcOPMetaDataOptionsUseNonce?: boolean | number;
   oidcOPMetaDataOptionsUserAttribute?: string;
   oidcRPCallbackGetParam?: string;
-  oidcRPMetaDataExportedVars?: Record<string, string>;
+  oidcRPMetaDataExportedVars?: Record<string, Record<string, string>>;
   oidcRPMetaDataMacros?: Record<string, Record<string, string>>;
   oidcRPMetaDataNodes?: Record<string, object>;
-  oidcRPMetaDataOptions: Record<string, oidcRPMetaDataOptions>;
+  oidcRPMetaDataOptions: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   oidcRPMetaDataOptionsAccessTokenClaims?: boolean | number;
   oidcRPMetaDataOptionsAccessTokenEncContentEncAlg?: Array<{
     k: string;
@@ -750,10 +753,13 @@ export interface llngConfig {
   samlOrganizationURL?: string;
   samlOverrideIDPEntityID?: string;
   samlRelayStateTimeout?: number;
-  samlSPMetaDataExportedAttributes?: Record<string, string>;
+  samlSPMetaDataExportedAttributes?: Record<string, Record<string, string>>;
   samlSPMetaDataMacros?: Record<string, Record<string, string>>;
   samlSPMetaDataNodes?: Record<string, object>;
-  samlSPMetaDataOptions?: Record<string, Record<string, string>>;
+  samlSPMetaDataOptions?: Record<
+    string,
+    Record<string, string | boolean | number>
+  >;
   samlSPMetaDataOptionsAuthnLevel?: number | null;
   samlSPMetaDataOptionsCheckSLOMessageSignature?: boolean | number;
   samlSPMetaDataOptionsCheckSSOMessageSignature?: boolean | number;
@@ -958,26 +964,6 @@ export interface llngConfig {
 
 export interface CasAppMetaDataOptions {
   casAppMetaDataOptionsService: string;
-}
-
-export interface oidcRPMetaDataOptions {
-  oidcRPMetaDataOptionsAccessTokenClaims: number;
-  oidcRPMetaDataOptionsAccessTokenJWT: number;
-  oidcRPMetaDataOptionsAccessTokenSignAlg: string;
-  oidcRPMetaDataOptionsAllowClientCredentialsGrant: number;
-  oidcRPMetaDataOptionsAllowOffline: number;
-  oidcRPMetaDataOptionsAllowPasswordGrant: number;
-  oidcRPMetaDataOptionsBypassConsent: number;
-  oidcRPMetaDataOptionsClientSecret?: boolean;
-  oidcRPMetaDataOptionsClientID?: string;
-  oidcRPMetaDataOptionsIDTokenForceClaims: number;
-  oidcRPMetaDataOptionsIDTokenSignAlg: string;
-  oidcRPMetaDataOptionsLogoutSessionRequired: number;
-  oidcRPMetaDataOptionsLogoutType: string;
-  oidcRPMetaDataOptionsPublic: number;
-  oidcRPMetaDataOptionsRedirectUris: string;
-  oidcRPMetaDataOptionsRefreshToken: number;
-  oidcRPMetaDataOptionsRequirePKCE: number;
 }
 
 export interface samlSPMetaDataXML {
