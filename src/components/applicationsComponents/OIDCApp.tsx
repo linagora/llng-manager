@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useAppSelector } from "../../app/hooks";
-import "./NativeApp.css";
+import "./AppPage.css";
 import { OptionOidc } from "./OptionOidc";
 
 function ExportedAttribute(appName: string, vars: Record<string, string>) {
@@ -198,7 +198,7 @@ export function OIDCApp({ name }: { name: string }) {
                     }}
                   />
                 </td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
                 <td>
@@ -214,7 +214,7 @@ export function OIDCApp({ name }: { name: string }) {
                     }}
                   />
                 </td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
                 <td>
@@ -229,7 +229,7 @@ export function OIDCApp({ name }: { name: string }) {
                     }}
                   />
                 </td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th>{t("oidcRPMetaDataOptionsIcon")}</th>
                 <td>
@@ -280,7 +280,7 @@ export function OIDCApp({ name }: { name: string }) {
             {data.oidcRPMetaDataMacros
               ? tableVars(name, data.oidcRPMetaDataMacros[name])
               : ""}
-          </table>{" "}
+          </table>
           <button className="plus" onClick={() => console.log("+")}>
             +
           </button>

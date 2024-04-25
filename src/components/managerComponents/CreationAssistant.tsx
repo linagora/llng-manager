@@ -3,7 +3,7 @@ import { MandatoryFields } from "./MandatoryFields";
 import "./CreationAssistant.css";
 import { t } from "i18next";
 import attributes from "../../static/attributes.json";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { delApp, newApp } from "../../features/config/configSlice";
 
 export function CreationAssistant({
@@ -15,6 +15,8 @@ export function CreationAssistant({
   const [page, setPage] = useState(0);
   const [name, setName] = useState("");
   const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.config.data.config);
+
   return (
     <div className="modal">
       <button
@@ -27,52 +29,56 @@ export function CreationAssistant({
         &times;
       </button>
       <div className="createAssistant">
-        <div>{t("newApp")}</div>
+        <div className="title">{t("newApp")}</div>
 
         {page === 0 && (
           <>
             <div>
-              <span>{t("type")}</span>
-              <select
-                name="type"
-                id="applicationType"
-                onChange={(e) => {
-                  setAppType(e.target.value);
-                  if (appType === "native") {
-                    setName(attributes.virtualHostName.default);
-                  }
-                  if (appType === "saml") {
-                    setName("sp-example");
-                  }
-                  if (appType === "oidc") {
-                    setName("rp-example");
-                  }
-                  if (appType === "cas") {
-                    setName("app-example");
-                  }
-                }}
-                defaultValue={""}
-              >
-                <option value="" disabled hidden>
-                  {t("chooseType")}
-                </option>
-                <option value="native">Native</option>
-                <option value="saml">{t("saml")}</option>
-                <option value="oidc">{t("OpenIDConnect")}</option>
-                <option value="cas">{t("issuerDBCAS")}</option>
-              </select>
+              <div>
+                <strong className="title2">{t("type")}</strong>
+                <select
+                  name="type"
+                  id="applicationType"
+                  onChange={(e) => {
+                    setAppType(e.target.value);
+                    if (e.target.value === "native") {
+                      setName(attributes.virtualHostName.default);
+                    }
+                    if (e.target.value === "saml") {
+                      setName("sp-example");
+                    }
+                    if (e.target.value === "oidc") {
+                      setName("rp-example");
+                    }
+                    if (e.target.value === "cas") {
+                      setName("app-example");
+                    }
+                  }}
+                  defaultValue={""}
+                >
+                  <option value="" disabled hidden>
+                    {t("chooseType")}
+                  </option>
+                  <option value="native">Native</option>
+                  <option value="saml">{t("saml")}</option>
+                  <option value="oidc">{t("OpenIDConnect")}</option>
+                  <option value="cas">{t("issuerDBCAS")}</option>
+                </select>
+              </div>
+              <div>
+                <div>
+                  <strong className="title2">{t("name")} </strong>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                </div>
+              </div>
             </div>
             <div>
-              <div>
-                <label title="test">{t("name")} </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                />
-              </div>
               <button
                 onClick={() => {
                   if (name && appType !== "None") {
@@ -88,8 +94,7 @@ export function CreationAssistant({
         )}
         {page === 1 && (appType === "saml" || appType === "oidc") && (
           <>
-            <MandatoryFields type={appType} name={name}></MandatoryFields>{" "}
-            <button onClick={() => setPage(page + 1)}>{t("next")}</button>{" "}
+            <MandatoryFields type={appType} name={name}></MandatoryFields>
             <button
               onClick={() => {
                 setPage(page - 1);
@@ -98,11 +103,32 @@ export function CreationAssistant({
             >
               {t("previous")}
             </button>
+            <button
+              onClick={() => {
+                console.log(
+                  data.oidcRPMetaDataOptions[name]
+                    ?.oidcRPMetaDataOptionsClientID !== undefined,
+                  data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
+                );
+                if (
+                  data.oidcRPMetaDataOptions[name]
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsClientID !== ""
+                    : false || data.samlSPMetaDataXML[name]
+                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
+                    : false
+                ) {
+                  setPage(page + 1);
+                }
+              }}
+            >
+              {t("next")}
+            </button>
           </>
         )}
         {((page === 1 && !(appType === "saml" || appType === "oidc")) ||
           (page === 2 && (appType === "saml" || appType === "oidc"))) && (
-          <div>
+          <>
             <div>
               <span>
                 Basic {appType} application setup, to customize further pls
@@ -112,7 +138,7 @@ export function CreationAssistant({
             <div>
               <button onClick={closeModal}>{"confirm"}</button>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>

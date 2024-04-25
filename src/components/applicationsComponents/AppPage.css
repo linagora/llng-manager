@@ -3,11 +3,15 @@
   margin: 2%;
   grid-gap: 1%;
   grid-auto-flow: row;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 500px) {
   .box th {
     font-size: smaller;
+  }
+  select {
+    width: 5vh;
   }
 }
 
@@ -24,18 +28,22 @@
   padding: 5%;
   border-radius: 15px;
   align-content: center;
+  flex-wrap: wrap;
 }
 
 .box tr {
   text-align: left;
+  flex-wrap: wrap;
 }
 
 .box td {
   padding-right: 2%;
+  flex-wrap: wrap;
 }
 
 .authLevel {
   width: 50%;
+  flex-wrap: wrap;
 }
 
 .plus {
@@ -59,6 +67,7 @@
 table {
   width: 100%;
   max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .box .form {
@@ -76,7 +85,14 @@ textarea {
   background-color: rgb(37, 63, 63);
   padding: 2%;
   border-radius: 15px;
-  color: white;
+  color: #acacac;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+.optionNavbar :hover {
+  color: #ffffff;
 }
 
 .scopes {

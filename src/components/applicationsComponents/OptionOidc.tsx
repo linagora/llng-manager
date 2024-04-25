@@ -608,7 +608,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}</th>
               <td>
@@ -625,7 +625,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}</th>
               <td>
@@ -642,7 +642,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}</th>
               <td>
@@ -659,7 +659,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}</th>
               <td>
@@ -676,7 +676,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}</th>
               <td>
@@ -693,7 +693,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}</th>
               <td>
@@ -710,7 +710,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 </select>
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}</th>
               <td>
@@ -804,7 +804,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 />
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
               <td>
@@ -819,7 +819,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 />
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
               <td>
@@ -834,7 +834,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 />
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
               <td>
@@ -961,7 +961,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 />
               </td>
-            </tr>{" "}
+            </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
               <td>
@@ -976,7 +976,7 @@ export function OptionOidc({ name }: { name: string }) {
                   )}
                 />
               </td>
-            </tr>{" "}
+            </tr>
           </tbody>
         </table>
       )}

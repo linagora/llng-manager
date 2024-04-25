@@ -3,5 +3,27 @@
   padding: 5%;
   border-radius: 15px;
   text-align: center;
-  width: max-content;
+  width: 50vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  font-size: medium;
+}
+
+.createAssistant button {
+  font-size: medium;
+  margin: 2%;
+}
+
+.createAssistant select {
+  font-size: medium;
+}
+
+.createAssistant input {
+  font-size: medium;
+  margin: 2%;
+}
+
+.createAssistant textarea {
+  font-size: large;
 }

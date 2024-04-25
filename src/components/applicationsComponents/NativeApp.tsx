@@ -4,7 +4,7 @@ import {
   transformJsonToList,
   transformListToJson,
 } from "../../utils/nativeRule";
-import "./NativeApp.css";
+import "./AppPage.css";
 import attributes from "./../../static/attributes.json";
 import {
   delLocationRule,

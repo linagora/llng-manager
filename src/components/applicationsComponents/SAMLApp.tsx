@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import "./NativeApp.css";
+import "./AppPage.css";
 import attributes from "../../static/attributes.json";
 import { URLLoader } from "../managerComponents/URLLoader";
 import { updateSamlSPMetadata } from "../../features/config/configSlice";
@@ -192,11 +192,11 @@ export function SAMLApp({ name }: { name: string }) {
           </button>
           <table id="exportedAttribute">
             <thead>
-              <td>{t("variableName")}</td>
-              <td>{t("attributeName")}</td>
-              <td>{t("friendlyName")}</td>
-              <td>{t("mandatory")}</td>
-              <td>{t("format")}</td>
+              <th>{t("variableName")}</th>
+              <th>{t("attributeName")}</th>
+              <th>{t("friendlyName")}</th>
+              <th>{t("mandatory")}</th>
+              <th>{t("format")}</th>
             </thead>
             {data.samlSPMetaDataExportedAttributes
               ? ExportedAttribute(
@@ -222,7 +222,7 @@ export function SAMLApp({ name }: { name: string }) {
             {data.samlSPMetaDataMacros
               ? tableVars(name, data.samlSPMetaDataMacros[name])
               : ""}
-          </table>{" "}
+          </table>
           <button className="plus" onClick={() => console.log("+")}>
             +
           </button>

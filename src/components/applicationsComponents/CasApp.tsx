@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useAppSelector } from "../../app/hooks";
-import "./NativeApp.css";
+import "./AppPage.css";
 
 function tableVars(appName: string, vars: Record<string, string>) {
   return (

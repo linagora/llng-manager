@@ -282,6 +282,9 @@ const configSlice = createSlice({
           };
           break;
         case "cas":
+          state.data.config.casAppMetaDataOptions[action.payload.name] = {
+            casAppMetaDataOptionsService: "",
+          };
           break;
         default:
           break;
@@ -294,6 +297,30 @@ const configSlice = createSlice({
       state.data.config.samlSPMetaDataXML[
         action.payload.name
       ].samlSPMetaDataXML = action.payload.data;
+    },
+    updateOIDCclientID(
+      state,
+      action: PayloadAction<{ name: string; id: string }>
+    ) {
+      state.data.config.oidcRPMetaDataOptions[
+        action.payload.name
+      ].oidcRPMetaDataOptionsClientID = action.payload.id;
+    },
+    updateOIDCPrivateClient(
+      state,
+      action: PayloadAction<{ name: string; privateClient: string }>
+    ) {
+      state.data.config.oidcRPMetaDataOptions[
+        action.payload.name
+      ].oidcRPMetaDataOptionsClientSecret = action.payload.privateClient;
+    },
+    updateOIDCPublicClient(
+      state,
+      action: PayloadAction<{ name: string; publicClient: number }>
+    ) {
+      state.data.config.oidcRPMetaDataOptions[
+        action.payload.name
+      ].oidcRPMetaDataOptionsPublic = action.payload.publicClient;
     },
   },
   extraReducers: (builder) => {
@@ -347,5 +374,8 @@ export const {
   dupApp,
   newApp,
   updateSamlSPMetadata,
+  updateOIDCclientID,
+  updateOIDCPrivateClient,
+  updateOIDCPublicClient,
 } = configSlice.actions;
 export default configSlice.reducer;

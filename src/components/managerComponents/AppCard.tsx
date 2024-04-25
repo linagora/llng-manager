@@ -1,9 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  CasAppMetaDataOptions,
-  oidcRPMetaDataOptions,
-  samlSPMetaDataXML,
-} from "../../utils/types";
+import { CasAppMetaDataOptions, samlSPMetaDataXML } from "../../utils/types";
 import {
   changeAppName,
   delApp,
@@ -22,7 +18,6 @@ function Maintenance(
   info: {
     name: string;
     config:
-      | oidcRPMetaDataOptions
       | CasAppMetaDataOptions
       | samlSPMetaDataXML
       | Record<string, boolean | number | string>;
@@ -47,7 +42,6 @@ function AppCard({
   info: {
     name: string;
     config:
-      | oidcRPMetaDataOptions
       | CasAppMetaDataOptions
       | samlSPMetaDataXML
       | Record<string, boolean | number | string>;

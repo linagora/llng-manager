@@ -23,7 +23,7 @@ function AddApp() {
         lockScroll
         overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
         closeOnDocumentClick={false}
-        closeOnEscape
+        closeOnEscape={false}
         onClose={closeModal}
       >
         <CreationAssistant closeModal={closeModal} />
