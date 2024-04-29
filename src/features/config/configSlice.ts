@@ -9,7 +9,7 @@ export interface ConfigState {
   data: { metadata: MetaData; config: llngConfig };
 }
 
-const initialState: ConfigState = {
+export const initialState: ConfigState = {
   loading: true,
   error: false,
   data: { metadata: {} as MetaData, config: {} as llngConfig },
@@ -290,14 +290,6 @@ const configSlice = createSlice({
           break;
       }
     },
-    updateSamlSPMetadata(
-      state,
-      action: PayloadAction<{ name: string; data: string }>
-    ) {
-      state.data.config.samlSPMetaDataXML[
-        action.payload.name
-      ].samlSPMetaDataXML = action.payload.data;
-    },
     updateOIDCclientID(
       state,
       action: PayloadAction<{ name: string; id: string }>
@@ -321,6 +313,159 @@ const configSlice = createSlice({
       state.data.config.oidcRPMetaDataOptions[
         action.payload.name
       ].oidcRPMetaDataOptionsPublic = action.payload.publicClient;
+    },
+    updateCASexportedVars(
+      state,
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.casAppMetaDataExportedVars) {
+        state.data.config.casAppMetaDataExportedVars = {};
+      }
+      state.data.config.casAppMetaDataExportedVars[action.payload.name] =
+        action.payload.data;
+    },
+    newCASexportedVars(state, action: PayloadAction<string>) {
+      if (!state.data.config.casAppMetaDataExportedVars) {
+        state.data.config.casAppMetaDataExportedVars = {};
+      }
+      state.data.config.casAppMetaDataExportedVars[action.payload] = {
+        ...state.data.config.casAppMetaDataExportedVars[action.payload],
+        new: "",
+      };
+    },
+
+    delCASexportedVars(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.casAppMetaDataExportedVars) {
+        delete state.data.config.casAppMetaDataExportedVars[
+          action.payload.name
+        ][action.payload.key];
+      }
+    },
+    newCASAppMetaDataMacros(state, action: PayloadAction<string>) {
+      if (!state.data.config.casAppMetaDataMacros) {
+        state.data.config.casAppMetaDataMacros = {};
+      }
+      state.data.config.casAppMetaDataMacros[action.payload] = {
+        ...state.data.config.casAppMetaDataMacros[action.payload],
+        new: "",
+      };
+    },
+    updateCASAppMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.casAppMetaDataMacros) {
+        state.data.config.casAppMetaDataMacros = {};
+      }
+      state.data.config.casAppMetaDataMacros[action.payload.name] =
+        action.payload.data;
+    },
+    delCASAppMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.casAppMetaDataMacros) {
+        delete state.data.config.casAppMetaDataMacros[action.payload.name][
+          action.payload.key
+        ];
+      }
+    },
+    updateCASOptions(
+      state,
+      action: PayloadAction<{
+        name: string;
+        option: string;
+        value: boolean | number | string;
+      }>
+    ) {
+      state.data.config.casAppMetaDataOptions[action.payload.name][
+        action.payload.option
+      ] = action.payload.value;
+    },
+    updateSamlSPMetadata(
+      state,
+      action: PayloadAction<{ name: string; data: string }>
+    ) {
+      state.data.config.samlSPMetaDataXML[
+        action.payload.name
+      ].samlSPMetaDataXML = action.payload.data;
+    },
+    newSAMLSPMetaDataMacros(state, action: PayloadAction<string>) {
+      if (!state.data.config.samlSPMetaDataMacros) {
+        state.data.config.samlSPMetaDataMacros = {};
+      }
+      state.data.config.samlSPMetaDataMacros[action.payload] = {
+        ...state.data.config.samlSPMetaDataMacros[action.payload],
+        new: "",
+      };
+    },
+    updateSAMLSPMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.samlSPMetaDataMacros) {
+        state.data.config.samlSPMetaDataMacros = {};
+      }
+      state.data.config.samlSPMetaDataMacros[action.payload.name] =
+        action.payload.data;
+    },
+    delSAMLSPMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.samlSPMetaDataMacros) {
+        delete state.data.config.samlSPMetaDataMacros[action.payload.name][
+          action.payload.key
+        ];
+      }
+    },
+    updateSamlSPMetadataExportedAttribute(
+      state,
+      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.samlSPMetaDataExportedAttributes) {
+        state.data.config.samlSPMetaDataExportedAttributes = {};
+      }
+      state.data.config.samlSPMetaDataExportedAttributes[
+        action.payload.appName
+      ] = action.payload.data;
+    },
+    newSamlSPMetadataExportedAttribute(state, action: PayloadAction<string>) {
+      if (!state.data.config.samlSPMetaDataExportedAttributes) {
+        state.data.config.samlSPMetaDataExportedAttributes = {};
+      }
+      state.data.config.samlSPMetaDataExportedAttributes[action.payload] = {
+        ...state.data.config.samlSPMetaDataExportedAttributes[action.payload],
+        new: "0;New",
+      };
+    },
+    delSamlSPMetadataExportedAttribute(
+      state,
+      action: PayloadAction<{ appName: string; key: string }>
+    ) {
+      if (state.data.config.samlSPMetaDataExportedAttributes) {
+        delete state.data.config.samlSPMetaDataExportedAttributes[
+          action.payload.appName
+        ][action.payload.key];
+      }
+    },
+    updateSamlMetaDataOptions(
+      state,
+      action: PayloadAction<{
+        name: string;
+        option: string;
+        value: string | number;
+      }>
+    ) {
+      if (!state.data.config.samlSPMetaDataOptions) {
+        state.data.config.samlSPMetaDataOptions = {};
+      }
+      state.data.config.samlSPMetaDataOptions[action.payload.name][
+        action.payload.option
+      ] = action.payload.value;
     },
   },
   extraReducers: (builder) => {
@@ -373,9 +518,23 @@ export const {
   delApp,
   dupApp,
   newApp,
-  updateSamlSPMetadata,
   updateOIDCclientID,
   updateOIDCPrivateClient,
   updateOIDCPublicClient,
+  updateCASexportedVars,
+  newCASexportedVars,
+  delCASexportedVars,
+  delCASAppMetaDataMacros,
+  updateCASAppMetaDataMacros,
+  newCASAppMetaDataMacros,
+  updateCASOptions,
+  updateSamlSPMetadata,
+  newSAMLSPMetaDataMacros,
+  updateSAMLSPMetaDataMacros,
+  delSAMLSPMetaDataMacros,
+  updateSamlSPMetadataExportedAttribute,
+  newSamlSPMetadataExportedAttribute,
+  delSamlSPMetadataExportedAttribute,
+  updateSamlMetaDataOptions,
 } = configSlice.actions;
 export default configSlice.reducer;

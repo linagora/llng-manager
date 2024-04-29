@@ -19,6 +19,7 @@ import {
   updateVhostPost,
 } from "../../features/config/configSlice";
 import { useDispatch } from "react-redux";
+import { TableVars } from "./TableVars";
 
 function updateRules(tableID: string) {
   const ruleList = [];
@@ -53,24 +54,6 @@ function updateRules(tableID: string) {
   return locationRules;
 }
 
-function updateHeaders(tableID: string) {
-  const headerList: Record<string, string> = {};
-
-  const table = document.getElementById(tableID);
-  const rows = table?.getElementsByTagName("tr");
-  if (rows) {
-    for (let i = 1; i < rows.length; i++) {
-      const cells = rows[i].getElementsByTagName("td");
-      const key = cells[0].querySelector("input")?.value;
-      const values = cells[1].querySelector("input")?.value;
-      if (key) {
-        headerList[key] = values ? values : "";
-      }
-    }
-  }
-  return headerList;
-}
-
 function updatePost(tableID: string) {
   const post: Record<string, Record<string, string>> = {};
 
@@ -100,15 +83,17 @@ function updatePost(tableID: string) {
 
 function NativeRule(appName: string, locationRules: Record<string, string>) {
   const dispatch = useAppDispatch();
+  let i = 0;
   return (
     <tbody>
       {Object.keys(locationRules).map((group) => {
+        i++;
         const [commentary, regex, authLevel] = transformJsonToList(group);
         if (regex === "default") {
           return <></>;
         }
         return (
-          <tr>
+          <tr key={i}>
             <td>
               <input
                 className="form"
@@ -225,73 +210,18 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
   );
 }
 
-function NativeHeaders(
-  appName: string,
-  exportedHeaders: Record<string, string>
-) {
-  const dispatch = useAppDispatch();
-  return (
-    <tbody>
-      {Object.keys(exportedHeaders).map((header) => {
-        return (
-          <tr>
-            <td>
-              <input
-                className="form"
-                onChange={() =>
-                  dispatch(
-                    updateVhostHeaders({
-                      appName,
-                      exportedHeaders: updateHeaders("exportedHeaders"),
-                    })
-                  )
-                }
-                type="text"
-                value={header}
-              />
-            </td>
-            <td>
-              <input
-                className="form"
-                type="text"
-                value={exportedHeaders[header]}
-                onChange={() =>
-                  dispatch(
-                    updateVhostHeaders({
-                      appName,
-                      exportedHeaders: updateHeaders("exportedHeaders"),
-                    })
-                  )
-                }
-              />
-            </td>
-            <td>
-              <button
-                className="minus"
-                onClick={() =>
-                  dispatch(delVhostHeader({ name: appName, key: header }))
-                }
-              >
-                -
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
-
 function NativPost(
   appName: string,
   post: Record<string, Record<string, string>>
 ) {
   const dispatch = useDispatch();
+  let i = 0;
   return (
     <tbody>
       {Object.keys(post).map((link) => {
+        i++;
         return (
-          <tr>
+          <tr key={i}>
             <td>
               <input
                 className="form"
@@ -384,13 +314,6 @@ function NativPost(
   );
 }
 
-function NativeType() {
-  const typeList = attributes.vhostType.select;
-  return typeList.map((type) => {
-    return <option value={`${type.k}`}>{t(type.v)}</option>;
-  });
-}
-
 export function NativeApp({ name }: { name: string }) {
   const locationRules = useAppSelector(
     (state) => state.config.data.config.locationRules[name]
@@ -406,7 +329,6 @@ export function NativeApp({ name }: { name: string }) {
   const options = useAppSelector(
     (state) => state.config.data.config.vhostOptions[name]
   );
-  console.log(exportedHeaders, post);
   const dispatch = useAppDispatch();
   return (
     <div>
@@ -451,7 +373,13 @@ export function NativeApp({ name }: { name: string }) {
                 <th></th>
               </tr>
             </thead>
-            {NativeHeaders(name, exportedHeaders)}
+            {TableVars(
+              name,
+              exportedHeaders,
+              "exportedHeaders",
+              delVhostHeader,
+              updateVhostHeaders
+            )}
           </table>
           <button
             className="plus"
@@ -613,7 +541,9 @@ export function NativeApp({ name }: { name: string }) {
                   <input
                     className="form"
                     type="text"
-                    value={String(options.vhostAliases)}
+                    value={String(
+                      options.vhostAliases ? options.vhostAliases : ""
+                    )}
                     onChange={(el) => {
                       dispatch(
                         updateVhostOptions({
@@ -632,7 +562,11 @@ export function NativeApp({ name }: { name: string }) {
                   <input
                     className="form"
                     type="text"
-                    value={String(options.vhostAccessToTrace)}
+                    value={String(
+                      options.vhostAccessToTrace
+                        ? options.vhostAccessToTrace
+                        : ""
+                    )}
                     onChange={(el) => {
                       dispatch(
                         updateVhostOptions({
@@ -650,7 +584,6 @@ export function NativeApp({ name }: { name: string }) {
                 <td>
                   <select
                     name="type"
-                    defaultValue={attributes.vhostType.default}
                     value={String(options.vhostType)}
                     onChange={(el) =>
                       dispatch(
@@ -662,7 +595,13 @@ export function NativeApp({ name }: { name: string }) {
                       )
                     }
                   >
-                    {NativeType()}
+                    {attributes.vhostType.select.map((type) => {
+                      return (
+                        <option key={type.k} value={type.k}>
+                          {t(type.v)}
+                        </option>
+                      );
+                    })}
                   </select>
                 </td>
               </tr>

@@ -6,9 +6,9 @@ import {
   updateOIDCPrivateClient,
   updateOIDCPublicClient,
   updateOIDCclientID,
-  updateSamlSPMetadata,
 } from "../../features/config/configSlice";
 import { URLLoader } from "./URLLoader";
+import { updateSamlSPMetadata } from "../../features/config/configSlice";
 export function MandatoryFields({
   type,
   name,

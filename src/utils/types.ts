@@ -44,7 +44,10 @@ export interface llngConfig {
   casAppMetaDataExportedVars?: Record<string, Record<string, string>>;
   casAppMetaDataMacros?: Record<string, Record<string, string>>;
   casAppMetaDataNodes?: Record<string, object>;
-  casAppMetaDataOptions: Record<string, CasAppMetaDataOptions>;
+  casAppMetaDataOptions: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   casAppMetaDataOptionsAuthnLevel?: number | null;
   casAppMetaDataOptionsComment?: string;
   casAppMetaDataOptionsDisplayName?: string;
@@ -960,10 +963,6 @@ export interface llngConfig {
   zimbraPreAuthKey?: string;
   zimbraSsoUrl?: string;
   zimbraUrl?: string;
-}
-
-export interface CasAppMetaDataOptions {
-  casAppMetaDataOptionsService: string;
 }
 
 export interface samlSPMetaDataXML {

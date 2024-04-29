@@ -1,46 +1,16 @@
 import { t } from "i18next";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
-
-function tableVars(appName: string, vars: Record<string, string>) {
-  return (
-    <tbody>
-      {Object.keys(vars).map((key) => {
-        return (
-          <tr>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={key}
-              />
-            </td>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={vars[key]}
-              />
-            </td>
-
-            <td>
-              <button
-                onClick={() => {
-                  console.log("del");
-                }}
-                className="minus"
-              >
-                -
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
+import {
+  delCASAppMetaDataMacros,
+  delCASexportedVars,
+  newCASAppMetaDataMacros,
+  newCASexportedVars,
+  updateCASAppMetaDataMacros,
+  updateCASOptions,
+  updateCASexportedVars,
+} from "../../features/config/configSlice";
+import { TableVars } from "./TableVars";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -53,14 +23,22 @@ export function CasApp({ name }: { name: string }) {
       ? state.config.data.config.casAppMetaDataMacros[name]
       : {};
   });
-
+  const casAppMetaDataOptions = useAppSelector((state) => {
+    return state.config.data.config.casAppMetaDataOptions
+      ? state.config.data.config.casAppMetaDataOptions[name]
+      : {};
+  });
+  const dispatch = useAppDispatch();
   return (
     <div>
       <strong className="title">{name}</strong>
       <div className="appDesc">
         <div className="box">
           <strong className="title2">{t("casAppMetaDataExportedVars")}</strong>
-          <button className="plus" onClick={() => console.log("new attribute")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newCASexportedVars(name))}
+          >
             +
           </button>
           <table id="exportedVars">
@@ -71,15 +49,30 @@ export function CasApp({ name }: { name: string }) {
                 <th></th>
               </tr>
             </thead>
-            {tableVars(name, vars)}
+            {TableVars(
+              name,
+              vars,
+              "exportedVars",
+              delCASexportedVars,
+              updateCASexportedVars
+            )}
           </table>
+          <button
+            className="plus"
+            onClick={() => dispatch(newCASexportedVars(name))}
+          >
+            +
+          </button>
         </div>
         <div className="box">
           <strong className="title2">{t("casAppMetaDataMacros")}</strong>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+          >
             +
           </button>
-          <table id="post">
+          <table id="macros">
             <thead>
               <tr>
                 <th>{t("keys")}</th>
@@ -88,9 +81,18 @@ export function CasApp({ name }: { name: string }) {
                 <th></th>
               </tr>
             </thead>
-            {tableVars(name, casAppMetaDataMacros)}
+            {TableVars(
+              name,
+              casAppMetaDataMacros,
+              "macros",
+              delCASAppMetaDataMacros,
+              updateCASAppMetaDataMacros
+            )}
           </table>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+          >
             +
           </button>
         </div>
@@ -101,13 +103,47 @@ export function CasApp({ name }: { name: string }) {
               <tr>
                 <th>{t("casAppMetaDataOptionsDisplayName")}</th>
                 <td>
-                  <input className="form" type="text" />
+                  <input
+                    className="form"
+                    type="text"
+                    value={String(
+                      casAppMetaDataOptions.casAppMetaDataOptionsDisplayName
+                        ? casAppMetaDataOptions.casAppMetaDataOptionsDisplayName
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateCASOptions({
+                          name,
+                          option: "casAppMetaDataOptionsDisplayName",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </td>
               </tr>
               <tr>
                 <th>{t("casAppMetaDataOptionsService")}</th>
                 <td>
-                  <input className="form" type="text" />
+                  <input
+                    className="form"
+                    type="text"
+                    value={String(
+                      casAppMetaDataOptions.casAppMetaDataOptionsService
+                        ? casAppMetaDataOptions.casAppMetaDataOptionsService
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateCASOptions({
+                          name,
+                          option: "casAppMetaDataOptionsService",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </td>
               </tr>
               <tr>
@@ -115,15 +151,66 @@ export function CasApp({ name }: { name: string }) {
                 <td>
                   <div>
                     <label>
-                      <input type="radio" name="casAppMetaDataOptionsLogout" />
+                      <input
+                        type="radio"
+                        name="casAppMetaDataOptionsLogout"
+                        value={1}
+                        checked={
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
+                          1
+                        }
+                        onChange={() => {
+                          dispatch(
+                            updateCASOptions({
+                              name,
+                              option: "casAppMetaDataOptionsLogout",
+                              value: 1,
+                            })
+                          );
+                        }}
+                      />
                       <span>{t("on")}</span>
                     </label>
                     <label>
-                      <input type="radio" name="casAppMetaDataOptionsLogout" />
+                      <input
+                        type="radio"
+                        name="casAppMetaDataOptionsLogout"
+                        value={0}
+                        checked={
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
+                          0
+                        }
+                        onChange={() => {
+                          dispatch(
+                            updateCASOptions({
+                              name,
+                              option: "casAppMetaDataOptionsLogout",
+                              value: 0,
+                            })
+                          );
+                        }}
+                      />
                       <span>{t("off")}</span>
                     </label>
                     <label>
-                      <input type="radio" name="casAppMetaDataOptionsLogout" />
+                      <input
+                        type="radio"
+                        name="casAppMetaDataOptionsLogout"
+                        value={-1}
+                        checked={
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
+                          -1
+                        }
+                        onChange={() => {
+                          dispatch(
+                            updateCASOptions({
+                              name,
+                              option: "casAppMetaDataOptionsLogout",
+                              value: -1,
+                            })
+                          );
+                        }}
+                      />
                       <span>{t("default")}</span>
                     </label>
                   </div>
@@ -132,19 +219,69 @@ export function CasApp({ name }: { name: string }) {
               <tr>
                 <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
                 <td>
-                  <input />
+                  <input
+                    className="form"
+                    type="number"
+                    value={String(
+                      casAppMetaDataOptions.casAppMetaDataOptionsAuthnLevel
+                        ? casAppMetaDataOptions.casAppMetaDataOptionsAuthnLevel
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateCASOptions({
+                          name,
+                          option: "casAppMetaDataOptionsAuthnLevel",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </td>
               </tr>
               <tr>
                 <th>{t("casAppMetaDataOptionsRule")}</th>
                 <td>
-                  <input className="form" type="text" />
+                  <input
+                    className="form"
+                    type="text"
+                    value={String(
+                      casAppMetaDataOptions.casAppMetaDataOptionsRule
+                        ? casAppMetaDataOptions.casAppMetaDataOptionsRule
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateCASOptions({
+                          name,
+                          option: "casAppMetaDataOptionsRule",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </td>
               </tr>
               <tr>
                 <th>{t("casAppMetaDataOptionsComment")}</th>
                 <td>
-                  <textarea className="form" />
+                  <textarea
+                    className="form"
+                    value={String(
+                      casAppMetaDataOptions.casAppMetaDataOptionsComment
+                        ? casAppMetaDataOptions.casAppMetaDataOptionsComment
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateCASOptions({
+                          name,
+                          option: "casAppMetaDataOptionsComment",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  />
                 </td>
               </tr>
             </tbody>

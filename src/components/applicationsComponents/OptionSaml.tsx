@@ -1,7 +1,8 @@
 import { t } from "i18next";
 import { useState } from "react";
 import attributes from "../../static/attributes.json";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
 
 export function OptionSaml({ name }: { name: string }) {
   const data = useAppSelector((state) =>
@@ -10,6 +11,7 @@ export function OptionSaml({ name }: { name: string }) {
       : {}
   );
   const [optionSelect, setOptionSelected] = useState("authResponse");
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className="optionNavbar">
@@ -35,10 +37,25 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
               <td>
-                <select value={String(data.samlSPMetaDataOptionsNameIDFormat)}>
+                <select
+                  value={String(data.samlSPMetaDataOptionsNameIDFormat)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsNameIDFormat",
+                        value: e.target.value,
+                      })
+                    )
+                  }
+                >
                   {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
                     (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                      return (
+                        <option key={el.k} value={el.k}>
+                          {t(el.v)}
+                        </option>
+                      );
                     }
                   )}
                 </select>
@@ -50,10 +67,20 @@ export function OptionSaml({ name }: { name: string }) {
                 <input
                   className="form"
                   type="text"
-                  value={String(data.samlSPMetaDataOptionsNameIDSessionKey)}
-                  onChange={(el) => {
-                    console.log("akak");
-                  }}
+                  value={String(
+                    data.samlSPMetaDataOptionsNameIDSessionKey
+                      ? data.samlSPMetaDataOptionsNameIDSessionKey
+                      : ""
+                  )}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsNameIDSessionKey",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -67,9 +94,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsOneTimeUse"
                       value={1}
                       checked={Boolean(data.samlSPMetaDataOptionsOneTimeUse)}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsOneTimeUse",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -79,7 +112,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsOneTimeUse"
                       value={0}
                       checked={!Boolean(data.samlSPMetaDataOptionsOneTimeUse)}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsOneTimeUse",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -95,7 +136,16 @@ export function OptionSaml({ name }: { name: string }) {
                   value={String(
                     data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
                   )}
-                  onChange={(el) => console.log(el.target.value)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option:
+                          "samlSPMetaDataOptionsSessionNotOnOrAfterTimeout",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -106,7 +156,15 @@ export function OptionSaml({ name }: { name: string }) {
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsNotOnOrAfterTimeout)}
-                  onChange={(el) => console.log(el.target.value)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsNotOnOrAfterTimeout",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -120,9 +178,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsForceUTF8"
                       value={1}
                       checked={Boolean(data.samlSPMetaDataOptionsForceUTF8)}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsForceUTF8",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -132,7 +196,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsForceUTF8"
                       value={0}
                       checked={!Boolean(data.samlSPMetaDataOptionsForceUTF8)}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsForceUTF8",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -150,6 +222,15 @@ export function OptionSaml({ name }: { name: string }) {
               <td>
                 <select
                   value={String(data.samlSPMetaDataOptionsSignatureMethod)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsSignatureMethod",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
                     (el) => {
@@ -169,9 +250,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsSignSSOMessage"
                       value={1}
                       checked={data.samlSPMetaDataOptionsSignSSOMessage === 1}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSSOMessage",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -181,7 +268,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsSignSSOMessage"
                       value={0}
                       checked={data.samlSPMetaDataOptionsSignSSOMessage === 0}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSSOMessage",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -191,7 +286,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsSignSSOMessage"
                       value={0}
                       checked={data.samlSPMetaDataOptionsSignSSOMessage === -1}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSSOMessage",
+                            value: -1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("default")}</span>
                   </label>
@@ -210,9 +313,16 @@ export function OptionSaml({ name }: { name: string }) {
                       checked={
                         data.samlSPMetaDataOptionsCheckSSOMessageSignature === 1
                       }
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsCheckSSOMessageSignature",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -224,7 +334,16 @@ export function OptionSaml({ name }: { name: string }) {
                       checked={
                         data.samlSPMetaDataOptionsCheckSSOMessageSignature === 0
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsCheckSSOMessageSignature",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -236,6 +355,15 @@ export function OptionSaml({ name }: { name: string }) {
               <td>
                 <select
                   value={String(data.samlSPMetaDataOptionsSignatureMethod)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsSignatureMethod",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
                     (el) => {
@@ -255,9 +383,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsSignSLOMessage"
                       value={1}
                       checked={data.samlSPMetaDataOptionsSignSLOMessage === 1}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSLOMessage",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -267,7 +401,15 @@ export function OptionSaml({ name }: { name: string }) {
                       name="samlSPMetaDataOptionsSignSLOMessage"
                       value={0}
                       checked={data.samlSPMetaDataOptionsSignSLOMessage === 0}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSLOMessage",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -275,9 +417,17 @@ export function OptionSaml({ name }: { name: string }) {
                     <input
                       type="radio"
                       name="samlSPMetaDataOptionsSignSLOMessage"
-                      value={0}
+                      value={-1}
                       checked={data.samlSPMetaDataOptionsSignSLOMessage === -1}
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option: "samlSPMetaDataOptionsSignSLOMessage",
+                            value: -1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("default")}</span>
                   </label>
@@ -296,9 +446,16 @@ export function OptionSaml({ name }: { name: string }) {
                       checked={Boolean(
                         data.samlSPMetaDataOptionsCheckSLOMessageSignature
                       )}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsCheckSLOMessageSignature",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -312,7 +469,16 @@ export function OptionSaml({ name }: { name: string }) {
                           data.samlSPMetaDataOptionsCheckSLOMessageSignature
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsCheckSLOMessageSignature",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -330,6 +496,15 @@ export function OptionSaml({ name }: { name: string }) {
               <td>
                 <select
                   value={String(data.samlSPMetaDataOptionsEncryptionMode)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsEncryptionMode",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
                     (el) => {
@@ -351,9 +526,16 @@ export function OptionSaml({ name }: { name: string }) {
                       checked={Boolean(
                         data.samlSPMetaDataOptionsEnableIDPInitiatedURL
                       )}
-                      onChange={() => {
-                        console.log("aka");
-                      }}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsEnableIDPInitiatedURL",
+                            value: 1,
+                          })
+                        )
+                      }
                     />
                     <span>{t("on")}</span>
                   </label>
@@ -367,7 +549,16 @@ export function OptionSaml({ name }: { name: string }) {
                           data.samlSPMetaDataOptionsEnableIDPInitiatedURL
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() =>
+                        dispatch(
+                          updateSamlMetaDataOptions({
+                            name,
+                            option:
+                              "samlSPMetaDataOptionsEnableIDPInitiatedURL",
+                            value: 0,
+                          })
+                        )
+                      }
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -381,7 +572,15 @@ export function OptionSaml({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(data.samlSPMetaDataOptionsAuthnLevel)}
-                  onChange={(el) => console.log(el.target.value)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsAuthnLevel",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -392,7 +591,15 @@ export function OptionSaml({ name }: { name: string }) {
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsRule)}
-                  onChange={(el) => console.log(el.target.value)}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsRule",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -413,9 +620,15 @@ export function OptionSaml({ name }: { name: string }) {
                       ? data.samlSPMetaDataOptionsFederationEntityID
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
-                  }}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option: "samlSPMetaDataOptionsFederationEntityID",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 />
               </td>
             </tr>
@@ -426,6 +639,16 @@ export function OptionSaml({ name }: { name: string }) {
                   value={String(
                     data.samlSPMetaDataOptionsFederationOptionalAttributes
                   )}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option:
+                          "samlSPMetaDataOptionsFederationOptionalAttributes",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
                     (el) => {
@@ -442,6 +665,16 @@ export function OptionSaml({ name }: { name: string }) {
                   value={String(
                     data.samlSPMetaDataOptionsFederationRequiredAttributes
                   )}
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlMetaDataOptions({
+                        name,
+                        option:
+                          "samlSPMetaDataOptionsFederationRequiredAttributes",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
                     (el) => {
@@ -461,6 +694,15 @@ export function OptionSaml({ name }: { name: string }) {
               ? data.samlSPMetaDataOptionsComment
               : ""
           )}
+          onChange={(e) =>
+            dispatch(
+              updateSamlMetaDataOptions({
+                name,
+                option: "samlSPMetaDataOptionsComment",
+                value: e.target.value,
+              })
+            )
+          }
         />
       )}
     </>

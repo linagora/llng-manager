@@ -3,21 +3,75 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
 import attributes from "../../static/attributes.json";
 import { URLLoader } from "../managerComponents/URLLoader";
-import { updateSamlSPMetadata } from "../../features/config/configSlice";
+import {
+  delSAMLSPMetaDataMacros,
+  delSamlSPMetadataExportedAttribute,
+  newSAMLSPMetaDataMacros,
+  newSamlSPMetadataExportedAttribute,
+  updateSAMLSPMetaDataMacros,
+  updateSamlSPMetadata,
+  updateSamlSPMetadataExportedAttribute,
+} from "../../features/config/configSlice";
 import { handleChangeFile } from "../../utils/readFiles";
 import { OptionSaml } from "./OptionSaml";
+import { TableVars } from "./TableVars";
+
+function updateExpAttr(tableID: string) {
+  const attrList: Record<string, string> = {};
+
+  const table = document.getElementById(tableID);
+  const rows = table?.getElementsByTagName("tr");
+  if (rows) {
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const name = cells[0].querySelector("input")?.value;
+      const attName = cells[1].querySelector("input")?.value;
+      const friendlyName = cells[2].querySelector("input")?.value;
+      const format = cells[4].querySelector("select")?.value;
+
+      let mandatory: number = 0;
+      cells[3].querySelectorAll("label").forEach((e) => {
+        if (e.innerText === t("on")) {
+          if (e.querySelector("input")?.checked) {
+            mandatory = 1;
+          }
+        }
+        if (e.innerText === t("off")) {
+          if (e.querySelector("input")?.checked) {
+            mandatory = 0;
+          }
+        }
+      });
+      attrList[
+        name ? name : ""
+      ] = `${mandatory};${attName};${format};${friendlyName}`;
+    }
+  }
+
+  return attrList;
+}
 
 function ExportedAttribute(appName: string, vars: Record<string, string>) {
+  const dispatch = useAppDispatch();
+  let i = 0;
   return (
     <tbody>
       {Object.keys(vars).map((key) => {
-        const [name, friendlyName, mandatory, format] = vars[key].split(";");
+        const [mandatory, name, format, friendlyName] = vars[key].split(";");
+        i++;
         return (
-          <tr>
+          <tr key={i}>
             <td>
               <input
                 className="form"
-                onChange={() => console.log("abab")}
+                onChange={() =>
+                  dispatch(
+                    updateSamlSPMetadataExportedAttribute({
+                      appName,
+                      data: updateExpAttr("exportedAttribute"),
+                    })
+                  )
+                }
                 type="text"
                 value={key}
               />
@@ -25,7 +79,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <input
                 className="form"
-                onChange={() => console.log("abab")}
+                onChange={() =>
+                  dispatch(
+                    updateSamlSPMetadataExportedAttribute({
+                      appName,
+                      data: updateExpAttr("exportedAttribute"),
+                    })
+                  )
+                }
                 type="text"
                 value={name}
               />
@@ -33,7 +94,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <input
                 className="form"
-                onChange={() => console.log("abab")}
+                onChange={() =>
+                  dispatch(
+                    updateSamlSPMetadataExportedAttribute({
+                      appName,
+                      data: updateExpAttr("exportedAttribute"),
+                    })
+                  )
+                }
                 type="text"
                 value={friendlyName}
               />
@@ -43,8 +111,16 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                 <input
                   type="radio"
                   className="radio"
-                  onChange={() => console.log("abab")}
-                  name="mandatory"
+                  onChange={() =>
+                    dispatch(
+                      updateSamlSPMetadataExportedAttribute({
+                        appName,
+                        data: updateExpAttr("exportedAttribute"),
+                      })
+                    )
+                  }
+                  name={`mandatory.
+                  ${key}`}
                   checked={mandatory === "1"}
                 />
                 <span>{t("on")}</span>
@@ -53,8 +129,16 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                 <input
                   type="radio"
                   className="radio"
-                  onChange={() => console.log("abab")}
-                  name="mandatory"
+                  onChange={() =>
+                    dispatch(
+                      updateSamlSPMetadataExportedAttribute({
+                        appName,
+                        data: updateExpAttr("exportedAttribute"),
+                      })
+                    )
+                  }
+                  name={`mandatory.
+                  ${key}`}
                   checked={mandatory === "0"}
                 />
                 <span>{t("off")}</span>
@@ -63,65 +147,34 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <select
                 name="format"
-                defaultValue={""}
                 value={String(format)}
-                onChange={(el) => console.log(el.target.value)}
+                onChange={() =>
+                  dispatch(
+                    updateSamlSPMetadataExportedAttribute({
+                      appName,
+                      data: updateExpAttr("exportedAttribute"),
+                    })
+                  )
+                }
               >
-                {SAMLFormat()}
+                {attributes.samlSPMetaDataExportedAttributes.select.map(
+                  (type) => {
+                    return (
+                      <option key={type.k} value={`${type.k}`}>
+                        {t(type.v)}
+                      </option>
+                    );
+                  }
+                )}
               </select>
             </td>
 
             <td>
               <button
                 onClick={() => {
-                  console.log("del");
-                }}
-                className="minus"
-              >
-                -
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
-
-function SAMLFormat() {
-  const typeList = attributes.samlSPMetaDataExportedAttributes.select;
-  return typeList.map((type) => {
-    return <option value={`${type.k}`}>{t(type.v)}</option>;
-  });
-}
-
-function tableVars(appName: string, vars: Record<string, string>) {
-  return (
-    <tbody>
-      {Object.keys(vars).map((key) => {
-        return (
-          <tr>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={key}
-              />
-            </td>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={vars[key]}
-              />
-            </td>
-
-            <td>
-              <button
-                onClick={() => {
-                  console.log("del");
+                  dispatch(
+                    delSamlSPMetadataExportedAttribute({ appName, key })
+                  );
                 }}
                 className="minus"
               >
@@ -187,16 +240,21 @@ export function SAMLApp({ name }: { name: string }) {
           <strong className="title2">
             {t("samlSPMetaDataExportedAttributes")}
           </strong>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
+          >
             +
           </button>
           <table id="exportedAttribute">
             <thead>
-              <th>{t("variableName")}</th>
-              <th>{t("attributeName")}</th>
-              <th>{t("friendlyName")}</th>
-              <th>{t("mandatory")}</th>
-              <th>{t("format")}</th>
+              <tr>
+                <th>{t("variableName")}</th>
+                <th>{t("attributeName")}</th>
+                <th>{t("friendlyName")}</th>
+                <th>{t("mandatory")}</th>
+                <th>{t("format")}</th>
+              </tr>
             </thead>
             {data.samlSPMetaDataExportedAttributes
               ? ExportedAttribute(
@@ -205,25 +263,42 @@ export function SAMLApp({ name }: { name: string }) {
                 )
               : ""}
           </table>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
+          >
             +
           </button>
         </div>
         <div className="box">
           <strong className="title2">{t("samlSPMetaDataMacros")}</strong>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+          >
             +
           </button>
-          <table>
+          <table id="samlSPMetaDataMacros">
             <thead>
-              <th>{t("keys")}</th>
-              <th>{t("values")}</th>
+              <tr>
+                <th>{t("keys")}</th>
+                <th>{t("values")}</th>
+              </tr>
             </thead>
             {data.samlSPMetaDataMacros
-              ? tableVars(name, data.samlSPMetaDataMacros[name])
+              ? TableVars(
+                  name,
+                  data.samlSPMetaDataMacros[name],
+                  "samlSPMetaDataMacros",
+                  delSAMLSPMetaDataMacros,
+                  updateSAMLSPMetaDataMacros
+                )
               : ""}
           </table>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+          >
             +
           </button>
         </div>

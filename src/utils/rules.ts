@@ -1,4 +1,4 @@
-import { CasAppMetaDataOptions, samlSPMetaDataXML } from "./types";
+import { samlSPMetaDataXML } from "./types";
 
 export function ruleSAML(samlData: samlSPMetaDataXML): boolean {
   return samlData.samlSPMetaDataXML ? true : false;
@@ -16,6 +16,8 @@ export function ruleOIDC(
   );
 }
 
-export function ruleCAS(casData: CasAppMetaDataOptions): boolean {
+export function ruleCAS(
+  casData: Record<string, string | number | boolean>
+): boolean {
   return true;
 }

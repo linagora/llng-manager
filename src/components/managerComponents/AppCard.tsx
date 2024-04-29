@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { CasAppMetaDataOptions, samlSPMetaDataXML } from "../../utils/types";
+import { samlSPMetaDataXML } from "../../utils/types";
 import {
   changeAppName,
   delApp,
@@ -17,10 +17,7 @@ function Maintenance(
   type: string,
   info: {
     name: string;
-    config:
-      | CasAppMetaDataOptions
-      | samlSPMetaDataXML
-      | Record<string, boolean | number | string>;
+    config: samlSPMetaDataXML | Record<string, boolean | number | string>;
   }
 ): boolean {
   const maintenanceToggled = useAppSelector(
@@ -41,10 +38,7 @@ function AppCard({
 }: {
   info: {
     name: string;
-    config:
-      | CasAppMetaDataOptions
-      | samlSPMetaDataXML
-      | Record<string, boolean | number | string>;
+    config: samlSPMetaDataXML | Record<string, boolean | number | string>;
   };
   type: string;
   issuer?: boolean | number;
