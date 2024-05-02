@@ -268,7 +268,8 @@ export function SAMLApp({ name }: { name: string }) {
             <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
           </div>
         )}
-        {optionSelected === "samlSPMetaDataExportedAttributes" && (
+        {(optionSelected === "samlSPMetaDataExportedAttributes" ||
+          optionSelected === "basic") && (
           <div className="box">
             <strong className="title2">
               {t("samlSPMetaDataExportedAttributes")}
