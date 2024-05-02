@@ -246,6 +246,21 @@ const configSlice = createSlice({
           state.data.config.samlSPMetaDataXML[action.payload.name] = {
             samlSPMetaDataXML: "",
           };
+          if (!state.data.config.samlSPMetaDataExportedAttributes) {
+            state.data.config.samlSPMetaDataExportedAttributes = {};
+          }
+          state.data.config.samlSPMetaDataExportedAttributes[
+            action.payload.name
+          ] = attributes.samlSPMetaDataExportedAttributes.default;
+          if (!state.data.config.samlSPMetaDataMacros) {
+            state.data.config.samlSPMetaDataMacros =
+              attributes.samlSPMetaDataMacros.default;
+          }
+          state.data.config.samlSPMetaDataMacros[action.payload.name] = {};
+          if (!state.data.config.samlSPMetaDataOptions) {
+            state.data.config.samlSPMetaDataOptions = {};
+          }
+          state.data.config.samlSPMetaDataOptions[action.payload.name] = {};
           break;
         case "oidc":
           state.data.config.oidcRPMetaDataOptions[action.payload.name] = {
@@ -280,11 +295,33 @@ const configSlice = createSlice({
             oidcRPMetaDataOptionsRequirePKCE:
               attributes.oidcRPMetaDataOptionsRequirePKCE.default,
           };
+          if (!state.data.config.oidcRPMetaDataExportedVars) {
+            state.data.config.oidcRPMetaDataExportedVars = {};
+          }
+          state.data.config.oidcRPMetaDataExportedVars[action.payload.name] =
+            attributes.oidcRPMetaDataExportedVars.default;
+          if (!state.data.config.oidcRPMetaDataMacros) {
+            state.data.config.oidcRPMetaDataMacros = {};
+          }
+          state.data.config.oidcRPMetaDataMacros[action.payload.name] =
+            attributes.oidcRPMetaDataMacros.default;
           break;
         case "cas":
           state.data.config.casAppMetaDataOptions[action.payload.name] = {
             casAppMetaDataOptionsService: "",
+            casAppMetaDataOptionsLogout:
+              attributes.casAppMetaDataOptionsLogout.default,
           };
+          if (!state.data.config.casAppMetaDataMacros) {
+            state.data.config.casAppMetaDataMacros = {};
+          }
+          state.data.config.casAppMetaDataMacros[action.payload.name] =
+            attributes.casAppMetaDataMacros.default;
+          if (!state.data.config.casAppMetaDataExportedVars) {
+            state.data.config.casAppMetaDataExportedVars = {};
+          }
+          state.data.config.casAppMetaDataExportedVars[action.payload.name] =
+            attributes.casAppMetaDataExportedVars.default;
           break;
         default:
           break;
@@ -467,6 +504,146 @@ const configSlice = createSlice({
         action.payload.option
       ] = action.payload.value;
     },
+    newOIDCRPMetaDataMacros(state, action: PayloadAction<string>) {
+      if (!state.data.config.oidcRPMetaDataMacros) {
+        state.data.config.oidcRPMetaDataMacros = {};
+      }
+      state.data.config.oidcRPMetaDataMacros[action.payload] = {
+        ...state.data.config.oidcRPMetaDataMacros[action.payload],
+        new: "",
+      };
+    },
+    updateOIDCRPMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.oidcRPMetaDataMacros) {
+        state.data.config.oidcRPMetaDataMacros = {};
+      }
+      state.data.config.oidcRPMetaDataMacros[action.payload.name] =
+        action.payload.data;
+    },
+    delOIDCRPMetaDataMacros(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.oidcRPMetaDataMacros) {
+        delete state.data.config.oidcRPMetaDataMacros[action.payload.name][
+          action.payload.key
+        ];
+      }
+    },
+    updateOidcRPMetaDataExportedVars(
+      state,
+      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.oidcRPMetaDataExportedVars) {
+        state.data.config.oidcRPMetaDataExportedVars = {};
+      }
+      state.data.config.oidcRPMetaDataExportedVars[action.payload.appName] =
+        action.payload.data;
+    },
+    newOidcRPMetaDataExportedVars(state, action: PayloadAction<string>) {
+      if (!state.data.config.oidcRPMetaDataExportedVars) {
+        state.data.config.oidcRPMetaDataExportedVars = {};
+      }
+      state.data.config.oidcRPMetaDataExportedVars[action.payload] = {
+        ...state.data.config.oidcRPMetaDataExportedVars[action.payload],
+        new: "",
+      };
+    },
+    delOidcRPMetaDataExportedVars(
+      state,
+      action: PayloadAction<{ appName: string; key: string }>
+    ) {
+      if (state.data.config.oidcRPMetaDataExportedVars) {
+        delete state.data.config.oidcRPMetaDataExportedVars[
+          action.payload.appName
+        ][action.payload.key];
+      }
+    },
+    updateOidcMetaDataOptions(
+      state,
+      action: PayloadAction<{
+        name: string;
+        option: string;
+        value: string | number;
+      }>
+    ) {
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.samlSPMetaDataOptions = {};
+      }
+      state.data.config.oidcRPMetaDataOptions[action.payload.name][
+        action.payload.option
+      ] = action.payload.value;
+    },
+    updateOidcRPMetaDataOptionsExtraClaims(
+      state,
+      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.oidcRPMetaDataOptionsExtraClaims) {
+        state.data.config.oidcRPMetaDataOptionsExtraClaims = {};
+      }
+      state.data.config.oidcRPMetaDataOptionsExtraClaims[
+        action.payload.appName
+      ] = action.payload.data;
+    },
+    newOidcRPMetaDataOptionsExtraClaims(state, action: PayloadAction<string>) {
+      if (!state.data.config.oidcRPMetaDataOptionsExtraClaims) {
+        state.data.config.oidcRPMetaDataOptionsExtraClaims = {};
+      }
+      state.data.config.oidcRPMetaDataOptionsExtraClaims[action.payload] = {
+        ...state.data.config.oidcRPMetaDataOptionsExtraClaims[action.payload],
+        new: "",
+      };
+    },
+    delOidcRPMetaDataOptionsExtraClaims(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.oidcRPMetaDataOptionsExtraClaims) {
+        delete state.data.config.oidcRPMetaDataOptionsExtraClaims[
+          action.payload.name
+        ][action.payload.key];
+      }
+    },
+    updateOidcRPMetaDataScopeRules(
+      state,
+      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.oidcRPMetaDataScopeRules) {
+        state.data.config.oidcRPMetaDataScopeRules = {};
+      }
+      state.data.config.oidcRPMetaDataScopeRules[action.payload.appName] =
+        action.payload.data;
+    },
+    newOidcRPMetaDataScopeRules(state, action: PayloadAction<string>) {
+      if (!state.data.config.oidcRPMetaDataScopeRules) {
+        state.data.config.oidcRPMetaDataScopeRules = {};
+      }
+      state.data.config.oidcRPMetaDataScopeRules[action.payload] = {
+        ...state.data.config.oidcRPMetaDataScopeRules[action.payload],
+        new: "",
+      };
+    },
+    delOidcRPMetaDataScopeRules(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.oidcRPMetaDataScopeRules) {
+        delete state.data.config.oidcRPMetaDataScopeRules[action.payload.name][
+          action.payload.key
+        ];
+      }
+    },
+    updateOidcRPMetaDataOptionsJwks(
+      state,
+      action: PayloadAction<{ name: string; data: string }>
+    ) {
+      state.data.config.oidcRPMetaDataOptions[
+        action.payload.name
+      ].oidcRPMetaDataOptionsJwks = action.payload.data;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -536,5 +713,19 @@ export const {
   newSamlSPMetadataExportedAttribute,
   delSamlSPMetadataExportedAttribute,
   updateSamlMetaDataOptions,
+  newOIDCRPMetaDataMacros,
+  updateOIDCRPMetaDataMacros,
+  delOIDCRPMetaDataMacros,
+  updateOidcRPMetaDataExportedVars,
+  newOidcRPMetaDataExportedVars,
+  delOidcRPMetaDataExportedVars,
+  updateOidcMetaDataOptions,
+  delOidcRPMetaDataOptionsExtraClaims,
+  newOidcRPMetaDataOptionsExtraClaims,
+  updateOidcRPMetaDataOptionsExtraClaims,
+  newOidcRPMetaDataScopeRules,
+  delOidcRPMetaDataScopeRules,
+  updateOidcRPMetaDataScopeRules,
+  updateOidcRPMetaDataOptionsJwks,
 } = configSlice.actions;
 export default configSlice.reducer;

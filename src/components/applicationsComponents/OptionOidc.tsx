@@ -1,53 +1,25 @@
 import { t } from "i18next";
 import { useState } from "react";
 import attributes from "../../static/attributes.json";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { handleChangeFile } from "../../utils/readFiles";
 import { URLLoader } from "../managerComponents/URLLoader";
-
-function tableVars(appName: string, vars: Record<string, string>) {
-  return (
-    <tbody>
-      {Object.keys(vars).map((key) => {
-        return (
-          <tr>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={key}
-              />
-            </td>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={vars[key]}
-              />
-            </td>
-
-            <td>
-              <button
-                onClick={() => {
-                  console.log("del");
-                }}
-                className="minus"
-              >
-                -
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
+import {
+  delOidcRPMetaDataOptionsExtraClaims,
+  delOidcRPMetaDataScopeRules,
+  newOidcRPMetaDataOptionsExtraClaims,
+  newOidcRPMetaDataScopeRules,
+  updateOidcMetaDataOptions,
+  updateOidcRPMetaDataOptionsExtraClaims,
+  updateOidcRPMetaDataOptionsJwks,
+  updateOidcRPMetaDataScopeRules,
+} from "../../features/config/configSlice";
+import { TableVars } from "./TableVars";
 
 export function OptionOidc({ name }: { name: string }) {
   const [optionSelect, setOptionSelected] = useState("advanced");
   const data = useAppSelector((state) => state.config.data.config);
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className="optionNavbar">
@@ -86,7 +58,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsBypassConsent
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsBypassConsent",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -102,7 +80,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsBypassConsent
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsBypassConsent",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -123,7 +109,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsIDTokenForceClaims
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsIDTokenForceClaims",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -139,7 +131,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsIDTokenForceClaims
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsIDTokenForceClaims",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -160,7 +160,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAccessTokenJWT
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAccessTokenJWT",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -176,7 +182,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsAccessTokenJWT
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAccessTokenJWT",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -197,7 +211,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAccessTokenClaims
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAccessTokenClaims",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -213,7 +233,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsAccessTokenClaims
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAccessTokenClaims",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -234,7 +262,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsRefreshToken
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsRefreshToken",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -250,7 +284,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsRefreshToken
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsRefreshToken",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -270,8 +312,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsUserIDAttr
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsUserIDAttr",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
@@ -289,8 +337,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAdditionalAudiences
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsAdditionalAudiences",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
@@ -304,33 +358,71 @@ export function OptionOidc({ name }: { name: string }) {
             <strong className="title3">
               {t("oidcRPMetaDataOptionsExtraClaims")}
             </strong>
-            <table>
+            <table id="oidcRPMetaDataOptionsExtraClaims">
               <thead>
-                <th>{t("keys")}</th>
-                <th>{t("values")}</th>
+                <tr>
+                  <th>{t("keys")}</th>
+                  <th>{t("values")}</th>
+                  <button
+                    className="plus"
+                    onClick={() =>
+                      dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
+                    }
+                  >
+                    +
+                  </button>
+                </tr>
               </thead>
-              {tableVars(
+              {TableVars(
                 name,
                 data.oidcRPMetaDataOptionsExtraClaims
                   ? data.oidcRPMetaDataOptionsExtraClaims[name]
-                  : {}
+                  : {},
+                "oidcRPMetaDataOptionsExtraClaims",
+                delOidcRPMetaDataOptionsExtraClaims,
+                updateOidcRPMetaDataOptionsExtraClaims
               )}
             </table>
+            <button
+              className="plus"
+              onClick={() =>
+                dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
+              }
+            >
+              +
+            </button>
           </div>
           <div>
             <strong className="title3">{t("oidcRPMetaDataScopeRules")}</strong>
-            <table>
+            <table id="oidcRPMetaDataScopeRules">
               <thead>
-                <th>{t("keys")}</th>
-                <th>{t("values")}</th>
+                <tr>
+                  <th>{t("keys")}</th>
+                  <th>{t("values")}</th>
+                  <button
+                    className="plus"
+                    onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
+                  >
+                    +
+                  </button>
+                </tr>
               </thead>
-              {tableVars(
+              {TableVars(
                 name,
                 data.oidcRPMetaDataScopeRules
                   ? data.oidcRPMetaDataScopeRules[name]
-                  : {}
+                  : {},
+                "oidcRPMetaDataScopeRules",
+                delOidcRPMetaDataScopeRules,
+                updateOidcRPMetaDataScopeRules
               )}
             </table>
+            <button
+              className="plus"
+              onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
+            >
+              +
+            </button>
           </div>
         </div>
       )}
@@ -345,6 +437,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsIDTokenSignAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsIDTokenSignAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsIDTokenSignAlg.select.map(
                     (el) => {
@@ -362,6 +463,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsAccessTokenSignAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsAccessTokenSignAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsAccessTokenSignAlg.select.map(
                     (el) => {
@@ -379,6 +489,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsUserInfoSignAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsUserInfoSignAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsUserInfoSignAlg.select.map(
                     (el) => {
@@ -402,7 +521,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsRequirePKCE
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsRequirePKCE",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -418,7 +543,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsRequirePKCE
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsRequirePKCE",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -439,7 +572,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAllowOffline
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAllowOffline",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -455,7 +594,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsAllowOffline
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAllowOffline",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -476,7 +623,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAllowPasswordGrant
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAllowPasswordGrant",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -492,7 +645,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsAllowPasswordGrant
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAllowPasswordGrant",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -513,7 +674,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAllowClientCredentialsGrant
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option:
+                              "oidcRPMetaDataOptionsAllowClientCredentialsGrant",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -529,7 +697,16 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsAllowClientCredentialsGrant
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option:
+                              "oidcRPMetaDataOptionsAllowClientCredentialsGrant",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -549,8 +726,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsRequestUris
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsRequestUris",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
@@ -568,8 +751,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAuthnLevel
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsAuthnLevel",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
@@ -586,8 +775,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsRule
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsRule",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
@@ -600,6 +795,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg.select.map(
                     (el) => {
@@ -617,6 +821,16 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option:
+                          "oidcRPMetaDataOptionsAccessTokenEncContentEncAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsAccessTokenEncContentEncAlg.select.map(
                     (el) => {
@@ -634,6 +848,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg.select.map(
                     (el) => {
@@ -651,6 +874,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsIdTokenEncContentEncAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsIdTokenEncContentEncAlg.select.map(
                     (el) => {
@@ -668,6 +900,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg.select.map(
                     (el) => {
@@ -685,6 +926,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsUserInfoEncContentEncAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsUserInfoEncContentEncAlg.select.map(
                     (el) => {
@@ -702,6 +952,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsLogoutEncKeyMgtAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsLogoutEncKeyMgtAlg.select.map(
                     (el) => {
@@ -719,6 +978,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsLogoutEncContentEncAlg
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsLogoutEncContentEncAlg",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsLogoutEncContentEncAlg.select.map(
                     (el) => {
@@ -747,18 +1015,23 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsJwksUri
                       : ""
                   )}
-                  onChange={(el) => {
-                    console.log("akak");
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsJwksUri",
+                        value: e.target.value,
+                      })
+                    );
                   }}
                 />
               </td>
             </tr>
             <tr>
-              <th className="title2">{t("samlSPMetaDataXML")}</th>
+              <th className="title2">{t("oidcRPMetaDataOptionsJwks")}</th>
               <div>
                 <textarea
                   placeholder="oidcRPMetaDataOptionsJwks"
-                  onChange={(e) => console.log(e.target.value)}
                   value={String(
                     name
                       ? data.oidcRPMetaDataOptions[name]
@@ -770,6 +1043,15 @@ export function OptionOidc({ name }: { name: string }) {
                         : ""
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsJwks",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 ></textarea>
               </div>
               <div>
@@ -778,11 +1060,21 @@ export function OptionOidc({ name }: { name: string }) {
                   onChange={(e) => {
                     handleChangeFile(e).then((fileContent) => {
                       console.log("File content:", fileContent);
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsJwks",
+                          value: fileContent,
+                        })
+                      );
                     });
                   }}
                 />
               </div>
-              <URLLoader appName={name} loadFunction={console.log} />
+              <URLLoader
+                appName={name}
+                loadFunction={updateOidcRPMetaDataOptionsJwks}
+              />
             </tr>
           </tbody>
         </table>
@@ -802,6 +1094,16 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAuthorizationCodeExpiration
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option:
+                          "oidcRPMetaDataOptionsAuthorizationCodeExpiration",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -817,6 +1119,15 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsIDTokenExpiration
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsIDTokenExpiration",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -832,6 +1143,15 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsAccessTokenExpiration
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsAccessTokenExpiration",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -847,6 +1167,15 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsOfflineSessionExpiration
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsOfflineSessionExpiration",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -870,7 +1199,13 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsLogoutBypassConfirm
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsLogoutBypassConfirm",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -886,7 +1221,15 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsLogoutBypassConfirm
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsLogoutBypassConfirm",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -907,7 +1250,14 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsLogoutSessionRequired
                       )}
                       onChange={() => {
-                        console.log("aka");
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option:
+                              "oidcRPMetaDataOptionsLogoutSessionRequired",
+                            value: 1,
+                          })
+                        );
                       }}
                     />
                     <span>{t("on")}</span>
@@ -923,7 +1273,16 @@ export function OptionOidc({ name }: { name: string }) {
                             .oidcRPMetaDataOptionsLogoutSessionRequired
                         )
                       }
-                      onChange={() => console.log("akak")}
+                      onChange={() => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option:
+                              "oidcRPMetaDataOptionsLogoutSessionRequired",
+                            value: 0,
+                          })
+                        );
+                      }}
                     />
                     <span>{t("off")}</span>
                   </label>
@@ -938,6 +1297,15 @@ export function OptionOidc({ name }: { name: string }) {
                     data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsLogoutType
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsLogoutType",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 >
                   {attributes.oidcRPMetaDataOptionsLogoutType.select.map(
                     (el) => {
@@ -959,6 +1327,15 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsLogoutUrl
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsLogoutUrl",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -974,6 +1351,15 @@ export function OptionOidc({ name }: { name: string }) {
                           .oidcRPMetaDataOptionsPostLogoutRedirectUris
                       : ""
                   )}
+                  onChange={(e) => {
+                    dispatch(
+                      updateOidcMetaDataOptions({
+                        name,
+                        option: "oidcRPMetaDataOptionsPostLogoutRedirectUris",
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                 />
               </td>
             </tr>
@@ -987,6 +1373,15 @@ export function OptionOidc({ name }: { name: string }) {
               ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
               : ""
           )}
+          onChange={(e) => {
+            dispatch(
+              updateOidcMetaDataOptions({
+                name,
+                option: "oidcRPMetaDataOptionsComment",
+                value: e.target.value,
+              })
+            );
+          }}
         />
       )}
     </>

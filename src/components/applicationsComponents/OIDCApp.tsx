@@ -1,19 +1,59 @@
 import { t } from "i18next";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
 import { OptionOidc } from "./OptionOidc";
+import { TableVars } from "./TableVars";
+import {
+  delOIDCRPMetaDataMacros,
+  delOidcRPMetaDataExportedVars,
+  newOIDCRPMetaDataMacros,
+  newOidcRPMetaDataExportedVars,
+  updateOIDCRPMetaDataMacros,
+  updateOidcMetaDataOptions,
+  updateOidcRPMetaDataExportedVars,
+} from "../../features/config/configSlice";
+
+function updateExpAttr(tableID: string) {
+  const attrList: Record<string, string> = {};
+
+  const table = document.getElementById(tableID);
+  const rows = table?.getElementsByTagName("tr");
+  if (rows) {
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const name = cells[0].querySelector("input")?.value;
+      const varName = cells[1].querySelector("input")?.value;
+      const type = cells[2].querySelector("select")?.value;
+      const array = cells[3].querySelector("select")?.value;
+
+      attrList[name ? name : ""] = `${varName};${type};${array}`;
+    }
+  }
+
+  return attrList;
+}
 
 function ExportedAttribute(appName: string, vars: Record<string, string>) {
+  let i = 0;
+  const dispatch = useAppDispatch();
   return (
     <tbody>
       {Object.keys(vars).map((key) => {
+        i++;
         const [name, type, table] = vars[key].split(";");
         return (
-          <tr>
+          <tr key={i}>
             <td>
               <input
                 className="form"
-                onChange={() => console.log("abab")}
+                onChange={() =>
+                  dispatch(
+                    updateOidcRPMetaDataExportedVars({
+                      appName,
+                      data: updateExpAttr("exportedVars"),
+                    })
+                  )
+                }
                 type="text"
                 value={key}
               />
@@ -21,7 +61,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <input
                 className="form"
-                onChange={() => console.log("abab")}
+                onChange={() =>
+                  dispatch(
+                    updateOidcRPMetaDataExportedVars({
+                      appName,
+                      data: updateExpAttr("exportedVars"),
+                    })
+                  )
+                }
                 type="text"
                 value={name}
               />
@@ -29,7 +76,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <select
                 value={String(type)}
-                onChange={(el) => console.log(el.target.value)}
+                onChange={() =>
+                  dispatch(
+                    updateOidcRPMetaDataExportedVars({
+                      appName,
+                      data: updateExpAttr("exportedVars"),
+                    })
+                  )
+                }
               >
                 <option value="string">{t("string")}</option>
                 <option value="int">{t("int")}</option>
@@ -39,7 +93,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             <td>
               <select
                 value={String(table)}
-                onChange={(el) => console.log(el.target.value)}
+                onChange={() =>
+                  dispatch(
+                    updateOidcRPMetaDataExportedVars({
+                      appName,
+                      data: updateExpAttr("exportedVars"),
+                    })
+                  )
+                }
               >
                 <option value="auto">{t("auto")}</option>
                 <option value="always">{t("always")}</option>
@@ -48,50 +109,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             </td>
             <td>
               <button
-                onClick={() => {
-                  console.log("del");
-                }}
                 className="minus"
-              >
-                -
-              </button>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
-
-export function tableVars(appName: string, vars: Record<string, string>) {
-  return (
-    <tbody>
-      {Object.keys(vars).map((key) => {
-        return (
-          <tr>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={key}
-              />
-            </td>
-            <td>
-              <input
-                className="form"
-                onChange={() => console.log("abab")}
-                type="text"
-                value={vars[key]}
-              />
-            </td>
-
-            <td>
-              <button
-                onClick={() => {
-                  console.log("del");
-                }}
-                className="minus"
+                onClick={() =>
+                  dispatch(delOidcRPMetaDataExportedVars({ appName, key: key }))
+                }
               >
                 -
               </button>
@@ -105,7 +126,7 @@ export function tableVars(appName: string, vars: Record<string, string>) {
 
 export function OIDCApp({ name }: { name: string }) {
   const data = useAppSelector((state) => state.config.data.config);
-
+  const dispatch = useAppDispatch();
   return (
     <div>
       <strong className="title">{name}</strong>
@@ -130,7 +151,13 @@ export function OIDCApp({ name }: { name: string }) {
                             : 0
                         )}
                         onChange={() => {
-                          console.log("aka");
+                          dispatch(
+                            updateOidcMetaDataOptions({
+                              name,
+                              option: "oidcRPMetaDataOptionsPublic",
+                              value: 1,
+                            })
+                          );
                         }}
                       />
                       <span>{t("on")}</span>
@@ -148,7 +175,15 @@ export function OIDCApp({ name }: { name: string }) {
                               : 0
                           )
                         }
-                        onChange={() => console.log("akak")}
+                        onChange={() => {
+                          dispatch(
+                            updateOidcMetaDataOptions({
+                              name,
+                              option: "oidcRPMetaDataOptionsPublic",
+                              value: 0,
+                            })
+                          );
+                        }}
                       />
                       <span>{t("off")}</span>
                     </label>
@@ -165,7 +200,15 @@ export function OIDCApp({ name }: { name: string }) {
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsClientID
                     )}
-                    onChange={(el) => console.log(el.target.value)}
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsClientID",
+                          value: e.target.value,
+                        })
+                      );
+                    }}
                   />
                 </td>
               </tr>
@@ -179,7 +222,15 @@ export function OIDCApp({ name }: { name: string }) {
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsClientSecret
                     )}
-                    onChange={(el) => console.log(el.target.value)}
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsClientSecret",
+                          value: e.target.value,
+                        })
+                      );
+                    }}
                   />
                 </td>
               </tr>
@@ -193,8 +244,14 @@ export function OIDCApp({ name }: { name: string }) {
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsRedirectUris
                     )}
-                    onChange={() => {
-                      console.log("aka");
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsRedirectUris",
+                          value: e.target.value,
+                        })
+                      );
                     }}
                   />
                 </td>
@@ -209,8 +266,14 @@ export function OIDCApp({ name }: { name: string }) {
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsAuthMethod
                     )}
-                    onChange={() => {
-                      console.log("aka");
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAuthMethod",
+                          value: e.target.value,
+                        })
+                      );
                     }}
                   />
                 </td>
@@ -223,9 +286,18 @@ export function OIDCApp({ name }: { name: string }) {
                     value={String(
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsDisplay
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsDisplay
+                        : ""
                     )}
-                    onChange={() => {
-                      console.log("aka");
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsDisplay",
+                          value: e.target.value,
+                        })
+                      );
                     }}
                   />
                 </td>
@@ -238,8 +310,14 @@ export function OIDCApp({ name }: { name: string }) {
                     value={String(
                       data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsIcon
                     )}
-                    onChange={() => {
-                      console.log("aka");
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsIcon",
+                          value: e.target.value,
+                        })
+                      );
                     }}
                   />
                 </td>
@@ -249,39 +327,61 @@ export function OIDCApp({ name }: { name: string }) {
         </div>
         <div className="box">
           <strong className="title2">{t("oidcRPMetaDataExportedVars")}</strong>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
+          >
             +
           </button>
           <table id="exportedVars">
             <thead>
-              <td>{t("claimName")}</td>
-              <td>{t("variableName")}</td>
-              <td>{t("type")}</td>
-              <td>{t("array")}</td>
+              <tr>
+                <th>{t("claimName")}</th>
+                <th>{t("variableName")}</th>
+                <th>{t("type")}</th>
+                <th>{t("array")}</th>
+              </tr>
             </thead>
             {data.oidcRPMetaDataExportedVars
               ? ExportedAttribute(name, data.oidcRPMetaDataExportedVars[name])
               : ""}
           </table>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
+          >
             +
           </button>
         </div>
         <div className="box">
           <strong className="title2">{t("oidcRPMetaDataMacros")}</strong>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
+          >
             +
           </button>
-          <table>
+          <table id="oidcRPMetaDataMacros">
             <thead>
-              <th>{t("keys")}</th>
-              <th>{t("values")}</th>
+              <tr>
+                <th>{t("keys")}</th>
+                <th>{t("values")}</th>
+              </tr>
             </thead>
             {data.oidcRPMetaDataMacros
-              ? tableVars(name, data.oidcRPMetaDataMacros[name])
+              ? TableVars(
+                  name,
+                  data.oidcRPMetaDataMacros[name],
+                  "oidcRPMetaDataMacros",
+                  delOIDCRPMetaDataMacros,
+                  updateOIDCRPMetaDataMacros
+                )
               : ""}
           </table>
-          <button className="plus" onClick={() => console.log("+")}>
+          <button
+            className="plus"
+            onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
+          >
             +
           </button>
         </div>

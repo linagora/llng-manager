@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import configReducer from "../features/config/configSlice";
-import creationAssistantReducer from "../features/creationAssistantSlice";
 import { createReduxHistoryContext } from "redux-first-history";
 import { createBrowserHistory } from "history";
 
@@ -9,7 +8,6 @@ const { createReduxHistory, routerMiddleware, routerReducer } =
 
 const rootReducer = combineReducers({
   config: configReducer,
-  creationAssistant: creationAssistantReducer,
   router: routerReducer,
 });
 
