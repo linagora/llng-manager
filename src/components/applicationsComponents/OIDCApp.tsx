@@ -12,6 +12,7 @@ import {
   updateOidcMetaDataOptions,
   updateOidcRPMetaDataExportedVars,
 } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 
 function updateExpAttr(tableID: string) {
   const attrList: Record<string, string> = {};
@@ -136,7 +137,45 @@ export function OIDCApp({ name }: { name: string }) {
           <table>
             <tbody>
               <tr>
-                <th>{t("oidcRPMetaDataOptionsPublic")}</th>
+                <th>
+                  {t("oidcRPMetaDataOptionsClientID")}{" "}
+                  {data.oidcRPMetaDataOptions[name]
+                    .oidcRPMetaDataOptionsClientID === ""
+                    ? "⚠️"
+                    : ""}
+                </th>
+                <td>
+                  <input
+                    className="form"
+                    type="text"
+                    value={String(
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsClientID
+                    )}
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsClientID",
+                          value: e.target.value,
+                        })
+                      );
+                    }}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  {t("oidcRPMetaDataOptionsPublic")}
+                  {data.oidcRPMetaDataOptions[name]
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsPublic ||
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsClientSecret !== ""
+                      ? ""
+                      : "⚠️"
+                    : "⚠️"}
+                </th>
                 <td>
                   <div>
                     <label>
@@ -190,34 +229,23 @@ export function OIDCApp({ name }: { name: string }) {
                   </div>
                 </td>
               </tr>
+
               <tr>
-                <th>{t("oidcRPMetaDataOptionsClientID")}</th>
-                <td>
-                  <input
-                    className="form"
-                    type="text"
-                    value={String(
+                <th>
+                  {t("oidcRPMetaDataOptionsClientSecret")}
+                  {data.oidcRPMetaDataOptions[name]
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsPublic ||
                       data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientID
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsClientID",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
+                        .oidcRPMetaDataOptionsClientSecret !== ""
+                      ? ""
+                      : "⚠️"
+                    : "⚠️"}
+                </th>
                 <td>
                   <input
                     className="form"
-                    type="number"
+                    type={attributes.oidcRPMetaDataOptionsClientSecret.type}
                     value={String(
                       data.oidcRPMetaDataOptions[name]
                         .oidcRPMetaDataOptionsClientSecret
@@ -238,7 +266,7 @@ export function OIDCApp({ name }: { name: string }) {
                 <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
                 <td>
                   <input
-                    type="text"
+                    type={attributes.oidcRPMetaDataOptionsRedirectUris.type}
                     name="oidcRPMetaDataOptionsRedirectUris"
                     value={String(
                       data.oidcRPMetaDataOptions[name]
@@ -260,7 +288,7 @@ export function OIDCApp({ name }: { name: string }) {
                 <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
                 <td>
                   <input
-                    type="text"
+                    type={attributes.oidcRPMetaDataOptionsAuthMethod.type}
                     name="oidcRPMetaDataOptionsAuthMethod"
                     value={String(
                       data.oidcRPMetaDataOptions[name]
@@ -306,7 +334,7 @@ export function OIDCApp({ name }: { name: string }) {
                 <th>{t("oidcRPMetaDataOptionsIcon")}</th>
                 <td>
                   <input
-                    type="text"
+                    type={attributes.oidcRPMetaDataOptionsIcon.type}
                     value={String(
                       data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsIcon
                     )}

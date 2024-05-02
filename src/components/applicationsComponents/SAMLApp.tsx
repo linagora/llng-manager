@@ -197,7 +197,16 @@ export function SAMLApp({ name }: { name: string }) {
       <strong className="title">{name}</strong>
       <div className="appDesc">
         <div className="box">
-          <strong className="title2">{t("samlSPMetaDataXML")}</strong>
+          <strong className="title2">
+            {t("samlSPMetaDataXML")}{" "}
+            {name
+              ? data.samlSPMetaDataXML[name]
+                ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
+                  ? "⚠️"
+                  : ""
+                : "⚠️"
+              : "⚠️"}
+          </strong>
           <div>
             <textarea
               placeholder="XML MetaData"

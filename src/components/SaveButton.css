@@ -10,8 +10,7 @@
   bottom: 2%;
   left: 2%;
 }
-
-.notif.orange {
+.notif {
   position: fixed;
   left: 50%;
   padding: 2px;
@@ -21,19 +20,15 @@
   justify-items: center;
   top: 65px;
   align-content: center;
+}
+.notif.orange {
   background-color: rgb(255, 220, 192);
 }
 .notif.green {
-  position: fixed;
-  left: 50%;
-  padding: 2px;
-  transform: translateX(-50%);
-  height: 25px;
-  border-radius: 5px;
-  justify-items: center;
-  top: 65px;
-  align-content: center;
   background-color: rgb(199, 255, 192);
+}
+.notif.red {
+  background-color: rgb(255, 192, 192);
 }
 
 .notif.hidden {

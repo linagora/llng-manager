@@ -49,7 +49,6 @@ export function TableVars(
             <td>
               <button
                 onClick={() => {
-                  console.log("del");
                   dispatch(
                     delFunction({
                       name: appName,

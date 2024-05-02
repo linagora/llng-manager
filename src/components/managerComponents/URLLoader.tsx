@@ -41,7 +41,7 @@ export function URLLoader({
         {t("load")}
       </button>
       {loading && <div>{t("loading")}</div>}
-      {error && <div>{t("badRequest")}</div>}
+      {error && <div>{t("badUrl")}</div>}
     </div>
   );
 }
