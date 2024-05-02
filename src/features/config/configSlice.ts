@@ -83,6 +83,13 @@ const configSlice = createSlice({
       state.data.config.locationRules[action.payload.appName] =
         action.payload.locationRules;
     },
+    updateDefaultLocationRule(
+      state,
+      action: PayloadAction<{ appName: string; rule: string }>
+    ) {
+      state.data.config.locationRules[action.payload.appName].default =
+        action.payload.rule;
+    },
     newLocationRule(state, action: PayloadAction<string>) {
       state.data.config.locationRules[action.payload] = {
         ...state.data.config.locationRules[action.payload],
@@ -682,6 +689,7 @@ export const {
   saveSAMLPrivSig,
   saveSAMLPubSig,
   updateLocationRule,
+  updateDefaultLocationRule,
   newLocationRule,
   delLocationRule,
   newVhostHeaders,

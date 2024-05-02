@@ -13,6 +13,7 @@ import {
   updateOidcRPMetaDataExportedVars,
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
+import { useState } from "react";
 
 function updateExpAttr(tableID: string) {
   const attrList: Record<string, string> = {};
@@ -127,296 +128,327 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
 
 export function OIDCApp({ name }: { name: string }) {
   const data = useAppSelector((state) => state.config.data.config);
+  const [optionSelected, setOptionSelected] = useState("basic");
   const dispatch = useAppDispatch();
   return (
     <div>
       <strong className="title">{name}</strong>
+      <div className="optionNavbar">
+        <label onClick={() => setOptionSelected("basic")}>
+          {t("Basic Option")}
+        </label>
+        <label onClick={() => setOptionSelected("oidcRPMetaDataOptionsBasic")}>
+          {t("oidcRPMetaDataOptionsBasic")}
+        </label>
+        <label onClick={() => setOptionSelected("oidcRPMetaDataExportedVars")}>
+          {t("oidcRPMetaDataExportedVars")}
+        </label>
+        <label onClick={() => setOptionSelected("oidcRPMetaDataMacros")}>
+          {t("oidcRPMetaDataMacros")}
+        </label>
+        <label onClick={() => setOptionSelected("oidcRPMetaDataOptions")}>
+          {t("oidcRPMetaDataOptions")}
+        </label>
+      </div>
       <div className="appDesc">
-        <div className="box">
-          <strong className="title2">{t("oidcRPMetaDataOptionsBasic")}</strong>
-          <table>
-            <tbody>
-              <tr>
-                <th>
-                  {t("oidcRPMetaDataOptionsClientID")}{" "}
-                  {data.oidcRPMetaDataOptions[name]
-                    .oidcRPMetaDataOptionsClientID === ""
-                    ? "⚠️"
-                    : ""}
-                </th>
-                <td>
-                  <input
-                    className="form"
-                    type="text"
-                    value={String(
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientID
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsClientID",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  {t("oidcRPMetaDataOptionsPublic")}
-                  {data.oidcRPMetaDataOptions[name]
-                    ? data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsPublic ||
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientSecret !== ""
-                      ? ""
-                      : "⚠️"
-                    : "⚠️"}
-                </th>
-                <td>
-                  <div>
-                    <label>
-                      <input
-                        type="radio"
-                        name="oidcRPMetaDataOptionsPublic"
-                        value={1}
-                        checked={Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            ? data.oidcRPMetaDataOptions[name]
-                                .oidcRPMetaDataOptionsPublic
-                            : 0
-                        )}
-                        onChange={() => {
-                          dispatch(
-                            updateOidcMetaDataOptions({
-                              name,
-                              option: "oidcRPMetaDataOptionsPublic",
-                              value: 1,
-                            })
-                          );
-                        }}
-                      />
-                      <span>{t("on")}</span>
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="oidcRPMetaDataOptionsPublic"
-                        value={0}
-                        checked={
-                          !Boolean(
+        {optionSelected === "oidcRPMetaDataOptionsBasic" && (
+          <div className="box">
+            <strong className="title2">
+              {t("oidcRPMetaDataOptionsBasic")}
+            </strong>
+            <table>
+              <tbody>
+                <tr>
+                  <th>
+                    {t("oidcRPMetaDataOptionsClientID")}{" "}
+                    {data.oidcRPMetaDataOptions[name]
+                      .oidcRPMetaDataOptionsClientID === ""
+                      ? "⚠️"
+                      : ""}
+                  </th>
+                  <td>
+                    <input
+                      className="form"
+                      type="text"
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsClientID
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsClientID",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    {t("oidcRPMetaDataOptionsPublic")}
+                    {data.oidcRPMetaDataOptions[name]
+                      ? data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsPublic ||
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsClientSecret !== ""
+                        ? ""
+                        : "⚠️"
+                      : "⚠️"}
+                  </th>
+                  <td>
+                    <div>
+                      <label>
+                        <input
+                          type="radio"
+                          name="oidcRPMetaDataOptionsPublic"
+                          value={1}
+                          checked={Boolean(
                             data.oidcRPMetaDataOptions[name]
                               ? data.oidcRPMetaDataOptions[name]
                                   .oidcRPMetaDataOptionsPublic
                               : 0
-                          )
-                        }
-                        onChange={() => {
-                          dispatch(
-                            updateOidcMetaDataOptions({
-                              name,
-                              option: "oidcRPMetaDataOptionsPublic",
-                              value: 0,
-                            })
-                          );
-                        }}
-                      />
-                      <span>{t("off")}</span>
-                    </label>
-                  </div>
-                </td>
-              </tr>
+                          )}
+                          onChange={() => {
+                            dispatch(
+                              updateOidcMetaDataOptions({
+                                name,
+                                option: "oidcRPMetaDataOptionsPublic",
+                                value: 1,
+                              })
+                            );
+                          }}
+                        />
+                        <span>{t("on")}</span>
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="oidcRPMetaDataOptionsPublic"
+                          value={0}
+                          checked={
+                            !Boolean(
+                              data.oidcRPMetaDataOptions[name]
+                                ? data.oidcRPMetaDataOptions[name]
+                                    .oidcRPMetaDataOptionsPublic
+                                : 0
+                            )
+                          }
+                          onChange={() => {
+                            dispatch(
+                              updateOidcMetaDataOptions({
+                                name,
+                                option: "oidcRPMetaDataOptionsPublic",
+                                value: 0,
+                              })
+                            );
+                          }}
+                        />
+                        <span>{t("off")}</span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
 
-              <tr>
-                <th>
-                  {t("oidcRPMetaDataOptionsClientSecret")}
-                  {data.oidcRPMetaDataOptions[name]
-                    ? data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsPublic ||
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientSecret !== ""
-                      ? ""
-                      : "⚠️"
-                    : "⚠️"}
-                </th>
-                <td>
-                  <input
-                    className="form"
-                    type={attributes.oidcRPMetaDataOptionsClientSecret.type}
-                    value={String(
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientSecret
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsClientSecret",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
-                <td>
-                  <input
-                    type={attributes.oidcRPMetaDataOptionsRedirectUris.type}
-                    name="oidcRPMetaDataOptionsRedirectUris"
-                    value={String(
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsRedirectUris
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsRedirectUris",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
-                <td>
-                  <input
-                    type={attributes.oidcRPMetaDataOptionsAuthMethod.type}
-                    name="oidcRPMetaDataOptionsAuthMethod"
-                    value={String(
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAuthMethod
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsAuthMethod",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
-                <td>
-                  <input
-                    type="text"
-                    value={String(
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsDisplay
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsDisplay
-                        : ""
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsDisplay",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>{t("oidcRPMetaDataOptionsIcon")}</th>
-                <td>
-                  <input
-                    type={attributes.oidcRPMetaDataOptionsIcon.type}
-                    value={String(
-                      data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsIcon
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsIcon",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="box">
-          <strong className="title2">{t("oidcRPMetaDataExportedVars")}</strong>
-          <button
-            className="plus"
-            onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
-          >
-            +
-          </button>
-          <table id="exportedVars">
-            <thead>
-              <tr>
-                <th>{t("claimName")}</th>
-                <th>{t("variableName")}</th>
-                <th>{t("type")}</th>
-                <th>{t("array")}</th>
-              </tr>
-            </thead>
-            {data.oidcRPMetaDataExportedVars
-              ? ExportedAttribute(name, data.oidcRPMetaDataExportedVars[name])
-              : ""}
-          </table>
-          <button
-            className="plus"
-            onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
-          >
-            +
-          </button>
-        </div>
-        <div className="box">
-          <strong className="title2">{t("oidcRPMetaDataMacros")}</strong>
-          <button
-            className="plus"
-            onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
-          >
-            +
-          </button>
-          <table id="oidcRPMetaDataMacros">
-            <thead>
-              <tr>
-                <th>{t("keys")}</th>
-                <th>{t("values")}</th>
-              </tr>
-            </thead>
-            {data.oidcRPMetaDataMacros
-              ? TableVars(
-                  name,
-                  data.oidcRPMetaDataMacros[name],
-                  "oidcRPMetaDataMacros",
-                  delOIDCRPMetaDataMacros,
-                  updateOIDCRPMetaDataMacros
-                )
-              : ""}
-          </table>
-          <button
-            className="plus"
-            onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
-          >
-            +
-          </button>
-        </div>
-        <div className="box">
-          <strong className="title2">{t("oidcRPMetaDataOptions")}</strong>
-          <OptionOidc name={name} />
-        </div>
+                <tr>
+                  <th>
+                    {t("oidcRPMetaDataOptionsClientSecret")}
+                    {data.oidcRPMetaDataOptions[name]
+                      ? data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsPublic ||
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsClientSecret !== ""
+                        ? ""
+                        : "⚠️"
+                      : "⚠️"}
+                  </th>
+                  <td>
+                    <input
+                      className="form"
+                      type={attributes.oidcRPMetaDataOptionsClientSecret.type}
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsClientSecret
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsClientSecret",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
+                  <td>
+                    <input
+                      type={attributes.oidcRPMetaDataOptionsRedirectUris.type}
+                      name="oidcRPMetaDataOptionsRedirectUris"
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsRedirectUris
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsRedirectUris",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
+                  <td>
+                    <input
+                      type={attributes.oidcRPMetaDataOptionsAuthMethod.type}
+                      name="oidcRPMetaDataOptionsAuthMethod"
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsAuthMethod
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsAuthMethod",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
+                  <td>
+                    <input
+                      type="text"
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsDisplay
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsDisplay
+                          : ""
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsDisplay",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>{t("oidcRPMetaDataOptionsIcon")}</th>
+                  <td>
+                    <input
+                      type={attributes.oidcRPMetaDataOptionsIcon.type}
+                      value={String(
+                        data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsIcon
+                      )}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOidcMetaDataOptions({
+                            name,
+                            option: "oidcRPMetaDataOptionsIcon",
+                            value: e.target.value,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+        {optionSelected === "oidcRPMetaDataExportedVars" && (
+          <div className="box">
+            <strong className="title2">
+              {t("oidcRPMetaDataExportedVars")}
+            </strong>
+            <button
+              className="plus"
+              onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
+            >
+              +
+            </button>
+            <table id="exportedVars">
+              <thead>
+                <tr>
+                  <th>{t("claimName")}</th>
+                  <th>{t("variableName")}</th>
+                  <th>{t("type")}</th>
+                  <th>{t("array")}</th>
+                </tr>
+              </thead>
+              {data.oidcRPMetaDataExportedVars
+                ? ExportedAttribute(name, data.oidcRPMetaDataExportedVars[name])
+                : ""}
+            </table>
+            <button
+              className="plus"
+              onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
+            >
+              +
+            </button>
+          </div>
+        )}
+        {optionSelected === "oidcRPMetaDataMacros" && (
+          <div className="box">
+            <strong className="title2">{t("oidcRPMetaDataMacros")}</strong>
+            <button
+              className="plus"
+              onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
+            >
+              +
+            </button>
+            <table id="oidcRPMetaDataMacros">
+              <thead>
+                <tr>
+                  <th>{t("keys")}</th>
+                  <th>{t("values")}</th>
+                </tr>
+              </thead>
+              {data.oidcRPMetaDataMacros
+                ? TableVars(
+                    name,
+                    data.oidcRPMetaDataMacros[name],
+                    "oidcRPMetaDataMacros",
+                    delOIDCRPMetaDataMacros,
+                    updateOIDCRPMetaDataMacros
+                  )
+                : ""}
+            </table>
+            <button
+              className="plus"
+              onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
+            >
+              +
+            </button>
+          </div>
+        )}
+        {optionSelected === "oidcRPMetaDataOptions" && (
+          <div className="box">
+            <strong className="title2">{t("oidcRPMetaDataOptions")}</strong>
+            <OptionOidc name={name} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,8 +1,5 @@
 .appDesc {
-  display: grid;
-  margin: 5%;
-  grid-gap: 1%;
-  grid-auto-flow: row;
+  margin: 2%;
   flex-wrap: wrap;
 }
 
@@ -15,17 +12,8 @@
   }
 }
 
-@media (min-width: 981px) {
-  .appDesc {
-    grid-template-columns: 47% 47%;
-    justify-content: center;
-  }
-}
-
 .box {
-  background-color: rgb(215, 239, 247);
-  border: 2px solid #acacac;
-  padding: 5%;
+  padding: 2%;
   border-radius: 15px;
   align-content: center;
   flex-wrap: wrap;
@@ -34,6 +22,13 @@
 .box tr {
   text-align: left;
   flex-wrap: wrap;
+  border: 1px solid #acacac;
+}
+tr:nth-child(odd) {
+  background-color: rgb(255, 255, 255);
+}
+tr:nth-child(even) {
+  background-color: rgb(249, 249, 249);
 }
 
 .box td {
@@ -65,9 +60,12 @@
 }
 
 table {
+  border: 1px solid #acacac;
   width: 100%;
   max-width: 100%;
   flex-wrap: wrap;
+  border-collapse: collapse;
+  box-shadow: 5% #acacac;
 }
 
 .box .form {
