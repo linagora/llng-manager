@@ -382,12 +382,7 @@ export function OIDCApp({ name }: { name: string }) {
             <strong className="title2">
               {t("oidcRPMetaDataExportedVars")}
             </strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
-            >
-              +
-            </button>
+
             <table id="exportedVars">
               <thead>
                 <tr>
@@ -395,6 +390,17 @@ export function OIDCApp({ name }: { name: string }) {
                   <th>{t("variableName")}</th>
                   <th>{t("type")}</th>
                   <th>{t("array")}</th>
+                  <th>
+                    {" "}
+                    <button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newOidcRPMetaDataExportedVars(name))
+                      }
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {data.oidcRPMetaDataExportedVars
@@ -412,17 +418,20 @@ export function OIDCApp({ name }: { name: string }) {
         {optionSelected === "oidcRPMetaDataMacros" && (
           <div className="box">
             <strong className="title2">{t("oidcRPMetaDataMacros")}</strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
-            >
-              +
-            </button>
+
             <table id="oidcRPMetaDataMacros">
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {data.oidcRPMetaDataMacros

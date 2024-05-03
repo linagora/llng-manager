@@ -274,12 +274,7 @@ export function SAMLApp({ name }: { name: string }) {
             <strong className="title2">
               {t("samlSPMetaDataExportedAttributes")}
             </strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
-            >
-              +
-            </button>
+
             <table id="exportedAttribute">
               <thead>
                 <tr>
@@ -288,6 +283,16 @@ export function SAMLApp({ name }: { name: string }) {
                   <th>{t("friendlyName")}</th>
                   <th>{t("mandatory")}</th>
                   <th>{t("format")}</th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newSamlSPMetadataExportedAttribute(name))
+                      }
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {data.samlSPMetaDataExportedAttributes
@@ -308,17 +313,20 @@ export function SAMLApp({ name }: { name: string }) {
         {optionSelected === "samlSPMetaDataMacros" && (
           <div className="box">
             <strong className="title2">{t("samlSPMetaDataMacros")}</strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
-            >
-              +
-            </button>
+
             <table id="samlSPMetaDataMacros">
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {data.samlSPMetaDataMacros

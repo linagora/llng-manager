@@ -54,18 +54,20 @@ export function CasApp({ name }: { name: string }) {
             <strong className="title2">
               {t("casAppMetaDataExportedVars")}
             </strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newCASexportedVars(name))}
-            >
-              +
-            </button>
+
             <table id="exportedVars">
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <th></th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newCASexportedVars(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {TableVars(
@@ -87,19 +89,20 @@ export function CasApp({ name }: { name: string }) {
         {optionSelected === "casAppMetaDataMacros" && (
           <div className="box">
             <strong className="title2">{t("casAppMetaDataMacros")}</strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newCASAppMetaDataMacros(name))}
-            >
-              +
-            </button>
+
             <table id="macros">
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-
-                  <th></th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {TableVars(

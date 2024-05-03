@@ -432,6 +432,8 @@ export function NativeApp({ name }: { name: string }) {
                       </label>
                     </div>
                   </td>
+                  <td></td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
@@ -440,12 +442,7 @@ export function NativeApp({ name }: { name: string }) {
         {optionSelected === "locationRules" && (
           <div className="box">
             <strong className="title2">{t("locationRules")}</strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newLocationRule(name))}
-            >
-              +
-            </button>
+
             <table id="locationRules">
               <thead>
                 <tr>
@@ -453,7 +450,14 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("regexp")}</th>
                   <th>{t("rules")}</th>
                   <th>{t("rulesAuthnLevel")}</th>
-                  <th></th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newLocationRule(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {NativeRule(name, locationRules)}
@@ -465,19 +469,20 @@ export function NativeApp({ name }: { name: string }) {
           <div className="box">
             <div>
               <strong className="title2">{t("exportedHeaders")}</strong>
-              <button
-                className="plus"
-                onClick={() => dispatch(newVhostHeaders(name))}
-              >
-                +
-              </button>
             </div>
             <table id="exportedHeaders">
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <th></th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newVhostHeaders(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {TableVars(
@@ -499,12 +504,7 @@ export function NativeApp({ name }: { name: string }) {
         {optionSelected === "post" && (
           <div className="box">
             <strong className="title2">{t("post")}</strong>
-            <button
-              className="plus"
-              onClick={() => dispatch(newVhostPost(name))}
-            >
-              +
-            </button>
+
             <table id="post">
               <thead>
                 <tr>
@@ -513,7 +513,14 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("jqueryUrl")}</th>
                   <th>{t("jqueryFormSelector")}</th>
                   <th>{t("jqueryButtonSelector")}</th>
-                  <th></th>
+                  <th>
+                    <button
+                      className="plus"
+                      onClick={() => dispatch(newVhostPost(name))}
+                    >
+                      +
+                    </button>
+                  </th>
                 </tr>
               </thead>
               {NativPost(name, post)}
