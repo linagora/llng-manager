@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   delCASAppMetaDataMacros,
   delCASexportedVars,
@@ -12,6 +13,7 @@ import {
 } from "../../features/config/configSlice";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
+import { Button } from "@mui/material";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -61,12 +63,12 @@ export function CasApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newCASexportedVars(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -78,12 +80,12 @@ export function CasApp({ name }: { name: string }) {
                 updateCASexportedVars
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newCASexportedVars(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "casAppMetaDataMacros" && (
@@ -96,12 +98,12 @@ export function CasApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newCASAppMetaDataMacros(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -113,12 +115,12 @@ export function CasApp({ name }: { name: string }) {
                 updateCASAppMetaDataMacros
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newCASAppMetaDataMacros(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "casAppMetaDataOptions" && (

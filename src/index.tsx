@@ -6,15 +6,26 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
 import "./index.css";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { amber, green, orange } from "@mui/material/colors";
+const theme = createTheme({
+  palette: {
+    primary: orange,
+    secondary: amber,
+    success: green,
+  },
+});
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  </ThemeProvider>
 );
 
 reportWebVitals();

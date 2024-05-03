@@ -1,6 +1,7 @@
 import Popup from "reactjs-popup";
 import "./Filters.css";
 import { t } from "i18next";
+import { Button } from "@mui/material";
 function FilterToggle({
   filters,
   setFilters,
@@ -17,7 +18,11 @@ function FilterToggle({
         />
       </div>
       <Popup
-        trigger={<button className="filter">{t("ldapFilters")}</button>}
+        trigger={
+          <Button variant="outlined" className="filter">
+            {t("ldapFilters")}
+          </Button>
+        }
         position="left center"
       >
         <div>

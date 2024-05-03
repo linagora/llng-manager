@@ -15,6 +15,8 @@ import {
   updateOidcRPMetaDataScopeRules,
 } from "../../features/config/configSlice";
 import { TableVars } from "./TableVars";
+import { Button } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 export function OptionOidc({ name }: { name: string }) {
   const [optionSelect, setOptionSelected] = useState("advanced");
@@ -363,14 +365,14 @@ export function OptionOidc({ name }: { name: string }) {
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <button
+                  <Button
                     className="plus"
                     onClick={() =>
                       dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
                     }
                   >
-                    +
-                  </button>
+                    <AddCircleIcon color="success" />
+                  </Button>
                 </tr>
               </thead>
               {TableVars(
@@ -383,14 +385,14 @@ export function OptionOidc({ name }: { name: string }) {
                 updateOidcRPMetaDataOptionsExtraClaims
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() =>
                 dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
               }
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
           <div>
             <strong className="title3">{t("oidcRPMetaDataScopeRules")}</strong>
@@ -399,12 +401,12 @@ export function OptionOidc({ name }: { name: string }) {
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <button
+                  <Button
                     className="plus"
                     onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
                   >
-                    +
-                  </button>
+                    <AddCircleIcon color="success" />
+                  </Button>
                 </tr>
               </thead>
               {TableVars(
@@ -417,12 +419,12 @@ export function OptionOidc({ name }: { name: string }) {
                 updateOidcRPMetaDataScopeRules
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         </div>
       )}

@@ -14,6 +14,7 @@ import {
 } from "../../features/config/configSlice";
 import { handleChangeFile } from "../../utils/readFiles";
 import { GenerateKeys } from "../../utils/generateKey";
+import { Button } from "@mui/material";
 
 export function IssuerAssistant({
   visible,
@@ -68,10 +69,15 @@ export function IssuerAssistant({
         <div className="issuerAssistant">
           <div className="issuerInitials">{t("incompleteForm")}</div>
           <div className="buttonContainer">
-            <button className="nextButton" onClick={() => handleNextStep()}>
+            <Button
+              variant="outlined"
+              className="nextButton"
+              onClick={() => handleNextStep()}
+            >
               {t("doItTogether")}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outlined"
               className="ignoreButton"
               onClick={() => {
                 onIgnore();
@@ -79,7 +85,7 @@ export function IssuerAssistant({
               }}
             >
               {t("ignore")}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -132,17 +138,23 @@ export function IssuerAssistant({
                 });
               }}
             />
-            <button className="generateButton" onClick={handleGenerateKeys}>
+            <Button
+              variant="outlined"
+              className="generateButton"
+              onClick={handleGenerateKeys}
+            >
               {t("newRSAKey")}
-            </button>
+            </Button>
             <div>
-              <button
+              <Button
+                variant="outlined"
                 className="nextButton"
                 onClick={() => handlePreviousStep()}
               >
                 {t("previous")}
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outlined"
                 className="nextButton"
                 onClick={() => {
                   if (newKeysSAML.private && newKeysSAML.public) {
@@ -156,8 +168,9 @@ export function IssuerAssistant({
                 }}
               >
                 {t("finish")}
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outlined"
                 className="ignoreButton"
                 onClick={() => {
                   onIgnore();
@@ -165,7 +178,7 @@ export function IssuerAssistant({
                 }}
               >
                 {t("cancel")}
-              </button>
+              </Button>
             </div>
           </div>
         </>
@@ -219,17 +232,23 @@ export function IssuerAssistant({
                 });
               }}
             />
-            <button className="generateButton" onClick={handleGenerateKeys}>
+            <Button
+              variant="outlined"
+              className="generateButton"
+              onClick={handleGenerateKeys}
+            >
               {t("newRSAKey")}
-            </button>
+            </Button>
             <div>
-              <button
+              <Button
+                variant="outlined"
                 className="nextButton"
                 onClick={() => handlePreviousStep()}
               >
                 {t("previous")}
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outlined"
                 className="nextButton"
                 onClick={() => {
                   if (newKeysOIDC.private && newKeysOIDC.public) {
@@ -243,8 +262,9 @@ export function IssuerAssistant({
                 }}
               >
                 {t("confirm")}
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outlined"
                 className="ignoreButton"
                 onClick={() => {
                   onIgnore();
@@ -252,7 +272,7 @@ export function IssuerAssistant({
                 }}
               >
                 {t("cancel")}
-              </button>
+              </Button>
             </div>
           </div>
         </>

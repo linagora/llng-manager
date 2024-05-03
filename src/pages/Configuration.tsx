@@ -23,8 +23,10 @@ export function Configuration({
       return (
         <div className="main">
           <Manager />
-          <SaveButton />
-          <AddApp />
+          <div>
+            <SaveButton />
+            <AddApp />
+          </div>
         </div>
       );
   }

@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { useState } from "react";
 import { getFromURL } from "../../utils/getFromURL";
 import { useAppDispatch } from "../../app/hooks";
+import { Button } from "@mui/material";
 
 export function URLLoader({
   appName,
@@ -18,7 +19,8 @@ export function URLLoader({
     <div>
       <label>{t("url")}</label>
       <input type="url" onChange={(e) => setUrl(e.target.value)} />
-      <button
+      <Button
+        variant="outlined"
         onClick={async () => {
           try {
             setLoading(true);
@@ -39,7 +41,7 @@ export function URLLoader({
         }}
       >
         {t("load")}
-      </button>
+      </Button>
       {loading && <div>{t("loading")}</div>}
       {error && <div>{t("badUrl")}</div>}
     </div>

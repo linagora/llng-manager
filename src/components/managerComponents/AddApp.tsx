@@ -2,7 +2,8 @@ import { useState } from "react";
 import Popup from "reactjs-popup";
 import { CreationAssistant } from "./CreationAssistant";
 import "./AddApp.css";
-
+import { Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 function AddApp() {
   const [open, setOpen] = useState(false);
   const closeModal = () => {
@@ -10,12 +11,15 @@ function AddApp() {
   };
   return (
     <div>
-      <button
-        className="addButton"
+      <Fab
+        style={{ position: "fixed", bottom: "2%", right: "2%" }}
+        color="primary"
         onClick={() => {
           setOpen(!open);
         }}
-      ></button>
+      >
+        <AddIcon fontSize="large" />
+      </Fab>
       <Popup
         open={open}
         position={"center center"}

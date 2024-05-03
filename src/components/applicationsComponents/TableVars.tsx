@@ -1,4 +1,6 @@
+import { Button } from "@mui/material";
 import { useAppDispatch } from "../../app/hooks";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export function TableVars(
   appName: string,
@@ -47,7 +49,7 @@ export function TableVars(
             </td>
 
             <td>
-              <button
+              <Button
                 onClick={() => {
                   dispatch(
                     delFunction({
@@ -58,8 +60,8 @@ export function TableVars(
                 }}
                 className="minus"
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );

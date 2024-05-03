@@ -5,6 +5,7 @@ import { t } from "i18next";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { delApp, newApp } from "../../features/config/configSlice";
+import { Button } from "@mui/material";
 
 export function CreationAssistant({
   closeModal,
@@ -19,7 +20,8 @@ export function CreationAssistant({
 
   return (
     <div className="modal">
-      <button
+      <Button
+        variant="outlined"
         className="close"
         onClick={(e) => {
           closeModal(e);
@@ -27,7 +29,7 @@ export function CreationAssistant({
         }}
       >
         &times;
-      </button>
+      </Button>
       <div className="createAssistant">
         <div className="title">{t("newApp")}</div>
 
@@ -79,7 +81,8 @@ export function CreationAssistant({
               </div>
             </div>
             <div>
-              <button
+              <Button
+                variant="outlined"
                 onClick={() => {
                   if (name && appType !== "None") {
                     setPage(page + 1);
@@ -88,22 +91,24 @@ export function CreationAssistant({
                 }}
               >
                 {t("next")}
-              </button>
+              </Button>
             </div>
           </>
         )}
         {page === 1 && (appType === "saml" || appType === "oidc") && (
           <>
             <MandatoryFields type={appType} name={name}></MandatoryFields>
-            <button
+            <Button
+              variant="outlined"
               onClick={() => {
                 setPage(page - 1);
                 dispatch(delApp(name));
               }}
             >
               {t("previous")}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outlined"
               onClick={() => {
                 console.log(
                   data.oidcRPMetaDataOptions[name]
@@ -123,7 +128,7 @@ export function CreationAssistant({
               }}
             >
               {t("next")}
-            </button>
+            </Button>
           </>
         )}
         {((page === 1 && !(appType === "saml" || appType === "oidc")) ||
@@ -136,7 +141,9 @@ export function CreationAssistant({
               </span>
             </div>
             <div>
-              <button onClick={closeModal}>{"confirm"}</button>
+              <Button variant="outlined" onClick={closeModal}>
+                {"confirm"}
+              </Button>
             </div>
           </>
         )}

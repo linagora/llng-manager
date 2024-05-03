@@ -12,6 +12,7 @@ import { t } from "i18next";
 import { push } from "redux-first-history";
 import { useState } from "react";
 import Popup from "reactjs-popup";
+import { Button } from "@mui/material";
 
 function Maintenance(
   type: string,
@@ -100,7 +101,8 @@ function AppCard({
                       onChange={(e) => setName(e.target.value)}
                     ></input>
                   </label>
-                  <button
+                  <Button
+                    variant="outlined"
                     onClick={() => {
                       if (name) {
                         dispatch(
@@ -110,7 +112,7 @@ function AppCard({
                     }}
                   >
                     {t("confirm")}
-                  </button>
+                  </Button>
                 </div>
               </Popup>
               <Popup
@@ -128,7 +130,8 @@ function AppCard({
                       onChange={(e) => setName(e.target.value)}
                     ></input>
                   </label>
-                  <button
+                  <Button
+                    variant="outlined"
                     onClick={() => {
                       if (name) {
                         dispatch(
@@ -139,7 +142,7 @@ function AppCard({
                     }}
                   >
                     {t("confirm")}
-                  </button>
+                  </Button>
                 </div>
               </Popup>
               <Popup
@@ -152,9 +155,12 @@ function AppCard({
                 <div className="popupConf">
                   <label>Are You Sure?</label>
                   <div>
-                    <button onClick={() => dispatch(delApp(info.name))}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => dispatch(delApp(info.name))}
+                    >
                       confirm
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </Popup>

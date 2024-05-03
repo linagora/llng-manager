@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { OptionOidc } from "./OptionOidc";
 import { TableVars } from "./TableVars";
 import {
@@ -14,7 +15,8 @@ import {
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
 import { useState } from "react";
-
+import { Button } from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateExpAttr(tableID: string) {
   const attrList: Record<string, string> = {};
 
@@ -110,14 +112,14 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               </select>
             </td>
             <td>
-              <button
+              <Button
                 className="minus"
                 onClick={() =>
                   dispatch(delOidcRPMetaDataExportedVars({ appName, key: key }))
                 }
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -392,14 +394,14 @@ export function OIDCApp({ name }: { name: string }) {
                   <th>{t("array")}</th>
                   <th>
                     {" "}
-                    <button
+                    <Button
                       className="plus"
                       onClick={() =>
                         dispatch(newOidcRPMetaDataExportedVars(name))
                       }
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -407,12 +409,12 @@ export function OIDCApp({ name }: { name: string }) {
                 ? ExportedAttribute(name, data.oidcRPMetaDataExportedVars[name])
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "oidcRPMetaDataMacros" && (
@@ -425,12 +427,12 @@ export function OIDCApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -444,12 +446,12 @@ export function OIDCApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "oidcRPMetaDataOptions" && (

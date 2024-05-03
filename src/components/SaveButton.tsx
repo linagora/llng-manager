@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getConfigAsync, saveConfigCall } from "../features/config/configSlice";
 import { ruleOIDC, ruleSAML } from "../utils/rules";
-
+import { Fab } from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
 export default function SaveButton() {
   const [openSavePopup, setOpenSavePopup] = useState(false);
   const [openSavingPopup, setOpenSavingPopup] = useState(false);
@@ -13,7 +14,9 @@ export default function SaveButton() {
   const data = useAppSelector((state) => state.config.data.config);
   return (
     <div>
-      <button
+      <Fab
+        style={{ position: "fixed", bottom: "2%", left: "2%" }}
+        color="primary"
         className="saveButton"
         onClick={() => {
           let stateOk = true;
@@ -46,8 +49,8 @@ export default function SaveButton() {
           }
         }}
       >
-        {t("save")}
-      </button>
+        <SaveIcon fontSize="large" />
+      </Fab>
       <div className={`notif orange ${openSavingPopup ? "visible" : "hidden"}`}>
         {t("Saving...")}
       </div>

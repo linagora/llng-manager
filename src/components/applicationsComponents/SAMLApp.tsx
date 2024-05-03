@@ -16,6 +16,9 @@ import { handleChangeFile } from "../../utils/readFiles";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
+import { Button } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function updateExpAttr(tableID: string) {
   const attrList: Record<string, string> = {};
@@ -171,7 +174,7 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             </td>
 
             <td>
-              <button
+              <Button
                 onClick={() => {
                   dispatch(
                     delSamlSPMetadataExportedAttribute({ appName, key })
@@ -179,8 +182,8 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                 }}
                 className="minus"
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -284,14 +287,12 @@ export function SAMLApp({ name }: { name: string }) {
                   <th>{t("mandatory")}</th>
                   <th>{t("format")}</th>
                   <th>
-                    <button
-                      className="plus"
+                    <Button
                       onClick={() =>
                         dispatch(newSamlSPMetadataExportedAttribute(name))
                       }
-                    >
-                      +
-                    </button>
+                      startIcon={<AddCircleIcon />}
+                    />
                   </th>
                 </tr>
               </thead>
@@ -302,12 +303,12 @@ export function SAMLApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "samlSPMetaDataMacros" && (
@@ -320,12 +321,12 @@ export function SAMLApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -339,12 +340,12 @@ export function SAMLApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "samlSPMetaDataOptions" && (

@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   transformJsonToList,
@@ -22,7 +23,8 @@ import {
 import { useDispatch } from "react-redux";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
-
+import { Button } from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -157,7 +159,7 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <button
+              <Button
                 onClick={() => {
                   dispatch(
                     delLocationRule({
@@ -170,8 +172,8 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
                 }}
                 className="minus"
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -200,12 +202,12 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
           <input type="text" value={"default"} className="authLevel" readOnly />
         </td>
         <td>
-          <button
+          <Button
             className="plus"
             onClick={() => dispatch(newLocationRule(appName))}
           >
-            +
-          </button>
+            <AddCircleIcon color="success" />
+          </Button>
         </td>
       </tr>
     </tbody>
@@ -300,14 +302,14 @@ function NativPost(
               />
             </td>
             <td>
-              <button
+              <Button
                 className="minus"
                 onClick={() =>
                   dispatch(delVhostPost({ name: appName, key: link }))
                 }
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -451,12 +453,12 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("rules")}</th>
                   <th>{t("rulesAuthnLevel")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newLocationRule(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -476,12 +478,12 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newVhostHeaders(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -493,12 +495,12 @@ export function NativeApp({ name }: { name: string }) {
                 updateVhostHeaders
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newVhostHeaders(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "post" && (
@@ -514,23 +516,23 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("jqueryFormSelector")}</th>
                   <th>{t("jqueryButtonSelector")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newVhostPost(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
               {NativPost(name, post)}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newVhostPost(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
 
