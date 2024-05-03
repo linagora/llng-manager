@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./NavBar.css";
 import i18n from "../i18n";
-import Popup from "reactjs-popup";
 import { useAppDispatch } from "../app/hooks";
 import { push } from "redux-first-history";
 import {
