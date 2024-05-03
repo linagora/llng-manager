@@ -20,16 +20,6 @@ export function CreationAssistant({
 
   return (
     <div className="modal">
-      {/* <Button
-        variant="outlined"
-        className="close"
-        onClick={(e) => {
-          closeModal(e);
-          dispatch(delApp(name));
-        }}
-      >
-        &times;
-      </Button> */}
       <div className="createAssistant">
         {page === 0 && (
           <>

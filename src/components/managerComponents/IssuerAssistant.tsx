@@ -1,7 +1,6 @@
 import "./CreationAssistant.css";
 import { t } from "i18next";
 import "./IssuerAssistant.css";
-import Popup from "reactjs-popup";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -14,7 +13,7 @@ import {
 } from "../../features/config/configSlice";
 import { handleChangeFile } from "../../utils/readFiles";
 import { GenerateKeys } from "../../utils/generateKey";
-import { Button } from "@mui/material";
+import { Button, ButtonGroup, Dialog } from "@mui/material";
 
 export function IssuerAssistant({
   visible,
@@ -57,28 +56,22 @@ export function IssuerAssistant({
   };
 
   return (
-    <Popup
-      arrow={false}
+    <Dialog
+      fullWidth
       open={visible}
-      closeOnDocumentClick={false}
-      closeOnEscape={false}
-      overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
-      nested
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+          setVisible(false);
+        }
+      }}
+      style={{ display: "flex", justifyContent: "center" }}
+      disableEscapeKeyDown
     >
       {step === 0 && (
         <div className="issuerAssistant">
           <div className="issuerInitials">{t("incompleteForm")}</div>
-          <div className="buttonContainer">
+          <ButtonGroup variant="outlined">
             <Button
-              variant="outlined"
-              className="nextButton"
-              onClick={() => handleNextStep()}
-            >
-              {t("doItTogether")}
-            </Button>
-            <Button
-              variant="outlined"
-              className="ignoreButton"
               onClick={() => {
                 onIgnore();
                 setStep(0);
@@ -86,7 +79,10 @@ export function IssuerAssistant({
             >
               {t("ignore")}
             </Button>
-          </div>
+            <Button onClick={() => handleNextStep()}>
+              {t("doItTogether")}
+            </Button>
+          </ButtonGroup>
         </div>
       )}
       {step === 1 && type === "saml" && (
@@ -146,39 +142,34 @@ export function IssuerAssistant({
               {t("newRSAKey")}
             </Button>
             <div>
-              <Button
-                variant="outlined"
-                className="nextButton"
-                onClick={() => handlePreviousStep()}
-              >
-                {t("previous")}
-              </Button>
-              <Button
-                variant="outlined"
-                className="nextButton"
-                onClick={() => {
-                  if (newKeysSAML.private && newKeysSAML.public) {
-                    newKeysSAML.hash
-                      ? dispatch(saveSAMLPrivIdSig(newKeysSAML.hash))
-                      : console.log();
-                    dispatch(saveSAMLPrivSig(newKeysSAML.private));
-                    dispatch(saveSAMLPubSig(newKeysSAML.public));
-                    setVisible(false);
-                  }
-                }}
-              >
-                {t("finish")}
-              </Button>
-              <Button
-                variant="outlined"
-                className="ignoreButton"
-                onClick={() => {
-                  onIgnore();
-                  setStep(0);
-                }}
-              >
-                {t("cancel")}
-              </Button>
+              {" "}
+              <ButtonGroup variant="outlined">
+                <Button
+                  onClick={() => {
+                    onIgnore();
+                    setStep(0);
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button variant="outlined" onClick={() => handlePreviousStep()}>
+                  {t("previous")}
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (newKeysSAML.private && newKeysSAML.public) {
+                      newKeysSAML.hash
+                        ? dispatch(saveSAMLPrivIdSig(newKeysSAML.hash))
+                        : console.log();
+                      dispatch(saveSAMLPrivSig(newKeysSAML.private));
+                      dispatch(saveSAMLPubSig(newKeysSAML.public));
+                      setVisible(false);
+                    }
+                  }}
+                >
+                  {t("finish")}
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
         </>
@@ -240,43 +231,45 @@ export function IssuerAssistant({
               {t("newRSAKey")}
             </Button>
             <div>
-              <Button
-                variant="outlined"
-                className="nextButton"
-                onClick={() => handlePreviousStep()}
-              >
-                {t("previous")}
-              </Button>
-              <Button
-                variant="outlined"
-                className="nextButton"
-                onClick={() => {
-                  if (newKeysOIDC.private && newKeysOIDC.public) {
-                    newKeysOIDC.hash
-                      ? dispatch(saveOIDCPrivIdSig(newKeysOIDC.hash))
-                      : console.log();
-                    dispatch(saveOIDCPrivSig(newKeysOIDC.private));
-                    dispatch(saveOIDCPubSig(newKeysOIDC.public));
-                    setVisible(false);
-                  }
-                }}
-              >
-                {t("confirm")}
-              </Button>
-              <Button
-                variant="outlined"
-                className="ignoreButton"
-                onClick={() => {
-                  onIgnore();
-                  setStep(0);
-                }}
-              >
-                {t("cancel")}
-              </Button>
+              <ButtonGroup variant="outlined">
+                <Button
+                  variant="outlined"
+                  className="ignoreButton"
+                  onClick={() => {
+                    onIgnore();
+                    setStep(0);
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  className="nextButton"
+                  onClick={() => handlePreviousStep()}
+                >
+                  {t("previous")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  className="nextButton"
+                  onClick={() => {
+                    if (newKeysOIDC.private && newKeysOIDC.public) {
+                      newKeysOIDC.hash
+                        ? dispatch(saveOIDCPrivIdSig(newKeysOIDC.hash))
+                        : console.log();
+                      dispatch(saveOIDCPrivSig(newKeysOIDC.private));
+                      dispatch(saveOIDCPubSig(newKeysOIDC.public));
+                      setVisible(false);
+                    }
+                  }}
+                >
+                  {t("confirm")}
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
         </>
       )}
-    </Popup>
+    </Dialog>
   );
 }

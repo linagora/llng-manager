@@ -1,14 +1,7 @@
 import { useState } from "react";
-import Popup from "reactjs-popup";
 import { CreationAssistant } from "./CreationAssistant";
 import "./AddApp.css";
-import {
-  Backdrop,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Fab,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { t } from "i18next";
 function AddApp() {
