@@ -162,7 +162,7 @@ export function OIDCApp({ name }: { name: string }) {
               <tbody>
                 <tr>
                   <th>
-                    {t("oidcRPMetaDataOptionsClientID")}{" "}
+                    {t("oidcRPMetaDataOptionsClientID")}
                     {data.oidcRPMetaDataOptions[name]
                       .oidcRPMetaDataOptionsClientID === ""
                       ? "⚠️"
@@ -393,7 +393,6 @@ export function OIDCApp({ name }: { name: string }) {
                   <th>{t("type")}</th>
                   <th>{t("array")}</th>
                   <th>
-                    {" "}
                     <Button
                       className="plus"
                       onClick={() =>

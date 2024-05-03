@@ -223,7 +223,7 @@ export function SAMLApp({ name }: { name: string }) {
         {optionSelected === "samlSPMetaDataXML" && (
           <div className="box">
             <strong className="title2">
-              {t("samlSPMetaDataXML")}{" "}
+              {t("samlSPMetaDataXML")}
               {name
                 ? data.samlSPMetaDataXML[name]
                   ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""

@@ -27,7 +27,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar color="secondary">
+    <AppBar color="secondary" className="navbar">
       <Toolbar>
         <Typography sx={{ flexGrow: 1 }}>
           <img
@@ -69,7 +69,7 @@ function Navbar() {
           sx={{ flexGrow: 1 }}
         >
           {t("secondFactors")}
-        </Typography>{" "}
+        </Typography>
         <IconButton
           size="large"
           edge="end"
@@ -80,9 +80,8 @@ function Navbar() {
           color="inherit"
           sx={{ flexGrow: 1 }}
         >
-          {" "}
           <MenuIcon />
-        </IconButton>{" "}
+        </IconButton>
         <Menu
           id="menu-appbar"
           anchorOrigin={{

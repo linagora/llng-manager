@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./i18n";
 import "./index.css";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
-import { amber, green, grey, orange } from "@mui/material/colors";
+import { amber, green, grey, orange, yellow } from "@mui/material/colors";
 import { Switch } from "@mui/material";
 const theme = createTheme({
   palette: {
@@ -18,6 +18,7 @@ const theme = createTheme({
       light: grey[500],
     },
     success: green,
+    warning: yellow,
   },
 });
 

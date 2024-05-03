@@ -1,4 +1,3 @@
-import Popup from "reactjs-popup";
 import { useState } from "react";
 import ToggleButton from "../ToggleButton";
 import { useAppDispatch, useAppSelector } from "./../../app/hooks";
@@ -12,7 +11,17 @@ import {
 import "./Issuers.css";
 import { t } from "i18next";
 import { IssuerAssistant } from "./IssuerAssistant";
-import { Switch } from "@mui/material";
+import {
+  Checkbox,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import WarningTwoToneIcon from "@mui/icons-material/WarningTwoTone";
+import React from "react";
 
 function Issuers() {
   const dispatch = useAppDispatch();
@@ -29,7 +38,14 @@ function Issuers() {
 
   const [issuerSAMLAssistant, triggerSAMLIssuerAssistant] = useState(false);
   const [issuerOIDCAssistant, triggerOIDCIssuerAssistant] = useState(false);
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div className="issuersList">
       <div className="issuers" data-testid="issuer.saml">
@@ -69,29 +85,20 @@ function Issuers() {
         />
 
         <label>{t("issuerDBSAML")}</label>
-        <Popup
-          data-testid="issuer.popup.saml"
-          trigger={
-            <span
-              style={{
-                visibility: warnings.samlWarning ? "visible" : "hidden",
-              }}
-            >
-              ⚠️
-            </span>
-          }
-          position={"right center"}
-          on={"hover"}
-          closeOnDocumentClick
+        <Tooltip
+          title={Object.keys(
+            config.samlSPMetaDataXML ? config.samlSPMetaDataXML : {}
+          ).map((name) => (
+            <div key={name}>{name}</div>
+          ))}
         >
-          <div className="warningPopup">
-            {Object.keys(
-              config.samlSPMetaDataXML ? config.samlSPMetaDataXML : {}
-            ).map((name) => (
-              <div key={name}>{name}</div>
-            ))}
-          </div>
-        </Popup>
+          <WarningTwoToneIcon
+            color="warning"
+            style={{
+              visibility: warnings.samlWarning ? "visible" : "hidden",
+            }}
+          />
+        </Tooltip>
       </div>
       <div className="issuers" data-testid="issuer.oidc">
         <ToggleButton
@@ -126,30 +133,20 @@ function Issuers() {
         />
 
         <label>{t("issuerDBOpenIDConnect")}</label>
-        <Popup
-          data-testid="issuer.popup.oidc"
-          trigger={
-            <span
-              style={{
-                visibility: warnings.oidcWarning ? "visible" : "hidden",
-              }}
-            >
-              ⚠️
-            </span>
-          }
-          position={"right center"}
-          on={"hover"}
-          closeOnDocumentClick
-          className="warningPopup"
+        <Tooltip
+          title={Object.keys(
+            config.oidcRPMetaDataOptions ? config.oidcRPMetaDataOptions : {}
+          ).map((name) => (
+            <div key={name}>{name}</div>
+          ))}
         >
-          <div className="warningPopup">
-            {Object.keys(
-              config.oidcRPMetaDataOptions ? config.oidcRPMetaDataOptions : {}
-            ).map((name) => (
-              <div key={name}>{name}</div>
-            ))}
-          </div>
-        </Popup>
+          <WarningTwoToneIcon
+            color="warning"
+            style={{
+              visibility: warnings.oidcWarning ? "visible" : "hidden",
+            }}
+          />
+        </Tooltip>
       </div>
       <div className="issuers" data-testid="issuer.cas">
         <ToggleButton
@@ -162,62 +159,68 @@ function Issuers() {
           // testid="issuer.toggle.cas"
         />
         <label> {t("issuerDBCAS")}</label>
-        <Popup
-          data-testid="issuer.popup.cas"
-          trigger={
-            <span
-              style={{ visibility: warnings.casWarning ? "visible" : "hidden" }}
-            >
-              ⚠️
-            </span>
-          }
-          position={"right center"}
-          on={"hover"}
-          closeOnDocumentClick
-          className="warningPopup"
+        <Tooltip
+          title={Object.keys(
+            config.casAppMetaDataOptions ? config.casAppMetaDataOptions : {}
+          ).map((name) => (
+            <div key={name}>{name}</div>
+          ))}
         >
-          <div className="warningPopup">
-            {Object.keys(
-              config.casAppMetaDataOptions ? config.casAppMetaDataOptions : {}
-            ).map((name) => (
-              <div key={name}>{name}</div>
-            ))}
-          </div>
-        </Popup>
+          <WarningTwoToneIcon
+            color="warning"
+            style={{ visibility: warnings.casWarning ? "visible" : "hidden" }}
+          />
+        </Tooltip>
       </div>
       <div className="issuers" data-testid="issuer.others">
-        <Popup
-          position="bottom center"
-          arrow={false}
-          trigger={
-            <div>
-              <img src={require("../../static/more.png")} alt="More" />
-            </div>
-          }
+        <IconButton
+          size="large"
+          edge="end"
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleClick}
+          color="inherit"
+          sx={{ flexGrow: 1 }}
         >
-          <div className="otherIssuers">
-            <div className="menu-item">
-              <span>{t("issuerDBOpenID")}</span>
-              <input
-                type="checkbox"
-                checked={Boolean(config.issuerDBOpenIDActivation)}
-                onClick={() => dispatch(toggleOID2())}
-              />
-            </div>
-            <div className="menu-item">
-              <span>{t("issuerDBGet")}</span>
-              <input
-                type="checkbox"
-                checked={Boolean(config.issuerDBGetActivation)}
-                onClick={() => dispatch(toggleGET())}
-              />
-            </div>
-            <div className="menu-item">
-              <span>{t("issuerJisty")}</span>
-              <input type="checkbox" checked={Boolean(false)} />
-            </div>
-          </div>
-        </Popup>
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          <MenuItem>
+            <span>{t("issuerDBOpenID")}</span>
+            <Checkbox
+              checked={Boolean(config.issuerDBOpenIDActivation)}
+              onClick={() => dispatch(toggleOID2())}
+            />
+          </MenuItem>
+          <Divider />
+          <MenuItem>
+            <span>{t("issuerDBGet")}</span>
+            <Checkbox
+              checked={Boolean(config.issuerDBGetActivation)}
+              onClick={() => dispatch(toggleGET())}
+            />
+          </MenuItem>
+          <Divider />
+          <MenuItem>
+            <span>{t("issuerJisty")}</span>
+            <Checkbox checked={Boolean(false)} />
+          </MenuItem>
+        </Menu>
       </div>
     </div>
   );

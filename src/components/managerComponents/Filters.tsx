@@ -1,7 +1,7 @@
-import Popup from "reactjs-popup";
 import "./Filters.css";
 import { t } from "i18next";
-import { Button } from "@mui/material";
+import { Button, Checkbox, Menu, MenuItem } from "@mui/material";
+import React from "react";
 function FilterToggle({
   filters,
   setFilters,
@@ -9,6 +9,14 @@ function FilterToggle({
   filters: { alpha: boolean; search: string };
   setFilters: any;
 }) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <div className="filters">
       <div>
@@ -17,24 +25,28 @@ function FilterToggle({
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
       </div>
-      <Popup
-        trigger={
-          <Button variant="outlined" className="filter">
-            {t("ldapFilters")}
-          </Button>
-        }
-        position="left center"
+      <Button
+        variant="outlined"
+        className="filter"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
       >
-        <div>
+        {t("ldapFilters")}
+      </Button>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <MenuItem
+          onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
+        >
           <label id="alpha-label">{t("alphabetical")}</label>
-          <input
-            type="checkbox"
+          <Checkbox
             aria-labelledby="alpha-label"
             onChange={() => setFilters({ ...filters, alpha: !filters.alpha })}
             checked={filters.alpha}
           />
-        </div>
-      </Popup>
+        </MenuItem>
+      </Menu>
     </div>
   );
 }
