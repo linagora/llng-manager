@@ -12,6 +12,7 @@ import {
 import "./Issuers.css";
 import { t } from "i18next";
 import { IssuerAssistant } from "./IssuerAssistant";
+import { Switch } from "@mui/material";
 
 function Issuers() {
   const dispatch = useAppDispatch();
@@ -34,8 +35,9 @@ function Issuers() {
       <div className="issuers" data-testid="issuer.saml">
         <div>
           <ToggleButton
-            toggled={config.issuerDBSAMLActivation}
-            setToggled={() => {
+            className="switch"
+            checked={config.issuerDBSAMLActivation}
+            onChange={() => {
               if (
                 !config.issuerDBSAMLActivation &&
                 !config.samlServicePrivateKeySig &&
@@ -50,7 +52,6 @@ function Issuers() {
                 });
               }
             }}
-            testid="issuer.toggle.saml"
           />
         </div>
         <IssuerAssistant
@@ -93,8 +94,8 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.oidc">
         <ToggleButton
-          toggled={config.issuerDBOpenIDConnectActivation}
-          setToggled={() => {
+          checked={Boolean(config.issuerDBOpenIDConnectActivation)}
+          onChange={() => {
             if (
               !config.issuerDBOpenIDConnectActivation &&
               !config.oidcServicePrivateKeySig &&
@@ -106,7 +107,7 @@ function Issuers() {
               setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
             }
           }}
-          testid="issuer.toggle.oidc"
+          // testid="issuer.toggle.oidc"
         />
 
         <IssuerAssistant
@@ -150,12 +151,12 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.cas">
         <ToggleButton
-          toggled={config.issuerDBCASActivation}
-          setToggled={() => {
+          checked={Boolean(config.issuerDBCASActivation)}
+          onChange={() => {
             setWarnings({ ...warnings, casWarning: !warnings.casWarning });
             dispatch(toggleCAS());
           }}
-          testid="issuer.toggle.cas"
+          // testid="issuer.toggle.cas"
         />
         <label> {t("issuerDBCAS")}</label>
         <Popup

@@ -177,11 +177,9 @@ function AppCard({
               }}
             >
               <ToggleButton
-                toggled={maintenanceToggled}
-                setToggled={() =>
-                  dispatch(toggleMaintenance(String(info.name)))
-                }
-                testid={`maintenance.${info.name}`}
+                checked={maintenanceToggled}
+                onChange={() => dispatch(toggleMaintenance(String(info.name)))}
+                // testid={`maintenance.${info.name}`}
               />
             </div>
           </div>
