@@ -177,6 +177,7 @@ function AppCard({
               }}
             >
               <ToggleButton
+                color="secondary"
                 checked={maintenanceToggled}
                 onChange={() => dispatch(toggleMaintenance(String(info.name)))}
                 // testid={`maintenance.${info.name}`}

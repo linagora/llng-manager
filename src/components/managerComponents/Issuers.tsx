@@ -35,6 +35,7 @@ function Issuers() {
       <div className="issuers" data-testid="issuer.saml">
         <div>
           <ToggleButton
+            color="secondary"
             className="switch"
             checked={config.issuerDBSAMLActivation}
             onChange={() => {
@@ -94,6 +95,7 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.oidc">
         <ToggleButton
+          color="secondary"
           checked={Boolean(config.issuerDBOpenIDConnectActivation)}
           onChange={() => {
             if (
@@ -151,6 +153,7 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.cas">
         <ToggleButton
+          color="secondary"
           checked={Boolean(config.issuerDBCASActivation)}
           onChange={() => {
             setWarnings({ ...warnings, casWarning: !warnings.casWarning });
