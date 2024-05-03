@@ -84,216 +84,178 @@ export function IssuerAssistant({
         </div>
       )}
       {step === 1 && type === "saml" && (
-        <div className="issuerAssistant">
-          <span className="text">{t("samlServicePrivateKeySig")}</span>
-          <textarea
-            className="formInput"
-            value={newKeysSAML.private}
-            onChange={(e) =>
-              setNewKeysSAML({ ...newKeysSAML, private: e.target.value })
-            }
-          ></textarea>
-          <input
-            className="fileInput"
-            type="file"
-            onChange={(e) => {
-              handleChangeFile(e).then((fileContent) => {
-                console.log("File content:", fileContent);
-                setNewKeysSAML({ ...newKeysSAML, private: fileContent });
-              });
-            }}
-          ></input>
-          <div>
-            {t("samlServiceKeyIdSig")}
-            <input
+        <>
+          <div className="issuerAssistant">
+            <span className="text">{t("samlServicePrivateKeySig")}</span>
+            <textarea
               className="formInput"
-              value={newKeysSAML.hash}
+              value={newKeysSAML.private}
               onChange={(e) =>
-                setNewKeysSAML({ ...newKeysSAML, hash: e.target.value })
+                setNewKeysSAML({ ...newKeysSAML, private: e.target.value })
               }
+            ></textarea>
+            <input
+              className="fileInput"
+              type="file"
+              onChange={(e) => {
+                handleChangeFile(e).then((fileContent) => {
+                  console.log("File content:", fileContent);
+                  setNewKeysSAML({ ...newKeysSAML, private: fileContent });
+                });
+              }}
             ></input>
-          </div>
-          <button className="generateButton" onClick={handleGenerateKeys}>
-            {t("newRSAKey")}
-          </button>
-          <div>
-            <button className="nextButton" onClick={() => handlePreviousStep()}>
-              {t("previous")}
-            </button>
-            <button className="nextButton" onClick={() => handleNextStep()}>
-              {t("next")}
-            </button>
-            <button
-              className="ignoreButton"
-              onClick={() => {
-                onIgnore();
-                setStep(0);
-              }}
-            >
-              {t("cancel")}
-            </button>
-          </div>
-        </div>
-      )}
-      {step === 2 && type === "saml" && (
-        <div className="issuerAssistant">
-          <span className="text">{t("samlServicePublicKeySig")}</span>
-          <textarea
-            className="formInput"
-            value={newKeysSAML.public}
-            onChange={(e) =>
-              setNewKeysSAML({ ...newKeysSAML, public: e.target.value })
-            }
-          />
-          <input
-            className="fileInput"
-            type="file"
-            onChange={(e) => {
-              handleChangeFile(e).then((fileContent) => {
-                console.log("File content:", fileContent);
-                setNewKeysSAML({ ...newKeysSAML, public: fileContent });
-              });
-            }}
-          />
-          <button className="generateButton" onClick={handleGenerateKeys}>
-            {t("newRSAKey")}
-          </button>
-          <div>
-            <button className="nextButton" onClick={() => handlePreviousStep()}>
-              {t("previous")}
-            </button>
-            <button
-              className="nextButton"
-              onClick={() => {
-                if (newKeysSAML.private && newKeysSAML.public) {
-                  newKeysSAML.hash
-                    ? dispatch(saveSAMLPrivIdSig(newKeysSAML.hash))
-                    : console.log();
-                  dispatch(saveSAMLPrivSig(newKeysSAML.private));
-                  dispatch(saveSAMLPubSig(newKeysSAML.public));
-                  setVisible(false);
+            <div>
+              {t("samlServiceKeyIdSig")}
+              <input
+                className="formInput"
+                value={newKeysSAML.hash}
+                onChange={(e) =>
+                  setNewKeysSAML({ ...newKeysSAML, hash: e.target.value })
                 }
+              ></input>
+            </div>
+            <span className="text">{t("samlServicePublicKeySig")}</span>
+            <textarea
+              className="formInput"
+              value={newKeysSAML.public}
+              onChange={(e) =>
+                setNewKeysSAML({ ...newKeysSAML, public: e.target.value })
+              }
+            />
+            <input
+              className="fileInput"
+              type="file"
+              onChange={(e) => {
+                handleChangeFile(e).then((fileContent) => {
+                  console.log("File content:", fileContent);
+                  setNewKeysSAML({ ...newKeysSAML, public: fileContent });
+                });
               }}
-            >
-              {t("finish")}
+            />
+            <button className="generateButton" onClick={handleGenerateKeys}>
+              {t("newRSAKey")}
             </button>
-            <button
-              className="ignoreButton"
-              onClick={() => {
-                onIgnore();
-                setStep(0);
-              }}
-            >
-              {t("cancel")}
-            </button>
+            <div>
+              <button
+                className="nextButton"
+                onClick={() => handlePreviousStep()}
+              >
+                {t("previous")}
+              </button>
+              <button
+                className="nextButton"
+                onClick={() => {
+                  if (newKeysSAML.private && newKeysSAML.public) {
+                    newKeysSAML.hash
+                      ? dispatch(saveSAMLPrivIdSig(newKeysSAML.hash))
+                      : console.log();
+                    dispatch(saveSAMLPrivSig(newKeysSAML.private));
+                    dispatch(saveSAMLPubSig(newKeysSAML.public));
+                    setVisible(false);
+                  }
+                }}
+              >
+                {t("finish")}
+              </button>
+              <button
+                className="ignoreButton"
+                onClick={() => {
+                  onIgnore();
+                  setStep(0);
+                }}
+              >
+                {t("cancel")}
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
       {step === 1 && type === "oidc" && (
-        <div className="issuerAssistant">
-          <span className="text">{t("oidcServicePrivateKeySig")}</span>
-          <textarea
-            className="formInput"
-            value={newKeysOIDC.private}
-            onChange={(e) =>
-              setNewKeysOIDC({ ...newKeysOIDC, private: e.target.value })
-            }
-          ></textarea>
-          <input
-            className="fileInput"
-            type="file"
-            onChange={(e) => {
-              handleChangeFile(e).then((fileContent) => {
-                console.log("File content:", fileContent);
-                setNewKeysOIDC({ ...newKeysOIDC, private: fileContent });
-              });
-            }}
-          ></input>
-          <div>
-            {t("oidcServiceKeyIdSig")}
-            <input
+        <>
+          <div className="issuerAssistant">
+            <span className="text">{t("oidcServicePrivateKeySig")}</span>
+            <textarea
               className="formInput"
-              value={newKeysOIDC.hash}
+              value={newKeysOIDC.private}
               onChange={(e) =>
-                setNewKeysOIDC({ ...newKeysOIDC, hash: e.target.value })
+                setNewKeysOIDC({ ...newKeysOIDC, private: e.target.value })
               }
+            ></textarea>
+            <input
+              className="fileInput"
+              type="file"
+              onChange={(e) => {
+                handleChangeFile(e).then((fileContent) => {
+                  console.log("File content:", fileContent);
+                  setNewKeysOIDC({ ...newKeysOIDC, private: fileContent });
+                });
+              }}
             ></input>
-          </div>
-          <button className="generateButton" onClick={handleGenerateKeys}>
-            {t("newRSAKey")}
-          </button>
-          <div>
-            <button className="nextButton" onClick={() => handlePreviousStep()}>
-              {t("previous")}
-            </button>
-            <button className="nextButton" onClick={() => handleNextStep()}>
-              {t("next")}
-            </button>
-            <button
-              className="ignoreButton"
-              onClick={() => {
-                onIgnore();
-                setStep(0);
-              }}
-            >
-              {t("cancel")}
-            </button>
-          </div>
-        </div>
-      )}
-      {step === 2 && type === "oidc" && (
-        <div className="issuerAssistant">
-          <span className="text">{t("oidcServicePublicKeySig")}</span>
-          <textarea
-            className="formInput"
-            value={newKeysOIDC.public}
-            onChange={(e) =>
-              setNewKeysOIDC({ ...newKeysOIDC, public: e.target.value })
-            }
-          />
-          <input
-            className="fileInput"
-            type="file"
-            onChange={(e) => {
-              handleChangeFile(e).then((fileContent) => {
-                console.log("File content:", fileContent);
-                setNewKeysOIDC({ ...newKeysOIDC, public: fileContent });
-              });
-            }}
-          />
-          <button className="generateButton" onClick={handleGenerateKeys}>
-            {t("newRSAKey")}
-          </button>
-          <div>
-            <button className="nextButton" onClick={() => handlePreviousStep()}>
-              {t("previous")}
-            </button>
-            <button
-              className="nextButton"
-              onClick={() => {
-                if (newKeysOIDC.private && newKeysOIDC.public) {
-                  newKeysOIDC.hash
-                    ? dispatch(saveOIDCPrivIdSig(newKeysOIDC.hash))
-                    : console.log();
-                  dispatch(saveOIDCPrivSig(newKeysOIDC.private));
-                  dispatch(saveOIDCPubSig(newKeysOIDC.public));
-                  setVisible(false);
+            <div>
+              {t("oidcServiceKeyIdSig")}
+              <input
+                className="formInput"
+                value={newKeysOIDC.hash}
+                onChange={(e) =>
+                  setNewKeysOIDC({ ...newKeysOIDC, hash: e.target.value })
                 }
+              ></input>
+            </div>
+            <span className="text">{t("oidcServicePublicKeySig")}</span>
+            <textarea
+              className="formInput"
+              value={newKeysOIDC.public}
+              onChange={(e) =>
+                setNewKeysOIDC({ ...newKeysOIDC, public: e.target.value })
+              }
+            />
+            <input
+              className="fileInput"
+              type="file"
+              onChange={(e) => {
+                handleChangeFile(e).then((fileContent) => {
+                  console.log("File content:", fileContent);
+                  setNewKeysOIDC({ ...newKeysOIDC, public: fileContent });
+                });
               }}
-            >
-              {t("confirm")}
+            />
+            <button className="generateButton" onClick={handleGenerateKeys}>
+              {t("newRSAKey")}
             </button>
-            <button
-              className="ignoreButton"
-              onClick={() => {
-                onIgnore();
-                setStep(0);
-              }}
-            >
-              {t("cancel")}
-            </button>
+            <div>
+              <button
+                className="nextButton"
+                onClick={() => handlePreviousStep()}
+              >
+                {t("previous")}
+              </button>
+              <button
+                className="nextButton"
+                onClick={() => {
+                  if (newKeysOIDC.private && newKeysOIDC.public) {
+                    newKeysOIDC.hash
+                      ? dispatch(saveOIDCPrivIdSig(newKeysOIDC.hash))
+                      : console.log();
+                    dispatch(saveOIDCPrivSig(newKeysOIDC.private));
+                    dispatch(saveOIDCPubSig(newKeysOIDC.public));
+                    setVisible(false);
+                  }
+                }}
+              >
+                {t("confirm")}
+              </button>
+              <button
+                className="ignoreButton"
+                onClick={() => {
+                  onIgnore();
+                  setStep(0);
+                }}
+              >
+                {t("cancel")}
+              </button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </Popup>
   );
