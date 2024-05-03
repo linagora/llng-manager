@@ -5,7 +5,7 @@ import { t } from "i18next";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { delApp, newApp } from "../../features/config/configSlice";
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 
 export function CreationAssistant({
   closeModal,
@@ -20,7 +20,7 @@ export function CreationAssistant({
 
   return (
     <div className="modal">
-      <Button
+      {/* <Button
         variant="outlined"
         className="close"
         onClick={(e) => {
@@ -29,10 +29,8 @@ export function CreationAssistant({
         }}
       >
         &times;
-      </Button>
+      </Button> */}
       <div className="createAssistant">
-        <div className="title">{t("newApp")}</div>
-
         {page === 0 && (
           <>
             <div>
@@ -81,54 +79,61 @@ export function CreationAssistant({
               </div>
             </div>
             <div>
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  if (name && appType !== "None") {
-                    setPage(page + 1);
-                    dispatch(newApp({ name, type: appType }));
-                  }
-                }}
-              >
-                {t("next")}
-              </Button>
+              <ButtonGroup variant="outlined">
+                <Button onClick={closeModal}>{t("cancel")}</Button>
+                <Button
+                  onClick={() => {
+                    if (name && appType !== "None") {
+                      setPage(page + 1);
+                      dispatch(newApp({ name, type: appType }));
+                    }
+                  }}
+                >
+                  {t("next")}
+                </Button>
+              </ButtonGroup>
             </div>
           </>
         )}
         {page === 1 && (appType === "saml" || appType === "oidc") && (
           <>
             <MandatoryFields type={appType} name={name}></MandatoryFields>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setPage(page - 1);
-                dispatch(delApp(name));
-              }}
-            >
-              {t("previous")}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                console.log(
-                  data.oidcRPMetaDataOptions[name]
-                    ?.oidcRPMetaDataOptionsClientID !== undefined,
-                  data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
-                );
-                if (
-                  data.oidcRPMetaDataOptions[name]
-                    ? data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientID !== ""
-                    : false || data.samlSPMetaDataXML[name]
-                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
-                    : false
-                ) {
-                  setPage(page + 1);
-                }
-              }}
-            >
-              {t("next")}
-            </Button>
+            <div>
+              <ButtonGroup variant="outlined">
+                <Button onClick={closeModal}>{t("cancel")}</Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("previous")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    console.log(
+                      data.oidcRPMetaDataOptions[name]
+                        ?.oidcRPMetaDataOptionsClientID !== undefined,
+                      data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
+                    );
+                    if (
+                      data.oidcRPMetaDataOptions[name]
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsClientID !== ""
+                        : false || data.samlSPMetaDataXML[name]
+                        ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
+                        : false
+                    ) {
+                      setPage(page + 1);
+                    }
+                  }}
+                >
+                  {t("next")}
+                </Button>
+              </ButtonGroup>
+            </div>
           </>
         )}
         {((page === 1 && !(appType === "saml" || appType === "oidc")) ||
