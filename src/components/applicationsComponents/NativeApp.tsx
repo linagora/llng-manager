@@ -27,8 +27,11 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateRules(tableID: string) {
@@ -668,27 +671,29 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostType")}</th>
                   <td>
-                    <select
-                      name="type"
-                      value={String(options.vhostType)}
-                      onChange={(el) =>
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostType",
-                            value: el.target.value,
-                          })
-                        )
-                      }
-                    >
-                      {attributes.vhostType.select.map((type) => {
-                        return (
-                          <option key={type.k} value={type.k}>
-                            {t(type.v)}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel>{t("vhostType")}</InputLabel>
+                      <Select
+                        value={options.vhostType}
+                        onChange={(el) =>
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostType",
+                              value: el.target.value,
+                            })
+                          )
+                        }
+                      >
+                        {attributes.vhostType.select.map((type) => {
+                          return (
+                            <MenuItem key={type.k} value={type.k}>
+                              {t(type.v)}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>

@@ -20,13 +20,16 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputLabel,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-function updateExpAttr(tableID: string) {
+function updateExpAttr(tableID: string, key?: string, updatedFormat?: string) {
   const attrList: Record<string, string> = {};
 
   const table = document.getElementById(tableID);
@@ -37,8 +40,10 @@ function updateExpAttr(tableID: string) {
       const name = cells[0].querySelector("input")?.value;
       const attName = cells[1].querySelector("input")?.value;
       const friendlyName = cells[2].querySelector("input")?.value;
-      const format = cells[4].querySelector("select")?.value;
-
+      let format = cells[4].querySelector("input")?.value;
+      if (key === name && updatedFormat) {
+        format = updatedFormat;
+      }
       let mandatory: number = 0;
       cells[3].querySelectorAll("label").forEach((e) => {
         if (e.innerText === t("on")) {
@@ -144,28 +149,36 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               </FormControl>
             </td>
             <td>
-              <select
-                name="format"
-                value={String(format)}
-                onChange={() =>
-                  dispatch(
-                    updateSamlSPMetadataExportedAttribute({
-                      appName,
-                      data: updateExpAttr("exportedAttribute"),
-                    })
-                  )
-                }
-              >
-                {attributes.samlSPMetaDataExportedAttributes.select.map(
-                  (type) => {
-                    return (
-                      <option key={type.k} value={`${type.k}`}>
-                        {t(type.v)}
-                      </option>
-                    );
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel shrink>{t("format")}</InputLabel>
+                <Select
+                  value={format}
+                  label={t("format")}
+                  displayEmpty
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlSPMetadataExportedAttribute({
+                        appName,
+                        data: updateExpAttr(
+                          "exportedAttribute",
+                          key,
+                          e.target.value
+                        ),
+                      })
+                    )
                   }
-                )}
-              </select>
+                >
+                  {attributes.samlSPMetaDataExportedAttributes.select.map(
+                    (el) => {
+                      return (
+                        <MenuItem key={el.k} value={el.k}>
+                          {t(el.v)}
+                        </MenuItem>
+                      );
+                    }
+                  )}
+                </Select>
+              </FormControl>
             </td>
 
             <td>

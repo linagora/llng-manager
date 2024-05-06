@@ -19,11 +19,18 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  InputLabel,
   Radio,
   RadioGroup,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-function updateExpAttr(tableID: string) {
+function updateExpAttr(
+  tableID: string,
+  key?: string,
+  selectData?: { type?: string; array?: string }
+) {
   const attrList: Record<string, string> = {};
 
   const table = document.getElementById(tableID);
@@ -33,19 +40,29 @@ function updateExpAttr(tableID: string) {
       const cells = rows[i].getElementsByTagName("td");
       const name = cells[0].querySelector("input")?.value;
       const varName = cells[1].querySelector("input")?.value;
-      const type = cells[2].querySelector("select")?.value;
-      const array = cells[3].querySelector("select")?.value;
-
-      attrList[name ? name : ""] = `${varName};${type};${array}`;
+      if (key === name && selectData?.type) {
+        const array = cells[3].querySelector("input")?.value;
+        attrList[key ? key : ""] = `${varName};${selectData.type};${array}`;
+      } else if (key === name && selectData?.array) {
+        const type = cells[2].querySelector("input")?.value;
+        attrList[key ? key : ""] = `${varName};${type};${selectData.array}`;
+      } else {
+        const type = cells[2].querySelector("input")?.value;
+        const array = cells[3].querySelector("input")?.value;
+        attrList[name ? name : ""] = `${varName};${type};${array}`;
+      }
     }
   }
 
   return attrList;
 }
 
-function ExportedAttribute(appName: string, vars: Record<string, string>) {
+function ExportedAttribute(
+  appName: string,
+  vars: Record<string, string>,
+  dispatch: Function
+) {
   let i = 0;
-  const dispatch = useAppDispatch();
   return (
     <tbody>
       {Object.keys(vars).map((key) => {
@@ -84,38 +101,50 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <select
-                value={String(type)}
-                onChange={() =>
-                  dispatch(
-                    updateOidcRPMetaDataExportedVars({
-                      appName,
-                      data: updateExpAttr("exportedVars"),
-                    })
-                  )
-                }
-              >
-                <option value="string">{t("string")}</option>
-                <option value="int">{t("int")}</option>
-                <option value="bool">{t("bool")}</option>
-              </select>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel>{t("type")}</InputLabel>
+                <Select
+                  value={type ? type : "string"}
+                  label={t("type")}
+                  onChange={(e) =>
+                    dispatch(
+                      updateOidcRPMetaDataExportedVars({
+                        appName,
+                        data: updateExpAttr("exportedVars", key, {
+                          type: e.target.value,
+                        }),
+                      })
+                    )
+                  }
+                >
+                  <MenuItem value="string">{t("string")}</MenuItem>
+                  <MenuItem value="int">{t("int")}</MenuItem>
+                  <MenuItem value="bool">{t("bool")}</MenuItem>
+                </Select>
+              </FormControl>
             </td>
             <td>
-              <select
-                value={String(table)}
-                onChange={() =>
-                  dispatch(
-                    updateOidcRPMetaDataExportedVars({
-                      appName,
-                      data: updateExpAttr("exportedVars"),
-                    })
-                  )
-                }
-              >
-                <option value="auto">{t("auto")}</option>
-                <option value="always">{t("always")}</option>
-                <option value="never">{t("never")}</option>
-              </select>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel>{t("array")}</InputLabel>
+                <Select
+                  value={table ? table : "auto"}
+                  label={t("array")}
+                  onChange={(e) =>
+                    dispatch(
+                      updateOidcRPMetaDataExportedVars({
+                        appName,
+                        data: updateExpAttr("exportedVars", key, {
+                          array: e.target.value,
+                        }),
+                      })
+                    )
+                  }
+                >
+                  <MenuItem value="auto">{t("auto")}</MenuItem>
+                  <MenuItem value="always">{t("always")}</MenuItem>
+                  <MenuItem value="never">{t("never")}</MenuItem>
+                </Select>
+              </FormControl>
             </td>
             <td>
               <Button
@@ -390,7 +419,11 @@ export function OIDCApp({ name }: { name: string }) {
                 </tr>
               </thead>
               {data.oidcRPMetaDataExportedVars
-                ? ExportedAttribute(name, data.oidcRPMetaDataExportedVars[name])
+                ? ExportedAttribute(
+                    name,
+                    data.oidcRPMetaDataExportedVars[name],
+                    dispatch
+                  )
                 : ""}
             </table>
             <Button

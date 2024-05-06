@@ -4,8 +4,19 @@ import "./CreationAssistant.css";
 import { t } from "i18next";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { delApp, newApp } from "../../features/config/configSlice";
-import { Button, ButtonGroup } from "@mui/material";
+import {
+  delApp,
+  newApp,
+  updateSamlMetaDataOptions,
+} from "../../features/config/configSlice";
+import {
+  Button,
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 export function CreationAssistant({
   closeModal,
@@ -26,34 +37,32 @@ export function CreationAssistant({
             <div>
               <div>
                 <strong className="title2">{t("type")}</strong>
-                <select
-                  name="type"
-                  id="applicationType"
-                  onChange={(e) => {
-                    setAppType(e.target.value);
-                    if (e.target.value === "native") {
-                      setName(attributes.virtualHostName.default);
-                    }
-                    if (e.target.value === "saml") {
-                      setName("sp-example");
-                    }
-                    if (e.target.value === "oidc") {
-                      setName("rp-example");
-                    }
-                    if (e.target.value === "cas") {
-                      setName("app-example");
-                    }
-                  }}
-                  defaultValue={""}
-                >
-                  <option value="" disabled hidden>
-                    {t("chooseType")}
-                  </option>
-                  <option value="native">Native</option>
-                  <option value="saml">{t("saml")}</option>
-                  <option value="oidc">{t("OpenIDConnect")}</option>
-                  <option value="cas">{t("issuerDBCAS")}</option>
-                </select>
+                <FormControl sx={{ m: 1, minWidth: 150 }} id="applicationType">
+                  <InputLabel>{t("chooseType")}</InputLabel>
+                  <Select
+                    label={t("chooseType")}
+                    onChange={(e) => {
+                      setAppType(String(e.target.value));
+                      if (e.target.value === "native") {
+                        setName(attributes.virtualHostName.default);
+                      }
+                      if (e.target.value === "saml") {
+                        setName("sp-example");
+                      }
+                      if (e.target.value === "oidc") {
+                        setName("rp-example");
+                      }
+                      if (e.target.value === "cas") {
+                        setName("app-example");
+                      }
+                    }}
+                  >
+                    <MenuItem value="native">Native</MenuItem>
+                    <MenuItem value="saml">{t("saml")}</MenuItem>
+                    <MenuItem value="oidc">{t("OpenIDConnect")}</MenuItem>
+                    <MenuItem value="cas">{t("issuerDBCAS")}</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
               <div>
                 <div>

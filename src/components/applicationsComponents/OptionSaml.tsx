@@ -8,6 +8,9 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
 
 export function OptionSaml({ name }: { name: string }) {
@@ -43,28 +46,35 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsNameIDFormat)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsNameIDFormat",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
-                    (el) => {
-                      return (
-                        <option key={el.k} value={el.k}>
-                          {t(el.v)}
-                        </option>
-                      );
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsNameIDFormat")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsNameIDFormat}
+                    label={t("samlSPMetaDataOptionsNameIDFormat")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsNameIDFormat",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
@@ -202,24 +212,35 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsSignatureMethod)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsSignatureMethod",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsSignatureMethod")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsSignatureMethod}
+                    label={t("samlSPMetaDataOptionsSignatureMethod")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignatureMethod",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
@@ -288,24 +309,35 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsSignatureMethod)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsSignatureMethod",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsSignatureMethod")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsSignatureMethod}
+                    label={t("samlSPMetaDataOptionsSignatureMethod")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignatureMethod",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
@@ -385,24 +417,35 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsEncryptionMode)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsEncryptionMode",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsEncryptionMode")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsEncryptionMode}
+                    label={t("samlSPMetaDataOptionsEncryptionMode")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsEncryptionMode",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
@@ -506,53 +549,79 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationOptionalAttributes")}</th>
               <td>
-                <select
-                  value={String(
-                    data.samlSPMetaDataOptionsFederationOptionalAttributes
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option:
-                          "samlSPMetaDataOptionsFederationOptionalAttributes",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.samlSPMetaDataOptionsFederationOptionalAttributes
                     }
-                  )}
-                </select>
+                    label={t(
+                      "samlSPMetaDataOptionsFederationOptionalAttributes"
+                    )}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsFederationOptionalAttributes",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationRequiredAttributes")}</th>
               <td>
-                <select
-                  value={String(
-                    data.samlSPMetaDataOptionsFederationRequiredAttributes
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option:
-                          "samlSPMetaDataOptionsFederationRequiredAttributes",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.samlSPMetaDataOptionsFederationRequiredAttributes
                     }
-                  )}
-                </select>
+                    label={t(
+                      "samlSPMetaDataOptionsFederationRequiredAttributes"
+                    )}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsFederationRequiredAttributes",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
           </tbody>
