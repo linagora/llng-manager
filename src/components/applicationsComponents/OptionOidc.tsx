@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { handleChangeFile } from "../../utils/readFiles";
@@ -24,8 +24,23 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
+  styled,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export function OptionOidc({ name }: { name: string }) {
   const [optionSelect, setOptionSelected] = useState("advanced");
@@ -228,7 +243,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -253,7 +271,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -600,7 +621,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -625,7 +649,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -650,7 +677,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsRule")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -977,7 +1007,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -1002,7 +1035,13 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th className="title2">{t("oidcRPMetaDataOptionsJwks")}</th>
               <div>
-                <textarea
+                <TextField
+                  size="small"
+                  margin="normal"
+                  multiline
+                  variant="filled"
+                  fullWidth
+                  rows={4}
                   placeholder="oidcRPMetaDataOptionsJwks"
                   value={String(
                     name
@@ -1024,24 +1063,38 @@ export function OptionOidc({ name }: { name: string }) {
                       })
                     );
                   }}
-                ></textarea>
+                />
               </div>
               <div>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    handleChangeFile(e).then((fileContent) => {
-                      console.log("File content:", fileContent);
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsJwks",
-                          value: fileContent,
-                        })
-                      );
-                    });
-                  }}
-                />
+                <Button
+                  sx={{ margin: "5px" }}
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  {t("upload")}
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target instanceof HTMLInputElement) {
+                        handleChangeFile(
+                          e as ChangeEvent<HTMLInputElement>
+                        ).then((fileContent) => {
+                          console.log("File content:", fileContent);
+                          dispatch(
+                            updateOidcMetaDataOptions({
+                              name,
+                              option: "oidcRPMetaDataOptionsJwks",
+                              value: fileContent,
+                            })
+                          );
+                        });
+                      }
+                    }}
+                  />
+                </Button>
               </div>
               <URLLoader
                 appName={name}
@@ -1057,7 +1110,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1082,7 +1138,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1106,7 +1165,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1130,7 +1192,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1264,7 +1329,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="text"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1288,7 +1356,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="text"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1313,7 +1384,13 @@ export function OptionOidc({ name }: { name: string }) {
         </table>
       )}
       {optionSelect === "comment" && (
-        <textarea
+        <TextField
+          size="small"
+          margin="normal"
+          multiline
+          variant="filled"
+          fullWidth
+          rows={4}
           value={String(
             data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
               ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment

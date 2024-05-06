@@ -24,6 +24,7 @@ import {
   RadioGroup,
   Select,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateExpAttr(
@@ -71,7 +72,10 @@ function ExportedAttribute(
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -86,7 +90,10 @@ function ExportedAttribute(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -204,7 +211,10 @@ export function OIDCApp({ name }: { name: string }) {
                       : ""}
                   </th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -281,7 +291,10 @@ export function OIDCApp({ name }: { name: string }) {
                       : "⚠️"}
                   </th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type={attributes.oidcRPMetaDataOptionsClientSecret.type}
                       value={String(
@@ -303,7 +316,10 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type={attributes.oidcRPMetaDataOptionsRedirectUris.type}
                       name="oidcRPMetaDataOptionsRedirectUris"
                       value={String(
@@ -325,7 +341,10 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type={attributes.oidcRPMetaDataOptionsAuthMethod.type}
                       name="oidcRPMetaDataOptionsAuthMethod"
                       value={String(
@@ -347,7 +366,10 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type="text"
                       value={String(
                         data.oidcRPMetaDataOptions[name]
@@ -371,7 +393,10 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("oidcRPMetaDataOptionsIcon")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type={attributes.oidcRPMetaDataOptionsIcon.type}
                       value={String(
                         data.oidcRPMetaDataOptions[name]

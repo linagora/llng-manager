@@ -11,6 +11,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@mui/material";
 
 export function OptionSaml({ name }: { name: string }) {
@@ -80,7 +81,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -134,7 +138,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(
@@ -156,7 +163,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsNotOnOrAfterTimeout)}
@@ -482,7 +492,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(data.samlSPMetaDataOptionsAuthnLevel)}
@@ -501,7 +514,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsRule")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsRule)}
@@ -526,7 +542,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -628,7 +647,13 @@ export function OptionSaml({ name }: { name: string }) {
         </table>
       )}
       {optionSelect === "comment" && (
-        <textarea
+        <TextField
+          size="small"
+          margin="normal"
+          multiline
+          variant="filled"
+          fullWidth
+          rows={4}
           value={String(
             data.samlSPMetaDataOptionsComment
               ? data.samlSPMetaDataOptionsComment

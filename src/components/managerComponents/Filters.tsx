@@ -1,6 +1,6 @@
 import "./Filters.css";
 import { t } from "i18next";
-import { Button, Checkbox, Menu, MenuItem } from "@mui/material";
+import { Button, Checkbox, Menu, MenuItem, TextField } from "@mui/material";
 import React from "react";
 function FilterToggle({
   filters,
@@ -20,7 +20,10 @@ function FilterToggle({
   return (
     <div className="filters">
       <div>
-        <input
+        <TextField
+          size="small"
+          margin="normal"
+          variant="outlined"
           placeholder={t("search")}
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />

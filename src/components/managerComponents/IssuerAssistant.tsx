@@ -1,7 +1,7 @@
 import "./CreationAssistant.css";
 import { t } from "i18next";
 import "./IssuerAssistant.css";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   saveOIDCPrivIdSig,
@@ -13,8 +13,21 @@ import {
 } from "../../features/config/configSlice";
 import { handleChangeFile } from "../../utils/readFiles";
 import { GenerateKeys } from "../../utils/generateKey";
-import { Button, ButtonGroup, Dialog } from "@mui/material";
+import { Button, ButtonGroup, Dialog, TextField, styled } from "@mui/material";
 
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 export function IssuerAssistant({
   visible,
   type,
@@ -89,51 +102,97 @@ export function IssuerAssistant({
         <>
           <div className="issuerAssistant">
             <span className="text">{t("samlServicePrivateKeySig")}</span>
-            <textarea
+            <TextField
+              size="small"
+              margin="normal"
+              multiline
+              variant="filled"
+              fullWidth
+              rows={4}
               className="formInput"
               value={newKeysSAML.private}
               onChange={(e) =>
                 setNewKeysSAML({ ...newKeysSAML, private: e.target.value })
               }
-            ></textarea>
-            <input
-              className="fileInput"
-              type="file"
-              onChange={(e) => {
-                handleChangeFile(e).then((fileContent) => {
-                  console.log("File content:", fileContent);
-                  setNewKeysSAML({ ...newKeysSAML, private: fileContent });
-                });
-              }}
-            ></input>
+            />
+            <Button
+              sx={{ margin: "5px" }}
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              {t("upload")}
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => {
+                  if (e.target instanceof HTMLInputElement) {
+                    handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                      (fileContent) => {
+                        console.log("File content:", fileContent);
+                        setNewKeysSAML({
+                          ...newKeysSAML,
+                          private: fileContent,
+                        });
+                      }
+                    );
+                  }
+                }}
+              />
+            </Button>
+
             <div>
               {t("samlServiceKeyIdSig")}
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="formInput"
                 value={newKeysSAML.hash}
                 onChange={(e) =>
                   setNewKeysSAML({ ...newKeysSAML, hash: e.target.value })
                 }
-              ></input>
+              />
             </div>
             <span className="text">{t("samlServicePublicKeySig")}</span>
-            <textarea
+            <TextField
+              size="small"
+              margin="normal"
+              multiline
+              variant="filled"
+              fullWidth
+              rows={4}
               className="formInput"
               value={newKeysSAML.public}
               onChange={(e) =>
                 setNewKeysSAML({ ...newKeysSAML, public: e.target.value })
               }
             />
-            <input
-              className="fileInput"
-              type="file"
-              onChange={(e) => {
-                handleChangeFile(e).then((fileContent) => {
-                  console.log("File content:", fileContent);
-                  setNewKeysSAML({ ...newKeysSAML, public: fileContent });
-                });
-              }}
-            />
+            <Button
+              sx={{ margin: "5px" }}
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              {t("upload")}
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => {
+                  if (e.target instanceof HTMLInputElement) {
+                    handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                      (fileContent) => {
+                        console.log("File content:", fileContent);
+                        setNewKeysSAML({ ...newKeysSAML, public: fileContent });
+                      }
+                    );
+                  }
+                }}
+              />
+            </Button>
+
             <Button
               variant="outlined"
               className="generateButton"
@@ -178,51 +237,97 @@ export function IssuerAssistant({
         <>
           <div className="issuerAssistant">
             <span className="text">{t("oidcServicePrivateKeySig")}</span>
-            <textarea
+            <TextField
+              size="small"
+              margin="normal"
+              multiline
+              fullWidth
+              variant="filled"
+              rows={4}
               className="formInput"
               value={newKeysOIDC.private}
               onChange={(e) =>
                 setNewKeysOIDC({ ...newKeysOIDC, private: e.target.value })
               }
-            ></textarea>
-            <input
-              className="fileInput"
-              type="file"
-              onChange={(e) => {
-                handleChangeFile(e).then((fileContent) => {
-                  console.log("File content:", fileContent);
-                  setNewKeysOIDC({ ...newKeysOIDC, private: fileContent });
-                });
-              }}
-            ></input>
+            />
+            <Button
+              sx={{ margin: "5px" }}
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              {t("upload")}
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => {
+                  if (e.target instanceof HTMLInputElement) {
+                    handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                      (fileContent) => {
+                        console.log("File content:", fileContent);
+                        setNewKeysOIDC({
+                          ...newKeysOIDC,
+                          private: fileContent,
+                        });
+                      }
+                    );
+                  }
+                }}
+              />
+            </Button>
+
             <div>
               {t("oidcServiceKeyIdSig")}
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="formInput"
                 value={newKeysOIDC.hash}
                 onChange={(e) =>
                   setNewKeysOIDC({ ...newKeysOIDC, hash: e.target.value })
                 }
-              ></input>
+              />
             </div>
             <span className="text">{t("oidcServicePublicKeySig")}</span>
-            <textarea
+            <TextField
+              size="small"
+              margin="normal"
+              multiline
+              variant="filled"
+              fullWidth
+              rows={4}
               className="formInput"
               value={newKeysOIDC.public}
               onChange={(e) =>
                 setNewKeysOIDC({ ...newKeysOIDC, public: e.target.value })
               }
             />
-            <input
-              className="fileInput"
-              type="file"
-              onChange={(e) => {
-                handleChangeFile(e).then((fileContent) => {
-                  console.log("File content:", fileContent);
-                  setNewKeysOIDC({ ...newKeysOIDC, public: fileContent });
-                });
-              }}
-            />
+            <Button
+              sx={{ margin: "5px" }}
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              {t("upload")}
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => {
+                  if (e.target instanceof HTMLInputElement) {
+                    handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                      (fileContent) => {
+                        console.log("File content:", fileContent);
+                        setNewKeysOIDC({ ...newKeysOIDC, public: fileContent });
+                      }
+                    );
+                  }
+                }}
+              />
+            </Button>
+
             <Button
               variant="outlined"
               className="generateButton"

@@ -4,11 +4,7 @@ import "./CreationAssistant.css";
 import { t } from "i18next";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  delApp,
-  newApp,
-  updateSamlMetaDataOptions,
-} from "../../features/config/configSlice";
+import { delApp, newApp } from "../../features/config/configSlice";
 import {
   Button,
   ButtonGroup,
@@ -16,6 +12,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@mui/material";
 
 export function CreationAssistant({
@@ -67,7 +64,10 @@ export function CreationAssistant({
               <div>
                 <div>
                   <strong className="title2">{t("name")} </strong>
-                  <input
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    variant="filled"
                     type="text"
                     value={name}
                     onChange={(e) => {

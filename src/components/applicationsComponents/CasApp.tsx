@@ -19,6 +19,7 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  TextField,
 } from "@mui/material";
 
 export function CasApp({ name }: { name: string }) {
@@ -137,7 +138,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsDisplayName")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -160,7 +164,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsService")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -221,7 +228,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(
@@ -244,7 +254,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsRule")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -267,7 +280,13 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsComment")}</th>
                   <td>
-                    <textarea
+                    <TextField
+                      variant="filled"
+                      size="small"
+                      margin="normal"
+                      multiline
+                      fullWidth
+                      rows={4}
                       className="form"
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsComment

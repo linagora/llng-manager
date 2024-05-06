@@ -12,7 +12,7 @@ import { t } from "i18next";
 import { push } from "redux-first-history";
 import { useState } from "react";
 import Popup from "reactjs-popup";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 function Maintenance(
   type: string,
@@ -96,10 +96,13 @@ function AppCard({
                 <div className="popupConf">
                   <label>
                     <span>{t("hostname")} : </span>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type="text"
                       onChange={(e) => setName(e.target.value)}
-                    ></input>
+                    />
                   </label>
                   <Button
                     variant="outlined"
@@ -125,10 +128,13 @@ function AppCard({
                 <div className="popupConf">
                   <label>
                     <span>{t("hostname")} : </span>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type="text"
                       onChange={(e) => setName(e.target.value)}
-                    ></input>
+                    />
                   </label>
                   <Button
                     variant="outlined"

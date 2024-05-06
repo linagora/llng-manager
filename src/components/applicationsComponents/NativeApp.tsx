@@ -32,6 +32,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateRules(tableID: string) {
@@ -108,7 +109,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -123,7 +127,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -138,7 +145,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -153,7 +163,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 type="number"
                 className="authLevel"
                 onChange={() =>
@@ -190,10 +203,21 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
       <tr>
         <th>{t("defaultRule")}</th>
         <td>
-          <input className="form" type="text" value={"default"} readOnly />
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
+            className="form"
+            type="text"
+            value={"default"}
+            disabled
+          />
         </td>
         <td>
-          <input
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
             className="form"
             type="text"
             onChange={() =>
@@ -208,7 +232,15 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
           />
         </td>
         <td>
-          <input type="text" value={"default"} className="authLevel" readOnly />
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
+            type="text"
+            value={"default"}
+            className="authLevel"
+            disabled
+          />
         </td>
         <td>
           <Button
@@ -236,7 +268,10 @@ function NativPost(
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={link}
@@ -251,7 +286,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].target}
@@ -266,7 +304,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].jqueryUrl}
@@ -281,7 +322,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].formSelector}
@@ -296,7 +340,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].buttonSelector}
@@ -368,17 +415,29 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
+                  <th>{t("vhostComment")}</th>
+                  <th>{t("regexp")}</th>
+                  <th>{t("rules")}</th>
+                  <th>{t("rulesAuthnLevel")}</th>
+                </tr>
+                <tr>
                   <th>{t("defaultRule")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={"default"}
-                      readOnly
+                      disabled
                     />
                   </td>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       onChange={(e) =>
@@ -393,14 +452,22 @@ export function NativeApp({ name }: { name: string }) {
                     />
                   </td>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type="text"
                       value={"default"}
                       className="authLevel"
-                      readOnly
+                      disabled
                     />
                   </td>
                 </tr>
+              </tbody>
+            </table>
+
+            <table>
+              <tbody>
                 <tr>
                   <th>{t("maintenance")}</th>
                   <td>
@@ -541,7 +608,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("port")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostPort)}
@@ -627,7 +697,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostAliases")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -648,7 +721,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostAccessToTrace")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -675,6 +751,7 @@ export function NativeApp({ name }: { name: string }) {
                       <InputLabel>{t("vhostType")}</InputLabel>
                       <Select
                         value={options.vhostType}
+                        label={t("vhostType")}
                         onChange={(el) =>
                           dispatch(
                             updateVhostOptions({
@@ -699,7 +776,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostAuthnLevel")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostAuthnLevel)}
@@ -718,7 +798,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostServiceTokenTTL")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostServiceTokenTTL)}

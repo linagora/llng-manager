@@ -15,7 +15,7 @@ import {
 import { handleChangeFile } from "../../utils/readFiles";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   Button,
   FormControl,
@@ -25,10 +25,25 @@ import {
   Radio,
   RadioGroup,
   Select,
+  TextField,
+  styled,
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 function updateExpAttr(tableID: string, key?: string, updatedFormat?: string) {
   const attrList: Record<string, string> = {};
 
@@ -77,7 +92,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -92,7 +110,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -107,7 +128,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -241,7 +265,13 @@ export function SAMLApp({ name }: { name: string }) {
                 : "⚠️"}
             </strong>
             <div>
-              <textarea
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
+                multiline
+                fullWidth
+                rows={4}
                 placeholder="XML MetaData"
                 onChange={(e) =>
                   dispatch(
@@ -258,23 +288,37 @@ export function SAMLApp({ name }: { name: string }) {
                       : undefined
                     : undefined
                 }
-              ></textarea>
+              />
             </div>
             <div>
-              <input
-                type="file"
-                onChange={(e) => {
-                  handleChangeFile(e).then((fileContent) => {
-                    console.log("File content:", fileContent);
-                    dispatch(
-                      updateSamlSPMetadata({
-                        name: name ? name : "",
-                        data: fileContent,
-                      })
-                    );
-                  });
-                }}
-              />
+              <Button
+                sx={{ margin: "5px" }}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                {t("upload")}
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(e) => {
+                    if (e.target instanceof HTMLInputElement) {
+                      handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                        (fileContent) => {
+                          console.log("File content:", fileContent);
+                          dispatch(
+                            updateSamlSPMetadata({
+                              name: name ? name : "",
+                              data: fileContent,
+                            })
+                          );
+                        }
+                      );
+                    }
+                  }}
+                />
+              </Button>
             </div>
             <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
           </div>
@@ -299,6 +343,7 @@ export function SAMLApp({ name }: { name: string }) {
                       onClick={() =>
                         dispatch(newSamlSPMetadataExportedAttribute(name))
                       }
+                      color="success"
                       startIcon={<AddCircleIcon />}
                     />
                   </th>

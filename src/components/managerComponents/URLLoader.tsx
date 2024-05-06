@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { useState } from "react";
 import { getFromURL } from "../../utils/getFromURL";
 import { useAppDispatch } from "../../app/hooks";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 
 export function URLLoader({
   appName,
@@ -16,11 +16,18 @@ export function URLLoader({
   const [error, setError] = useState(false);
   const dispatch = useAppDispatch();
   return (
-    <div>
-      <label>{t("url")}</label>
-      <input type="url" onChange={(e) => setUrl(e.target.value)} />
+    <div style={{ alignContent: "bottom" }}>
+      <TextField
+        size="small"
+        variant="filled"
+        margin="normal"
+        type="url"
+        placeholder={t("url")}
+        onChange={(e) => setUrl(e.target.value)}
+      />
       <Button
         variant="outlined"
+        sx={{ verticalAlign: "-28px" }}
         onClick={async () => {
           try {
             setLoading(true);
