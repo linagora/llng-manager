@@ -9,6 +9,12 @@ import {
 } from "../../features/config/configSlice";
 import { URLLoader } from "./URLLoader";
 import { updateSamlSPMetadata } from "../../features/config/configSlice";
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 export function MandatoryFields({
   type,
   name,
@@ -121,56 +127,31 @@ export function MandatoryFields({
           <div>
             <th>{t("oidcRPMetaDataOptionsPublic")}</th>
             <td>
-              <label>
-                <input
-                  type="radio"
-                  name="Client public"
-                  checked={
-                    name
-                      ? data.oidcRPMetaDataOptions[name]
-                        ? Boolean(
-                            data.oidcRPMetaDataOptions[name]
-                              .oidcRPMetaDataOptionsPublic
-                          )
-                        : false
-                      : false
-                  }
-                  onChange={() => {
+              <FormControl>
+                <RadioGroup
+                  row
+                  value={data.samlSPMetaDataOptionsOneTimeUse}
+                  onChange={(e) => {
                     dispatch(
                       updateOIDCPublicClient({
                         name: name ? name : "",
-                        publicClient: 1,
+                        publicClient: Number(e.target.value),
                       })
                     );
                   }}
-                />
-                <span>{t("on")}</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="Client public"
-                  checked={
-                    name
-                      ? data.oidcRPMetaDataOptions[name]
-                        ? !Boolean(
-                            data.oidcRPMetaDataOptions[name]
-                              .oidcRPMetaDataOptionsPublic
-                          )
-                        : false
-                      : false
-                  }
-                  onChange={() => {
-                    dispatch(
-                      updateOIDCPublicClient({
-                        name: name ? name : "",
-                        publicClient: 0,
-                      })
-                    );
-                  }}
-                />
-                <span>{t("off")}</span>
-              </label>
+                >
+                  <FormControlLabel
+                    value={1}
+                    control={<Radio />}
+                    label={t("on")}
+                  />
+                  <FormControlLabel
+                    value={0}
+                    control={<Radio />}
+                    label={t("off")}
+                  />
+                </RadioGroup>
+              </FormControl>
             </td>
           </div>
           <div></div>

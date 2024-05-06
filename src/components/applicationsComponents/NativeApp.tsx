@@ -23,7 +23,13 @@ import {
 import { useDispatch } from "react-redux";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateRules(tableID: string) {
   const ruleList = [];
@@ -395,44 +401,32 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("maintenance")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={1}
-                          checked={Boolean(options.vhostMaintenance)}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: true,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostMaintenance}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostMaintenance",
+                              value: JSON.parse(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={0}
-                          checked={!Boolean(options.vhostMaintenance)}
-                          onChange={() =>
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: false,
-                              })
-                            )
-                          }
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                   <td></td>
                   <td></td>
@@ -563,102 +557,68 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostHttps")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === 1}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: 1,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostHttps}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostHttps",
+                              value: Number(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={1}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === 0}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: 0,
-                              })
-                            );
-                          }}
+                        <FormControlLabel
+                          value={0}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === -1}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: -1,
-                              })
-                            );
-                          }}
+                        <FormControlLabel
+                          value={-1}
+                          control={<Radio />}
+                          label={t("default")}
                         />
-                        <span>{t("default")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
                   <th>{t("maintenance")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={1}
-                          checked={Boolean(options.vhostMaintenance)}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: true,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostMaintenance}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostMaintenance",
+                              value: JSON.parse(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={0}
-                          checked={!Boolean(options.vhostMaintenance)}
-                          onChange={() =>
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: false,
-                              })
-                            )
-                          }
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>

@@ -16,7 +16,13 @@ import { handleChangeFile } from "../../utils/readFiles";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
@@ -111,10 +117,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <label>
-                <input
-                  type="radio"
-                  className="radio"
+              <FormControl>
+                <RadioGroup
+                  row
+                  value={mandatory}
                   onChange={() =>
                     dispatch(
                       updateSamlSPMetadataExportedAttribute({
@@ -123,30 +129,19 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                       })
                     )
                   }
-                  name={`mandatory.
-                  ${key}`}
-                  checked={mandatory === "1"}
-                />
-                <span>{t("on")}</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  className="radio"
-                  onChange={() =>
-                    dispatch(
-                      updateSamlSPMetadataExportedAttribute({
-                        appName,
-                        data: updateExpAttr("exportedAttribute"),
-                      })
-                    )
-                  }
-                  name={`mandatory.
-                  ${key}`}
-                  checked={mandatory === "0"}
-                />
-                <span>{t("off")}</span>
-              </label>
+                >
+                  <FormControlLabel
+                    value={1}
+                    control={<Radio />}
+                    label={t("on")}
+                  />
+                  <FormControlLabel
+                    value={0}
+                    control={<Radio />}
+                    label={t("off")}
+                  />
+                </RadioGroup>
+              </FormControl>
             </td>
             <td>
               <select

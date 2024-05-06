@@ -13,7 +13,13 @@ import {
 } from "../../features/config/configSlice";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -177,71 +183,39 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsLogout")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                        }
+                        onChange={(e) => {
+                          dispatch(
+                            updateCASOptions({
+                              name,
+                              option: "casAppMetaDataOptionsLogout",
+                              value: Number(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
                           value={1}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            1
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: 1,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                        <FormControlLabel
                           value={0}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            0
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: 0,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                        <FormControlLabel
                           value={-1}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            -1
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: -1,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("default")}
                         />
-                        <span>{t("default")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>

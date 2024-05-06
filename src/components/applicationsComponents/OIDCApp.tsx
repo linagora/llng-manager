@@ -15,7 +15,13 @@ import {
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateExpAttr(tableID: string) {
   const attrList: Record<string, string> = {};
@@ -201,56 +207,35 @@ export function OIDCApp({ name }: { name: string }) {
                       : "⚠️"}
                   </th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="oidcRPMetaDataOptionsPublic"
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={
+                          data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsPublic
+                        }
+                        onChange={(e) => {
+                          dispatch(
+                            updateOidcMetaDataOptions({
+                              name,
+                              option: "oidcRPMetaDataOptionsPublic",
+                              value: Number(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
                           value={1}
-                          checked={Boolean(
-                            data.oidcRPMetaDataOptions[name]
-                              ? data.oidcRPMetaDataOptions[name]
-                                  .oidcRPMetaDataOptionsPublic
-                              : 0
-                          )}
-                          onChange={() => {
-                            dispatch(
-                              updateOidcMetaDataOptions({
-                                name,
-                                option: "oidcRPMetaDataOptionsPublic",
-                                value: 1,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="oidcRPMetaDataOptionsPublic"
+                        <FormControlLabel
                           value={0}
-                          checked={
-                            !Boolean(
-                              data.oidcRPMetaDataOptions[name]
-                                ? data.oidcRPMetaDataOptions[name]
-                                    .oidcRPMetaDataOptionsPublic
-                                : 0
-                            )
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateOidcMetaDataOptions({
-                                name,
-                                option: "oidcRPMetaDataOptionsPublic",
-                                value: 0,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
 

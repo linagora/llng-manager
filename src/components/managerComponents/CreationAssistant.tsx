@@ -70,7 +70,15 @@ export function CreationAssistant({
             </div>
             <div>
               <ButtonGroup variant="outlined">
-                <Button onClick={closeModal}>{t("cancel")}</Button>
+                <Button
+                  onClick={(e) => {
+                    closeModal(e);
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
                 <Button
                   onClick={() => {
                     if (name && appType !== "None") {
@@ -90,7 +98,15 @@ export function CreationAssistant({
             <MandatoryFields type={appType} name={name}></MandatoryFields>
             <div>
               <ButtonGroup variant="outlined">
-                <Button onClick={closeModal}>{t("cancel")}</Button>
+                <Button
+                  onClick={(e) => {
+                    closeModal(e);
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
                 <Button
                   variant="outlined"
                   onClick={() => {

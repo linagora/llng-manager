@@ -6,9 +6,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n";
 import "./index.css";
-import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
-import { amber, green, grey, orange, yellow } from "@mui/material/colors";
-import { Switch } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { green, grey, orange, yellow } from "@mui/material/colors";
 const theme = createTheme({
   palette: {
     primary: orange,
