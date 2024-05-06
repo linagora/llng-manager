@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getConfigAsync } from "../features/config/configSlice";
 import AppCard from "../components/managerComponents/AppCard";
@@ -7,6 +7,7 @@ import FilterToggle from "../components/managerComponents/Filters";
 import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import { useTranslation } from "react-i18next";
 import "./Manager.css";
+import { Pagination } from "@mui/material";
 
 const Manager = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Manager = () => {
   const [configPresent, setConfigPresent] = useState<boolean>(
     Boolean(config.data.metadata && !config.loading && !config.error)
   );
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (!configPresent) {
@@ -106,14 +108,50 @@ const Manager = () => {
         el1.props.info.name > el2.props.info.name ? 1 : -1
       );
     }
-
+    const pageLimit = 12;
+    const pageNb = Math.ceil(renderedData.length / pageLimit);
+    const pages = Array.from(
+      { length: Math.ceil(renderedData.length / pageLimit) },
+      (v, i) => renderedData.slice(i * pageLimit, i * pageLimit + pageLimit)
+    );
+    const handleChangePage = (event: ChangeEvent<unknown>, value: number) => {
+      setPage(value);
+    };
+    console.log(pages);
     return (
       <div className="main">
         <strong className="title"> {t("currentConfiguration")}</strong>
         <span className="cfgNum">{config.data.metadata.cfgNum}</span>
         <Issuers />
         <FilterToggle filters={filters} setFilters={setFilters} />
-        <div className="grid">{renderedData}</div>
+        <Pagination
+          sx={{
+            justifyContent: "center",
+            display: "flex",
+          }}
+          count={pageNb}
+          page={page}
+          onChange={handleChangePage}
+          color="primary"
+          size="large"
+          showFirstButton
+          showLastButton
+        />
+        <div className="grid">{pages[page - 1]}</div>
+        <Pagination
+          sx={{
+            justifyContent: "center",
+            display: "flex",
+            margin: "15px",
+          }}
+          count={pageNb}
+          page={page}
+          onChange={handleChangePage}
+          color="primary"
+          size="large"
+          showFirstButton
+          showLastButton
+        />
       </div>
     );
   }
