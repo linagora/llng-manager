@@ -140,17 +140,17 @@ function AppCard({
         }}
       >
         <div>
-          <label>
-            <span>{t("hostname")} : </span>
-            <TextField
-              size="small"
-              margin="normal"
-              variant="filled"
-              type="text"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
+          <TextField
+            sx={{ margin: "10px" }}
+            placeholder={t("hostname")}
+            size="small"
+            margin="normal"
+            variant="filled"
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+          />
           <Button
+            sx={{ verticalAlign: "-28px", margin: "15px" }}
             variant="outlined"
             onClick={() => {
               if (name) {
@@ -171,17 +171,17 @@ function AppCard({
           setAnchorEl(null);
         }}
       >
-        <label>
-          <span>{t("hostname")} : </span>
-          <TextField
-            size="small"
-            margin="normal"
-            variant="filled"
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-          />
-        </label>
+        <TextField
+          sx={{ margin: "10px" }}
+          placeholder={t("hostname")}
+          size="small"
+          margin="normal"
+          variant="filled"
+          type="text"
+          onChange={(e) => setName(e.target.value)}
+        />
         <Button
+          sx={{ verticalAlign: "-28px", margin: "10px" }}
           variant="outlined"
           onClick={() => {
             if (name) {
@@ -201,9 +201,11 @@ function AppCard({
           setAnchorEl(null);
         }}
       >
-        <label>Are You Sure?</label>
         <div>
+          <label style={{ margin: "10px" }}>Are You Sure?</label>
+
           <Button
+            sx={{ margin: "10px" }}
             variant="outlined"
             onClick={() => dispatch(delApp(info.name))}
           >
