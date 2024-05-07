@@ -7,7 +7,10 @@ import FilterToggle from "../components/managerComponents/Filters";
 import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import { useTranslation } from "react-i18next";
 import "./Manager.css";
-import { Pagination } from "@mui/material";
+import { Button, Divider, Menu, MenuItem, Pagination } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CachedIcon from "@mui/icons-material/Cached";
 
 const Manager = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +21,10 @@ const Manager = () => {
     Boolean(config.data.metadata && !config.loading && !config.error)
   );
   const [page, setPage] = useState(1);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
   useEffect(() => {
     if (!configPresent) {
       dispatch(getConfigAsync());
@@ -119,40 +125,92 @@ const Manager = () => {
     };
     console.log(pages);
     return (
-      <div className="main">
-        <strong className="title"> {t("currentConfiguration")}</strong>
-        <span className="cfgNum">{config.data.metadata.cfgNum}</span>
-        <Issuers />
-        <FilterToggle filters={filters} setFilters={setFilters} />
-        <Pagination
-          sx={{
-            justifyContent: "center",
-            display: "flex",
+      <>
+        <div className="main">
+          <strong className="title"> {t("currentConfiguration")}</strong>
+          <Button
+            variant="contained"
+            sx={{ verticalAlign: "top" }}
+            className="cfgNum"
+            color="success"
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          >
+            {config.data.metadata.cfgNum}
+          </Button>
+          <Issuers />
+          <FilterToggle filters={filters} setFilters={setFilters} />
+          <Pagination
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+            }}
+            count={pageNb}
+            page={page}
+            onChange={handleChangePage}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
+          <div className="grid">{pages[page - 1]}</div>
+          <Pagination
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+              margin: "15px",
+            }}
+            count={pageNb}
+            page={page}
+            onChange={handleChangePage}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
+        </div>
+        <Menu
+          id="del-menu"
+          anchorEl={anchorEl}
+          open={anchorEl ? true : false}
+          onClose={() => {
+            setAnchorEl(null);
           }}
-          count={pageNb}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-          size="large"
-          showFirstButton
-          showLastButton
-        />
-        <div className="grid">{pages[page - 1]}</div>
-        <Pagination
-          sx={{
-            justifyContent: "center",
-            display: "flex",
-            margin: "15px",
-          }}
-          count={pageNb}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-          size="large"
-          showFirstButton
-          showLastButton
-        />
-      </div>
+        >
+          <MenuItem
+            onClick={() => {
+              dispatch(getConfigAsync(config.data.metadata.prev));
+              setAnchorEl(null);
+            }}
+          >
+            <ArrowBackIcon sx={{ marginRight: "15px" }} />
+            {t("previous")}
+          </MenuItem>
+          <Divider />
+          <MenuItem
+            disabled={!config.data.metadata.next}
+            onClick={() => {
+              dispatch(getConfigAsync(config.data.metadata.next));
+              setAnchorEl(null);
+            }}
+          >
+            <ArrowForwardIcon sx={{ marginRight: "15px" }} />
+            {t("next")}
+          </MenuItem>{" "}
+          <Divider />
+          <MenuItem>
+            <CachedIcon
+              sx={{ marginRight: "15px" }}
+              onClick={() => {
+                dispatch(getConfigAsync());
+                setAnchorEl(null);
+              }}
+            />
+            {t("latest")}
+          </MenuItem>
+        </Menu>
+      </>
     );
   }
 };

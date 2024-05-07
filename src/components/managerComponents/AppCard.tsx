@@ -11,7 +11,6 @@ import "./AppCard.css";
 import { t } from "i18next";
 import { push } from "redux-first-history";
 import { useState } from "react";
-import Popup from "reactjs-popup";
 import { Button, ButtonGroup, Menu, TextField } from "@mui/material";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import ControlPointDuplicateOutlinedIcon from "@mui/icons-material/ControlPointDuplicateOutlined";
