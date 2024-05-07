@@ -1,4 +1,4 @@
-import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getConfigAsync } from "../features/config/configSlice";
 import AppCard from "../components/managerComponents/AppCard";
@@ -199,14 +199,14 @@ const Manager = () => {
             {t("next")}
           </MenuItem>{" "}
           <Divider />
-          <MenuItem>
-            <CachedIcon
-              sx={{ marginRight: "15px" }}
-              onClick={() => {
-                dispatch(getConfigAsync());
-                setAnchorEl(null);
-              }}
-            />
+          <MenuItem
+            onClick={() => {
+              console.log("ababab");
+              dispatch(getConfigAsync());
+              setAnchorEl(null);
+            }}
+          >
+            <CachedIcon sx={{ marginRight: "15px" }} />
             {t("latest")}
           </MenuItem>
         </Menu>
