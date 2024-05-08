@@ -1,6 +1,7 @@
 import { t } from "i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import "./AppPage.css";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   delCASAppMetaDataMacros,
   delCASexportedVars,
@@ -12,6 +13,14 @@ import {
 } from "../../features/config/configSlice";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -61,12 +70,12 @@ export function CasApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newCASexportedVars(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -78,12 +87,12 @@ export function CasApp({ name }: { name: string }) {
                 updateCASexportedVars
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newCASexportedVars(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "casAppMetaDataMacros" && (
@@ -96,12 +105,12 @@ export function CasApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newCASAppMetaDataMacros(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -113,12 +122,12 @@ export function CasApp({ name }: { name: string }) {
                 updateCASAppMetaDataMacros
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newCASAppMetaDataMacros(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "casAppMetaDataOptions" && (
@@ -129,7 +138,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsDisplayName")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -152,7 +164,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsService")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -175,77 +190,48 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsLogout")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                        }
+                        onChange={(e) => {
+                          dispatch(
+                            updateCASOptions({
+                              name,
+                              option: "casAppMetaDataOptionsLogout",
+                              value: Number(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
                           value={1}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            1
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: 1,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                        <FormControlLabel
                           value={0}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            0
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: 0,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="casAppMetaDataOptionsLogout"
+                        <FormControlLabel
                           value={-1}
-                          checked={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout ===
-                            -1
-                          }
-                          onChange={() => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: -1,
-                              })
-                            );
-                          }}
+                          control={<Radio />}
+                          label={t("default")}
                         />
-                        <span>{t("default")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
                   <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(
@@ -268,7 +254,10 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsRule")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -291,7 +280,13 @@ export function CasApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("casAppMetaDataOptionsComment")}</th>
                   <td>
-                    <textarea
+                    <TextField
+                      variant="filled"
+                      size="small"
+                      margin="normal"
+                      multiline
+                      fullWidth
+                      rows={4}
                       className="form"
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsComment

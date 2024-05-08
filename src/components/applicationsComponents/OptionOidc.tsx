@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { handleChangeFile } from "../../utils/readFiles";
@@ -15,6 +15,32 @@ import {
   updateOidcRPMetaDataScopeRules,
 } from "../../features/config/configSlice";
 import { TableVars } from "./TableVars";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  styled,
+} from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export function OptionOidc({ name }: { name: string }) {
   const [optionSelect, setOptionSelected] = useState("advanced");
@@ -47,262 +73,180 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsBypassConsent")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsBypassConsent"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsBypassConsent
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsBypassConsent",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsBypassConsent
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsBypassConsent",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsBypassConsent"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsBypassConsent
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsBypassConsent",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIDTokenForceClaims")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsIDTokenForceClaims"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsIDTokenForceClaims
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsIDTokenForceClaims",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsIDTokenForceClaims
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsIDTokenForceClaims",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsIDTokenForceClaims"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsIDTokenForceClaims
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsIDTokenForceClaims",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenJWT")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAccessTokenJWT"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenJWT
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAccessTokenJWT",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAccessTokenJWT
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAccessTokenJWT",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAccessTokenJWT"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAccessTokenJWT
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAccessTokenJWT",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenClaims")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAccessTokenClaims"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenClaims
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAccessTokenClaims",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAccessTokenClaims
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAccessTokenClaims",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAccessTokenClaims"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAccessTokenClaims
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAccessTokenClaims",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsRefreshToken")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsRefreshToken"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsRefreshToken
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsRefreshToken",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsRefreshToken
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsRefreshToken",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsRefreshToken"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsRefreshToken
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsRefreshToken",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -327,7 +271,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -363,14 +310,14 @@ export function OptionOidc({ name }: { name: string }) {
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <button
+                  <Button
                     className="plus"
                     onClick={() =>
                       dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
                     }
                   >
-                    +
-                  </button>
+                    <AddCircleIcon color="success" />
+                  </Button>
                 </tr>
               </thead>
               {TableVars(
@@ -383,14 +330,14 @@ export function OptionOidc({ name }: { name: string }) {
                 updateOidcRPMetaDataOptionsExtraClaims
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() =>
                 dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
               }
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
           <div>
             <strong className="title3">{t("oidcRPMetaDataScopeRules")}</strong>
@@ -399,12 +346,12 @@ export function OptionOidc({ name }: { name: string }) {
                 <tr>
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
-                  <button
+                  <Button
                     className="plus"
                     onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
                   >
-                    +
-                  </button>
+                    <AddCircleIcon color="success" />
+                  </Button>
                 </tr>
               </thead>
               {TableVars(
@@ -417,12 +364,12 @@ export function OptionOidc({ name }: { name: string }) {
                 updateOidcRPMetaDataScopeRules
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         </div>
       )}
@@ -432,291 +379,252 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsIDTokenSignAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsIDTokenSignAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsIDTokenSignAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsIDTokenSignAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsIDTokenSignAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsIDTokenSignAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsIDTokenSignAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsIDTokenSignAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsIDTokenSignAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenSignAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAccessTokenSignAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsAccessTokenSignAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsAccessTokenSignAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsAccessTokenSignAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenSignAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsAccessTokenSignAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAccessTokenSignAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsAccessTokenSignAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserInfoSignAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsUserInfoSignAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsUserInfoSignAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsUserInfoSignAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("oidcRPMetaDataOptionsUserInfoSignAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsUserInfoSignAlg
                     }
-                  )}
-                </select>
+                    displayEmpty
+                    label={t("oidcRPMetaDataOptionsUserInfoSignAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsUserInfoSignAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsUserInfoSignAlg.select.map(
+                      (el) => {
+                        return <MenuItem value={el.k}>{t(el.v)}</MenuItem>;
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsRequirePKCE")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsRequirePKCE"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsRequirePKCE
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsRequirePKCE",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsRequirePKCE
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsRequirePKCE",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsRequirePKCE"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsRequirePKCE
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsRequirePKCE",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAllowOffline")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowOffline"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAllowOffline
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAllowOffline",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAllowOffline
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAllowOffline",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowOffline"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAllowOffline
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAllowOffline",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAllowPasswordGrant")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowPasswordGrant"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAllowPasswordGrant
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsAllowPasswordGrant",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAllowPasswordGrant
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAllowPasswordGrant",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowPasswordGrant"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAllowPasswordGrant
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsAllowPasswordGrant",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAllowClientCredentialsGrant")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowClientCredentialsGrant"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option:
+                            "oidcRPMetaDataOptionsAllowClientCredentialsGrant",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAllowClientCredentialsGrant
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option:
-                              "oidcRPMetaDataOptionsAllowClientCredentialsGrant",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsAllowClientCredentialsGrant"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAllowClientCredentialsGrant
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option:
-                              "oidcRPMetaDataOptionsAllowClientCredentialsGrant",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -741,7 +649,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -766,7 +677,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsRule")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -790,210 +704,298 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option:
+                            "oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg.select.map(
+                      (el) => {
+                        return <MenuItem value={el.k}>{t(el.v)}</MenuItem>;
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option:
-                          "oidcRPMetaDataOptionsAccessTokenEncContentEncAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsAccessTokenEncContentEncAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
                     }
-                  )}
-                </select>
+                    label={t(
+                      "oidcRPMetaDataOptionsAccessTokenEncContentEncAlg"
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option:
+                            "oidcRPMetaDataOptionsAccessTokenEncContentEncAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsAccessTokenEncContentEncAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
                     }
-                  )}
-                </select>
+                    displayEmpty
+                    defaultValue=""
+                    label={t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsIdTokenEncContentEncAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsIdTokenEncContentEncAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option:
+                            "oidcRPMetaDataOptionsIdTokenEncContentEncAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsIdTokenEncContentEncAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
                     }
-                  )}
-                </select>
+                    displayEmpty
+                    defaultValue=""
+                    label={t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsUserInfoEncContentEncAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsUserInfoEncContentEncAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option:
+                            "oidcRPMetaDataOptionsUserInfoEncContentEncAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsUserInfoEncContentEncAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsLogoutEncKeyMgtAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsLogoutEncKeyMgtAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
                     }
-                  )}
-                </select>
+                    displayEmpty
+                    defaultValue=""
+                    label={t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsLogoutEncKeyMgtAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsLogoutEncKeyMgtAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsLogoutEncContentEncAlg
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsLogoutEncContentEncAlg",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsLogoutEncContentEncAlg.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutEncContentEncAlg
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsLogoutEncContentEncAlg",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsLogoutEncContentEncAlg.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
           </tbody>
@@ -1005,7 +1007,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -1030,7 +1035,13 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th className="title2">{t("oidcRPMetaDataOptionsJwks")}</th>
               <div>
-                <textarea
+                <TextField
+                  size="small"
+                  margin="normal"
+                  multiline
+                  variant="filled"
+                  fullWidth
+                  rows={4}
                   placeholder="oidcRPMetaDataOptionsJwks"
                   value={String(
                     name
@@ -1052,24 +1063,38 @@ export function OptionOidc({ name }: { name: string }) {
                       })
                     );
                   }}
-                ></textarea>
+                />
               </div>
               <div>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    handleChangeFile(e).then((fileContent) => {
-                      console.log("File content:", fileContent);
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsJwks",
-                          value: fileContent,
-                        })
-                      );
-                    });
-                  }}
-                />
+                <Button
+                  sx={{ margin: "5px" }}
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  {t("upload")}
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target instanceof HTMLInputElement) {
+                        handleChangeFile(
+                          e as ChangeEvent<HTMLInputElement>
+                        ).then((fileContent) => {
+                          console.log("File content:", fileContent);
+                          dispatch(
+                            updateOidcMetaDataOptions({
+                              name,
+                              option: "oidcRPMetaDataOptionsJwks",
+                              value: fileContent,
+                            })
+                          );
+                        });
+                      }
+                    }}
+                  />
+                </Button>
               </div>
               <URLLoader
                 appName={name}
@@ -1085,7 +1110,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1110,7 +1138,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1134,7 +1165,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1158,7 +1192,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="number"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1188,137 +1225,114 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutBypassConfirm")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsLogoutBypassConfirm"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutBypassConfirm
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsLogoutBypassConfirm",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsLogoutBypassConfirm
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsLogoutBypassConfirm",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsLogoutBypassConfirm"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsLogoutBypassConfirm
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option: "oidcRPMetaDataOptionsLogoutBypassConfirm",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutSessionRequired")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsLogoutSessionRequired"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutSessionRequired
+                    }
+                    onChange={(e) => {
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsLogoutSessionRequired",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsLogoutSessionRequired
-                      )}
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option:
-                              "oidcRPMetaDataOptionsLogoutSessionRequired",
-                            value: 1,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="oidcRPMetaDataOptionsLogoutSessionRequired"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsLogoutSessionRequired
-                        )
-                      }
-                      onChange={() => {
-                        dispatch(
-                          updateOidcMetaDataOptions({
-                            name,
-                            option:
-                              "oidcRPMetaDataOptionsLogoutSessionRequired",
-                            value: 0,
-                          })
-                        );
-                      }}
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutType")}</th>
               <td>
-                <select
-                  value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsLogoutType
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsLogoutType",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                >
-                  {attributes.oidcRPMetaDataOptionsLogoutType.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel>
+                    {t("oidcRPMetaDataOptionsLogoutType")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutType
                     }
-                  )}
-                </select>
+                    label={t("oidcRPMetaDataOptionsLogoutType")}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsLogoutType",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.oidcRPMetaDataOptionsLogoutType.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="text"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1342,7 +1356,10 @@ export function OptionOidc({ name }: { name: string }) {
             <tr>
               <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   type="text"
                   value={String(
                     data.oidcRPMetaDataOptions[name]
@@ -1367,7 +1384,13 @@ export function OptionOidc({ name }: { name: string }) {
         </table>
       )}
       {optionSelect === "comment" && (
-        <textarea
+        <TextField
+          size="small"
+          margin="normal"
+          multiline
+          variant="filled"
+          fullWidth
+          rows={4}
           value={String(
             data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
               ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment

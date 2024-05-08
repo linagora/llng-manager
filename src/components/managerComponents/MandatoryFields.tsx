@@ -9,6 +9,29 @@ import {
 } from "../../features/config/configSlice";
 import { URLLoader } from "./URLLoader";
 import { updateSamlSPMetadata } from "../../features/config/configSlice";
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  TextField,
+  Button,
+  styled,
+} from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { ChangeEvent } from "react";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 export function MandatoryFields({
   type,
   name,
@@ -24,7 +47,13 @@ export function MandatoryFields({
       return (
         <div className="mandatoryField">
           <div>
-            <textarea
+            <TextField
+              size="small"
+              margin="normal"
+              multiline
+              variant="filled"
+              fullWidth
+              rows={4}
               placeholder="XML MetaData"
               onChange={(e) =>
                 dispatch(
@@ -41,23 +70,37 @@ export function MandatoryFields({
                     : undefined
                   : undefined
               }
-            ></textarea>
+            />
           </div>
           <div>
-            <input
-              type="file"
-              onChange={(e) => {
-                handleChangeFile(e).then((fileContent) => {
-                  console.log("File content:", fileContent);
-                  dispatch(
-                    updateSamlSPMetadata({
-                      name: name ? name : "",
-                      data: fileContent,
-                    })
-                  );
-                });
-              }}
-            />
+            <Button
+              sx={{ margin: "5px" }}
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+            >
+              {t("upload")}
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => {
+                  if (e.target instanceof HTMLInputElement) {
+                    handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                      (fileContent) => {
+                        console.log("File content:", fileContent);
+                        dispatch(
+                          updateSamlSPMetadata({
+                            name: name ? name : "",
+                            data: fileContent,
+                          })
+                        );
+                      }
+                    );
+                  }
+                }}
+              />
+            </Button>
           </div>
           <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
         </div>
@@ -68,7 +111,10 @@ export function MandatoryFields({
           <div>
             <th>{t("oidcRPMetaDataOptionsClientID")}</th>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 type="text"
                 placeholder={t("oidcRPMetaDataOptionsClientID")}
                 value={String(
@@ -93,7 +139,10 @@ export function MandatoryFields({
           <div>
             <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 type="password"
                 placeholder={t("oidcRPMetaDataOptionsClientSecret")}
                 value={String(
@@ -121,56 +170,31 @@ export function MandatoryFields({
           <div>
             <th>{t("oidcRPMetaDataOptionsPublic")}</th>
             <td>
-              <label>
-                <input
-                  type="radio"
-                  name="Client public"
-                  checked={
-                    name
-                      ? data.oidcRPMetaDataOptions[name]
-                        ? Boolean(
-                            data.oidcRPMetaDataOptions[name]
-                              .oidcRPMetaDataOptionsPublic
-                          )
-                        : false
-                      : false
-                  }
-                  onChange={() => {
+              <FormControl>
+                <RadioGroup
+                  row
+                  value={data.samlSPMetaDataOptionsOneTimeUse}
+                  onChange={(e) => {
                     dispatch(
                       updateOIDCPublicClient({
                         name: name ? name : "",
-                        publicClient: 1,
+                        publicClient: Number(e.target.value),
                       })
                     );
                   }}
-                />
-                <span>{t("on")}</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="Client public"
-                  checked={
-                    name
-                      ? data.oidcRPMetaDataOptions[name]
-                        ? !Boolean(
-                            data.oidcRPMetaDataOptions[name]
-                              .oidcRPMetaDataOptionsPublic
-                          )
-                        : false
-                      : false
-                  }
-                  onChange={() => {
-                    dispatch(
-                      updateOIDCPublicClient({
-                        name: name ? name : "",
-                        publicClient: 0,
-                      })
-                    );
-                  }}
-                />
-                <span>{t("off")}</span>
-              </label>
+                >
+                  <FormControlLabel
+                    value={1}
+                    control={<Radio />}
+                    label={t("on")}
+                  />
+                  <FormControlLabel
+                    value={0}
+                    control={<Radio />}
+                    label={t("off")}
+                  />
+                </RadioGroup>
+              </FormControl>
             </td>
           </div>
           <div></div>

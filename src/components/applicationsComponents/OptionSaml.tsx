@@ -3,6 +3,16 @@ import { useState } from "react";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
+import {
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 export function OptionSaml({ name }: { name: string }) {
   const data = useAppSelector((state) =>
@@ -37,34 +47,44 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsNameIDFormat)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsNameIDFormat",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
-                    (el) => {
-                      return (
-                        <option key={el.k} value={el.k}>
-                          {t(el.v)}
-                        </option>
-                      );
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsNameIDFormat")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsNameIDFormat}
+                    label={t("samlSPMetaDataOptionsNameIDFormat")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsNameIDFormat",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -87,50 +107,41 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsOneTimeUse")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsOneTimeUse"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsOneTimeUse}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsOneTimeUse",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(data.samlSPMetaDataOptionsOneTimeUse)}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsOneTimeUse",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsOneTimeUse"
+                    <FormControlLabel
                       value={0}
-                      checked={!Boolean(data.samlSPMetaDataOptionsOneTimeUse)}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsOneTimeUse",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(
@@ -152,7 +163,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsNotOnOrAfterTimeout)}
@@ -171,44 +185,32 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsForceUTF8")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsForceUTF8"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsForceUTF8}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsForceUTF8",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(data.samlSPMetaDataOptionsForceUTF8)}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsForceUTF8",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsForceUTF8"
+                    <FormControlLabel
                       value={0}
-                      checked={!Boolean(data.samlSPMetaDataOptionsForceUTF8)}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsForceUTF8",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
           </tbody>
@@ -220,269 +222,200 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsSignatureMethod)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsSignatureMethod",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsSignatureMethod")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsSignatureMethod}
+                    label={t("samlSPMetaDataOptionsSignatureMethod")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignatureMethod",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsSignSSOMessage")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSSOMessage"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsSignSSOMessage}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignSSOMessage",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={data.samlSPMetaDataOptionsSignSSOMessage === 1}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSSOMessage",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSSOMessage"
+                    <FormControlLabel
                       value={0}
-                      checked={data.samlSPMetaDataOptionsSignSSOMessage === 0}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSSOMessage",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSSOMessage"
-                      value={0}
-                      checked={data.samlSPMetaDataOptionsSignSSOMessage === -1}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSSOMessage",
-                            value: -1,
-                          })
-                        )
-                      }
-                    />
-                    <span>{t("default")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsCheckSSOMessageSignature")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsCheckSSOMessageSignature"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsCheckSSOMessageSignature}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsCheckSSOMessageSignature",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={
-                        data.samlSPMetaDataOptionsCheckSSOMessageSignature === 1
-                      }
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsCheckSSOMessageSignature",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsCheckSSOMessageSignature"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        data.samlSPMetaDataOptionsCheckSSOMessageSignature === 0
-                      }
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsCheckSSOMessageSignature",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsSignatureMethod)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsSignatureMethod",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsSignatureMethod")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsSignatureMethod}
+                    label={t("samlSPMetaDataOptionsSignatureMethod")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignatureMethod",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsSignSLOMessage")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSLOMessage"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsSignSLOMessage}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsSignSLOMessage",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={data.samlSPMetaDataOptionsSignSLOMessage === 1}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSLOMessage",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSLOMessage"
+                    <FormControlLabel
                       value={0}
-                      checked={data.samlSPMetaDataOptionsSignSLOMessage === 0}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSLOMessage",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsSignSLOMessage"
+                    <FormControlLabel
                       value={-1}
-                      checked={data.samlSPMetaDataOptionsSignSLOMessage === -1}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option: "samlSPMetaDataOptionsSignSLOMessage",
-                            value: -1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("default")}
                     />
-                    <span>{t("default")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsCheckSLOMessageSignature")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsCheckSLOMessageSignature"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsCheckSLOMessageSignature}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsCheckSLOMessageSignature",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.samlSPMetaDataOptionsCheckSLOMessageSignature
-                      )}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsCheckSLOMessageSignature",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsCheckSLOMessageSignature"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.samlSPMetaDataOptionsCheckSLOMessageSignature
-                        )
-                      }
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsCheckSLOMessageSignature",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
           </tbody>
@@ -494,81 +427,75 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
               <td>
-                <select
-                  value={String(data.samlSPMetaDataOptionsEncryptionMode)}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsEncryptionMode",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsEncryptionMode")}
+                  </InputLabel>
+                  <Select
+                    value={data.samlSPMetaDataOptionsEncryptionMode}
+                    label={t("samlSPMetaDataOptionsEncryptionMode")}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsEncryptionMode",
+                          value: String(e.target.value),
+                        })
+                      )
                     }
-                  )}
-                </select>
+                  >
+                    {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsEnableIDPInitiatedURL")}</th>
               <td>
-                <div>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsEnableIDPInitiatedURL"
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={data.samlSPMetaDataOptionsEnableIDPInitiatedURL}
+                    onChange={(e) => {
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option: "samlSPMetaDataOptionsEnableIDPInitiatedURL",
+                          value: Number(e.target.value),
+                        })
+                      );
+                    }}
+                  >
+                    <FormControlLabel
                       value={1}
-                      checked={Boolean(
-                        data.samlSPMetaDataOptionsEnableIDPInitiatedURL
-                      )}
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsEnableIDPInitiatedURL",
-                            value: 1,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("on")}
                     />
-                    <span>{t("on")}</span>
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="samlSPMetaDataOptionsEnableIDPInitiatedURL"
+                    <FormControlLabel
                       value={0}
-                      checked={
-                        !Boolean(
-                          data.samlSPMetaDataOptionsEnableIDPInitiatedURL
-                        )
-                      }
-                      onChange={() =>
-                        dispatch(
-                          updateSamlMetaDataOptions({
-                            name,
-                            option:
-                              "samlSPMetaDataOptionsEnableIDPInitiatedURL",
-                            value: 0,
-                          })
-                        )
-                      }
+                      control={<Radio />}
+                      label={t("off")}
                     />
-                    <span>{t("off")}</span>
-                  </label>
-                </div>
+                  </RadioGroup>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(data.samlSPMetaDataOptionsAuthnLevel)}
@@ -587,7 +514,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsRule")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="number"
                   value={String(data.samlSPMetaDataOptionsRule)}
@@ -612,7 +542,10 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
               <td>
-                <input
+                <TextField
+                  size="small"
+                  margin="normal"
+                  variant="filled"
                   className="form"
                   type="text"
                   value={String(
@@ -635,60 +568,92 @@ export function OptionSaml({ name }: { name: string }) {
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationOptionalAttributes")}</th>
               <td>
-                <select
-                  value={String(
-                    data.samlSPMetaDataOptionsFederationOptionalAttributes
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option:
-                          "samlSPMetaDataOptionsFederationOptionalAttributes",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.samlSPMetaDataOptionsFederationOptionalAttributes
                     }
-                  )}
-                </select>
+                    label={t(
+                      "samlSPMetaDataOptionsFederationOptionalAttributes"
+                    )}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsFederationOptionalAttributes",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
             <tr>
               <th>{t("samlSPMetaDataOptionsFederationRequiredAttributes")}</th>
               <td>
-                <select
-                  value={String(
-                    data.samlSPMetaDataOptionsFederationRequiredAttributes
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option:
-                          "samlSPMetaDataOptionsFederationRequiredAttributes",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
-                    (el) => {
-                      return <option value={el.k}>{t(el.v)}</option>;
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                  <InputLabel shrink>
+                    {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
+                  </InputLabel>
+                  <Select
+                    value={
+                      data.samlSPMetaDataOptionsFederationRequiredAttributes
                     }
-                  )}
-                </select>
+                    label={t(
+                      "samlSPMetaDataOptionsFederationRequiredAttributes"
+                    )}
+                    displayEmpty
+                    onChange={(e) =>
+                      dispatch(
+                        updateSamlMetaDataOptions({
+                          name,
+                          option:
+                            "samlSPMetaDataOptionsFederationRequiredAttributes",
+                          value: String(e.target.value),
+                        })
+                      )
+                    }
+                  >
+                    {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
+                      (el) => {
+                        return (
+                          <MenuItem key={el.k} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
+                      }
+                    )}
+                  </Select>
+                </FormControl>
               </td>
             </tr>
           </tbody>
         </table>
       )}
       {optionSelect === "comment" && (
-        <textarea
+        <TextField
+          size="small"
+          margin="normal"
+          multiline
+          variant="filled"
+          fullWidth
+          rows={4}
           value={String(
             data.samlSPMetaDataOptionsComment
               ? data.samlSPMetaDataOptionsComment

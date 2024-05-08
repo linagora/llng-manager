@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Popup from "reactjs-popup";
 import { CreationAssistant } from "./CreationAssistant";
 import "./AddApp.css";
-
+import { Dialog, DialogContent, DialogTitle, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { t } from "i18next";
 function AddApp() {
   const [open, setOpen] = useState(false);
   const closeModal = () => {
@@ -10,24 +11,30 @@ function AddApp() {
   };
   return (
     <div>
-      <button
-        className="addButton"
+      <Fab
+        style={{ position: "fixed", bottom: "2%", right: "2%" }}
+        color="primary"
         onClick={() => {
           setOpen(!open);
         }}
-      ></button>
-      <Popup
-        open={open}
-        position={"center center"}
-        modal
-        lockScroll
-        overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
-        closeOnDocumentClick={false}
-        closeOnEscape={false}
-        onClose={closeModal}
       >
-        <CreationAssistant closeModal={closeModal} />
-      </Popup>
+        <AddIcon fontSize="large" />
+      </Fab>
+      <Dialog
+        fullWidth
+        open={open}
+        onClose={(event, reason) => {
+          if (reason !== "backdropClick" && reason !== "escapeKeyDown") {
+            closeModal();
+          }
+        }}
+        disableEscapeKeyDown
+      >
+        <DialogTitle>{t("newApp")}</DialogTitle>
+        <DialogContent>
+          <CreationAssistant closeModal={closeModal} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

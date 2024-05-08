@@ -977,4 +977,5 @@ export interface MetaData {
   cfgNum: number;
   cfgVersion: string;
   prev: number;
+  next?: number;
 }

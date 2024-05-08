@@ -5,6 +5,15 @@ import { t } from "i18next";
 import attributes from "../../static/attributes.json";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { delApp, newApp } from "../../features/config/configSlice";
+import {
+  Button,
+  ButtonGroup,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 export function CreationAssistant({
   closeModal,
@@ -19,56 +28,46 @@ export function CreationAssistant({
 
   return (
     <div className="modal">
-      <button
-        className="close"
-        onClick={(e) => {
-          closeModal(e);
-          dispatch(delApp(name));
-        }}
-      >
-        &times;
-      </button>
       <div className="createAssistant">
-        <div className="title">{t("newApp")}</div>
-
         {page === 0 && (
           <>
             <div>
               <div>
                 <strong className="title2">{t("type")}</strong>
-                <select
-                  name="type"
-                  id="applicationType"
-                  onChange={(e) => {
-                    setAppType(e.target.value);
-                    if (e.target.value === "native") {
-                      setName(attributes.virtualHostName.default);
-                    }
-                    if (e.target.value === "saml") {
-                      setName("sp-example");
-                    }
-                    if (e.target.value === "oidc") {
-                      setName("rp-example");
-                    }
-                    if (e.target.value === "cas") {
-                      setName("app-example");
-                    }
-                  }}
-                  defaultValue={""}
-                >
-                  <option value="" disabled hidden>
-                    {t("chooseType")}
-                  </option>
-                  <option value="native">Native</option>
-                  <option value="saml">{t("saml")}</option>
-                  <option value="oidc">{t("OpenIDConnect")}</option>
-                  <option value="cas">{t("issuerDBCAS")}</option>
-                </select>
+                <FormControl sx={{ m: 1, minWidth: 150 }} id="applicationType">
+                  <InputLabel>{t("chooseType")}</InputLabel>
+                  <Select
+                    label={t("chooseType")}
+                    onChange={(e) => {
+                      setAppType(String(e.target.value));
+                      if (e.target.value === "native") {
+                        setName(attributes.virtualHostName.default);
+                      }
+                      if (e.target.value === "saml") {
+                        setName("sp-example");
+                      }
+                      if (e.target.value === "oidc") {
+                        setName("rp-example");
+                      }
+                      if (e.target.value === "cas") {
+                        setName("app-example");
+                      }
+                    }}
+                  >
+                    <MenuItem value="native">Native</MenuItem>
+                    <MenuItem value="saml">{t("saml")}</MenuItem>
+                    <MenuItem value="oidc">{t("OpenIDConnect")}</MenuItem>
+                    <MenuItem value="cas">{t("issuerDBCAS")}</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
               <div>
                 <div>
                   <strong className="title2">{t("name")} </strong>
-                  <input
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    variant="filled"
                     type="text"
                     value={name}
                     onChange={(e) => {
@@ -79,51 +78,77 @@ export function CreationAssistant({
               </div>
             </div>
             <div>
-              <button
-                onClick={() => {
-                  if (name && appType !== "None") {
-                    setPage(page + 1);
-                    dispatch(newApp({ name, type: appType }));
-                  }
-                }}
-              >
-                {t("next")}
-              </button>
+              <ButtonGroup variant="outlined">
+                <Button
+                  onClick={(e) => {
+                    closeModal(e);
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (name && appType !== "None") {
+                      setPage(page + 1);
+                      dispatch(newApp({ name, type: appType }));
+                    }
+                  }}
+                >
+                  {t("next")}
+                </Button>
+              </ButtonGroup>
             </div>
           </>
         )}
         {page === 1 && (appType === "saml" || appType === "oidc") && (
           <>
             <MandatoryFields type={appType} name={name}></MandatoryFields>
-            <button
-              onClick={() => {
-                setPage(page - 1);
-                dispatch(delApp(name));
-              }}
-            >
-              {t("previous")}
-            </button>
-            <button
-              onClick={() => {
-                console.log(
-                  data.oidcRPMetaDataOptions[name]
-                    ?.oidcRPMetaDataOptionsClientID !== undefined,
-                  data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
-                );
-                if (
-                  data.oidcRPMetaDataOptions[name]
-                    ? data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsClientID !== ""
-                    : false || data.samlSPMetaDataXML[name]
-                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
-                    : false
-                ) {
-                  setPage(page + 1);
-                }
-              }}
-            >
-              {t("next")}
-            </button>
+            <div>
+              <ButtonGroup variant="outlined">
+                <Button
+                  onClick={(e) => {
+                    closeModal(e);
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("cancel")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setPage(page - 1);
+                    dispatch(delApp(name));
+                  }}
+                >
+                  {t("previous")}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    console.log(
+                      data.oidcRPMetaDataOptions[name]
+                        ?.oidcRPMetaDataOptionsClientID !== undefined,
+                      data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
+                    );
+                    if (
+                      data.oidcRPMetaDataOptions[name]
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsClientID !== ""
+                        : false || data.samlSPMetaDataXML[name]
+                        ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
+                        : false
+                    ) {
+                      setPage(page + 1);
+                    }
+                  }}
+                >
+                  {t("next")}
+                </Button>
+              </ButtonGroup>
+            </div>
           </>
         )}
         {((page === 1 && !(appType === "saml" || appType === "oidc")) ||
@@ -136,7 +161,9 @@ export function CreationAssistant({
               </span>
             </div>
             <div>
-              <button onClick={closeModal}>{"confirm"}</button>
+              <Button variant="outlined" onClick={closeModal}>
+                {"confirm"}
+              </Button>
             </div>
           </>
         )}

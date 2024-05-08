@@ -13,6 +13,7 @@
   display: grid;
   justify-content: center;
   margin: 2%;
+  margin-bottom: 75px;
   grid-gap: 1%;
   grid-auto-flow: row;
   align-items: center;

@@ -17,8 +17,8 @@ export const initialState: ConfigState = {
 
 export const getConfigAsync = createAsyncThunk(
   "config/fetchConfig",
-  async (): Promise<Object> => {
-    const configMetadata = await getMetadataConfig();
+  async (num?: number): Promise<Object> => {
+    const configMetadata = await getMetadataConfig(num ? num : undefined);
     const response = await getConfig(configMetadata.data.cfgNum);
     return { metadata: configMetadata.data, config: response.data };
   }

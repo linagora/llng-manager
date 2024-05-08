@@ -15,9 +15,36 @@ import {
 import { handleChangeFile } from "../../utils/readFiles";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  styled,
+} from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-function updateExpAttr(tableID: string) {
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+function updateExpAttr(tableID: string, key?: string, updatedFormat?: string) {
   const attrList: Record<string, string> = {};
 
   const table = document.getElementById(tableID);
@@ -28,8 +55,10 @@ function updateExpAttr(tableID: string) {
       const name = cells[0].querySelector("input")?.value;
       const attName = cells[1].querySelector("input")?.value;
       const friendlyName = cells[2].querySelector("input")?.value;
-      const format = cells[4].querySelector("select")?.value;
-
+      let format = cells[4].querySelector("input")?.value;
+      if (key === name && updatedFormat) {
+        format = updatedFormat;
+      }
       let mandatory: number = 0;
       cells[3].querySelectorAll("label").forEach((e) => {
         if (e.innerText === t("on")) {
@@ -63,7 +92,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -78,7 +110,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -93,7 +128,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -108,10 +146,10 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
               />
             </td>
             <td>
-              <label>
-                <input
-                  type="radio"
-                  className="radio"
+              <FormControl>
+                <RadioGroup
+                  row
+                  value={mandatory}
                   onChange={() =>
                     dispatch(
                       updateSamlSPMetadataExportedAttribute({
@@ -120,58 +158,55 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                       })
                     )
                   }
-                  name={`mandatory.
-                  ${key}`}
-                  checked={mandatory === "1"}
-                />
-                <span>{t("on")}</span>
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  className="radio"
-                  onChange={() =>
-                    dispatch(
-                      updateSamlSPMetadataExportedAttribute({
-                        appName,
-                        data: updateExpAttr("exportedAttribute"),
-                      })
-                    )
-                  }
-                  name={`mandatory.
-                  ${key}`}
-                  checked={mandatory === "0"}
-                />
-                <span>{t("off")}</span>
-              </label>
+                >
+                  <FormControlLabel
+                    value={1}
+                    control={<Radio />}
+                    label={t("on")}
+                  />
+                  <FormControlLabel
+                    value={0}
+                    control={<Radio />}
+                    label={t("off")}
+                  />
+                </RadioGroup>
+              </FormControl>
             </td>
             <td>
-              <select
-                name="format"
-                value={String(format)}
-                onChange={() =>
-                  dispatch(
-                    updateSamlSPMetadataExportedAttribute({
-                      appName,
-                      data: updateExpAttr("exportedAttribute"),
-                    })
-                  )
-                }
-              >
-                {attributes.samlSPMetaDataExportedAttributes.select.map(
-                  (type) => {
-                    return (
-                      <option key={type.k} value={`${type.k}`}>
-                        {t(type.v)}
-                      </option>
-                    );
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel shrink>{t("format")}</InputLabel>
+                <Select
+                  value={format}
+                  label={t("format")}
+                  displayEmpty
+                  onChange={(e) =>
+                    dispatch(
+                      updateSamlSPMetadataExportedAttribute({
+                        appName,
+                        data: updateExpAttr(
+                          "exportedAttribute",
+                          key,
+                          e.target.value
+                        ),
+                      })
+                    )
                   }
-                )}
-              </select>
+                >
+                  {attributes.samlSPMetaDataExportedAttributes.select.map(
+                    (el) => {
+                      return (
+                        <MenuItem key={el.k} value={el.k}>
+                          {t(el.v)}
+                        </MenuItem>
+                      );
+                    }
+                  )}
+                </Select>
+              </FormControl>
             </td>
 
             <td>
-              <button
+              <Button
                 onClick={() => {
                   dispatch(
                     delSamlSPMetadataExportedAttribute({ appName, key })
@@ -179,8 +214,8 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                 }}
                 className="minus"
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -220,7 +255,7 @@ export function SAMLApp({ name }: { name: string }) {
         {optionSelected === "samlSPMetaDataXML" && (
           <div className="box">
             <strong className="title2">
-              {t("samlSPMetaDataXML")}{" "}
+              {t("samlSPMetaDataXML")}
               {name
                 ? data.samlSPMetaDataXML[name]
                   ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
@@ -230,7 +265,13 @@ export function SAMLApp({ name }: { name: string }) {
                 : "⚠️"}
             </strong>
             <div>
-              <textarea
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
+                multiline
+                fullWidth
+                rows={4}
                 placeholder="XML MetaData"
                 onChange={(e) =>
                   dispatch(
@@ -247,23 +288,37 @@ export function SAMLApp({ name }: { name: string }) {
                       : undefined
                     : undefined
                 }
-              ></textarea>
+              />
             </div>
             <div>
-              <input
-                type="file"
-                onChange={(e) => {
-                  handleChangeFile(e).then((fileContent) => {
-                    console.log("File content:", fileContent);
-                    dispatch(
-                      updateSamlSPMetadata({
-                        name: name ? name : "",
-                        data: fileContent,
-                      })
-                    );
-                  });
-                }}
-              />
+              <Button
+                sx={{ margin: "5px" }}
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                {t("upload")}
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(e) => {
+                    if (e.target instanceof HTMLInputElement) {
+                      handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
+                        (fileContent) => {
+                          console.log("File content:", fileContent);
+                          dispatch(
+                            updateSamlSPMetadata({
+                              name: name ? name : "",
+                              data: fileContent,
+                            })
+                          );
+                        }
+                      );
+                    }
+                  }}
+                />
+              </Button>
             </div>
             <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
           </div>
@@ -284,14 +339,13 @@ export function SAMLApp({ name }: { name: string }) {
                   <th>{t("mandatory")}</th>
                   <th>{t("format")}</th>
                   <th>
-                    <button
-                      className="plus"
+                    <Button
                       onClick={() =>
                         dispatch(newSamlSPMetadataExportedAttribute(name))
                       }
-                    >
-                      +
-                    </button>
+                      color="success"
+                      startIcon={<AddCircleIcon />}
+                    />
                   </th>
                 </tr>
               </thead>
@@ -302,12 +356,12 @@ export function SAMLApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "samlSPMetaDataMacros" && (
@@ -320,12 +374,12 @@ export function SAMLApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -339,12 +393,12 @@ export function SAMLApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "samlSPMetaDataOptions" && (

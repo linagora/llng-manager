@@ -58,6 +58,7 @@ tr:nth-child(even) {
 }
 
 table {
+  margin-top: 2%;
   border: 1px solid #acacac;
   width: 100%;
   max-width: 100%;

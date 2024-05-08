@@ -6,43 +6,10 @@
   cursor: pointer;
   border: 2px solid coral;
   border-radius: 50%;
-  /* Mittig */
   bottom: 2%;
   right: 2%;
 }
 
-.addButton:after {
-  content: "";
-  position: absolute;
-  transform: translate(-50%, -50%);
-  height: 4px;
-  width: 50%;
-  background: coral;
-  top: 50%;
-  left: 50%;
-}
-
-.addButton:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: coral;
-  height: 50%;
-  width: 4px;
-}
-
-.addButton:hover:before,
-.addButton:hover:after {
-  background: #fff;
-  transition: 0.2s;
-}
-
-.addButton:hover {
-  background-color: coral;
-  transition: 0.2s;
-}
 .modal > .close {
   cursor: pointer;
   position: absolute;

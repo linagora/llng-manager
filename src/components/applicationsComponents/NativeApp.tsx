@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   transformJsonToList,
@@ -22,7 +23,18 @@ import {
 import { useDispatch } from "react-redux";
 import { TableVars } from "./TableVars";
 import { useState } from "react";
-
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+} from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -97,7 +109,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -112,7 +127,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -127,7 +145,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 onChange={() =>
                   dispatch(
@@ -142,7 +163,10 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 type="number"
                 className="authLevel"
                 onChange={() =>
@@ -157,7 +181,7 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
               />
             </td>
             <td>
-              <button
+              <Button
                 onClick={() => {
                   dispatch(
                     delLocationRule({
@@ -170,8 +194,8 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
                 }}
                 className="minus"
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -179,10 +203,21 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
       <tr>
         <th>{t("defaultRule")}</th>
         <td>
-          <input className="form" type="text" value={"default"} readOnly />
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
+            className="form"
+            type="text"
+            value={"default"}
+            disabled
+          />
         </td>
         <td>
-          <input
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
             className="form"
             type="text"
             onChange={() =>
@@ -197,15 +232,23 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
           />
         </td>
         <td>
-          <input type="text" value={"default"} className="authLevel" readOnly />
+          <TextField
+            size="small"
+            margin="normal"
+            variant="filled"
+            type="text"
+            value={"default"}
+            className="authLevel"
+            disabled
+          />
         </td>
         <td>
-          <button
+          <Button
             className="plus"
             onClick={() => dispatch(newLocationRule(appName))}
           >
-            +
-          </button>
+            <AddCircleIcon color="success" />
+          </Button>
         </td>
       </tr>
     </tbody>
@@ -225,7 +268,10 @@ function NativPost(
         return (
           <tr key={i}>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={link}
@@ -240,7 +286,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].target}
@@ -255,7 +304,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].jqueryUrl}
@@ -270,7 +322,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].formSelector}
@@ -285,7 +340,10 @@ function NativPost(
               />
             </td>
             <td>
-              <input
+              <TextField
+                size="small"
+                margin="normal"
+                variant="filled"
                 className="form"
                 type="text"
                 value={post[link].buttonSelector}
@@ -300,14 +358,14 @@ function NativPost(
               />
             </td>
             <td>
-              <button
+              <Button
                 className="minus"
                 onClick={() =>
                   dispatch(delVhostPost({ name: appName, key: link }))
                 }
               >
-                -
-              </button>
+                <RemoveCircleIcon color="error" />
+              </Button>
             </td>
           </tr>
         );
@@ -357,17 +415,29 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
+                  <th>{t("vhostComment")}</th>
+                  <th>{t("regexp")}</th>
+                  <th>{t("rules")}</th>
+                  <th>{t("rulesAuthnLevel")}</th>
+                </tr>
+                <tr>
                   <th>{t("defaultRule")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={"default"}
-                      readOnly
+                      disabled
                     />
                   </td>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       onChange={(e) =>
@@ -382,55 +452,51 @@ export function NativeApp({ name }: { name: string }) {
                     />
                   </td>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       type="text"
                       value={"default"}
                       className="authLevel"
-                      readOnly
+                      disabled
                     />
                   </td>
                 </tr>
+              </tbody>
+            </table>
+
+            <table>
+              <tbody>
                 <tr>
                   <th>{t("maintenance")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={1}
-                          checked={Boolean(options.vhostMaintenance)}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: true,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostMaintenance}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostMaintenance",
+                              value: JSON.parse(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={0}
-                          checked={!Boolean(options.vhostMaintenance)}
-                          onChange={() =>
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: false,
-                              })
-                            )
-                          }
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                   <td></td>
                   <td></td>
@@ -451,12 +517,12 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("rules")}</th>
                   <th>{t("rulesAuthnLevel")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newLocationRule(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -476,12 +542,12 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newVhostHeaders(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
@@ -493,12 +559,12 @@ export function NativeApp({ name }: { name: string }) {
                 updateVhostHeaders
               )}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newVhostHeaders(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
         {optionSelected === "post" && (
@@ -514,23 +580,23 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("jqueryFormSelector")}</th>
                   <th>{t("jqueryButtonSelector")}</th>
                   <th>
-                    <button
+                    <Button
                       className="plus"
                       onClick={() => dispatch(newVhostPost(name))}
                     >
-                      +
-                    </button>
+                      <AddCircleIcon color="success" />
+                    </Button>
                   </th>
                 </tr>
               </thead>
               {NativPost(name, post)}
             </table>
-            <button
+            <Button
               className="plus"
               onClick={() => dispatch(newVhostPost(name))}
             >
-              +
-            </button>
+              <AddCircleIcon color="success" />
+            </Button>
           </div>
         )}
 
@@ -542,7 +608,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("port")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostPort)}
@@ -561,108 +630,77 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostHttps")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === 1}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: 1,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostHttps}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostHttps",
+                              value: Number(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={1}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === 0}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: 0,
-                              })
-                            );
-                          }}
+                        <FormControlLabel
+                          value={0}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="HTTPS"
-                          checked={options.vhostHttps === -1}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostHttps",
-                                value: -1,
-                              })
-                            );
-                          }}
+                        <FormControlLabel
+                          value={-1}
+                          control={<Radio />}
+                          label={t("default")}
                         />
-                        <span>{t("default")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
                   <th>{t("maintenance")}</th>
                   <td>
-                    <div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={1}
-                          checked={Boolean(options.vhostMaintenance)}
-                          onChange={() => {
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: true,
-                              })
-                            );
-                          }}
+                    <FormControl>
+                      <RadioGroup
+                        row
+                        value={options.vhostMaintenance}
+                        onChange={(e) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostMaintenance",
+                              value: JSON.parse(e.target.value),
+                            })
+                          );
+                        }}
+                      >
+                        <FormControlLabel
+                          value={true}
+                          control={<Radio />}
+                          label={t("on")}
                         />
-                        <span>{t("on")}</span>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="maintenance"
-                          value={0}
-                          checked={!Boolean(options.vhostMaintenance)}
-                          onChange={() =>
-                            dispatch(
-                              updateVhostOptions({
-                                name,
-                                option: "vhostMaintenance",
-                                value: false,
-                              })
-                            )
-                          }
+                        <FormControlLabel
+                          value={false}
+                          control={<Radio />}
+                          label={t("off")}
                         />
-                        <span>{t("off")}</span>
-                      </label>
-                    </div>
+                      </RadioGroup>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
                   <th>{t("vhostAliases")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -683,7 +721,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostAccessToTrace")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="text"
                       value={String(
@@ -706,33 +747,39 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostType")}</th>
                   <td>
-                    <select
-                      name="type"
-                      value={String(options.vhostType)}
-                      onChange={(el) =>
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostType",
-                            value: el.target.value,
-                          })
-                        )
-                      }
-                    >
-                      {attributes.vhostType.select.map((type) => {
-                        return (
-                          <option key={type.k} value={type.k}>
-                            {t(type.v)}
-                          </option>
-                        );
-                      })}
-                    </select>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel>{t("vhostType")}</InputLabel>
+                      <Select
+                        value={options.vhostType}
+                        label={t("vhostType")}
+                        onChange={(el) =>
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostType",
+                              value: el.target.value,
+                            })
+                          )
+                        }
+                      >
+                        {attributes.vhostType.select.map((type) => {
+                          return (
+                            <MenuItem key={type.k} value={type.k}>
+                              {t(type.v)}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
                   </td>
                 </tr>
                 <tr>
                   <th>{t("vhostAuthnLevel")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostAuthnLevel)}
@@ -751,7 +798,10 @@ export function NativeApp({ name }: { name: string }) {
                 <tr>
                   <th>{t("vhostServiceTokenTTL")}</th>
                   <td>
-                    <input
+                    <TextField
+                      size="small"
+                      margin="normal"
+                      variant="filled"
                       className="form"
                       type="number"
                       value={String(options.vhostServiceTokenTTL)}
