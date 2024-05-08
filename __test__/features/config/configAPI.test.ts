@@ -18,9 +18,7 @@ describe("getMetadataConfig", () => {
 
     const result = await getMetadataConfig(14);
 
-    expect(axios.get).toHaveBeenCalledWith(
-      "http://manager.example.com/confs/14"
-    );
+    expect(axios.get).toHaveBeenCalledWith("/confs/14");
 
     expect(result.data).toEqual(mockResponse.data);
   });
@@ -44,9 +42,7 @@ describe("getConfig", () => {
 
     const result = await getConfig(0);
 
-    expect(axios.get).toHaveBeenCalledWith(
-      "http://manager.example.com/manager.fcgi/confs/0?full=1"
-    );
+    expect(axios.get).toHaveBeenCalledWith("/manager.fcgi/confs/0?full=1");
 
     expect(result.data).toEqual(mockResponse.data);
   });

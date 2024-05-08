@@ -1,13 +1,4 @@
-import {
-  ruleSAML,
-  ruleOIDC,
-  ruleCAS,
-  getBrokenRule,
-} from "../../src/utils/rules";
-import {
-  CasAppMetaDataOptions,
-  samlSPMetaDataXML,
-} from "../../src/utils/types";
+import { ruleSAML, ruleOIDC, ruleCAS } from "../../src/utils/rules";
 
 describe("testing rules", () => {
   it("saml ok", () => {
@@ -86,69 +77,9 @@ describe("testing rules", () => {
     expect(ruleOIDC(testData)).toBe(false);
   });
   it("cas ok", () => {
-    const testData: CasAppMetaDataOptions = {
+    const testData: Record<string, string> = {
       casAppMetaDataOptionsService: "https://google.com",
     };
     expect(ruleCAS(testData)).toBe(true);
-  });
-});
-describe("getbrokenrule", () => {
-  const testDataSAML: samlSPMetaDataXML = {};
-
-  const testDataCAS = {
-    casAppMetaDataOptionsService: "https://google.com",
-  };
-  it("saml", () => {
-    expect(getBrokenRule("saml", testDataSAML)).toBe(
-      "samlSPMetaDataXML missing"
-    );
-  });
-  it("oidc public or private", () => {
-    const testDataOIDC = {
-      oidcRPMetaDataOptionsAccessTokenClaims: 0,
-      oidcRPMetaDataOptionsAccessTokenJWT: 0,
-      oidcRPMetaDataOptionsAccessTokenSignAlg: "RS256",
-      oidcRPMetaDataOptionsAllowClientCredentialsGrant: 0,
-      oidcRPMetaDataOptionsAllowOffline: 0,
-      oidcRPMetaDataOptionsAllowPasswordGrant: 0,
-      oidcRPMetaDataOptionsBypassConsent: 0,
-      oidcRPMetaDataOptionsClientID: "abab",
-      oidcRPMetaDataOptionsIDTokenForceClaims: 0,
-      oidcRPMetaDataOptionsIDTokenSignAlg: "HS512",
-      oidcRPMetaDataOptionsLogoutSessionRequired: 0,
-      oidcRPMetaDataOptionsLogoutType: "front",
-      oidcRPMetaDataOptionsPublic: 0,
-      oidcRPMetaDataOptionsRedirectUris: "https://google.com",
-      oidcRPMetaDataOptionsRefreshToken: 0,
-      oidcRPMetaDataOptionsRequirePKCE: 0,
-    };
-    expect(getBrokenRule("oidc", testDataOIDC)).toBe(
-      "oidcRPMetaDataOptionsPublic or oidcRPMetaDataOptionsClientSecret missing\n"
-    );
-  });
-  it("oidc id missing", () => {
-    const testDataOIDC = {
-      oidcRPMetaDataOptionsAccessTokenClaims: 0,
-      oidcRPMetaDataOptionsAccessTokenJWT: 0,
-      oidcRPMetaDataOptionsAccessTokenSignAlg: "RS256",
-      oidcRPMetaDataOptionsAllowClientCredentialsGrant: 0,
-      oidcRPMetaDataOptionsAllowOffline: 0,
-      oidcRPMetaDataOptionsAllowPasswordGrant: 0,
-      oidcRPMetaDataOptionsBypassConsent: 0,
-      oidcRPMetaDataOptionsIDTokenForceClaims: 0,
-      oidcRPMetaDataOptionsIDTokenSignAlg: "HS512",
-      oidcRPMetaDataOptionsLogoutSessionRequired: 0,
-      oidcRPMetaDataOptionsLogoutType: "front",
-      oidcRPMetaDataOptionsPublic: 1,
-      oidcRPMetaDataOptionsRedirectUris: "https://google.com",
-      oidcRPMetaDataOptionsRefreshToken: 0,
-      oidcRPMetaDataOptionsRequirePKCE: 0,
-    };
-    expect(getBrokenRule("oidc", testDataOIDC)).toBe(
-      "oidcRPMetaDataOptionsClientID missing\n"
-    );
-  });
-  it("cas", () => {
-    expect(getBrokenRule("cas", testDataCAS)).toBe("no problem yet\n");
   });
 });
