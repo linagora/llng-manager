@@ -51,6 +51,8 @@ function Issuers() {
       <div className="issuers" data-testid="issuer.saml">
         <div>
           <ToggleButton
+            inputProps={{ role: "switch" }}
+            data-testid="issuer.toggle.saml"
             color="secondary"
             className="switch"
             checked={config.issuerDBSAMLActivation}
@@ -94,6 +96,7 @@ function Issuers() {
         >
           <WarningTwoToneIcon
             color="warning"
+            data-testid="warning"
             style={{
               visibility: warnings.samlWarning ? "visible" : "hidden",
             }}
@@ -102,7 +105,9 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.oidc">
         <ToggleButton
+          inputProps={{ role: "switch" }}
           color="secondary"
+          data-testid="issuer.toggle.oidc"
           checked={Boolean(config.issuerDBOpenIDConnectActivation)}
           onChange={() => {
             if (
@@ -142,6 +147,7 @@ function Issuers() {
         >
           <WarningTwoToneIcon
             color="warning"
+            data-testid="warning"
             style={{
               visibility: warnings.oidcWarning ? "visible" : "hidden",
             }}
@@ -150,7 +156,9 @@ function Issuers() {
       </div>
       <div className="issuers" data-testid="issuer.cas">
         <ToggleButton
+          inputProps={{ role: "switch" }}
           color="secondary"
+          data-testid="issuer.toggle.cas"
           checked={Boolean(config.issuerDBCASActivation)}
           onChange={() => {
             setWarnings({ ...warnings, casWarning: !warnings.casWarning });
@@ -168,6 +176,7 @@ function Issuers() {
         >
           <WarningTwoToneIcon
             color="warning"
+            data-testid="warning"
             style={{ visibility: warnings.casWarning ? "visible" : "hidden" }}
           />
         </Tooltip>

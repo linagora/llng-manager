@@ -1,6 +1,4 @@
-import { samlSPMetaDataXML } from "./types";
-
-export function ruleSAML(samlData: samlSPMetaDataXML): boolean {
+export function ruleSAML(samlData: Record<string, string>): boolean {
   return samlData.samlSPMetaDataXML ? true : false;
 }
 export function ruleOIDC(

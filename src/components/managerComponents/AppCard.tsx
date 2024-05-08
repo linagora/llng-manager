@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { samlSPMetaDataXML } from "../../utils/types";
 import {
   changeAppName,
   delApp,
@@ -20,7 +19,7 @@ function Maintenance(
   type: string,
   info: {
     name: string;
-    config: samlSPMetaDataXML | Record<string, boolean | number | string>;
+    config: Record<string, boolean | number | string>;
   }
 ): boolean {
   const maintenanceToggled = useAppSelector(
@@ -41,7 +40,7 @@ function AppCard({
 }: {
   info: {
     name: string;
-    config: samlSPMetaDataXML | Record<string, boolean | number | string>;
+    config: Record<string, boolean | number | string>;
   };
   type: string;
   issuer?: boolean | number;
@@ -115,12 +114,14 @@ function AppCard({
                 }}
               >
                 <ToggleButton
+                  inputProps={{ role: "switch" }}
+                  data-testid={`maintenance.${info.name}`}
                   color="secondary"
+                  role="switch"
                   checked={maintenanceToggled}
                   onChange={() =>
                     dispatch(toggleMaintenance(String(info.name)))
                   }
-                  // testid={`maintenance.${info.name}`}
                 />
               </div>
             </div>

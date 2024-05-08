@@ -788,7 +788,7 @@ export interface llngConfig {
   samlSPMetaDataOptionsSignSLOMessage?: number;
   samlSPMetaDataOptionsSignSSOMessage?: number;
   samlSPMetaDataOptionsSignatureMethod?: Array<{ k: string; v: string }>;
-  samlSPMetaDataXML: Record<string, samlSPMetaDataXML>;
+  samlSPMetaDataXML: Record<string, Record<string, string>>;
   samlSPSSODescriptorArtifactResolutionServiceArtifact?: string;
   samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?: string;
   samlSPSSODescriptorAssertionConsumerServiceHTTPPost?: string;
@@ -963,10 +963,6 @@ export interface llngConfig {
   zimbraPreAuthKey?: string;
   zimbraSsoUrl?: string;
   zimbraUrl?: string;
-}
-
-export interface samlSPMetaDataXML {
-  samlSPMetaDataXML?: string;
 }
 
 export interface MetaData {

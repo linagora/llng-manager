@@ -2,9 +2,12 @@ import React, { PropsWithChildren } from "react";
 import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
 import { Provider } from "react-redux";
+import { useTranslation } from "react-i18next";
+import "../i18n";
 
 import type { AppStore, RootState } from "../app/store";
 import { setupStore } from "../app/store";
+import { MemoryRouter } from "react-router-dom";
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: Partial<RootState>;
@@ -19,7 +22,7 @@ export function renderWithProviders(
     preloadedState = {
       config: {
         loading: false,
-        error: false,
+        error: { has: false, errorContent: "" },
         data: {
           metadata: {
             prev: 13,
@@ -36,7 +39,7 @@ export function renderWithProviders(
                 casAppMetaDataOptionsService: "https://google.com",
               },
             },
-            issuerDBCASActivation: 1,
+            issuerDBCASActivation: 0,
             issuerDBOpenIDActivation: 0,
             issuerDBOpenIDConnectActivation: 1,
             issuerDBSAMLActivation: false,
@@ -94,9 +97,14 @@ export function renderWithProviders(
     ...renderOptions
   } = extendedRenderOptions;
 
-  const Wrapper = ({ children }: PropsWithChildren) => (
-    <Provider store={store}>{children}</Provider>
-  );
+  const Wrapper = ({ children }: PropsWithChildren) => {
+    useTranslation();
+    return (
+      <MemoryRouter initialEntries={["/manager.html#conf/14"]}>
+        <Provider store={store}>{children}</Provider>
+      </MemoryRouter>
+    );
+  };
 
   return {
     store,

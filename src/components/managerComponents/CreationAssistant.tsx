@@ -22,7 +22,7 @@ export function CreationAssistant({
 }) {
   const [appType, setAppType] = useState("None");
   const [page, setPage] = useState(0);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(attributes.virtualHostName.default);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.config.data.config);
 
@@ -34,10 +34,15 @@ export function CreationAssistant({
             <div>
               <div>
                 <strong className="title2">{t("type")}</strong>
-                <FormControl sx={{ m: 1, minWidth: 150 }} id="applicationType">
+                <FormControl
+                  sx={{ m: 1, minWidth: 150 }}
+                  size="small"
+                  id="applicationType"
+                >
                   <InputLabel>{t("chooseType")}</InputLabel>
                   <Select
                     label={t("chooseType")}
+                    defaultValue={"native"}
                     onChange={(e) => {
                       setAppType(String(e.target.value));
                       if (e.target.value === "native") {

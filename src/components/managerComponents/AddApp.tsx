@@ -12,6 +12,7 @@ function AddApp() {
   return (
     <div>
       <Fab
+        className="addButton"
         style={{ position: "fixed", bottom: "2%", right: "2%" }}
         color="primary"
         onClick={() => {

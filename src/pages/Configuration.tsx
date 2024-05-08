@@ -2,6 +2,7 @@ import Manager from "./../dashboards/Manager";
 import AddApp from "../components/managerComponents/AddApp";
 import SaveButton from "./../components/SaveButton";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
+import { HomePage } from "../dashboards/HomePage";
 
 export function Configuration({
   location,
@@ -19,7 +20,7 @@ export function Configuration({
           <SaveButton />
         </div>
       );
-    default:
+    case "conf":
       return (
         <div className="main">
           <Manager />
@@ -29,5 +30,7 @@ export function Configuration({
           </div>
         </div>
       );
+    default:
+      return <HomePage />;
   }
 }

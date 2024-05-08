@@ -5,22 +5,28 @@ import attributes from "../../static/attributes.json";
 
 export interface ConfigState {
   loading: boolean;
-  error: boolean | any;
+  error: { has: boolean; errorContent: string };
   data: { metadata: MetaData; config: llngConfig };
 }
 
 export const initialState: ConfigState = {
   loading: true,
-  error: false,
+  error: { has: false, errorContent: "" },
   data: { metadata: {} as MetaData, config: {} as llngConfig },
 };
 
 export const getConfigAsync = createAsyncThunk(
   "config/fetchConfig",
   async (num?: number): Promise<Object> => {
-    const configMetadata = await getMetadataConfig(num ? num : undefined);
-    const response = await getConfig(configMetadata.data.cfgNum);
-    return { metadata: configMetadata.data, config: response.data };
+    const configlatestMetadata = await getMetadataConfig();
+    if (num && num <= configlatestMetadata.data.cfgNum) {
+      const configMetadata = await getMetadataConfig(num ? num : undefined);
+      const response = await getConfig(num ? num : configMetadata.data.cfgNum);
+      return { metadata: configMetadata.data, config: response.data };
+    } else {
+      const response = await getConfig(configlatestMetadata.data.cfgNum);
+      return { metadata: configlatestMetadata.data, config: response.data };
+    }
   }
 );
 
@@ -28,7 +34,16 @@ const configSlice = createSlice({
   name: "config",
   initialState,
   reducers: {
+    setError(state, action: PayloadAction<string>) {
+      state.error.errorContent = action.payload;
+    },
+    removeError(state) {
+      state.error.has = false;
+    },
     toggleMaintenance(state, action: PayloadAction<string>) {
+      if (!state.data.config.vhostOptions) {
+        state.data.config.vhostOptions = {};
+      }
       state.data.config.vhostOptions[action.payload].vhostMaintenance =
         !state.data.config.vhostOptions[action.payload].vhostMaintenance;
     },
@@ -172,6 +187,9 @@ const configSlice = createSlice({
         value: boolean | number | string;
       }>
     ) {
+      if (!state.data.config.vhostOptions) {
+        state.data.config.vhostOptions = {};
+      }
       state.data.config.vhostOptions[action.payload.name][
         action.payload.option
       ] = action.payload.value;
@@ -231,15 +249,7 @@ const configSlice = createSlice({
         case "native":
           state.data.config.locationRules[action.payload.name] =
             attributes.locationRules.default;
-          state.data.config.vhostOptions[action.payload.name] = {
-            vhostAccessToTrace: attributes.vhostAccessToTrace.default,
-            vhostAliases: attributes.vhostAliases.default,
-            vhostHttps: attributes.vhostHttps.default,
-            vhostMaintenance: attributes.vhostMaintenance.default,
-            vhostPort: attributes.vhostPort.default,
-            vhostServiceTokenTTL: attributes.vhostServiceTokenTTL.default,
-            vhostType: attributes.vhostType.default,
-          };
+
           if (!state.data.config.exportedHeaders) {
             state.data.config.exportedHeaders = {};
           }
@@ -250,6 +260,9 @@ const configSlice = createSlice({
           state.data.config.post[action.payload.name] = {};
           break;
         case "saml":
+          if (!state.data.config.samlSPMetaDataXML) {
+            state.data.config.samlSPMetaDataXML = {};
+          }
           state.data.config.samlSPMetaDataXML[action.payload.name] = {
             samlSPMetaDataXML: "",
           };
@@ -433,6 +446,9 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; data: string }>
     ) {
+      if (!state.data.config.samlSPMetaDataXML) {
+        state.data.config.samlSPMetaDataXML = {};
+      }
       state.data.config.samlSPMetaDataXML[
         action.payload.name
       ].samlSPMetaDataXML = action.payload.data;
@@ -668,13 +684,18 @@ const configSlice = createSlice({
         getConfigAsync.rejected,
         (state: ConfigState, action: PayloadAction<any>) => {
           state.loading = false;
-          state.error = action.payload;
+          state.error.has = true;
+          if (action.payload instanceof Error) {
+            state.error.errorContent = action.payload.message;
+          }
         }
       );
   },
 });
 
 export const {
+  setError,
+  removeError,
   toggleMaintenance,
   toggleCAS,
   toggleOIDC,
