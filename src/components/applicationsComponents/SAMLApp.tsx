@@ -257,11 +257,13 @@ export function SAMLApp({ name }: { name: string }) {
             <strong className="title2">
               {t("samlSPMetaDataXML")}
               {name
-                ? data.samlSPMetaDataXML[name]
-                  ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
-                    ? "⚠️"
-                    : ""
-                  : "⚠️"
+                ? data.samlSPMetaDataXML
+                  ? data.samlSPMetaDataXML[name]
+                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
+                      ? "⚠️"
+                      : ""
+                    : "⚠️"
+                  : ""
                 : "⚠️"}
             </strong>
             <div>
@@ -283,8 +285,10 @@ export function SAMLApp({ name }: { name: string }) {
                 }
                 value={
                   name
-                    ? data.samlSPMetaDataXML[name]
-                      ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                    ? data.samlSPMetaDataXML
+                      ? data.samlSPMetaDataXML[name]
+                        ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                        : undefined
                       : undefined
                     : undefined
                 }
@@ -388,6 +392,7 @@ export function SAMLApp({ name }: { name: string }) {
                     name,
                     data.samlSPMetaDataMacros[name],
                     "samlSPMetaDataMacros",
+                    dispatch,
                     delSAMLSPMetaDataMacros,
                     updateSAMLSPMetaDataMacros
                   )

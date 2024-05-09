@@ -20,16 +20,30 @@ export default function SaveButton() {
         className="saveButton"
         onClick={() => {
           let stateOk = true;
-          Object.keys(data.oidcRPMetaDataOptions).forEach((app) => {
-            if (!ruleOIDC(data.oidcRPMetaDataOptions[app])) {
-              stateOk = false;
-            }
-          });
-          Object.keys(data.samlSPMetaDataXML).forEach((app) => {
-            if (!ruleSAML(data.samlSPMetaDataXML[app])) {
-              stateOk = false;
-            }
-          });
+          if (data.oidcRPMetaDataOptions) {
+            Object.keys(data.oidcRPMetaDataOptions).forEach((app) => {
+              if (
+                !ruleOIDC(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[app]
+                    : {}
+                )
+              ) {
+                stateOk = false;
+              }
+            });
+          }
+          if (data.samlSPMetaDataXML) {
+            Object.keys(data.samlSPMetaDataXML).forEach((app) => {
+              if (
+                !ruleSAML(
+                  data.samlSPMetaDataXML ? data.samlSPMetaDataXML[app] : {}
+                )
+              ) {
+                stateOk = false;
+              }
+            });
+          }
           if (stateOk) {
             dispatch(saveConfigCall());
             setOpenSavingPopup(true);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToggleButton from "../ToggleButton";
 import { useAppDispatch, useAppSelector } from "./../../app/hooks";
 import {
@@ -46,6 +46,38 @@ function Issuers() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    setWarnings({
+      samlWarning:
+        !config.issuerDBSAMLActivation &&
+        Boolean(
+          Object.keys(config.samlSPMetaDataXML ? config.samlSPMetaDataXML : {})
+            .length
+        ),
+      oidcWarning:
+        !config.issuerDBOpenIDConnectActivation &&
+        Boolean(
+          Object.keys(
+            config.oidcOPMetaDataOptions ? config.oidcOPMetaDataOptions : {}
+          ).length
+        ),
+      casWarning:
+        !config.issuerDBCASActivation &&
+        Boolean(
+          Object.keys(
+            config.casAppMetaDataOptions ? config.casAppMetaDataOptions : {}
+          ).length
+        ),
+    });
+  }, [
+    config.issuerDBSAMLActivation,
+    config.samlSPMetaDataXML,
+    config.issuerDBOpenIDConnectActivation,
+    config.oidcRPMetaDataOptions,
+    config.issuerDBCASActivation,
+    config.casAppMetaDataOptions,
+  ]);
   return (
     <div className="issuersList">
       <div className="issuers" data-testid="issuer.saml">
@@ -55,7 +87,7 @@ function Issuers() {
             data-testid="issuer.toggle.saml"
             color="secondary"
             className="switch"
-            checked={config.issuerDBSAMLActivation}
+            checked={Boolean(config.issuerDBSAMLActivation)}
             onChange={() => {
               if (
                 !config.issuerDBSAMLActivation &&
@@ -67,7 +99,8 @@ function Issuers() {
                 dispatch(toggleSAML());
                 setWarnings({
                   ...warnings,
-                  samlWarning: !warnings.samlWarning,
+                  samlWarning:
+                    !warnings.samlWarning && Boolean(config.samlSPMetaDataXML),
                 });
               }
             }}
@@ -81,7 +114,11 @@ function Issuers() {
           }}
           setVisible={(e) => {
             triggerSAMLIssuerAssistant(e);
-            setWarnings({ ...warnings, samlWarning: !warnings.samlWarning });
+            setWarnings({
+              ...warnings,
+              samlWarning:
+                !warnings.samlWarning && Boolean(config.samlSPMetaDataXML),
+            });
             dispatch(toggleSAML());
           }}
         />
@@ -118,10 +155,14 @@ function Issuers() {
               triggerOIDCIssuerAssistant(!issuerOIDCAssistant);
             } else {
               dispatch(toggleOIDC());
-              setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
+              setWarnings({
+                ...warnings,
+                oidcWarning:
+                  !warnings.oidcWarning &&
+                  Boolean(config.oidcRPMetaDataOptions),
+              });
             }
           }}
-          // testid="issuer.toggle.oidc"
         />
 
         <IssuerAssistant
@@ -132,7 +173,11 @@ function Issuers() {
           }}
           setVisible={(e) => {
             triggerOIDCIssuerAssistant(e);
-            setWarnings({ ...warnings, oidcWarning: !warnings.oidcWarning });
+            setWarnings({
+              ...warnings,
+              oidcWarning:
+                !warnings.oidcWarning && Boolean(config.oidcRPMetaDataOptions),
+            });
             dispatch(toggleOIDC());
           }}
         />
@@ -161,7 +206,11 @@ function Issuers() {
           data-testid="issuer.toggle.cas"
           checked={Boolean(config.issuerDBCASActivation)}
           onChange={() => {
-            setWarnings({ ...warnings, casWarning: !warnings.casWarning });
+            setWarnings({
+              ...warnings,
+              casWarning:
+                !warnings.casWarning && Boolean(config.casAppMetaDataOptions),
+            });
             dispatch(toggleCAS());
           }}
           // testid="issuer.toggle.cas"

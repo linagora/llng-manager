@@ -205,9 +205,11 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>
                     {t("oidcRPMetaDataOptionsClientID")}
-                    {data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsClientID === ""
-                      ? "⚠️"
+                    {data.oidcRPMetaDataOptions
+                      ? data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsClientID === ""
+                        ? "⚠️"
+                        : ""
                       : ""}
                   </th>
                   <td>
@@ -218,8 +220,13 @@ export function OIDCApp({ name }: { name: string }) {
                       className="form"
                       type="text"
                       value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientID
+                        data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsClientID
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsClientID
+                            : ""
+                          : ""
                       )}
                       onChange={(e) => {
                         dispatch(
@@ -236,12 +243,16 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>
                     {t("oidcRPMetaDataOptionsPublic")}
-                    {data.oidcRPMetaDataOptions[name]
+                    {data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsPublic ||
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientSecret !== ""
-                        ? ""
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsPublic ||
+                          (data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsClientSecret &&
+                            data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsClientSecret !== "")
+                          ? ""
+                          : "⚠️"
                         : "⚠️"
                       : "⚠️"}
                   </th>
@@ -250,8 +261,10 @@ export function OIDCApp({ name }: { name: string }) {
                       <RadioGroup
                         row
                         value={
-                          data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsPublic
+                          data.oidcRPMetaDataOptions
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsPublic
+                            : 0
                         }
                         onChange={(e) => {
                           dispatch(
@@ -281,12 +294,16 @@ export function OIDCApp({ name }: { name: string }) {
                 <tr>
                   <th>
                     {t("oidcRPMetaDataOptionsClientSecret")}
-                    {data.oidcRPMetaDataOptions[name]
+                    {data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsPublic ||
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientSecret !== ""
-                        ? ""
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsPublic ||
+                          (data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsClientSecret &&
+                            data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsClientSecret !== "")
+                          ? ""
+                          : "⚠️"
                         : "⚠️"
                       : "⚠️"}
                   </th>
@@ -297,10 +314,17 @@ export function OIDCApp({ name }: { name: string }) {
                       variant="filled"
                       className="form"
                       type={attributes.oidcRPMetaDataOptionsClientSecret.type}
-                      value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientSecret
-                      )}
+                      value={
+                        data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsClientSecret
+                            ? String(
+                                data.oidcRPMetaDataOptions[name]
+                                  .oidcRPMetaDataOptionsClientSecret
+                              )
+                            : ""
+                          : ""
+                      }
                       onChange={(e) => {
                         dispatch(
                           updateOidcMetaDataOptions({
@@ -323,8 +347,10 @@ export function OIDCApp({ name }: { name: string }) {
                       type={attributes.oidcRPMetaDataOptionsRedirectUris.type}
                       name="oidcRPMetaDataOptionsRedirectUris"
                       value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsRedirectUris
+                        data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsRedirectUris
+                          : ""
                       )}
                       onChange={(e) => {
                         dispatch(
@@ -348,8 +374,10 @@ export function OIDCApp({ name }: { name: string }) {
                       type={attributes.oidcRPMetaDataOptionsAuthMethod.type}
                       name="oidcRPMetaDataOptionsAuthMethod"
                       value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsAuthMethod
+                        data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsAuthMethod
+                          : ""
                       )}
                       onChange={(e) => {
                         dispatch(
@@ -372,10 +400,12 @@ export function OIDCApp({ name }: { name: string }) {
                       variant="filled"
                       type="text"
                       value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsDisplay
+                        data.oidcRPMetaDataOptions
                           ? data.oidcRPMetaDataOptions[name]
                               .oidcRPMetaDataOptionsDisplay
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsDisplay
+                            : ""
                           : ""
                       )}
                       onChange={(e) => {
@@ -399,8 +429,10 @@ export function OIDCApp({ name }: { name: string }) {
                       variant="filled"
                       type={attributes.oidcRPMetaDataOptionsIcon.type}
                       value={String(
-                        data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsIcon
+                        data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsIcon
+                          : ""
                       )}
                       onChange={(e) => {
                         dispatch(
@@ -483,6 +515,7 @@ export function OIDCApp({ name }: { name: string }) {
                     name,
                     data.oidcRPMetaDataMacros[name],
                     "oidcRPMetaDataMacros",
+                    dispatch,
                     delOIDCRPMetaDataMacros,
                     updateOIDCRPMetaDataMacros
                   )

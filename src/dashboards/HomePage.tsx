@@ -79,6 +79,12 @@ export function HomePage() {
                 <td>
                   <TextField
                     type="number"
+                    error={aimedConf <= 0}
+                    helperText={`${
+                      aimedConf === 0
+                        ? "Enter only positive and non nul numbers"
+                        : ""
+                    }`}
                     onChange={(e) => SetAimedConf(Number(e.target.value))}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -92,7 +98,7 @@ export function HomePage() {
                           );
                       }
                     }}
-                  ></TextField>
+                  />
                   <Button
                     variant="contained"
                     onClick={() => {

@@ -22,11 +22,12 @@ function Maintenance(
     config: Record<string, boolean | number | string>;
   }
 ): boolean {
-  const maintenanceToggled = useAppSelector(
-    (state) => state.config.data.config.vhostOptions[info.name]
-  );
-
-  if (type === "native") {
+  const maintenanceToggled = useAppSelector((state) => {
+    if (state.config.data.config.vhostOptions) {
+      return state.config.data.config.vhostOptions[info.name];
+    }
+  });
+  if (maintenanceToggled && type === "native") {
     return Boolean(maintenanceToggled.vhostMaintenance);
   }
   return false;

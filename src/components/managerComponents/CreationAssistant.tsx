@@ -20,7 +20,7 @@ export function CreationAssistant({
 }: {
   closeModal: MouseEventHandler<HTMLButtonElement>;
 }) {
-  const [appType, setAppType] = useState("None");
+  const [appType, setAppType] = useState("native");
   const [page, setPage] = useState(0);
   const [name, setName] = useState(attributes.virtualHostName.default);
   const dispatch = useAppDispatch();
@@ -88,6 +88,7 @@ export function CreationAssistant({
                   onClick={(e) => {
                     closeModal(e);
                     setPage(page - 1);
+                    setAppType("native");
                     dispatch(delApp(name));
                   }}
                 >
@@ -95,6 +96,7 @@ export function CreationAssistant({
                 </Button>
                 <Button
                   onClick={() => {
+                    console.log(appType);
                     if (name && appType !== "None") {
                       setPage(page + 1);
                       dispatch(newApp({ name, type: appType }));
@@ -133,18 +135,19 @@ export function CreationAssistant({
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    console.log(
-                      data.oidcRPMetaDataOptions[name]
-                        ?.oidcRPMetaDataOptionsClientID !== undefined,
-                      data.samlSPMetaDataXML[name]?.samlSPMetaDataXML !== ""
-                    );
                     if (
-                      data.oidcRPMetaDataOptions[name]
+                      (data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsClientID !== ""
-                        : false || data.samlSPMetaDataXML[name]
-                        ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !== ""
-                        : false
+                          ? data.oidcRPMetaDataOptions[name]
+                              .oidcRPMetaDataOptionsClientID !== ""
+                          : false
+                        : false) ||
+                      (data.samlSPMetaDataXML
+                        ? data.samlSPMetaDataXML[name]
+                          ? data.samlSPMetaDataXML[name].samlSPMetaDataXML !==
+                            ""
+                          : false
+                        : false)
                     ) {
                       setPage(page + 1);
                     }

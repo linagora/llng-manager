@@ -375,20 +375,27 @@ function NativPost(
 }
 
 export function NativeApp({ name }: { name: string }) {
-  const locationRules = useAppSelector(
-    (state) => state.config.data.config.locationRules[name]
-  );
-  const exportedHeaders = useAppSelector((state) => {
-    return state.config.data.config.exportedHeaders
-      ? state.config.data.config.exportedHeaders[name]
-      : {};
+  const locationR = useAppSelector((state) => {
+    if (state.config.data.config.locationRules) {
+      return state.config.data.config.locationRules[name];
+    }
   });
-  const post = useAppSelector((state) =>
-    state.config.data.config.post ? state.config.data.config.post[name] : {}
-  );
-  const options = useAppSelector(
-    (state) => state.config.data.config.vhostOptions[name]
-  );
+  const locationRules = locationR ? locationR : {};
+  const exportedHeaders = useAppSelector((state) => {
+    if (state.config.data.config.exportedHeaders) {
+      return state.config.data.config.exportedHeaders[name];
+    }
+  });
+  const post = useAppSelector((state) => {
+    if (state.config.data.config.post) {
+      return state.config.data.config.post[name];
+    }
+  });
+  const options = useAppSelector((state) => {
+    if (state.config.data.config.vhostOptions) {
+      return state.config.data.config.vhostOptions[name];
+    }
+  });
   const [optionSelected, setOptionSelected] = useState("basic");
   const dispatch = useAppDispatch();
   return (
@@ -474,7 +481,7 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={options.vhostMaintenance}
+                        value={options ? options.vhostMaintenance : false}
                         onChange={(e) => {
                           dispatch(
                             updateVhostOptions({
@@ -553,8 +560,9 @@ export function NativeApp({ name }: { name: string }) {
               </thead>
               {TableVars(
                 name,
-                exportedHeaders,
+                exportedHeaders ? exportedHeaders : {},
                 "exportedHeaders",
+                dispatch,
                 delVhostHeader,
                 updateVhostHeaders
               )}
@@ -589,7 +597,7 @@ export function NativeApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {NativPost(name, post)}
+              {NativPost(name, post ? post : {})}
             </table>
             <Button
               className="plus"
@@ -614,7 +622,11 @@ export function NativeApp({ name }: { name: string }) {
                       variant="filled"
                       className="form"
                       type="number"
-                      value={String(options.vhostPort)}
+                      value={String(
+                        options
+                          ? options.vhostPort
+                          : attributes.vhostPort.default
+                      )}
                       onChange={(el) => {
                         dispatch(
                           updateVhostOptions({
@@ -633,7 +645,11 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={options.vhostHttps}
+                        value={
+                          options
+                            ? options.vhostHttps
+                            : attributes.vhostHttps.default
+                        }
                         onChange={(e) => {
                           dispatch(
                             updateVhostOptions({
@@ -669,7 +685,7 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={options.vhostMaintenance}
+                        value={options ? options.vhostMaintenance : false}
                         onChange={(e) => {
                           dispatch(
                             updateVhostOptions({
@@ -704,7 +720,9 @@ export function NativeApp({ name }: { name: string }) {
                       className="form"
                       type="text"
                       value={String(
-                        options.vhostAliases ? options.vhostAliases : ""
+                        options
+                          ? options.vhostAliases
+                          : attributes.vhostAliases.default
                       )}
                       onChange={(el) => {
                         dispatch(
@@ -728,9 +746,9 @@ export function NativeApp({ name }: { name: string }) {
                       className="form"
                       type="text"
                       value={String(
-                        options.vhostAccessToTrace
+                        options
                           ? options.vhostAccessToTrace
-                          : ""
+                          : attributes.vhostAccessToTrace.default
                       )}
                       onChange={(el) => {
                         dispatch(
@@ -750,7 +768,11 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                       <InputLabel>{t("vhostType")}</InputLabel>
                       <Select
-                        value={options.vhostType}
+                        value={
+                          options
+                            ? options.vhostType
+                            : attributes.vhostType.default
+                        }
                         label={t("vhostType")}
                         onChange={(el) =>
                           dispatch(
@@ -782,7 +804,7 @@ export function NativeApp({ name }: { name: string }) {
                       variant="filled"
                       className="form"
                       type="number"
-                      value={String(options.vhostAuthnLevel)}
+                      value={String(options ? options.vhostAuthnLevel : 0)}
                       onChange={(el) => {
                         dispatch(
                           updateVhostOptions({
@@ -804,7 +826,11 @@ export function NativeApp({ name }: { name: string }) {
                       variant="filled"
                       className="form"
                       type="number"
-                      value={String(options.vhostServiceTokenTTL)}
+                      value={String(
+                        options
+                          ? options.vhostServiceTokenTTL
+                          : attributes.vhostServiceTokenTTL.default
+                      )}
                       onChange={(el) => {
                         dispatch(
                           updateVhostOptions({

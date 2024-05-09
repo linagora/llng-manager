@@ -44,8 +44,14 @@ const configSlice = createSlice({
       if (!state.data.config.vhostOptions) {
         state.data.config.vhostOptions = {};
       }
-      state.data.config.vhostOptions[action.payload].vhostMaintenance =
-        !state.data.config.vhostOptions[action.payload].vhostMaintenance;
+      if (state.data.config.vhostOptions[action.payload]) {
+        state.data.config.vhostOptions[action.payload].vhostMaintenance =
+          !state.data.config.vhostOptions[action.payload].vhostMaintenance;
+      } else {
+        state.data.config.vhostOptions[action.payload] = {
+          vhostMaintenance: true,
+        };
+      }
     },
     toggleSAML(state) {
       state.data.config.issuerDBSAMLActivation =
@@ -95,6 +101,9 @@ const configSlice = createSlice({
         locationRules: Record<string, string>;
       }>
     ) {
+      if (!state.data.config.locationRules) {
+        state.data.config.locationRules = {};
+      }
       state.data.config.locationRules[action.payload.appName] =
         action.payload.locationRules;
     },
@@ -102,10 +111,16 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ appName: string; rule: string }>
     ) {
+      if (!state.data.config.locationRules) {
+        state.data.config.locationRules = {};
+      }
       state.data.config.locationRules[action.payload.appName].default =
         action.payload.rule;
     },
     newLocationRule(state, action: PayloadAction<string>) {
+      if (!state.data.config.locationRules) {
+        state.data.config.locationRules = {};
+      }
       state.data.config.locationRules[action.payload] = {
         ...state.data.config.locationRules[action.payload],
         "(?#New rule)^/new": "accept",
@@ -115,13 +130,18 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; key: string }>
     ) {
-      delete state.data.config.locationRules[action.payload.name][
-        action.payload.key
-      ];
+      if (state.data.config.locationRules) {
+        delete state.data.config.locationRules[action.payload.name][
+          action.payload.key
+        ];
+      }
     },
     newVhostHeaders(state, action: PayloadAction<string>) {
       if (!state.data.config.exportedHeaders) {
         state.data.config.exportedHeaders = {};
+      }
+      if (!state.data.config.exportedHeaders[action.payload]) {
+        state.data.config.exportedHeaders[action.payload] = {};
       }
       state.data.config.exportedHeaders[action.payload] = {
         ...state.data.config.exportedHeaders[action.payload],
@@ -142,15 +162,18 @@ const configSlice = createSlice({
     updateVhostHeaders(
       state,
       action: PayloadAction<{
-        appName: string;
-        exportedHeaders: Record<string, string>;
+        name: string;
+        data: Record<string, string>;
       }>
     ) {
       if (!state.data.config.exportedHeaders) {
         state.data.config.exportedHeaders = {};
       }
-      state.data.config.exportedHeaders[action.payload.appName] =
-        action.payload.exportedHeaders;
+      if (!state.data.config.exportedHeaders[action.payload.name]) {
+        state.data.config.exportedHeaders[action.payload.name] = {};
+      }
+      state.data.config.exportedHeaders[action.payload.name] =
+        action.payload.data;
     },
     newVhostPost(state, action: PayloadAction<string>) {
       if (!state.data.config.post) {
@@ -247,9 +270,15 @@ const configSlice = createSlice({
     newApp(state, action: PayloadAction<{ name: string; type: string }>) {
       switch (action.payload.type) {
         case "native":
+          if (!state.data.config.locationRules) {
+            state.data.config.locationRules = {};
+          }
           state.data.config.locationRules[action.payload.name] =
             attributes.locationRules.default;
-
+          if (!state.data.config.vhostOptions) {
+            state.data.config.vhostOptions = {};
+          }
+          state.data.config.vhostOptions[action.payload.name] = {};
           if (!state.data.config.exportedHeaders) {
             state.data.config.exportedHeaders = {};
           }
@@ -260,29 +289,22 @@ const configSlice = createSlice({
           state.data.config.post[action.payload.name] = {};
           break;
         case "saml":
+          console.log(action.payload.name, state.data.config.samlSPMetaDataXML);
           if (!state.data.config.samlSPMetaDataXML) {
             state.data.config.samlSPMetaDataXML = {};
           }
           state.data.config.samlSPMetaDataXML[action.payload.name] = {
             samlSPMetaDataXML: "",
           };
-          if (!state.data.config.samlSPMetaDataExportedAttributes) {
-            state.data.config.samlSPMetaDataExportedAttributes = {};
-          }
-          state.data.config.samlSPMetaDataExportedAttributes[
-            action.payload.name
-          ] = attributes.samlSPMetaDataExportedAttributes.default;
-          if (!state.data.config.samlSPMetaDataMacros) {
-            state.data.config.samlSPMetaDataMacros =
-              attributes.samlSPMetaDataMacros.default;
-          }
-          state.data.config.samlSPMetaDataMacros[action.payload.name] = {};
           if (!state.data.config.samlSPMetaDataOptions) {
             state.data.config.samlSPMetaDataOptions = {};
           }
           state.data.config.samlSPMetaDataOptions[action.payload.name] = {};
           break;
         case "oidc":
+          if (!state.data.config.oidcRPMetaDataOptions) {
+            state.data.config.oidcRPMetaDataOptions = {};
+          }
           state.data.config.oidcRPMetaDataOptions[action.payload.name] = {
             oidcRPMetaDataOptionsAccessTokenClaims:
               attributes.oidcRPMetaDataOptionsAccessTokenClaims.default,
@@ -327,6 +349,9 @@ const configSlice = createSlice({
             attributes.oidcRPMetaDataMacros.default;
           break;
         case "cas":
+          if (!state.data.config.casAppMetaDataOptions) {
+            state.data.config.casAppMetaDataOptions = {};
+          }
           state.data.config.casAppMetaDataOptions[action.payload.name] = {
             casAppMetaDataOptionsService: "",
             casAppMetaDataOptionsLogout:
@@ -351,6 +376,9 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; id: string }>
     ) {
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.oidcRPMetaDataOptions = {};
+      }
       state.data.config.oidcRPMetaDataOptions[
         action.payload.name
       ].oidcRPMetaDataOptionsClientID = action.payload.id;
@@ -359,6 +387,9 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; privateClient: string }>
     ) {
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.oidcRPMetaDataOptions = {};
+      }
       state.data.config.oidcRPMetaDataOptions[
         action.payload.name
       ].oidcRPMetaDataOptionsClientSecret = action.payload.privateClient;
@@ -367,6 +398,9 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; publicClient: number }>
     ) {
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.oidcRPMetaDataOptions = {};
+      }
       state.data.config.oidcRPMetaDataOptions[
         action.payload.name
       ].oidcRPMetaDataOptionsPublic = action.payload.publicClient;
@@ -438,6 +472,9 @@ const configSlice = createSlice({
         value: boolean | number | string;
       }>
     ) {
+      if (!state.data.config.casAppMetaDataOptions) {
+        state.data.config.casAppMetaDataOptions = {};
+      }
       state.data.config.casAppMetaDataOptions[action.payload.name][
         action.payload.option
       ] = action.payload.value;
@@ -596,20 +633,22 @@ const configSlice = createSlice({
       if (!state.data.config.oidcRPMetaDataOptions) {
         state.data.config.samlSPMetaDataOptions = {};
       }
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.oidcRPMetaDataOptions = {};
+      }
       state.data.config.oidcRPMetaDataOptions[action.payload.name][
         action.payload.option
       ] = action.payload.value;
     },
     updateOidcRPMetaDataOptionsExtraClaims(
       state,
-      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
     ) {
       if (!state.data.config.oidcRPMetaDataOptionsExtraClaims) {
         state.data.config.oidcRPMetaDataOptionsExtraClaims = {};
       }
-      state.data.config.oidcRPMetaDataOptionsExtraClaims[
-        action.payload.appName
-      ] = action.payload.data;
+      state.data.config.oidcRPMetaDataOptionsExtraClaims[action.payload.name] =
+        action.payload.data;
     },
     newOidcRPMetaDataOptionsExtraClaims(state, action: PayloadAction<string>) {
       if (!state.data.config.oidcRPMetaDataOptionsExtraClaims) {
@@ -632,12 +671,12 @@ const configSlice = createSlice({
     },
     updateOidcRPMetaDataScopeRules(
       state,
-      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
     ) {
       if (!state.data.config.oidcRPMetaDataScopeRules) {
         state.data.config.oidcRPMetaDataScopeRules = {};
       }
-      state.data.config.oidcRPMetaDataScopeRules[action.payload.appName] =
+      state.data.config.oidcRPMetaDataScopeRules[action.payload.name] =
         action.payload.data;
     },
     newOidcRPMetaDataScopeRules(state, action: PayloadAction<string>) {
@@ -663,6 +702,9 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; data: string }>
     ) {
+      if (!state.data.config.oidcRPMetaDataOptions) {
+        state.data.config.oidcRPMetaDataOptions = {};
+      }
       state.data.config.oidcRPMetaDataOptions[
         action.payload.name
       ].oidcRPMetaDataOptionsJwks = action.payload.data;

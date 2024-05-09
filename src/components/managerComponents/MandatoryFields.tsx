@@ -65,8 +65,10 @@ export function MandatoryFields({
               }
               value={
                 name
-                  ? data.samlSPMetaDataXML[name]
-                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                  ? data.samlSPMetaDataXML
+                    ? data.samlSPMetaDataXML[name]
+                      ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                      : undefined
                     : undefined
                   : undefined
               }
@@ -108,95 +110,108 @@ export function MandatoryFields({
     case "oidc":
       return (
         <div className="mandatoryField">
-          <div>
-            <th>{t("oidcRPMetaDataOptionsClientID")}</th>
-            <td>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                type="text"
-                placeholder={t("oidcRPMetaDataOptionsClientID")}
-                value={String(
-                  name
-                    ? data.oidcRPMetaDataOptions[name]
-                      ? data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientID
-                      : ""
-                    : ""
-                )}
-                onChange={(e) =>
-                  dispatch(
-                    updateOIDCclientID({
-                      name: name ? name : "",
-                      id: e.target.value,
-                    })
-                  )
-                }
-              />
-            </td>
-          </div>
-          <div>
-            <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
-            <td>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                type="password"
-                placeholder={t("oidcRPMetaDataOptionsClientSecret")}
-                value={String(
-                  name
-                    ? data.oidcRPMetaDataOptions[name]
-                      ? data.oidcRPMetaDataOptions[name]
-                          .oidcRPMetaDataOptionsClientSecret
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsClientSecret
+          <table>
+            <tbody>
+              <tr>
+                <th>{t("oidcRPMetaDataOptionsClientID")}</th>
+                <td>
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    variant="filled"
+                    type="text"
+                    placeholder={t("oidcRPMetaDataOptionsClientID")}
+                    value={
+                      name
+                        ? data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsClientID
+                              ? String(
+                                  data.oidcRPMetaDataOptions[name]
+                                    .oidcRPMetaDataOptionsClientID
+                                )
+                              : ""
+                            : ""
+                          : ""
                         : ""
-                      : ""
-                    : ""
-                )}
-                onChange={(e) =>
-                  dispatch(
-                    updateOIDCPrivateClient({
-                      name: name ? name : "",
-                      privateClient: e.target.value,
-                    })
-                  )
-                }
-              />
-            </td>
-          </div>
-          <div>
-            <th>{t("oidcRPMetaDataOptionsPublic")}</th>
-            <td>
-              <FormControl>
-                <RadioGroup
-                  row
-                  value={data.samlSPMetaDataOptionsOneTimeUse}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOIDCPublicClient({
-                        name: name ? name : "",
-                        publicClient: Number(e.target.value),
-                      })
-                    );
-                  }}
-                >
-                  <FormControlLabel
-                    value={1}
-                    control={<Radio />}
-                    label={t("on")}
+                    }
+                    onChange={(e) =>
+                      dispatch(
+                        updateOIDCclientID({
+                          name: name ? name : "",
+                          id: e.target.value,
+                        })
+                      )
+                    }
                   />
-                  <FormControlLabel
-                    value={0}
-                    control={<Radio />}
-                    label={t("off")}
+                </td>
+              </tr>
+              <tr>
+                <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
+                <td>
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    variant="filled"
+                    type="password"
+                    placeholder={t("oidcRPMetaDataOptionsClientSecret")}
+                    value={String(
+                      name
+                        ? data.oidcRPMetaDataOptions
+                          ? data.oidcRPMetaDataOptions[name]
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsClientSecret
+                              ? data.oidcRPMetaDataOptions[name]
+                                  .oidcRPMetaDataOptionsClientSecret
+                              : ""
+                            : ""
+                          : ""
+                        : ""
+                    )}
+                    onChange={(e) =>
+                      dispatch(
+                        updateOIDCPrivateClient({
+                          name: name ? name : "",
+                          privateClient: e.target.value,
+                        })
+                      )
+                    }
                   />
-                </RadioGroup>
-              </FormControl>
-            </td>
-          </div>
+                </td>
+              </tr>
+              <tr>
+                <th>{t("oidcRPMetaDataOptionsPublic")}</th>
+                <td>
+                  <FormControl>
+                    <RadioGroup
+                      row
+                      value={data.samlSPMetaDataOptionsOneTimeUse}
+                      onChange={(e) => {
+                        dispatch(
+                          updateOIDCPublicClient({
+                            name: name ? name : "",
+                            publicClient: Number(e.target.value),
+                          })
+                        );
+                      }}
+                    >
+                      <FormControlLabel
+                        value={1}
+                        control={<Radio />}
+                        label={t("on")}
+                      />
+                      <FormControlLabel
+                        value={0}
+                        control={<Radio />}
+                        label={t("off")}
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div></div>
         </div>
       );

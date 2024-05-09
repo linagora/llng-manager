@@ -33,10 +33,11 @@ export default function Manager() {
     setAnchorEl(event.currentTarget);
   };
   const [configPresent, setConfigPresent] = useState<boolean>(
-    Boolean(config.data.metadata && !config.loading && !config.error)
+    Boolean(config.data.metadata && !config.loading && !config.error.has)
   );
 
   useEffect(() => {
+    console.log(configNum, config.data.metadata.cfgNum);
     if (!configPresent) {
       setConfigPresent(true);
       dispatch(
@@ -50,15 +51,11 @@ export default function Manager() {
         dispatch(
           getConfigAsync(configNum === "latest" ? undefined : Number(configNum))
         );
+      } else if (configNum === "latest" && config.data.metadata.next) {
+        dispatch(getConfigAsync());
       }
     }
-  }, [
-    dispatch,
-    configNum,
-    config.data.metadata.cfgNum,
-    location,
-    configPresent,
-  ]);
+  }, [dispatch, configNum, config.data.metadata, location, configPresent]);
   try {
     if (config.loading) {
       return (
@@ -76,66 +73,97 @@ export default function Manager() {
         </div>
       );
     } else {
-      const nativeConfig = Object.keys(config.data.config.locationRules).map(
-        (key) => (
-          <AppCard
-            key={key}
-            type="native"
-            info={{ name: key, config: config.data.config.vhostOptions[key] }}
-            rule={true}
-          />
-        )
-      );
-      const samlConfig = Object.keys(config.data.config.samlSPMetaDataXML).map(
-        (key) => (
-          <AppCard
-            key={key}
-            type="saml"
-            info={{
-              name: key,
-              config: config.data.config.samlSPMetaDataXML[key],
-            }}
-            issuer={config.data.config.issuerDBSAMLActivation}
-            rule={ruleSAML(config.data.config.samlSPMetaDataXML[key])}
-          />
-        )
-      );
-      const oidcConfig = Object.keys(
-        config.data.config.oidcRPMetaDataOptions
-      ).map((key) => (
-        <AppCard
-          key={key}
-          type="oidc"
-          info={{
-            name: key,
-            config: config.data.config.oidcRPMetaDataOptions[key],
-          }}
-          issuer={config.data.config.issuerDBOpenIDConnectActivation}
-          rule={ruleOIDC(config.data.config.oidcRPMetaDataOptions[key])}
-        />
-      ));
-      const casConfig = Object.keys(
-        config.data.config.casAppMetaDataOptions
-      ).map((key) => (
-        <AppCard
-          key={key}
-          type="cas"
-          info={{
-            name: key,
-            config: config.data.config.casAppMetaDataOptions[key],
-          }}
-          issuer={config.data.config.issuerDBCASActivation}
-          rule={ruleCAS(config.data.config.casAppMetaDataOptions[key])}
-        />
-      ));
-
-      const renderedData = nativeConfig
-        .concat(samlConfig)
-        .concat(oidcConfig)
-        .concat(casConfig)
-        .filter((el) => {
-          return String(el.props.info.name).includes(filters.search);
-        });
+      const renderedData: JSX.Element[] = [];
+      if (config.data.config.locationRules) {
+        renderedData.push(
+          ...Object.keys(config.data.config.locationRules).map((key) => (
+            <AppCard
+              key={key}
+              type="native"
+              info={{
+                name: key,
+                config: config.data.config.vhostOptions
+                  ? config.data.config.vhostOptions[key]
+                  : {},
+              }}
+              rule={true}
+            />
+          ))
+        );
+      }
+      if (config.data.config.samlSPMetaDataXML) {
+        renderedData.push(
+          ...Object.keys(config.data.config.samlSPMetaDataXML).map((key) => (
+            <AppCard
+              key={key}
+              type="saml"
+              info={{
+                name: key,
+                config: config.data.config.samlSPMetaDataXML
+                  ? config.data.config.samlSPMetaDataXML[key]
+                  : {},
+              }}
+              issuer={config.data.config.issuerDBSAMLActivation}
+              rule={ruleSAML(
+                config.data.config.samlSPMetaDataXML
+                  ? config.data.config.samlSPMetaDataXML[key]
+                  : {}
+              )}
+            />
+          ))
+        );
+      }
+      if (config.data.config.oidcRPMetaDataOptions) {
+        renderedData.push(
+          ...Object.keys(config.data.config.oidcRPMetaDataOptions).map(
+            (key) => (
+              <AppCard
+                key={key}
+                type="oidc"
+                info={{
+                  name: key,
+                  config: config.data.config.oidcRPMetaDataOptions
+                    ? config.data.config.oidcRPMetaDataOptions[key]
+                    : {},
+                }}
+                issuer={config.data.config.issuerDBOpenIDConnectActivation}
+                rule={ruleOIDC(
+                  config.data.config.oidcRPMetaDataOptions
+                    ? config.data.config.oidcRPMetaDataOptions[key]
+                    : {}
+                )}
+              />
+            )
+          )
+        );
+      }
+      if (config.data.config.casAppMetaDataOptions) {
+        renderedData.push(
+          ...Object.keys(config.data.config.casAppMetaDataOptions).map(
+            (key) => (
+              <AppCard
+                key={key}
+                type="cas"
+                info={{
+                  name: key,
+                  config: config.data.config.casAppMetaDataOptions
+                    ? config.data.config.casAppMetaDataOptions[key]
+                    : {},
+                }}
+                issuer={config.data.config.issuerDBCASActivation}
+                rule={ruleCAS(
+                  config.data.config.casAppMetaDataOptions
+                    ? config.data.config.casAppMetaDataOptions[key]
+                    : {}
+                )}
+              />
+            )
+          )
+        );
+      }
+      renderedData.filter((el) => {
+        return String(el.props.info.name).includes(filters.search);
+      });
 
       if (filters.alpha) {
         renderedData.sort((el1, el2) =>
@@ -225,7 +253,7 @@ export default function Manager() {
             >
               <ArrowForwardIcon sx={{ marginRight: "15px" }} />
               {t("next")}
-            </MenuItem>{" "}
+            </MenuItem>
             <Divider />
             <MenuItem
               onClick={() => {

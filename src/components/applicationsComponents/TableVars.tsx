@@ -1,15 +1,14 @@
 import { Button, TextField } from "@mui/material";
-import { useAppDispatch } from "../../app/hooks";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export function TableVars(
   appName: string,
   vars: Record<string, string>,
   tableID: string,
+  dispatch: Function,
   delFunction: Function,
   updateFunction: Function
 ) {
-  const dispatch = useAppDispatch();
   let i = 0;
   return (
     <tbody>

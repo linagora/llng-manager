@@ -59,10 +59,20 @@ export function IssuerAssistant({
     setStep(step - 1);
   };
 
-  const handleGenerateKeys = async () => {
+  const handleGenerateKeys = async (type: string) => {
     try {
       const result = await GenerateKeys();
-      setNewKeysOIDC(result);
+
+      switch (type) {
+        case "oidc":
+          setNewKeysOIDC(result);
+          break;
+        case "saml":
+          setNewKeysSAML(result);
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       console.error("Error generating keys:", error);
     }
@@ -86,6 +96,7 @@ export function IssuerAssistant({
           <ButtonGroup variant="outlined">
             <Button
               onClick={() => {
+                console.log("cancel");
                 onIgnore();
                 setStep(0);
               }}
@@ -196,12 +207,11 @@ export function IssuerAssistant({
             <Button
               variant="outlined"
               className="generateButton"
-              onClick={handleGenerateKeys}
+              onClick={() => handleGenerateKeys("saml")}
             >
               {t("newRSAKey")}
             </Button>
             <div>
-              {" "}
               <ButtonGroup variant="outlined">
                 <Button
                   onClick={() => {
@@ -331,7 +341,7 @@ export function IssuerAssistant({
             <Button
               variant="outlined"
               className="generateButton"
-              onClick={handleGenerateKeys}
+              onClick={() => handleGenerateKeys("oidc")}
             >
               {t("newRSAKey")}
             </Button>

@@ -44,7 +44,7 @@ export interface llngConfig {
   casAppMetaDataExportedVars?: Record<string, Record<string, string>>;
   casAppMetaDataMacros?: Record<string, Record<string, string>>;
   casAppMetaDataNodes?: Record<string, object>;
-  casAppMetaDataOptions: Record<
+  casAppMetaDataOptions?: Record<
     string,
     Record<string, string | number | boolean>
   >;
@@ -256,12 +256,12 @@ export interface llngConfig {
   issuerDBGetPath?: string;
   issuerDBGetRule?: boolean | number | string;
   issuerDBOpenIDActivation?: boolean | number;
-  issuerDBOpenIDConnectActivation: boolean | number;
+  issuerDBOpenIDConnectActivation?: boolean | number;
   issuerDBOpenIDConnectPath?: string;
   issuerDBOpenIDConnectRule?: boolean | number | string;
   issuerDBOpenIDPath?: string;
   issuerDBOpenIDRule?: boolean | number | string;
-  issuerDBSAMLActivation: boolean;
+  issuerDBSAMLActivation?: boolean;
   issuerDBSAMLPath?: string;
   issuerDBSAMLRule?: boolean | number | string;
   issuersTimeout?: number;
@@ -318,7 +318,7 @@ export interface llngConfig {
   locationDetectGeoIpLanguages?: string;
   locationDetectIpDetail?: string;
   locationDetectUaDetail?: string;
-  locationRules: Record<string, Record<string, string>>;
+  locationRules?: Record<string, Record<string, string>>;
   log4perlConfFile?: string;
   logLevel?: string;
   logger?: string;
@@ -426,7 +426,7 @@ export interface llngConfig {
   oidcRPMetaDataExportedVars?: Record<string, Record<string, string>>;
   oidcRPMetaDataMacros?: Record<string, Record<string, string>>;
   oidcRPMetaDataNodes?: Record<string, object>;
-  oidcRPMetaDataOptions: Record<
+  oidcRPMetaDataOptions?: Record<
     string,
     Record<string, string | number | boolean>
   >;
@@ -788,7 +788,7 @@ export interface llngConfig {
   samlSPMetaDataOptionsSignSLOMessage?: number;
   samlSPMetaDataOptionsSignSSOMessage?: number;
   samlSPMetaDataOptionsSignatureMethod?: Array<{ k: string; v: string }>;
-  samlSPMetaDataXML: Record<string, Record<string, string>>;
+  samlSPMetaDataXML?: Record<string, Record<string, string>>;
   samlSPSSODescriptorArtifactResolutionServiceArtifact?: string;
   samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?: string;
   samlSPSSODescriptorAssertionConsumerServiceHTTPPost?: string;
@@ -921,7 +921,7 @@ export interface llngConfig {
   vhostDevOpsRulesUrl?: string;
   vhostHttps?: number;
   vhostMaintenance?: boolean | number;
-  vhostOptions: Record<string, Record<string, boolean | number | string>>;
+  vhostOptions?: Record<string, Record<string, boolean | number | string>>;
   vhostPort?: number;
   vhostServiceTokenTTL?: number;
   vhostType?: Array<{ k: string; v: string }>;

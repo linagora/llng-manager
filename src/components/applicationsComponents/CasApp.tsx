@@ -83,6 +83,7 @@ export function CasApp({ name }: { name: string }) {
                 name,
                 vars,
                 "exportedVars",
+                dispatch,
                 delCASexportedVars,
                 updateCASexportedVars
               )}
@@ -118,6 +119,7 @@ export function CasApp({ name }: { name: string }) {
                 name,
                 casAppMetaDataMacros,
                 "macros",
+                dispatch,
                 delCASAppMetaDataMacros,
                 updateCASAppMetaDataMacros
               )}

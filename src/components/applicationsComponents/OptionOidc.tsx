@@ -77,8 +77,10 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsBypassConsent
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsBypassConsent
+                        : attributes.oidcRPMetaDataOptionsBypassConsent.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -111,8 +113,11 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsIDTokenForceClaims
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsIDTokenForceClaims
+                        : attributes.oidcRPMetaDataOptionsIDTokenForceClaims
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -145,8 +150,10 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAccessTokenJWT
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenJWT
+                        : attributes.oidcRPMetaDataOptionsAccessTokenJWT.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -179,8 +186,11 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAccessTokenClaims
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenClaims
+                        : attributes.oidcRPMetaDataOptionsAccessTokenClaims
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -213,8 +223,10 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsRefreshToken
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsRefreshToken
+                        : attributes.oidcRPMetaDataOptionsRefreshToken.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -250,10 +262,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsUserIDAttr
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsUserIDAttr
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsUserIDAttr
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -278,10 +292,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAdditionalAudiences
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAdditionalAudiences
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAdditionalAudiences
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -326,6 +342,7 @@ export function OptionOidc({ name }: { name: string }) {
                   ? data.oidcRPMetaDataOptionsExtraClaims[name]
                   : {},
                 "oidcRPMetaDataOptionsExtraClaims",
+                dispatch,
                 delOidcRPMetaDataOptionsExtraClaims,
                 updateOidcRPMetaDataOptionsExtraClaims
               )}
@@ -360,6 +377,7 @@ export function OptionOidc({ name }: { name: string }) {
                   ? data.oidcRPMetaDataScopeRules[name]
                   : {},
                 "oidcRPMetaDataScopeRules",
+                dispatch,
                 delOidcRPMetaDataScopeRules,
                 updateOidcRPMetaDataScopeRules
               )}
@@ -385,8 +403,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsIDTokenSignAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsIDTokenSignAlg
+                        : attributes.oidcRPMetaDataOptionsIDTokenSignAlg.default
                     }
                     label={t("oidcRPMetaDataOptionsIDTokenSignAlg")}
                     onChange={(e) =>
@@ -421,8 +441,11 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAccessTokenSignAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenSignAlg
+                        : attributes.oidcRPMetaDataOptionsAccessTokenSignAlg
+                            .default
                     }
                     label={t("oidcRPMetaDataOptionsAccessTokenSignAlg")}
                     onChange={(e) =>
@@ -457,8 +480,11 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsUserInfoSignAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsUserInfoSignAlg
+                        : attributes.oidcRPMetaDataOptionsUserInfoSignAlg
+                            .default
                     }
                     displayEmpty
                     label={t("oidcRPMetaDataOptionsUserInfoSignAlg")}
@@ -488,8 +514,10 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsRequirePKCE
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsRequirePKCE
+                        : attributes.oidcRPMetaDataOptionsRequirePKCE.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -522,8 +550,10 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAllowOffline
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAllowOffline
+                        : attributes.oidcRPMetaDataOptionsAllowOffline.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -556,8 +586,11 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAllowPasswordGrant
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAllowPasswordGrant
+                        : attributes.oidcRPMetaDataOptionsAllowPasswordGrant
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -590,8 +623,12 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                        : attributes
+                            .oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -628,10 +665,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsRequestUris
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsRequestUris
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsRequestUris
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -656,10 +695,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAuthnLevel
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAuthnLevel
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAuthnLevel
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -684,9 +725,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsRule
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsRule
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsRule
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -710,8 +754,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg
+                        : ""
                     }
                     label={t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}
                     displayEmpty
@@ -744,8 +790,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
+                        : attributes
+                            .oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
+                            .default
                     }
                     label={t(
                       "oidcRPMetaDataOptionsAccessTokenEncContentEncAlg"
@@ -783,8 +833,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
+                        : ""
                     }
                     displayEmpty
                     defaultValue=""
@@ -821,8 +873,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
+                        : attributes
+                            .oidcRPMetaDataOptionsIdTokenEncContentEncAlg
+                            .default
                     }
                     label={t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}
                     onChange={(e) =>
@@ -858,8 +914,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
+                        : ""
                     }
                     displayEmpty
                     defaultValue=""
@@ -896,8 +954,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
+                        : attributes
+                            .oidcRPMetaDataOptionsUserInfoEncContentEncAlg
+                            .default
                     }
                     label={t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}
                     onChange={(e) =>
@@ -933,8 +995,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
+                        : ""
                     }
                     displayEmpty
                     defaultValue=""
@@ -971,8 +1035,11 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsLogoutEncContentEncAlg
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutEncContentEncAlg
+                        : attributes.oidcRPMetaDataOptionsLogoutEncContentEncAlg
+                            .default
                     }
                     label={t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}
                     onChange={(e) =>
@@ -1014,10 +1081,12 @@ export function OptionOidc({ name }: { name: string }) {
                   className="form"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsJwksUri
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsJwksUri
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsJwksUri
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1045,11 +1114,13 @@ export function OptionOidc({ name }: { name: string }) {
                   placeholder="oidcRPMetaDataOptionsJwks"
                   value={String(
                     name
-                      ? data.oidcRPMetaDataOptions[name]
+                      ? data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsJwks
                           ? data.oidcRPMetaDataOptions[name]
                               .oidcRPMetaDataOptionsJwks
+                            ? data.oidcRPMetaDataOptions[name]
+                                .oidcRPMetaDataOptionsJwks
+                            : ""
                           : ""
                         : ""
                       : ""
@@ -1116,10 +1187,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="number"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAuthorizationCodeExpiration
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAuthorizationCodeExpiration
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAuthorizationCodeExpiration
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1144,10 +1217,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="number"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsIDTokenExpiration
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsIDTokenExpiration
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsIDTokenExpiration
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1171,10 +1246,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="number"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsAccessTokenExpiration
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAccessTokenExpiration
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsAccessTokenExpiration
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1198,10 +1275,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="number"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsOfflineSessionExpiration
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsOfflineSessionExpiration
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsOfflineSessionExpiration
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1229,8 +1308,11 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsLogoutBypassConfirm
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutBypassConfirm
+                        : attributes.oidcRPMetaDataOptionsLogoutBypassConfirm
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -1263,8 +1345,11 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsLogoutSessionRequired
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutSessionRequired
+                        : attributes.oidcRPMetaDataOptionsLogoutSessionRequired
+                            .default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -1299,8 +1384,10 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions[name]
-                        .oidcRPMetaDataOptionsLogoutType
+                      data.oidcRPMetaDataOptions
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutType
+                        : attributes.oidcRPMetaDataOptionsLogoutType.default
                     }
                     label={t("oidcRPMetaDataOptionsLogoutType")}
                     onChange={(e) =>
@@ -1335,10 +1422,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsLogoutUrl
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsLogoutUrl
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsLogoutUrl
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1362,10 +1451,12 @@ export function OptionOidc({ name }: { name: string }) {
                   variant="filled"
                   type="text"
                   value={String(
-                    data.oidcRPMetaDataOptions[name]
-                      .oidcRPMetaDataOptionsPostLogoutRedirectUris
+                    data.oidcRPMetaDataOptions
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsPostLogoutRedirectUris
+                        ? data.oidcRPMetaDataOptions[name]
+                            .oidcRPMetaDataOptionsPostLogoutRedirectUris
+                        : ""
                       : ""
                   )}
                   onChange={(e) => {
@@ -1392,8 +1483,10 @@ export function OptionOidc({ name }: { name: string }) {
           fullWidth
           rows={4}
           value={String(
-            data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
+            data.oidcRPMetaDataOptions
               ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
+                ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
+                : ""
               : ""
           )}
           onChange={(e) => {
