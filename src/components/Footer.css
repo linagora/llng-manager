@@ -1,0 +1,11 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  background-color: #2f3237;
+  width: 100%;
+  text-align: center;
+  color: #ffffffaf;
+}
+.footer span {
+  margin: 5px;
+}

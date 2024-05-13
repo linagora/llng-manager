@@ -57,7 +57,7 @@ tr:nth-child(even) {
   border-radius: 5px;
 }
 
-table {
+.appDesc table {
   margin-top: 2%;
   border: 1px solid #acacac;
   width: 100%;

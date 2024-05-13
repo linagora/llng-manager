@@ -1,0 +1,36 @@
+.infoTable {
+  border: 1px solid #acacac;
+  width: 100%;
+  text-align: left;
+  max-width: 100%;
+  flex-wrap: wrap;
+  border-collapse: collapse;
+  box-shadow: 5% #acacac;
+}
+
+.infoTable tr,
+td,
+th {
+  padding: 1%;
+}
+
+.desc {
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  margin: 2%;
+}
+
+.logo {
+  width: 400px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px;
+}
+
+.search {
+  margin-right: 2%;
+}

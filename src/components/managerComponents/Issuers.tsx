@@ -70,14 +70,7 @@ function Issuers() {
           ).length
         ),
     });
-  }, [
-    config.issuerDBSAMLActivation,
-    config.samlSPMetaDataXML,
-    config.issuerDBOpenIDConnectActivation,
-    config.oidcRPMetaDataOptions,
-    config.issuerDBCASActivation,
-    config.casAppMetaDataOptions,
-  ]);
+  }, [config]);
   return (
     <div className="issuersList">
       <div className="issuers" data-testid="issuer.saml">

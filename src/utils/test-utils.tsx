@@ -91,6 +91,15 @@ export function renderWithProviders(
           },
         },
       },
+      router: {
+        location: {
+          pathname: "/manager.html",
+          search: "",
+          hash: "#conf/14",
+          state: null,
+          key: "o01z0jry",
+        },
+      },
     },
 
     store = setupStore(preloadedState),
