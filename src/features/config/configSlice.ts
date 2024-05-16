@@ -289,7 +289,6 @@ const configSlice = createSlice({
           state.data.config.post[action.payload.name] = {};
           break;
         case "saml":
-          console.log(action.payload.name, state.data.config.samlSPMetaDataXML);
           if (!state.data.config.samlSPMetaDataXML) {
             state.data.config.samlSPMetaDataXML = {};
           }
@@ -709,6 +708,35 @@ const configSlice = createSlice({
         action.payload.name
       ].oidcRPMetaDataOptionsJwks = action.payload.data;
     },
+    updateAuthParams(
+      state,
+      action: PayloadAction<{ param: string; value: string }>
+    ) {
+      switch (action.payload.param) {
+        case "authentication":
+          state.data.config.authentication = action.payload.value;
+          break;
+        case "registerDB":
+          state.data.config.registerDB = action.payload.value;
+          break;
+        case "passwordDB":
+          state.data.config.passwordDB = action.payload.value;
+          break;
+        case "userDB":
+          state.data.config.userDB = action.payload.value;
+          break;
+        default:
+          break;
+      }
+    },
+    updateModuleParams<K extends keyof llngConfig>(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<{ param: K; value: llngConfig[K] }>
+    ) {
+      state.data.config[action.payload.param] = action.payload.value;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -798,5 +826,7 @@ export const {
   delOidcRPMetaDataScopeRules,
   updateOidcRPMetaDataScopeRules,
   updateOidcRPMetaDataOptionsJwks,
+  updateAuthParams,
+  updateModuleParams,
 } = configSlice.actions;
 export default configSlice.reducer;

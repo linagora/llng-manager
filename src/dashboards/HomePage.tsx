@@ -70,7 +70,12 @@ export function HomePage() {
             </div>
             <div className="search-container">
               <div className="search">
-                <Button variant="contained">{t("authParams")}</Button>
+                <Button
+                  variant="contained"
+                  onClick={() => dispatch(push(`#authParams/latest`))}
+                >
+                  {t("authParams")}
+                </Button>
               </div>
               <div className="search">
                 <TextField
@@ -151,7 +156,7 @@ export function HomePage() {
                       <th>
                         <span>{t("author")}</span>
                       </th>
-                      <td>{config.data.metadata.cfgAuthor}</td>{" "}
+                      <td>{config.data.metadata.cfgAuthor}</td>
                     </tr>
                     <tr>
                       <th>

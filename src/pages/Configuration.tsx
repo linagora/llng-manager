@@ -3,6 +3,7 @@ import AddApp from "../components/managerComponents/AddApp";
 import SaveButton from "./../components/SaveButton";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
 import { HomePage } from "../dashboards/HomePage";
+import { AuthParams } from "../dashboards/AuthParams";
 
 export function Configuration({
   location,
@@ -27,6 +28,15 @@ export function Configuration({
           <div>
             <SaveButton />
             <AddApp />
+          </div>
+        </div>
+      );
+    case "authParams":
+      return (
+        <div className="main">
+          <AuthParams />
+          <div>
+            <SaveButton />
           </div>
         </div>
       );

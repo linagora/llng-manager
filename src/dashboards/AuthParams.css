@@ -1,0 +1,10 @@
+.authOptionChoices {
+  margin: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.options {
+  text-align: left;
+  margin: 2%;
+}

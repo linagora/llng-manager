@@ -21,7 +21,7 @@ export interface llngConfig {
   authChoiceFindUser?: string;
   authChoiceModules?: Record<string, string>;
   authChoiceParam?: string;
-  authentication?: Array<{ k: string; v: string }>;
+  authentication?: string;
   autoSigninRules?: Record<string, Record<string, string>>;
   available2F?: string;
   available2FSelfRegistration?: string;
@@ -573,7 +573,7 @@ export interface llngConfig {
   password2fSelfRegistration?: boolean | number | string;
   password2fTTL?: number | null;
   password2fUserCanRemoveKey?: boolean | number;
-  passwordDB?: Array<{ k: string; v: string }>;
+  passwordDB?: string;
   passwordPolicyActivation?: boolean | number | string;
   passwordPolicyMinDigit?: number;
   passwordPolicyMinLower?: number;
@@ -652,7 +652,7 @@ export interface llngConfig {
   refreshSessions?: boolean | number;
   registerConfirmBody?: string;
   registerConfirmSubject?: string;
-  registerDB?: Array<{ k: string; v: string }>;
+  registerDB?: string;
   registerDoneBody?: string;
   registerDoneSubject?: string;
   registerTimeout?: number;
@@ -906,7 +906,7 @@ export interface llngConfig {
   useRedirectOnForbidden?: boolean | number;
   useSafeJail?: boolean | number;
   userControl?: string;
-  userDB?: Array<{ k: string; v: string }>;
+  userDB?: string;
   userLogger?: string;
   userPivot?: string;
   userSyslogFacility?: string;
