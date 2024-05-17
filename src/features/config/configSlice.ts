@@ -876,6 +876,46 @@ const configSlice = createSlice({
         }
       }
     },
+    newModuleOpt<K extends keyof llngConfig>(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<K>
+    ) {
+      if (!state.data.config[action.payload]) {
+        state.data.config[action.payload] = {} as llngConfig[K];
+      }
+      if (typeof state.data.config[action.payload] === "object") {
+        (state.data.config[action.payload] as Record<string, string>)["new"] =
+          "";
+      }
+    },
+    updateModuleOpt<K extends keyof llngConfig>(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<{ name: K; data: Record<string, string> }>
+    ) {
+      if (!state.data.config[action.payload.name]) {
+        state.data.config[action.payload.name] = {} as llngConfig[K];
+      }
+      state.data.config[action.payload.name] = action.payload
+        .data as llngConfig[K];
+    },
+    delModuleOpt<K extends keyof llngConfig>(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<{ name: K; key: string }>
+    ) {
+      if (state.data.config[action.payload.name]) {
+        if (typeof state.data.config[action.payload.name] === "object") {
+          delete (
+            state.data.config[action.payload.name] as Record<string, string>
+          )[action.payload.key];
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -979,5 +1019,8 @@ export const {
   newChoiceOverParam,
   delChoiceOverParam,
   updateChoiceOverParam,
+  newModuleOpt,
+  delModuleOpt,
+  updateModuleOpt,
 } = configSlice.actions;
 export default configSlice.reducer;

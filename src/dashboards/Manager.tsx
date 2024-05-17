@@ -37,7 +37,6 @@ export default function Manager() {
   );
 
   useEffect(() => {
-    console.log(configNum, config.data.metadata.cfgNum);
     if (!configPresent) {
       setConfigPresent(true);
       dispatch(

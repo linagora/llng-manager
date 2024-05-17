@@ -33,7 +33,6 @@ export function URLLoader({
             setLoading(true);
             setError(false);
             const data = await getFromURL(url);
-            console.log(data);
             dispatch(
               loadFunction({
                 name: appName ? appName : "",

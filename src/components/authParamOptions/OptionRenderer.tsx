@@ -26,14 +26,17 @@ import {
   delChoiceParam,
   delCombOverParam,
   delCombParam,
+  delModuleOpt,
   newChoiceOverParam,
   newChoiceParam,
   newCombOverParam,
   newCombParam,
+  newModuleOpt,
   updateChoiceOverParam,
   updateChoiceParam,
   updateCombOverParam,
   updateCombParam,
+  updateModuleOpt,
   updateModuleParams,
 } from "../../features/config/configSlice";
 function updateComb(
@@ -161,6 +164,7 @@ function cmbModuleContainer(
               <tr>
                 <td>
                   <TextField
+                    size="small"
                     type="text"
                     placeholder={t(key)}
                     value={key}
@@ -308,6 +312,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                 <tr>
                   <td>
                     <TextField
+                      size="small"
                       type="text"
                       value={key}
                       onChange={(e) =>
@@ -398,6 +403,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                   </td>
                   <td>
                     <TextField
+                      size="small"
                       type="url"
                       value={url}
                       onChange={() =>
@@ -413,6 +419,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                   </td>
                   <td>
                     <TextField
+                      size="small"
                       type="text"
                       value={cond}
                       onChange={() =>
@@ -503,7 +510,9 @@ function RecursRender(
       case "int":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="number"
               onChange={(e) =>
                 dispatch(
@@ -521,7 +530,9 @@ function RecursRender(
       case "text":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="text"
               onChange={(e) =>
                 dispatch(
@@ -539,7 +550,9 @@ function RecursRender(
       case "PerlModule":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="text"
               onChange={(e) =>
                 dispatch(
@@ -557,7 +570,9 @@ function RecursRender(
       case "password":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="password"
               onChange={(e) =>
                 dispatch(
@@ -575,7 +590,9 @@ function RecursRender(
       case "intOrNull":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="number"
               onChange={(e) =>
                 dispatch(
@@ -591,14 +608,27 @@ function RecursRender(
           </ul>
         );
       case "authChoiceContainer":
-        return authChoiceContainer(
-          config[el as keyof llngConfig] as Record<string, string>,
-          dispatch
+        return (
+          <>
+            <strong className="title3">{t(el)}</strong>
+            {authChoiceContainer(
+              config[el as keyof llngConfig] as Record<string, string>,
+              dispatch
+            )}
+          </>
         );
       case "cmbModuleContainer":
-        return cmbModuleContainer(
-          config[el as keyof llngConfig] as Record<string, Record<string, any>>,
-          dispatch
+        return (
+          <>
+            <strong className="title3">{t(el)}</strong>{" "}
+            {cmbModuleContainer(
+              config[el as keyof llngConfig] as Record<
+                string,
+                Record<string, any>
+              >,
+              dispatch
+            )}
+          </>
         );
       case "select":
         return (
@@ -665,35 +695,53 @@ function RecursRender(
         );
       case "keyTextContainer":
         return (
-          <table id={el + "table"}>
-            <thead>
-              <tr>
-                <th>{t("keys")}</th>
-                <th>{t("values")}</th>
-                <th>
-                  <Button className="plus">
-                    <AddCircleIcon color="success" />
-                  </Button>
-                </th>
-              </tr>
-            </thead>
-            {TableVars(
-              el,
-              config[el as keyof llngConfig] as Record<string, string>,
-              el + "Table",
-              console.log,
-              console.log,
-              console.log
-            )}
-          </table>
+          <>
+            <strong className="title3">{t(el)}</strong>
+            <table id={el + "Table"}>
+              <thead>
+                <tr>
+                  <th>{t("keys")}</th>
+                  <th>{t("values")}</th>
+                  <th>
+                    <Button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newModuleOpt(el as keyof llngConfig))
+                      }
+                    >
+                      <AddCircleIcon color="success" />
+                    </Button>
+                  </th>
+                </tr>
+              </thead>
+              {TableVars(
+                el,
+                config[el as keyof llngConfig] as Record<string, string>,
+                el + "Table",
+                dispatch,
+                delModuleOpt,
+                updateModuleOpt
+              )}
+            </table>
+          </>
         );
       case "url":
         return (
           <ul>
+            <strong className="title3">{t(el)}</strong>
             <TextField
+              size="small"
               type="url"
               placeholder={t(el)}
               value={config[el as keyof llngConfig]}
+              onChange={(e) =>
+                dispatch(
+                  updateModuleParams({
+                    param: el as keyof llngConfig,
+                    value: String(e.target.value),
+                  })
+                )
+              }
             />
           </ul>
         );
@@ -726,6 +774,7 @@ function RecursRender(
               </RadioGroup>
             </FormControl>
             <TextField
+              size="small"
               type="url"
               value={config[el as keyof llngConfig]}
               onChange={(e) =>
@@ -761,7 +810,7 @@ export function OptionRenderer({ selected }: { selected: string }) {
   return (
     <div>
       <strong className="title2">{t(l)}</strong>
-      <div>
+      <div className="appDesc">
         {nodeSelected ? RecursRender(nodeSelected, config, 0, dispatch) : ""}
       </div>
     </div>
