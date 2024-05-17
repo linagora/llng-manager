@@ -765,6 +765,9 @@ const configSlice = createSlice({
       if (!state.data.config.combModules) {
         state.data.config.combModules = {};
       }
+      if (!state.data.config.combModules[action.payload].over) {
+        state.data.config.combModules[action.payload].over = {};
+      }
       const id: string = `new${
         Object.keys(state.data.config.combModules[action.payload].over).length +
         1
@@ -800,6 +803,77 @@ const configSlice = createSlice({
           state.data.config.combModules[action.payload.name]
             .over as unknown as Record<string, number | string>
         )[action.payload.key];
+      }
+    },
+    newChoiceParam(state) {
+      if (!state.data.config.authChoiceModules) {
+        state.data.config.authChoiceModules = {};
+      }
+
+      state.data.config.authChoiceModules["1_Key"] = "Null;Null;Null;;;{}";
+    },
+    updateChoiceParam(state, action: PayloadAction<Record<string, string>>) {
+      if (!state.data.config.authChoiceModules) {
+        state.data.config.authChoiceModules = {};
+      }
+
+      state.data.config.authChoiceModules = action.payload;
+    },
+    delChoiceParam(state, action: PayloadAction<string>) {
+      if (state.data.config.authChoiceModules) {
+        delete state.data.config.authChoiceModules[action.payload];
+      }
+    },
+    newChoiceOverParam(state, action: PayloadAction<string>) {
+      if (!state.data.config.authChoiceModules) {
+        state.data.config.authChoiceModules = {};
+      }
+      if (!state.data.config.authChoiceModules[action.payload]) {
+        state.data.config.authChoiceModules[action.payload] = "";
+      }
+
+      const value =
+        state.data.config.authChoiceModules[action.payload].split(";");
+      const choiceOver: Record<string, string> = JSON.parse(value[5]);
+      const id: string = `new${Object.keys(choiceOver).length + 1}`;
+      choiceOver[id] = "";
+      value[5] = JSON.stringify(choiceOver);
+      state.data.config.authChoiceModules[action.payload] = value.join(";");
+    },
+    updateChoiceOverParam(
+      state,
+      action: PayloadAction<{
+        name: string;
+        data: Record<string, string>;
+      }>
+    ) {
+      if (!state.data.config.authChoiceModules) {
+        state.data.config.authChoiceModules = {};
+      }
+      if (!state.data.config.authChoiceModules[action.payload.name]) {
+        state.data.config.authChoiceModules[action.payload.name] = "";
+      }
+
+      const value =
+        state.data.config.authChoiceModules[action.payload.name].split(";");
+      value[5] = JSON.stringify(action.payload.data);
+      state.data.config.authChoiceModules[action.payload.name] =
+        value.join(";");
+    },
+    delChoiceOverParam(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.authChoiceModules) {
+        if (state.data.config.authChoiceModules[action.payload.name]) {
+          const value =
+            state.data.config.authChoiceModules[action.payload.name].split(";");
+          const choiceOver: Record<string, string> = JSON.parse(value[5]);
+          delete choiceOver[action.payload.key];
+          value[5] = JSON.stringify(choiceOver);
+          state.data.config.authChoiceModules[action.payload.name] =
+            value.join(";");
+        }
       }
     },
   },
@@ -899,5 +973,11 @@ export const {
   newCombOverParam,
   delCombOverParam,
   updateCombOverParam,
+  newChoiceParam,
+  delChoiceParam,
+  updateChoiceParam,
+  newChoiceOverParam,
+  delChoiceOverParam,
+  updateChoiceOverParam,
 } = configSlice.actions;
 export default configSlice.reducer;

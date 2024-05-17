@@ -22,17 +22,25 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { llngConfig } from "../../utils/types";
 import {
+  delChoiceOverParam,
+  delChoiceParam,
   delCombOverParam,
   delCombParam,
+  newChoiceOverParam,
+  newChoiceParam,
   newCombOverParam,
   newCombParam,
+  updateChoiceOverParam,
+  updateChoiceParam,
   updateCombOverParam,
   updateCombParam,
   updateModuleParams,
 } from "../../features/config/configSlice";
 function updateComb(
   tableID: string,
-  selectData?: { name?: string; type?: string; use?: string }
+  data: Record<string, Record<string, string | Record<string, string>>>,
+  selectData: { name: string; type?: string; use?: string },
+  newkey?: string
 ) {
   const headerList: Record<
     string,
@@ -51,16 +59,78 @@ function updateComb(
         if (key === selectData?.name) {
           headerList[key] = {
             for: selectData?.use ? selectData.use : use ? use : "",
+            over: data[key].over,
             type: selectData?.type ? selectData.type : type ? type : "",
+          };
+        } else if (newkey && key === newkey) {
+          headerList[newkey] = {
+            for: use ? use : "",
+            over: data[selectData.name].over,
+            type: type ? type : "",
           };
         } else {
           headerList[key] = {
             for: use ? use : "",
+            over: data[key] ? data[key].over : {},
             type: type ? type : "",
           };
         }
       }
-      console.log(headerList);
+    }
+  }
+  return headerList;
+}
+
+function updateChoice(
+  tableID: string,
+  data: Record<string, string>,
+  selectData: { name: string; auth?: string; user?: string; pass?: string },
+  newkey?: string
+) {
+  const headerList: Record<string, string> = {};
+
+  const table = document.getElementById(tableID);
+  const rows = table?.getElementsByTagName("tr");
+  if (rows) {
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const key = cells[0].querySelector("input")?.value;
+      const authMod = cells[1].querySelector("input")?.value;
+      const userMod = cells[2].querySelector("input")?.value;
+      const passMod = cells[3].querySelector("input")?.value;
+      const url = cells[4].querySelector("input")?.value;
+      const cond = cells[5].querySelector("input")?.value;
+
+      if (key) {
+        if (key === selectData.name) {
+          headerList[selectData.name] = [
+            selectData?.auth ? selectData?.auth : authMod ? authMod : "",
+            selectData?.user ? selectData?.user : userMod ? userMod : "",
+            selectData?.pass ? selectData?.pass : passMod ? passMod : "",
+            url ? url : "",
+            cond ? cond : "",
+            data[selectData.name].split(";")[5],
+          ].join(";");
+        } else if (newkey && key === newkey) {
+          headerList[key ? key : ""] = [
+            authMod ? authMod : selectData?.auth ? selectData?.auth : "",
+            userMod ? userMod : selectData?.user ? selectData?.user : "",
+            passMod ? passMod : selectData?.pass ? selectData?.pass : "",
+            url ? url : "",
+            cond ? cond : "",
+            data[selectData.name].split(";")[5],
+          ].join(";");
+        } else {
+          headerList[key ? key : ""] = [
+            authMod ? authMod : selectData?.auth ? selectData?.auth : "",
+            userMod ? userMod : selectData?.user ? selectData?.user : "",
+            passMod ? passMod : selectData?.pass ? selectData?.pass : "",
+            url ? url : "",
+            cond ? cond : "",
+            data[key].split(";")[5],
+          ].join(";");
+        }
+      }
     }
   }
   return headerList;
@@ -94,8 +164,19 @@ function cmbModuleContainer(
                     type="text"
                     placeholder={t(key)}
                     value={key}
-                    onChange={() =>
-                      dispatch(updateCombParam(updateComb("combTable")))
+                    onChange={(e) =>
+                      dispatch(
+                        updateCombParam(
+                          updateComb(
+                            "combTable",
+                            data,
+                            {
+                              name: key,
+                            },
+                            e.target.value
+                          )
+                        )
+                      )
                     }
                   />
                 </td>
@@ -109,7 +190,7 @@ function cmbModuleContainer(
                       onChange={(e) =>
                         dispatch(
                           updateCombParam(
-                            updateComb("combTable", {
+                            updateComb("combTable", data, {
                               name: key,
                               type: String(e.target.value),
                             })
@@ -133,7 +214,7 @@ function cmbModuleContainer(
                       onChange={(e) =>
                         dispatch(
                           updateCombParam(
-                            updateComb("combTable", {
+                            updateComb("combTable", data, {
                               name: key,
                               use: String(e.target.value),
                             })
@@ -196,90 +277,206 @@ function cmbModuleContainer(
     </>
   );
 }
-function authChoiceContainer(data: Record<string, string>) {
+function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>{t("name")}</th>
-          <th>{t("authentication")}</th>
-          <th>{t("userDB")}</th>
-          <th>{t("passwordDB")}</th>
-          <th>{t("url")}</th>
-          <th>{t("condition")}</th>
-          <th>
-            <Button className="plus">
-              <AddCircleIcon color="success" />
-            </Button>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.keys(data).map((key) => {
-          const [authMod, userMod, passMod, url, cond] = data[key].split(";");
-          return (
-            <tr>
-              <td>
-                <TextField type="text" value={key} />
-              </td>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>{t("type")}</InputLabel>
-                  <Select
-                    label={t("type")}
-                    defaultValue={"LDAP"}
-                    value={authMod}
-                  >
-                    {attributes.authChoiceModules.select[0].map((e) => {
-                      return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
-              </td>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>{t("type")}</InputLabel>
-                  <Select
-                    label={t("type")}
-                    defaultValue={"LDAP"}
-                    value={userMod}
-                  >
-                    {attributes.authChoiceModules.select[1].map((e) => {
-                      return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
-              </td>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>{t("type")}</InputLabel>
-                  <Select
-                    label={t("type")}
-                    defaultValue={"LDAP"}
-                    value={passMod}
-                  >
-                    {attributes.authChoiceModules.select[2].map((e) => {
-                      return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                    })}
-                  </Select>
-                </FormControl>
-              </td>
-              <td>
-                <TextField type="url" value={url} />
-              </td>
-              <td>
-                <TextField type="text" value={cond} />
-              </td>
-              <td>
-                <Button className="minus">
-                  <RemoveCircleIcon color="error" />
-                </Button>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <>
+      <table id="choiceParam">
+        <thead>
+          <tr>
+            <th>{t("name")}</th>
+            <th>{t("authentication")}</th>
+            <th>{t("userDB")}</th>
+            <th>{t("passwordDB")}</th>
+            <th>{t("url")}</th>
+            <th>{t("condition")}</th>
+            <th>
+              <Button
+                className="plus"
+                onClick={() => dispatch(newChoiceParam())}
+              >
+                <AddCircleIcon color="success" />
+              </Button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(data).map((key) => {
+            const [authMod, userMod, passMod, url, cond, over] =
+              data[key].split(";");
+            return (
+              <>
+                <tr>
+                  <td>
+                    <TextField
+                      type="text"
+                      value={key}
+                      onChange={(e) =>
+                        dispatch(
+                          updateChoiceParam(
+                            updateChoice(
+                              "choiceParam",
+                              data,
+                              { name: key },
+                              e.target.value
+                            )
+                          )
+                        )
+                      }
+                    />
+                  </td>
+                  <td>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel shrink>{t("type")}</InputLabel>
+                      <Select
+                        label={t("type")}
+                        defaultValue={"LDAP"}
+                        value={authMod}
+                        onChange={(e) =>
+                          dispatch(
+                            updateChoiceParam(
+                              updateChoice("choiceParam", data, {
+                                name: key,
+                                auth: e.target.value,
+                              })
+                            )
+                          )
+                        }
+                      >
+                        {attributes.authChoiceModules.select[0].map((e) => {
+                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
+                        })}
+                      </Select>
+                    </FormControl>
+                  </td>
+                  <td>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel shrink>{t("type")}</InputLabel>
+                      <Select
+                        label={t("type")}
+                        defaultValue={"LDAP"}
+                        value={userMod}
+                        onChange={(e) =>
+                          dispatch(
+                            updateChoiceParam(
+                              updateChoice("choiceParam", data, {
+                                name: key,
+                                user: e.target.value,
+                              })
+                            )
+                          )
+                        }
+                      >
+                        {attributes.authChoiceModules.select[1].map((e) => {
+                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
+                        })}
+                      </Select>
+                    </FormControl>
+                  </td>
+                  <td>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel shrink>{t("type")}</InputLabel>
+                      <Select
+                        label={t("type")}
+                        defaultValue={"LDAP"}
+                        value={passMod}
+                        onChange={(e) =>
+                          dispatch(
+                            updateChoiceParam(
+                              updateChoice("choiceParam", data, {
+                                name: key,
+                                pass: e.target.value,
+                              })
+                            )
+                          )
+                        }
+                      >
+                        {attributes.authChoiceModules.select[2].map((e) => {
+                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
+                        })}
+                      </Select>
+                    </FormControl>
+                  </td>
+                  <td>
+                    <TextField
+                      type="url"
+                      value={url}
+                      onChange={() =>
+                        dispatch(
+                          updateChoiceParam(
+                            updateChoice("choiceParam", data, {
+                              name: key,
+                            })
+                          )
+                        )
+                      }
+                    />
+                  </td>
+                  <td>
+                    <TextField
+                      type="text"
+                      value={cond}
+                      onChange={() =>
+                        dispatch(
+                          updateChoiceParam(
+                            updateChoice("choiceParam", data, {
+                              name: key,
+                            })
+                          )
+                        )
+                      }
+                    />
+                  </td>
+                  <td>
+                    <Button
+                      className="minus"
+                      onClick={() => dispatch(delChoiceParam(key))}
+                    >
+                      <RemoveCircleIcon color="error" />
+                    </Button>
+                  </td>
+                </tr>
+              </>
+            );
+          })}
+        </tbody>
+      </table>
+      {Object.keys(data).map((key) => {
+        const [authMod, userMod, passMod, url, cond, over] =
+          data[key].split(";");
+        return (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              {t("overPrm") + " " + key}
+            </AccordionSummary>
+
+            <table id={`overParam${key}`}>
+              <thead>
+                <tr>
+                  <th>{t("overPrm")}</th>
+                  <th>{t("value")}</th>
+                  <th>
+                    <Button
+                      className="plus"
+                      onClick={() => dispatch(newChoiceOverParam(key))}
+                    >
+                      <AddCircleIcon color="success" />
+                    </Button>
+                  </th>
+                </tr>
+              </thead>
+              {TableVars(
+                key,
+                (over ? JSON.parse(over) : {}) as Record<string, string>,
+                `overParam${key}`,
+                dispatch,
+                delChoiceOverParam,
+                updateChoiceOverParam
+              )}
+            </table>
+          </Accordion>
+        );
+      })}
+    </>
   );
 }
 
@@ -395,7 +592,8 @@ function RecursRender(
         );
       case "authChoiceContainer":
         return authChoiceContainer(
-          config[el as keyof llngConfig] as Record<string, string>
+          config[el as keyof llngConfig] as Record<string, string>,
+          dispatch
         );
       case "cmbModuleContainer":
         return cmbModuleContainer(
@@ -435,7 +633,6 @@ function RecursRender(
           </FormControl>
         );
       case "bool":
-        console.log(t(el));
         return (
           <div>
             <FormControl>

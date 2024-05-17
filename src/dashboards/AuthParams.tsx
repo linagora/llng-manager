@@ -11,9 +11,6 @@ export function AuthParams() {
   const authChoiceModules = useAppSelector(
     (state) => state.config.data.config.authChoiceModules
   );
-  const combModule = useAppSelector(
-    (state) => state.config.data.config.combModules
-  );
   const authModule = useAppSelector(
     (state) => state.config.data.config.authentication
   );

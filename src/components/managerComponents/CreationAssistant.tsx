@@ -96,7 +96,6 @@ export function CreationAssistant({
                 </Button>
                 <Button
                   onClick={() => {
-                    console.log(appType);
                     if (name && appType !== "None") {
                       setPage(page + 1);
                       dispatch(newApp({ name, type: appType }));
