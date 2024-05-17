@@ -120,10 +120,7 @@ export interface llngConfig {
   checkXSS?: boolean | number;
   combModules?: Record<
     string,
-    Record<
-      string,
-      { for: string; over?: Record<string, string | number>; type: string }
-    >
+    Record<string, string | Record<string, string | number>>
   >;
   combination?: string;
   compactConf?: boolean | number;

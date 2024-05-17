@@ -51,14 +51,6 @@ export function AuthParams() {
       }
       return [];
     }),
-    ...Object.keys(
-      choices.includes("Combination") ? (combModule ? combModule : {}) : {}
-    ).flatMap((key) => {
-      if (combModule) {
-        return combModule[key].type;
-      }
-      return [];
-    }),
   ];
 
   const [optionSelected, setOptionSelected] = useState(authModule);

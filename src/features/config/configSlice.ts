@@ -737,6 +737,71 @@ const configSlice = createSlice({
     ) {
       state.data.config[action.payload.param] = action.payload.value;
     },
+    newCombParam(state) {
+      if (!state.data.config.combModules) {
+        state.data.config.combModules = {};
+      }
+
+      state.data.config.combModules["new"] = { for: "0", type: "LDAP" };
+    },
+    updateCombParam(
+      state,
+      action: PayloadAction<
+        Record<string, Record<string, string | Record<string, string | number>>>
+      >
+    ) {
+      if (!state.data.config.combModules) {
+        state.data.config.combModules = {};
+      }
+
+      state.data.config.combModules = action.payload;
+    },
+    delCombParam(state, action: PayloadAction<string>) {
+      if (state.data.config.combModules) {
+        delete state.data.config.combModules[action.payload];
+      }
+    },
+    newCombOverParam(state, action: PayloadAction<string>) {
+      if (!state.data.config.combModules) {
+        state.data.config.combModules = {};
+      }
+      const id: string = `new${
+        Object.keys(state.data.config.combModules[action.payload].over).length +
+        1
+      }`;
+
+      (
+        state.data.config.combModules[action.payload].over as unknown as Record<
+          string,
+          number | string
+        >
+      )[id] = "";
+    },
+    updateCombOverParam(
+      state,
+      action: PayloadAction<{
+        name: string;
+        data: Record<string, string>;
+      }>
+    ) {
+      if (!state.data.config.combModules) {
+        state.data.config.combModules = {};
+      }
+
+      state.data.config.combModules[action.payload.name].over =
+        action.payload.data;
+    },
+    delCombOverParam(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.combModules) {
+        delete (
+          state.data.config.combModules[action.payload.name]
+            .over as unknown as Record<string, number | string>
+        )[action.payload.key];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -828,5 +893,11 @@ export const {
   updateOidcRPMetaDataOptionsJwks,
   updateAuthParams,
   updateModuleParams,
+  delCombParam,
+  newCombParam,
+  updateCombParam,
+  newCombOverParam,
+  delCombOverParam,
+  updateCombOverParam,
 } = configSlice.actions;
 export default configSlice.reducer;
