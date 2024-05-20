@@ -11,7 +11,11 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
+
 import tree from "../../static/tree.json";
 import attributes from "../../static/attributes.json";
 import { t } from "i18next";
@@ -148,9 +152,15 @@ function cmbModuleContainer(
       <table id="combTable">
         <thead>
           <tr>
-            <th>{t("name")}</th>
-            <th>{t("type")}</th>
-            <th>{t("use")}</th>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("name")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("type")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("use")}</th>
+            </Tooltip>
             <th>
               <Button className="plus" onClick={() => dispatch(newCombParam())}>
                 <AddCircleIcon color="success" />
@@ -255,8 +265,12 @@ function cmbModuleContainer(
           <table id={`overParam${key}`}>
             <thead>
               <tr>
-                <th>{t("overPrm")}</th>
-                <th>{t("value")}</th>
+                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("overPrm")}</th>
+                </Tooltip>
+                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("value")}</th>
+                </Tooltip>
                 <th>
                   <Button
                     className="plus"
@@ -287,12 +301,24 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
       <table id="choiceParam">
         <thead>
           <tr>
-            <th>{t("name")}</th>
-            <th>{t("authentication")}</th>
-            <th>{t("userDB")}</th>
-            <th>{t("passwordDB")}</th>
-            <th>{t("url")}</th>
-            <th>{t("condition")}</th>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("name")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("authentication")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("userDB")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("passwordDB")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("url")}</th>
+            </Tooltip>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <th>{t("condition")}</th>
+            </Tooltip>
             <th>
               <Button
                 className="plus"
@@ -459,8 +485,12 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
             <table id={`overParam${key}`}>
               <thead>
                 <tr>
-                  <th>{t("overPrm")}</th>
-                  <th>{t("value")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("overPrm")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("value")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -510,7 +540,9 @@ function RecursRender(
       case "int":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="number"
@@ -530,7 +562,9 @@ function RecursRender(
       case "text":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="text"
@@ -550,7 +584,9 @@ function RecursRender(
       case "PerlModule":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="text"
@@ -570,7 +606,9 @@ function RecursRender(
       case "password":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="password"
@@ -590,7 +628,9 @@ function RecursRender(
       case "intOrNull":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="number"
@@ -610,7 +650,9 @@ function RecursRender(
       case "authChoiceContainer":
         return (
           <>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             {authChoiceContainer(
               config[el as keyof llngConfig] as Record<string, string>,
               dispatch
@@ -620,7 +662,9 @@ function RecursRender(
       case "cmbModuleContainer":
         return (
           <>
-            <strong className="title3">{t(el)}</strong>{" "}
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             {cmbModuleContainer(
               config[el as keyof llngConfig] as Record<
                 string,
@@ -696,12 +740,18 @@ function RecursRender(
       case "keyTextContainer":
         return (
           <>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <table id={el + "Table"}>
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -728,7 +778,9 @@ function RecursRender(
       case "url":
         return (
           <ul>
-            <strong className="title3">{t(el)}</strong>
+            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <strong className="title3">{t(el)}</strong>
+            </Tooltip>
             <TextField
               size="small"
               type="url"

@@ -27,7 +27,11 @@ import {
   Select,
   TextField,
   styled,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
+
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
@@ -337,11 +341,21 @@ export function SAMLApp({ name }: { name: string }) {
             <table id="exportedAttribute">
               <thead>
                 <tr>
-                  <th>{t("variableName")}</th>
-                  <th>{t("attributeName")}</th>
-                  <th>{t("friendlyName")}</th>
-                  <th>{t("mandatory")}</th>
-                  <th>{t("format")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("variableName")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("attributeName")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("friendlyName")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("mandatory")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("format")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       onClick={() =>
@@ -375,8 +389,12 @@ export function SAMLApp({ name }: { name: string }) {
             <table id="samlSPMetaDataMacros">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"

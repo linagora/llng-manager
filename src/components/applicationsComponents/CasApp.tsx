@@ -20,7 +20,10 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -67,8 +70,16 @@ export function CasApp({ name }: { name: string }) {
             <table id="exportedVars">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("keys")}</th>
+                    </Tooltip>
+                  </th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("values")}</th>
+                    </Tooltip>
+                  </th>
                   <th>
                     <Button
                       className="plus"
@@ -103,8 +114,16 @@ export function CasApp({ name }: { name: string }) {
             <table id="macros">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("keys")}</th>
+                    </Tooltip>
+                  </th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("values")}</th>
+                    </Tooltip>
+                  </th>
                   <th>
                     <Button
                       className="plus"
@@ -138,7 +157,11 @@ export function CasApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsDisplayName")}</th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("casAppMetaDataOptionsDisplayName")}</th>
+                    </Tooltip>
+                  </th>
                   <td>
                     <TextField
                       size="small"
@@ -164,7 +187,9 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsService")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("casAppMetaDataOptionsService")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -190,7 +215,9 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsLogout")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("casAppMetaDataOptionsLogout")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -228,7 +255,9 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -254,7 +283,9 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsRule")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("casAppMetaDataOptionsRule")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -280,7 +311,9 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("casAppMetaDataOptionsComment")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("casAppMetaDataOptionsComment")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       variant="filled"

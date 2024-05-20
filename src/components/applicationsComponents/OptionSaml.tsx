@@ -12,7 +12,10 @@ import {
   MenuItem,
   Select,
   TextField,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
 
 export function OptionSaml({ name }: { name: string }) {
   const data = useAppSelector((state) =>
@@ -45,7 +48,9 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -79,7 +84,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -105,7 +112,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsOneTimeUse")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsOneTimeUse")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -136,7 +145,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -161,7 +172,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -183,7 +196,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsForceUTF8")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsForceUTF8")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -220,7 +235,9 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -254,7 +271,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsSignSSOMessage")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsSignSSOMessage")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -285,7 +304,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsCheckSSOMessageSignature")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsCheckSSOMessageSignature")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -317,7 +338,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -351,7 +374,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsSignSLOMessage")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsSignSLOMessage")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -387,7 +412,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsCheckSLOMessageSignature")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsCheckSLOMessageSignature")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -425,7 +452,9 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -459,7 +488,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsEnableIDPInitiatedURL")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsEnableIDPInitiatedURL")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -490,7 +521,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -512,7 +545,9 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsRule")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsRule")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -540,7 +575,9 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -566,7 +603,11 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsFederationOptionalAttributes")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>
+                  {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
+                </th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -605,7 +646,11 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("samlSPMetaDataOptionsFederationRequiredAttributes")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>
+                  {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
+                </th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>

@@ -26,7 +26,11 @@ import {
   Select,
   TextField,
   styled,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
+
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
@@ -71,7 +75,9 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsBypassConsent")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsBypassConsent")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -107,7 +113,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsIDTokenForceClaims")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsIDTokenForceClaims")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -144,7 +152,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenJWT")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenJWT")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -180,7 +190,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenClaims")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenClaims")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -217,7 +229,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsRefreshToken")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsRefreshToken")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -253,7 +267,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -283,7 +299,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -324,8 +342,12 @@ export function OptionOidc({ name }: { name: string }) {
             <table id="oidcRPMetaDataOptionsExtraClaims">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <Button
                     className="plus"
                     onClick={() =>
@@ -361,8 +383,12 @@ export function OptionOidc({ name }: { name: string }) {
             <table id="oidcRPMetaDataScopeRules">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <Button
                     className="plus"
                     onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
@@ -395,7 +421,9 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsIDTokenSignAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsIDTokenSignAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -433,7 +461,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenSignAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenSignAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -472,7 +502,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsUserInfoSignAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsUserInfoSignAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -508,7 +540,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsRequirePKCE")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsRequirePKCE")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -544,7 +578,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAllowOffline")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAllowOffline")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -580,7 +616,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAllowPasswordGrant")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAllowPasswordGrant")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -617,7 +655,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAllowClientCredentialsGrant")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAllowClientCredentialsGrant")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -656,7 +696,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -686,7 +728,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -716,7 +760,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsRule")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsRule")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -746,7 +792,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -782,7 +830,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -825,7 +875,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -865,7 +917,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -906,7 +960,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -946,7 +1002,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -987,7 +1045,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel shrink>
@@ -1027,7 +1087,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -1072,7 +1134,9 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1179,7 +1243,9 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1209,7 +1275,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1238,7 +1306,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1267,7 +1337,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1302,7 +1374,9 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutBypassConfirm")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutBypassConfirm")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -1339,7 +1413,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutSessionRequired")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutSessionRequired")}</th>
+              </Tooltip>
               <td>
                 <FormControl>
                   <RadioGroup
@@ -1376,7 +1452,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutType")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutType")}</th>
+              </Tooltip>
               <td>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel>
@@ -1414,7 +1492,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"
@@ -1443,7 +1523,9 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
+              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
+              </Tooltip>
               <td>
                 <TextField
                   size="small"

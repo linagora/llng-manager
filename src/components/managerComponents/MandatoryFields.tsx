@@ -17,7 +17,10 @@ import {
   TextField,
   Button,
   styled,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { ChangeEvent } from "react";
 
@@ -113,7 +116,9 @@ export function MandatoryFields({
           <table>
             <tbody>
               <tr>
-                <th>{t("oidcRPMetaDataOptionsClientID")}</th>
+                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("oidcRPMetaDataOptionsClientID")}</th>
+                </Tooltip>
                 <td>
                   <TextField
                     size="small"
@@ -148,7 +153,9 @@ export function MandatoryFields({
                 </td>
               </tr>
               <tr>
-                <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
+                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
+                </Tooltip>
                 <td>
                   <TextField
                     size="small"
@@ -181,7 +188,9 @@ export function MandatoryFields({
                 </td>
               </tr>
               <tr>
-                <th>{t("oidcRPMetaDataOptionsPublic")}</th>
+                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("oidcRPMetaDataOptionsPublic")}</th>
+                </Tooltip>
                 <td>
                   <FormControl>
                     <RadioGroup

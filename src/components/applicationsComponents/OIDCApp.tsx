@@ -25,7 +25,11 @@ import {
   Select,
   MenuItem,
   TextField,
+  Tooltip,
 } from "@mui/material";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
+
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateExpAttr(
   tableID: string,
@@ -338,7 +342,9 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -365,7 +371,9 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -392,7 +400,9 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("oidcRPMetaDataOptionsDisplay")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -421,7 +431,9 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("oidcRPMetaDataOptionsIcon")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("oidcRPMetaDataOptionsIcon")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -459,10 +471,18 @@ export function OIDCApp({ name }: { name: string }) {
             <table id="exportedVars">
               <thead>
                 <tr>
-                  <th>{t("claimName")}</th>
-                  <th>{t("variableName")}</th>
-                  <th>{t("type")}</th>
-                  <th>{t("array")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("claimName")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("variableName")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("type")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("array")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -498,8 +518,12 @@ export function OIDCApp({ name }: { name: string }) {
             <table id="oidcRPMetaDataMacros">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"

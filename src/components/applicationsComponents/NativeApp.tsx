@@ -33,8 +33,11 @@ import {
   RadioGroup,
   Select,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import Markdown from "markdown-to-jsx";
+import definitions from "../../static/definitions.json";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -201,7 +204,9 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
         );
       })}
       <tr>
-        <th>{t("defaultRule")}</th>
+        <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+          <th>{t("defaultRule")}</th>
+        </Tooltip>
         <td>
           <TextField
             size="small"
@@ -422,13 +427,31 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("vhostComment")}</th>
-                  <th>{t("regexp")}</th>
-                  <th>{t("rules")}</th>
-                  <th>{t("rulesAuthnLevel")}</th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("vhostComment")}</th>
+                    </Tooltip>
+                  </th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("regexp")}</th>
+                    </Tooltip>
+                  </th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("rules")}</th>
+                    </Tooltip>
+                  </th>
+                  <th>
+                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                      <th>{t("rulesAuthnLevel")}</th>
+                    </Tooltip>
+                  </th>
                 </tr>
                 <tr>
-                  <th>{t("defaultRule")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("defaultRule")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -476,7 +499,9 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("maintenance")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("maintenance")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -519,10 +544,18 @@ export function NativeApp({ name }: { name: string }) {
             <table id="locationRules">
               <thead>
                 <tr>
-                  <th>{t("vhostComment")}</th>
-                  <th>{t("regexp")}</th>
-                  <th>{t("rules")}</th>
-                  <th>{t("rulesAuthnLevel")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostComment")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("regexp")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("rules")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("rulesAuthnLevel")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -546,8 +579,12 @@ export function NativeApp({ name }: { name: string }) {
             <table id="exportedHeaders">
               <thead>
                 <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("keys")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -582,11 +619,21 @@ export function NativeApp({ name }: { name: string }) {
             <table id="post">
               <thead>
                 <tr>
-                  <th>{t("postUrl")}</th>
-                  <th>{t("postTargetUrl")}</th>
-                  <th>{t("jqueryUrl")}</th>
-                  <th>{t("jqueryFormSelector")}</th>
-                  <th>{t("jqueryButtonSelector")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("postUrl")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("postTargetUrl")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("jqueryUrl")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("jqueryFormSelector")}</th>
+                  </Tooltip>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("jqueryButtonSelector")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -614,7 +661,9 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("port")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("port")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -640,7 +689,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostHttps")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostHttps")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -680,7 +731,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("maintenance")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("maintenance")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -711,7 +764,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostAliases")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostAliases")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -737,7 +792,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostAccessToTrace")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostAccessToTrace")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -763,7 +820,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostType")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostType")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
                       <InputLabel>{t("vhostType")}</InputLabel>
@@ -796,7 +855,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostAuthnLevel")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostAuthnLevel")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -818,7 +879,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("vhostServiceTokenTTL")}</th>
+                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <th>{t("vhostServiceTokenTTL")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
