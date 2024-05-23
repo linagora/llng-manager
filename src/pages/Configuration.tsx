@@ -15,7 +15,6 @@ export function Configuration({
   location: { type: string; info: { name: string; type?: string } };
 }) {
   const metadata = useAppSelector((state) => state.config.data.metadata);
-  console.log(location);
   switch (location.type) {
     case "app":
       return (
