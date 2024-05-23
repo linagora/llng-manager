@@ -1,15 +1,16 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { t } from "i18next";
-import attributes from "../static/attributes.json";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import "./AuthParams.css";
-import { useState } from "react";
 import { OptionRenderer } from "../components/authParamOptions/OptionRenderer";
 import {
+  getConfigAsync,
   removeError,
   setError,
   updateAuthParams,
 } from "../features/config/configSlice";
+import attributes from "../static/attributes.json";
+import "./AuthParams.css";
 export function AuthParams() {
   const dispatch = useAppDispatch();
   const authChoiceModules = useAppSelector(
@@ -54,6 +55,21 @@ export function AuthParams() {
       return [];
     }),
   ];
+  const configNum = useAppSelector((state) =>
+    state.router.location?.hash.replace("#authParams/", "")
+  );
+  useEffect(() => {
+    if (
+      configNum !== "latest" &&
+      Number(configNum) !== Number(config.data.metadata.cfgNum)
+    ) {
+      dispatch(
+        getConfigAsync(configNum === "latest" ? undefined : Number(configNum))
+      );
+    } else if (configNum === "latest" && config.data.metadata.next) {
+      dispatch(getConfigAsync());
+    }
+  }, [dispatch, configNum, config.data.metadata]);
 
   const [optionSelected, setOptionSelected] = useState(authModule);
   try {
