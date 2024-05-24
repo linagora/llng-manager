@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { CreationAssistant } from "./CreationAssistant";
-import "./AddApp.css";
-import { Dialog, DialogContent, DialogTitle, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { Dialog, DialogContent, DialogTitle, Fab } from "@mui/material";
 import { t } from "i18next";
+import { useState } from "react";
+import "./AddApp.css";
+import { CreationAssistant } from "./CreationAssistant";
 function AddApp() {
   const [open, setOpen] = useState(false);
   const closeModal = () => {

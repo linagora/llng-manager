@@ -1,6 +1,5 @@
-import "./CreationAssistant.css";
+import { Button, ButtonGroup, Dialog, TextField } from "@mui/material";
 import { t } from "i18next";
-import "./IssuerAssistant.css";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -11,23 +10,14 @@ import {
   saveSAMLPrivSig,
   saveSAMLPubSig,
 } from "../../features/config/configSlice";
-import { handleChangeFile } from "../../utils/readFiles";
 import { GenerateKeys } from "../../utils/generateKey";
-import { Button, ButtonGroup, Dialog, TextField, styled } from "@mui/material";
+import { handleChangeFile } from "../../utils/readFiles";
+import "./CreationAssistant.css";
+import "./IssuerAssistant.css";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { VisuallyHiddenInput } from "./VisuallyHiddenInput";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 export function IssuerAssistant({
   visible,
   type,
