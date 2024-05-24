@@ -1,6 +1,7 @@
 import { Breadcrumbs, Link } from "@mui/material";
 import { t } from "i18next";
-import { useAppSelector } from "../app/hooks";
+import { push } from "redux-first-history";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AddApp from "../components/managerComponents/AddApp";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
 import { AuthParams } from "../dashboards/AuthParams";
@@ -15,13 +16,16 @@ export function Configuration({
   location: { type: string; info: { name: string; type?: string } };
 }) {
   const metadata = useAppSelector((state) => state.config.data.metadata);
+  const dispatch = useAppDispatch();
   switch (location.type) {
     case "app":
       return (
         <div className="main">
           <Breadcrumbs>
             <Link underline="hover" color="inherit">
-              {t("conf")} {metadata.cfgNum}
+              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
+                {t("conf")} {metadata.cfgNum}
+              </span>
             </Link>
             <Link underline="none" color="inherit">
               {location.type}
@@ -72,6 +76,20 @@ export function Configuration({
     case "issuer":
       return (
         <div className="main">
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
+                {t("conf")} {metadata.cfgNum}
+              </span>
+            </Link>
+            <Link underline="none" color="inherit">
+              {t(location.type)}
+            </Link>
+
+            <Link underline="hover" color="text.primary">
+              {t(location.info.name)}
+            </Link>
+          </Breadcrumbs>
           <IssuerDashboard type={location.info.name} />
         </div>
       );

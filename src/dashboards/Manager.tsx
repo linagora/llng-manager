@@ -1,22 +1,22 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CachedIcon from "@mui/icons-material/Cached";
+import { Button, Divider, Menu, MenuItem, Pagination } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import AppCard from "../components/managerComponents/AppCard";
+import FilterToggle from "../components/managerComponents/Filters";
+import Issuers from "../components/managerComponents/Issuers";
 import {
   getConfigAsync,
   removeError,
   setError,
 } from "../features/config/configSlice";
-import AppCard from "../components/managerComponents/AppCard";
-import Issuers from "../components/managerComponents/Issuers";
-import FilterToggle from "../components/managerComponents/Filters";
 import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
-import { useTranslation } from "react-i18next";
 import "./Manager.css";
-import { Button, Divider, Menu, MenuItem, Pagination } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import CachedIcon from "@mui/icons-material/Cached";
-import { push } from "redux-first-history";
-import { useLocation } from "react-router-dom";
 
 export default function Manager() {
   const dispatch = useAppDispatch();
@@ -181,50 +181,48 @@ export default function Manager() {
 
       return (
         <>
-          <div className="main">
-            <strong className="title"> {t("currentConfiguration")}</strong>
-            <Button
-              variant="contained"
-              sx={{ verticalAlign: "top" }}
-              className="cfgNum"
-              color="success"
-              onClick={(e) => {
-                handleClick(e);
-              }}
-            >
-              {config.data.metadata.cfgNum}
-            </Button>
-            <Issuers />
-            <FilterToggle filters={filters} setFilters={setFilters} />
-            <Pagination
-              sx={{
-                justifyContent: "center",
-                display: "flex",
-              }}
-              count={pageNb}
-              page={page}
-              onChange={handleChangePage}
-              color="primary"
-              size="large"
-              showFirstButton
-              showLastButton
-            />
-            <div className="grid">{pages[page - 1]}</div>
-            <Pagination
-              sx={{
-                justifyContent: "center",
-                display: "flex",
-                margin: "15px",
-              }}
-              count={pageNb}
-              page={page}
-              onChange={handleChangePage}
-              color="primary"
-              size="large"
-              showFirstButton
-              showLastButton
-            />
-          </div>
+          <strong className="title"> {t("currentConfiguration")}</strong>
+          <Button
+            variant="contained"
+            sx={{ verticalAlign: "top" }}
+            className="cfgNum"
+            color={config.data.metadata.next ? "warning" : "success"}
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          >
+            {config.data.metadata.cfgNum}
+          </Button>
+          <Issuers />
+          <FilterToggle filters={filters} setFilters={setFilters} />
+          <Pagination
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+            }}
+            count={pageNb}
+            page={page}
+            onChange={handleChangePage}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
+          <div className="grid">{pages[page - 1]}</div>
+          <Pagination
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+              margin: "15px",
+            }}
+            count={pageNb}
+            page={page}
+            onChange={handleChangePage}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
           <Menu
             id="del-menu"
             anchorEl={anchorEl}

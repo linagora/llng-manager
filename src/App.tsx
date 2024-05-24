@@ -1,11 +1,11 @@
-import Navbar from "./components/Navbar";
-import "./App.css";
 import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { HistoryRouter as Router } from "redux-first-history/rr6";
 import { Route, Routes } from "react-router-dom";
-import { history } from "./app/store";
+import { HistoryRouter as Router } from "redux-first-history/rr6";
+import "./App.css";
 import { useAppSelector } from "./app/hooks";
+import { history } from "./app/store";
+import Navbar from "./components/Navbar";
 import { Configuration } from "./pages/Configuration";
 
 function App() {

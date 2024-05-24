@@ -56,7 +56,7 @@ export interface llngConfig {
   casAppMetaDataOptionsService?: string;
   casAppMetaDataOptionsUserAttribute?: string;
   casAttr?: string;
-  casAttributes?: Record<string, Record<string, string>>;
+  casAttributes?: Record<string, string>;
   casAuthnLevel?: number;
   casBackChannelSingleLogout?: boolean | number;
   casSrvMetaDataExportedVars?: Record<string, Record<string, string>>;
@@ -73,7 +73,7 @@ export interface llngConfig {
   casSrvMetaDataOptionsTooltip?: string;
   casSrvMetaDataOptionsUrl?: string;
   casStorage?: string;
-  casStorageOptions?: Record<string, Record<string, string>>;
+  casStorageOptions?: Record<string, string>;
   casStrictMatching?: boolean | number;
   casTicketExpiration?: number;
   cda?: boolean | number;
@@ -803,7 +803,7 @@ export interface llngConfig {
   samlServiceSignatureMethod?: Array<{ k: string; v: string }>;
   samlServiceUseCertificateInResponse?: boolean | number;
   samlStorage?: string;
-  samlStorageOptions?: Record<string, Record<string, string>>;
+  samlStorageOptions?: Record<string, string>;
   samlUseQueryStringSpecific?: boolean | number;
   scrollTop?: number;
   secureTokenAllowOnError?: string;

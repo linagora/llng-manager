@@ -91,6 +91,9 @@ textarea {
 .optionNavbar :hover {
   color: #ffffff;
 }
+.option.selected {
+  color: #ffffff;
+}
 
 .scopes {
   display: flex;
