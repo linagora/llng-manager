@@ -1,28 +1,28 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Tooltip,
+  styled,
+} from "@mui/material";
 import { t } from "i18next";
-import { useAppDispatch, useAppSelector } from "./../../app/hooks";
-import "./MandatoryField.css";
-import { handleChangeFile } from "../../utils/readFiles";
+import Markdown from "markdown-to-jsx";
+import { ChangeEvent } from "react";
 import {
   updateOIDCPrivateClient,
   updateOIDCPublicClient,
   updateOIDCclientID,
+  updateSamlSPMetadata,
 } from "../../features/config/configSlice";
-import { URLLoader } from "./URLLoader";
-import { updateSamlSPMetadata } from "../../features/config/configSlice";
-import {
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  TextField,
-  Button,
-  styled,
-  Tooltip,
-} from "@mui/material";
-import Markdown from "markdown-to-jsx";
 import definitions from "../../static/definitions.json";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { ChangeEvent } from "react";
+import { handleChangeFile } from "../../utils/readFiles";
+import { useAppDispatch, useAppSelector } from "./../../app/hooks";
+import "./MandatoryField.css";
+import { URLLoader } from "./URLLoader";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -116,7 +116,15 @@ export function MandatoryFields({
           <table>
             <tbody>
               <tr>
-                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {definitions.oidcRPMetaDataOptionsClientID
+                        ? definitions.oidcRPMetaDataOptionsClientID
+                        : ""}
+                    </Markdown>
+                  }
+                >
                   <th>{t("oidcRPMetaDataOptionsClientID")}</th>
                 </Tooltip>
                 <td>
@@ -153,7 +161,15 @@ export function MandatoryFields({
                 </td>
               </tr>
               <tr>
-                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {definitions.oidcRPMetaDataOptionsClientSecret
+                        ? definitions.oidcRPMetaDataOptionsClientSecret
+                        : ""}
+                    </Markdown>
+                  }
+                >
                   <th>{t("oidcRPMetaDataOptionsClientSecret")}</th>
                 </Tooltip>
                 <td>
@@ -188,7 +204,13 @@ export function MandatoryFields({
                 </td>
               </tr>
               <tr>
-                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {definitions.oidcRPMetaDataOptionsPublic}
+                    </Markdown>
+                  }
+                >
                   <th>{t("oidcRPMetaDataOptionsPublic")}</th>
                 </Tooltip>
                 <td>

@@ -1,20 +1,3 @@
-import { t } from "i18next";
-import { ChangeEvent, useState } from "react";
-import attributes from "../../static/attributes.json";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { handleChangeFile } from "../../utils/readFiles";
-import { URLLoader } from "../managerComponents/URLLoader";
-import {
-  delOidcRPMetaDataOptionsExtraClaims,
-  delOidcRPMetaDataScopeRules,
-  newOidcRPMetaDataOptionsExtraClaims,
-  newOidcRPMetaDataScopeRules,
-  updateOidcMetaDataOptions,
-  updateOidcRPMetaDataOptionsExtraClaims,
-  updateOidcRPMetaDataOptionsJwks,
-  updateOidcRPMetaDataScopeRules,
-} from "../../features/config/configSlice";
-import { TableVars } from "./TableVars";
 import {
   Button,
   FormControl,
@@ -25,11 +8,28 @@ import {
   RadioGroup,
   Select,
   TextField,
-  styled,
   Tooltip,
+  styled,
 } from "@mui/material";
+import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
+import { ChangeEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  delOidcRPMetaDataOptionsExtraClaims,
+  delOidcRPMetaDataScopeRules,
+  newOidcRPMetaDataOptionsExtraClaims,
+  newOidcRPMetaDataScopeRules,
+  updateOidcMetaDataOptions,
+  updateOidcRPMetaDataOptionsExtraClaims,
+  updateOidcRPMetaDataOptionsJwks,
+  updateOidcRPMetaDataScopeRules,
+} from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
+import { handleChangeFile } from "../../utils/readFiles";
+import { URLLoader } from "../managerComponents/URLLoader";
+import { TableVars } from "./TableVars";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -53,21 +53,46 @@ export function OptionOidc({ name }: { name: string }) {
   return (
     <>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("advanced")}>
+        <label
+          className={`option ${optionSelect === "advanced" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("advanced")}
+        >
           {t("oidcRPMetaDataOptionsAdvanced")}
         </label>
-        <label onClick={() => setOptionSelected("scope")}>
+        <label
+          className={`option ${optionSelect === "scope" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("scope")}
+        >
           {t("oidcRPMetaDataOptionsScopes")}
         </label>
-        <label onClick={() => setOptionSelected("security")}>
+        <label
+          className={`option ${optionSelect === "security" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("security")}
+        >
           {t("security")}
         </label>
-        <label onClick={() => setOptionSelected("keys")}>{t("keys")}</label>
-        <label onClick={() => setOptionSelected("timouts")}>
+        <label
+          className={`option ${optionSelect === "keys" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("keys")}
+        >
+          {t("keys")}
+        </label>
+        <label
+          className={`option ${optionSelect === "timouts" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("timouts")}
+        >
           {t("oidcRPMetaDataOptionsTimeouts")}
         </label>
-        <label onClick={() => setOptionSelected("logout")}>{t("logout")}</label>
-        <label onClick={() => setOptionSelected("comment")}>
+        <label
+          className={`option ${optionSelect === "logout" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("logout")}
+        >
+          {t("logout")}
+        </label>
+        <label
+          className={`option ${optionSelect === "comment" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("comment")}
+        >
           {t("oidcRPMetaDataOptionsComment")}
         </label>
       </div>
@@ -75,7 +100,15 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsBypassConsent
+                      ? definitions.oidcRPMetaDataOptionsBypassConsent
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsBypassConsent")}</th>
               </Tooltip>
               <td>
@@ -113,7 +146,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsIDTokenForceClaims
+                      ? definitions.oidcRPMetaDataOptionsIDTokenForceClaims
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsIDTokenForceClaims")}</th>
               </Tooltip>
               <td>
@@ -152,7 +193,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAccessTokenJWT
+                      ? definitions.oidcRPMetaDataOptionsAccessTokenJWT
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenJWT")}</th>
               </Tooltip>
               <td>
@@ -190,7 +239,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAccessTokenClaims
+                      ? definitions.oidcRPMetaDataOptionsAccessTokenClaims
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenClaims")}</th>
               </Tooltip>
               <td>
@@ -229,7 +286,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsRefreshToken}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsRefreshToken")}</th>
               </Tooltip>
               <td>
@@ -267,7 +330,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsUserIDAttr
+                      ? definitions.oidcRPMetaDataOptionsUserIDAttr
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
               </Tooltip>
               <td>
@@ -299,7 +370,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAdditionalAudiences
+                      ? definitions.oidcRPMetaDataOptionsAdditionalAudiences
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
               </Tooltip>
               <td>
@@ -342,10 +421,16 @@ export function OptionOidc({ name }: { name: string }) {
             <table id="oidcRPMetaDataOptionsExtraClaims">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.oidcRPMetaDataOptionsExtraClaims
+                          ? definitions.oidcRPMetaDataOptionsExtraClaims
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("values")}</th>
                   </Tooltip>
                   <Button
@@ -383,10 +468,14 @@ export function OptionOidc({ name }: { name: string }) {
             <table id="oidcRPMetaDataScopeRules">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.oidcRPMetaDataScopeRules}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("values")}</th>
                   </Tooltip>
                   <Button
@@ -421,7 +510,15 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsIDTokenSignAlg
+                      ? definitions.oidcRPMetaDataOptionsIDTokenSignAlg
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsIDTokenSignAlg")}</th>
               </Tooltip>
               <td>
@@ -461,7 +558,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAccessTokenSignAlg
+                      ? definitions.oidcRPMetaDataOptionsAccessTokenSignAlg
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenSignAlg")}</th>
               </Tooltip>
               <td>
@@ -502,7 +607,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsUserInfoSignAlg
+                      ? definitions.oidcRPMetaDataOptionsUserInfoSignAlg
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsUserInfoSignAlg")}</th>
               </Tooltip>
               <td>
@@ -540,7 +653,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsRequirePKCE}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsRequirePKCE")}</th>
               </Tooltip>
               <td>
@@ -578,7 +697,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAllowOffline}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAllowOffline")}</th>
               </Tooltip>
               <td>
@@ -616,7 +741,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAllowPasswordGrant}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAllowPasswordGrant")}</th>
               </Tooltip>
               <td>
@@ -655,7 +786,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {
+                      definitions.oidcRPMetaDataOptionsAllowClientCredentialsGrant
+                    }
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAllowClientCredentialsGrant")}</th>
               </Tooltip>
               <td>
@@ -696,7 +835,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsRequestUris
+                      ? definitions.oidcRPMetaDataOptionsRequestUris
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
               </Tooltip>
               <td>
@@ -728,7 +875,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAuthnLevel}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
               </Tooltip>
               <td>
@@ -760,7 +913,11 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>{definitions.oidcRPMetaDataOptionsRule}</Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsRule")}</th>
               </Tooltip>
               <td>
@@ -792,7 +949,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg")}</th>
               </Tooltip>
               <td>
@@ -830,7 +993,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {
+                      definitions.oidcRPMetaDataOptionsAccessTokenEncContentEncAlg
+                    }
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenEncContentEncAlg")}</th>
               </Tooltip>
               <td>
@@ -875,7 +1046,14 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {"# oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg" +
+                      definitions.test}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}</th>
               </Tooltip>
               <td>
@@ -917,7 +1095,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsIdTokenEncContentEncAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsIdTokenEncContentEncAlg")}</th>
               </Tooltip>
               <td>
@@ -960,7 +1144,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}</th>
               </Tooltip>
               <td>
@@ -1002,7 +1192,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsUserInfoEncContentEncAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsUserInfoEncContentEncAlg")}</th>
               </Tooltip>
               <td>
@@ -1045,7 +1241,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutEncKeyMgtAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}</th>
               </Tooltip>
               <td>
@@ -1087,7 +1289,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutEncContentEncAlg}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutEncContentEncAlg")}</th>
               </Tooltip>
               <td>
@@ -1134,7 +1342,13 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsJwksUri}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
               </Tooltip>
               <td>
@@ -1243,7 +1457,15 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAuthorizationCodeExpiration
+                      ? definitions.oidcRPMetaDataOptionsAuthorizationCodeExpiration
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
               </Tooltip>
               <td>
@@ -1275,7 +1497,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsIDTokenExpiration
+                      ? definitions.oidcRPMetaDataOptionsIDTokenExpiration
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
               </Tooltip>
               <td>
@@ -1306,7 +1536,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsAccessTokenExpiration
+                      ? definitions.oidcRPMetaDataOptionsAccessTokenExpiration
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
               </Tooltip>
               <td>
@@ -1337,7 +1575,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsOfflineSessionExpiration
+                      ? definitions.oidcRPMetaDataOptionsOfflineSessionExpiration
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
               </Tooltip>
               <td>
@@ -1374,7 +1620,13 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutBypassConfirm}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutBypassConfirm")}</th>
               </Tooltip>
               <td>
@@ -1413,7 +1665,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutSessionRequired}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutSessionRequired")}</th>
               </Tooltip>
               <td>
@@ -1452,7 +1710,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutType}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutType")}</th>
               </Tooltip>
               <td>
@@ -1492,7 +1756,13 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsLogoutUrl}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
               </Tooltip>
               <td>
@@ -1523,7 +1793,15 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.oidcRPMetaDataOptionsPostLogoutRedirectUris
+                      ? definitions.oidcRPMetaDataOptionsPostLogoutRedirectUris
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
               </Tooltip>
               <td>

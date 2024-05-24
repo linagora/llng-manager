@@ -1,20 +1,20 @@
-import { t } from "i18next";
-import { useState } from "react";
-import attributes from "../../static/attributes.json";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
 import {
   FormControl,
-  RadioGroup,
   FormControlLabel,
-  Radio,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
   Tooltip,
 } from "@mui/material";
+import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
 export function OptionSaml({ name }: { name: string }) {
@@ -28,19 +28,38 @@ export function OptionSaml({ name }: { name: string }) {
   return (
     <>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("authResponse")}>
+        <label
+          className={`option ${
+            optionSelect === "authResponse" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("authResponse")}
+        >
           {t("samlSPMetaDataOptionsAuthnResponse")}
         </label>
-        <label onClick={() => setOptionSelected("signature")}>
+        <label
+          className={`option ${optionSelect === "signature" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("signature")}
+        >
           {t("samlSPMetaDataOptionsSignature")}
         </label>
-        <label onClick={() => setOptionSelected("security")}>
+        <label
+          className={`option ${optionSelect === "security" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("security")}
+        >
           {t("samlSPMetaDataOptionsSecurity")}
         </label>
-        <label onClick={() => setOptionSelected("federation")}>
+        <label
+          className={`option ${
+            optionSelect === "federation" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("federation")}
+        >
           {t("samlSPMetaDataOptionsFederation")}
         </label>
-        <label onClick={() => setOptionSelected("comment")}>
+        <label
+          className={`option ${optionSelect === "comment" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("comment")}
+        >
           {t("samlSPMetaDataOptionsComment")}
         </label>
       </div>
@@ -48,7 +67,15 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsNameIDFormat
+                      ? definitions.samlSPMetaDataOptionsNameIDFormat
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
               </Tooltip>
               <td>
@@ -84,7 +111,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsNameIDSessionKey
+                      ? definitions.samlSPMetaDataOptionsNameIDSessionKey
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
               </Tooltip>
               <td>
@@ -112,7 +147,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsOneTimeUse
+                      ? definitions.samlSPMetaDataOptionsOneTimeUse
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsOneTimeUse")}</th>
               </Tooltip>
               <td>
@@ -145,7 +188,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
+                      ? definitions.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
               </Tooltip>
               <td>
@@ -172,7 +223,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                      ? definitions.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
               </Tooltip>
               <td>
@@ -196,7 +255,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsForceUTF8
+                      ? definitions.samlSPMetaDataOptionsForceUTF8
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsForceUTF8")}</th>
               </Tooltip>
               <td>
@@ -235,7 +302,15 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsSignatureMethod
+                      ? definitions.samlSPMetaDataOptionsSignatureMethod
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               </Tooltip>
               <td>
@@ -271,7 +346,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsSignSSOMessage
+                      ? definitions.samlSPMetaDataOptionsSignSSOMessage
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsSignSSOMessage")}</th>
               </Tooltip>
               <td>
@@ -304,7 +387,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsCheckSSOMessageSignature
+                      ? definitions.samlSPMetaDataOptionsCheckSSOMessageSignature
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsCheckSSOMessageSignature")}</th>
               </Tooltip>
               <td>
@@ -338,7 +429,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsSignatureMethod
+                      ? definitions.samlSPMetaDataOptionsSignatureMethod
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
               </Tooltip>
               <td>
@@ -374,7 +473,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsSignSLOMessage
+                      ? definitions.samlSPMetaDataOptionsSignSLOMessage
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsSignSLOMessage")}</th>
               </Tooltip>
               <td>
@@ -412,7 +519,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsCheckSLOMessageSignature
+                      ? definitions.samlSPMetaDataOptionsCheckSLOMessageSignature
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsCheckSLOMessageSignature")}</th>
               </Tooltip>
               <td>
@@ -452,7 +567,15 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsEncryptionMode
+                      ? definitions.samlSPMetaDataOptionsEncryptionMode
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
               </Tooltip>
               <td>
@@ -488,7 +611,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsEnableIDPInitiatedURL
+                      ? definitions.samlSPMetaDataOptionsEnableIDPInitiatedURL
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsEnableIDPInitiatedURL")}</th>
               </Tooltip>
               <td>
@@ -521,7 +652,13 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsAuthnLevel}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
               </Tooltip>
               <td>
@@ -545,7 +682,11 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>{definitions.samlSPMetaDataOptionsRule}</Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsRule")}</th>
               </Tooltip>
               <td>
@@ -575,7 +716,15 @@ export function OptionSaml({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsFederationEntityID
+                      ? definitions.samlSPMetaDataOptionsFederationEntityID
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
               </Tooltip>
               <td>
@@ -603,7 +752,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsFederationOptionalAttributes
+                      ? definitions.samlSPMetaDataOptionsFederationOptionalAttributes
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>
                   {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
                 </th>
@@ -646,7 +803,15 @@ export function OptionSaml({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+              <Tooltip
+                title={
+                  <Markdown>
+                    {definitions.samlSPMetaDataOptionsFederationRequiredAttributes
+                      ? definitions.samlSPMetaDataOptionsFederationRequiredAttributes
+                      : ""}
+                  </Markdown>
+                }
+              >
                 <th>
                   {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
                 </th>

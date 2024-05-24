@@ -1,11 +1,11 @@
+import SaveIcon from "@mui/icons-material/Save";
+import { Fab } from "@mui/material";
 import { t } from "i18next";
-import "./SaveButton.css";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { getConfigAsync, saveConfigCall } from "../features/config/configSlice";
 import { ruleOIDC, ruleSAML } from "../utils/rules";
-import { Fab } from "@mui/material";
-import SaveIcon from "@mui/icons-material/Save";
+import "./SaveButton.css";
 export default function SaveButton() {
   const [openSavePopup, setOpenSavePopup] = useState(false);
   const [openSavingPopup, setOpenSavingPopup] = useState(false);

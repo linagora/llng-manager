@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getMetadataConfig, getConfig, saveConfig } from "./configAPI";
-import { MetaData, llngConfig } from "../../utils/types";
 import attributes from "../../static/attributes.json";
+import { MetaData, llngConfig } from "../../utils/types";
+import { getConfig, getMetadataConfig, saveConfig } from "./configAPI";
 
 export interface ConfigState {
   loading: boolean;
@@ -729,7 +729,7 @@ const configSlice = createSlice({
           break;
       }
     },
-    updateModuleParams<K extends keyof llngConfig>(
+    updateConfigParams<K extends keyof llngConfig>(
       state: {
         data: { config: llngConfig; metadata: MetaData };
       },
@@ -1006,7 +1006,7 @@ export const {
   updateOidcRPMetaDataScopeRules,
   updateOidcRPMetaDataOptionsJwks,
   updateAuthParams,
-  updateModuleParams,
+  updateConfigParams,
   delCombParam,
   newCombParam,
   updateCombParam,

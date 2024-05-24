@@ -1,21 +1,3 @@
-import { t } from "i18next";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import "./AppPage.css";
-import attributes from "../../static/attributes.json";
-import { URLLoader } from "../managerComponents/URLLoader";
-import {
-  delSAMLSPMetaDataMacros,
-  delSamlSPMetadataExportedAttribute,
-  newSAMLSPMetaDataMacros,
-  newSamlSPMetadataExportedAttribute,
-  updateSAMLSPMetaDataMacros,
-  updateSamlSPMetadata,
-  updateSamlSPMetadataExportedAttribute,
-} from "../../features/config/configSlice";
-import { handleChangeFile } from "../../utils/readFiles";
-import { OptionSaml } from "./OptionSaml";
-import { TableVars } from "./TableVars";
-import { ChangeEvent, useState } from "react";
 import {
   Button,
   FormControl,
@@ -26,11 +8,29 @@ import {
   RadioGroup,
   Select,
   TextField,
-  styled,
   Tooltip,
+  styled,
 } from "@mui/material";
+import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
+import { ChangeEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  delSAMLSPMetaDataMacros,
+  delSamlSPMetadataExportedAttribute,
+  newSAMLSPMetaDataMacros,
+  newSamlSPMetadataExportedAttribute,
+  updateSAMLSPMetaDataMacros,
+  updateSamlSPMetadata,
+  updateSamlSPMetadataExportedAttribute,
+} from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
+import { handleChangeFile } from "../../utils/readFiles";
+import { URLLoader } from "../managerComponents/URLLoader";
+import "./AppPage.css";
+import { OptionSaml } from "./OptionSaml";
+import { TableVars } from "./TableVars";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -237,21 +237,44 @@ export function SAMLApp({ name }: { name: string }) {
     <div>
       <strong className="title">{name}</strong>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("basic")}>
+        <label
+          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("basic")}
+        >
           {t("Basic Option")}
         </label>
-        <label onClick={() => setOptionSelected("samlSPMetaDataXML")}>
+        <label
+          className={`option ${
+            optionSelected === "samlSPMetaDataXML" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("samlSPMetaDataXML")}
+        >
           {t("samlSPMetaDataXML")}
         </label>
         <label
+          className={`option ${
+            optionSelected === "samlSPMetaDataExportedAttributes"
+              ? "selected"
+              : ""
+          }`}
           onClick={() => setOptionSelected("samlSPMetaDataExportedAttributes")}
         >
           {t("samlSPMetaDataExportedAttributes")}
         </label>
-        <label onClick={() => setOptionSelected("samlSPMetaDataMacros")}>
+        <label
+          className={`option ${
+            optionSelected === "samlSPMetaDataMacros" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("samlSPMetaDataMacros")}
+        >
           {t("samlSPMetaDataMacros")}
         </label>
-        <label onClick={() => setOptionSelected("samlSPMetaDataOptions")}>
+        <label
+          className={`option ${
+            optionSelected === "samlSPMetaDataOptions" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("samlSPMetaDataOptions")}
+        >
           {t("samlSPMetaDataOptions")}
         </label>
       </div>
@@ -389,10 +412,12 @@ export function SAMLApp({ name }: { name: string }) {
             <table id="samlSPMetaDataMacros">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>{definitions.samlSPMetaDataMacros}</Markdown>
+                    }
+                  >
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>

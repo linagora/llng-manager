@@ -1,9 +1,20 @@
-import { t } from "i18next";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import "./AppPage.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { OptionOidc } from "./OptionOidc";
-import { TableVars } from "./TableVars";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Tooltip,
+} from "@mui/material";
+import { t } from "i18next";
+import Markdown from "markdown-to-jsx";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   delOIDCRPMetaDataMacros,
   delOidcRPMetaDataExportedVars,
@@ -14,21 +25,10 @@ import {
   updateOidcRPMetaDataExportedVars,
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import { useState } from "react";
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  Radio,
-  RadioGroup,
-  Select,
-  MenuItem,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import Markdown from "markdown-to-jsx";
 import definitions from "../../static/definitions.json";
+import "./AppPage.css";
+import { OptionOidc } from "./OptionOidc";
+import { TableVars } from "./TableVars";
 
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 function updateExpAttr(
@@ -182,19 +182,42 @@ export function OIDCApp({ name }: { name: string }) {
     <div>
       <strong className="title">{name}</strong>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("basic")}>
+        <label
+          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("basic")}
+        >
           {t("Basic Option")}
         </label>
-        <label onClick={() => setOptionSelected("oidcRPMetaDataOptionsBasic")}>
+        <label
+          className={`option ${
+            optionSelected === "oidcRPMetaDataOptionsBasic" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("oidcRPMetaDataOptionsBasic")}
+        >
           {t("oidcRPMetaDataOptionsBasic")}
         </label>
-        <label onClick={() => setOptionSelected("oidcRPMetaDataExportedVars")}>
+        <label
+          className={`option ${
+            optionSelected === "oidcRPMetaDataExportedVars" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("oidcRPMetaDataExportedVars")}
+        >
           {t("oidcRPMetaDataExportedVars")}
         </label>
-        <label onClick={() => setOptionSelected("oidcRPMetaDataMacros")}>
+        <label
+          className={`option ${
+            optionSelected === "oidcRPMetaDataMacros" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("oidcRPMetaDataMacros")}
+        >
           {t("oidcRPMetaDataMacros")}
         </label>
-        <label onClick={() => setOptionSelected("oidcRPMetaDataOptions")}>
+        <label
+          className={`option ${
+            optionSelected === "oidcRPMetaDataOptions" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("oidcRPMetaDataOptions")}
+        >
           {t("oidcRPMetaDataOptions")}
         </label>
       </div>
@@ -342,7 +365,15 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.oidcRPMetaDataOptionsRedirectUris
+                          ? definitions.oidcRPMetaDataOptionsRedirectUris
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("oidcRPMetaDataOptionsRedirectUris")}</th>
                   </Tooltip>
                   <td>
@@ -371,7 +402,15 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.oidcRPMetaDataOptionsAuthMethod
+                          ? definitions.oidcRPMetaDataOptionsAuthMethod
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("oidcRPMetaDataOptionsAuthMethod")}</th>
                   </Tooltip>
                   <td>
@@ -431,7 +470,15 @@ export function OIDCApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.oidcRPMetaDataOptionsIcon
+                          ? definitions.oidcRPMetaDataOptionsIcon
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("oidcRPMetaDataOptionsIcon")}</th>
                   </Tooltip>
                   <td>
@@ -471,18 +518,14 @@ export function OIDCApp({ name }: { name: string }) {
             <table id="exportedVars">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={<Markdown>{definitions.exportedVars}</Markdown>}
+                  >
                     <th>{t("claimName")}</th>
                   </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("variableName")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("type")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("array")}</th>
-                  </Tooltip>
+                  <th>{t("variableName")}</th>
+                  <th>{t("type")}</th>
+                  <th>{t("array")}</th>
                   <th>
                     <Button
                       className="plus"
@@ -518,10 +561,12 @@ export function OIDCApp({ name }: { name: string }) {
             <table id="oidcRPMetaDataMacros">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>{definitions.oidcRPMetaDataMacros}</Markdown>
+                    }
+                  >
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>

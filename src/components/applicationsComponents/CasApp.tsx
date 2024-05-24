@@ -1,18 +1,4 @@
-import { t } from "i18next";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import "./AppPage.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  delCASAppMetaDataMacros,
-  delCASexportedVars,
-  newCASAppMetaDataMacros,
-  newCASexportedVars,
-  updateCASAppMetaDataMacros,
-  updateCASOptions,
-  updateCASexportedVars,
-} from "../../features/config/configSlice";
-import { TableVars } from "./TableVars";
-import { useState } from "react";
 import {
   Button,
   FormControl,
@@ -22,8 +8,22 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  delCASAppMetaDataMacros,
+  delCASexportedVars,
+  newCASAppMetaDataMacros,
+  newCASexportedVars,
+  updateCASAppMetaDataMacros,
+  updateCASOptions,
+  updateCASexportedVars,
+} from "../../features/config/configSlice";
 import definitions from "../../static/definitions.json";
+import "./AppPage.css";
+import { TableVars } from "./TableVars";
 
 export function CasApp({ name }: { name: string }) {
   const vars = useAppSelector((state) =>
@@ -47,16 +47,34 @@ export function CasApp({ name }: { name: string }) {
     <div>
       <strong className="title">{name}</strong>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("basic")}>
+        <label
+          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("basic")}
+        >
           {t("Basic Option")}
         </label>
-        <label onClick={() => setOptionSelected("casAppMetaDataExportedVars")}>
+        <label
+          className={`option ${
+            optionSelected === "casAppMetaDataExportedVars" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("casAppMetaDataExportedVars")}
+        >
           {t("casAppMetaDataExportedVars")}
         </label>
-        <label onClick={() => setOptionSelected("casAppMetaDataMacros")}>
+        <label
+          className={`option ${
+            optionSelected === "casAppMetaDataMacros" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("casAppMetaDataMacros")}
+        >
           {t("casAppMetaDataMacros")}
         </label>
-        <label onClick={() => setOptionSelected("casAppMetaDataOptions")}>
+        <label
+          className={`option ${
+            optionSelected === "casAppMetaDataOptions" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("casAppMetaDataOptions")}
+        >
           {t("casAppMetaDataOptions")}
         </label>
       </div>
@@ -70,16 +88,16 @@ export function CasApp({ name }: { name: string }) {
             <table id="exportedVars">
               <thead>
                 <tr>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("keys")}</th>
-                    </Tooltip>
-                  </th>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("values")}</th>
-                    </Tooltip>
-                  </th>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataExportedVars}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("values")}</th>
+                  </Tooltip>
                   <th>
                     <Button
                       className="plus"
@@ -114,13 +132,13 @@ export function CasApp({ name }: { name: string }) {
             <table id="macros">
               <thead>
                 <tr>
+                  <th>{t("keys")}</th>
                   <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("keys")}</th>
-                    </Tooltip>
-                  </th>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <Tooltip
+                      title={
+                        <Markdown>{definitions.casAppMetaDataMacros}</Markdown>
+                      }
+                    >
                       <th>{t("values")}</th>
                     </Tooltip>
                   </th>
@@ -157,11 +175,18 @@ export function CasApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("casAppMetaDataOptionsDisplayName")}</th>
-                    </Tooltip>
-                  </th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsDisplayName
+                          ? definitions.casAppMetaDataOptionsDisplayName
+                          : ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("casAppMetaDataOptionsDisplayName")}</th>
+                  </Tooltip>
+
                   <td>
                     <TextField
                       size="small"
@@ -187,7 +212,13 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsService}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("casAppMetaDataOptionsService")}</th>
                   </Tooltip>
                   <td>
@@ -215,7 +246,15 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsLogout
+                          ? definitions.casAppMetaDataOptionsLogout
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("casAppMetaDataOptionsLogout")}</th>
                   </Tooltip>
                   <td>
@@ -255,7 +294,13 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsAuthnLevel}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
                   </Tooltip>
                   <td>
@@ -283,7 +328,13 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsRule}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("casAppMetaDataOptionsRule")}</th>
                   </Tooltip>
                   <td>
@@ -311,7 +362,13 @@ export function CasApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.casAppMetaDataOptionsComment}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("casAppMetaDataOptionsComment")}</th>
                   </Tooltip>
                   <td>

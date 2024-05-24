@@ -1,3 +1,6 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Accordion,
   AccordionSummary,
@@ -13,18 +16,9 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import Markdown from "markdown-to-jsx";
-import definitions from "../../static/definitions.json";
-
-import tree from "../../static/tree.json";
-import attributes from "../../static/attributes.json";
 import { t } from "i18next";
-import { TableVars } from "../applicationsComponents/TableVars";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { llngConfig } from "../../utils/types";
 import {
   delChoiceOverParam,
   delChoiceParam,
@@ -40,9 +34,15 @@ import {
   updateChoiceParam,
   updateCombOverParam,
   updateCombParam,
+  updateConfigParams,
   updateModuleOpt,
-  updateModuleParams,
 } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
+import definitions from "../../static/definitions.json";
+import tree from "../../static/tree.json";
+import { llngConfig } from "../../utils/types";
+import { TableVars } from "../applicationsComponents/TableVars";
+import { SAMLRenderer } from "./SAMLRenderer";
 function updateComb(
   tableID: string,
   data: Record<string, Record<string, string | Record<string, string>>>,
@@ -152,15 +152,9 @@ function cmbModuleContainer(
       <table id="combTable">
         <thead>
           <tr>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("name")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("type")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("use")}</th>
-            </Tooltip>
+            <th>{t("name")}</th>
+            <th>{t("type")}</th>
+            <th>{t("use")}</th>
             <th>
               <Button className="plus" onClick={() => dispatch(newCombParam())}>
                 <AddCircleIcon color="success" />
@@ -265,12 +259,8 @@ function cmbModuleContainer(
           <table id={`overParam${key}`}>
             <thead>
               <tr>
-                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                  <th>{t("overPrm")}</th>
-                </Tooltip>
-                <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                  <th>{t("value")}</th>
-                </Tooltip>
+                <th>{t("overPrm")}</th>
+                <th>{t("value")}</th>
                 <th>
                   <Button
                     className="plus"
@@ -301,24 +291,12 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
       <table id="choiceParam">
         <thead>
           <tr>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("name")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("authentication")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("userDB")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("passwordDB")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("url")}</th>
-            </Tooltip>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-              <th>{t("condition")}</th>
-            </Tooltip>
+            <th>{t("name")}</th>
+            <th>{t("authentication")}</th>
+            <th>{t("userDB")}</th>
+            <th>{t("passwordDB")}</th>
+            <th>{t("url")}</th>
+            <th>{t("condition")}</th>
             <th>
               <Button
                 className="plus"
@@ -331,8 +309,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
         </thead>
         <tbody>
           {Object.keys(data).map((key) => {
-            const [authMod, userMod, passMod, url, cond, over] =
-              data[key].split(";");
+            const [authMod, userMod, passMod, url, cond] = data[key].split(";");
             return (
               <>
                 <tr>
@@ -474,8 +451,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
         </tbody>
       </table>
       {Object.keys(data).map((key) => {
-        const [authMod, userMod, passMod, url, cond, over] =
-          data[key].split(";");
+        const over = data[key].split(";")[5];
         return (
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -485,12 +461,8 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
             <table id={`overParam${key}`}>
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("overPrm")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("value")}</th>
-                  </Tooltip>
+                  <th>{t("overPrm")}</th>
+                  <th>{t("value")}</th>
                   <th>
                     <Button
                       className="plus"
@@ -540,7 +512,15 @@ function RecursRender(
       case "int":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -548,7 +528,7 @@ function RecursRender(
               type="number"
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: Number(e.target.value),
                   })
@@ -562,7 +542,15 @@ function RecursRender(
       case "text":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -570,7 +558,7 @@ function RecursRender(
               type="text"
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
                   })
@@ -584,7 +572,15 @@ function RecursRender(
       case "PerlModule":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -592,7 +588,7 @@ function RecursRender(
               type="text"
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
                   })
@@ -606,7 +602,15 @@ function RecursRender(
       case "password":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -614,7 +618,7 @@ function RecursRender(
               type="password"
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
                   })
@@ -628,7 +632,15 @@ function RecursRender(
       case "intOrNull":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -636,7 +648,7 @@ function RecursRender(
               type="number"
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: Number(e.target.value),
                   })
@@ -650,7 +662,15 @@ function RecursRender(
       case "authChoiceContainer":
         return (
           <>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             {authChoiceContainer(
@@ -662,7 +682,15 @@ function RecursRender(
       case "cmbModuleContainer":
         return (
           <>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             {cmbModuleContainer(
@@ -684,7 +712,7 @@ function RecursRender(
               value={config[el as keyof llngConfig]}
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
                   })
@@ -716,7 +744,7 @@ function RecursRender(
                 value={config[el as keyof llngConfig]}
                 onChange={(e) =>
                   dispatch(
-                    updateModuleParams({
+                    updateConfigParams({
                       param: el as keyof llngConfig,
                       value: Number(e.target.value),
                     })
@@ -740,18 +768,22 @@ function RecursRender(
       case "keyTextContainer":
         return (
           <>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <table id={el + "Table"}>
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("values")}</th>
-                  </Tooltip>
+                  <th>{t("keys")}</th>
+                  <th>{t("values")}</th>
                   <th>
                     <Button
                       className="plus"
@@ -778,7 +810,15 @@ function RecursRender(
       case "url":
         return (
           <ul>
-            <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             <TextField
@@ -788,7 +828,7 @@ function RecursRender(
               value={config[el as keyof llngConfig]}
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: String(e.target.value),
                   })
@@ -806,7 +846,7 @@ function RecursRender(
                 value={config[el as keyof llngConfig]}
                 onChange={(e) =>
                   dispatch(
-                    updateModuleParams({
+                    updateConfigParams({
                       param: el as keyof llngConfig,
                       value: Number(e.target.value),
                     })
@@ -831,7 +871,7 @@ function RecursRender(
               value={config[el as keyof llngConfig]}
               onChange={(e) =>
                 dispatch(
-                  updateModuleParams({
+                  updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
                   })
@@ -853,18 +893,22 @@ export function OptionRenderer({ selected }: { selected: string }) {
   const test1 = (tree[0] as Record<string, any>).nodes.filter(
     (el: Record<string, any>) => el.title === "authParams"
   )[0].nodes_cond;
-  const l = `${
-    selected === "OpenIDConnect" ? "oidc" : selected.toLowerCase()
-  }Params`;
-  const nodeSelected = test1.filter(
-    (el: Record<string, any>) => el.title === l
-  )[0].nodes;
-  return (
-    <div>
-      <strong className="title2">{t(l)}</strong>
-      <div className="appDesc">
-        {nodeSelected ? RecursRender(nodeSelected, config, 0, dispatch) : ""}
+  if (selected !== "SAML") {
+    const l = `${
+      selected === "OpenIDConnect" ? "oidc" : selected.toLowerCase()
+    }Params`;
+    const nodeSelected = test1.filter(
+      (el: Record<string, any>) => el.title === l
+    )[0].nodes;
+
+    return (
+      <div>
+        <strong className="title2">{t(l)}</strong>
+        <div className="appDesc">
+          {nodeSelected ? RecursRender(nodeSelected, config, 0, dispatch) : ""}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return <SAMLRenderer />;
 }

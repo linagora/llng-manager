@@ -1,12 +1,22 @@
-import { t } from "i18next";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
-  transformJsonToList,
-  transformListToJson,
-} from "../../utils/nativeRule";
-import "./AppPage.css";
-import attributes from "./../../static/attributes.json";
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Tooltip,
+} from "@mui/material";
+import { t } from "i18next";
+import Markdown from "markdown-to-jsx";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   delLocationRule,
   delVhostHeader,
@@ -20,24 +30,14 @@ import {
   updateVhostOptions,
   updateVhostPost,
 } from "../../features/config/configSlice";
-import { useDispatch } from "react-redux";
-import { TableVars } from "./TableVars";
-import { useState } from "react";
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Tooltip,
-} from "@mui/material";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import Markdown from "markdown-to-jsx";
 import definitions from "../../static/definitions.json";
+import {
+  transformJsonToList,
+  transformListToJson,
+} from "../../utils/nativeRule";
+import attributes from "./../../static/attributes.json";
+import "./AppPage.css";
+import { TableVars } from "./TableVars";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -204,9 +204,7 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
         );
       })}
       <tr>
-        <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-          <th>{t("defaultRule")}</th>
-        </Tooltip>
+        <th>{t("defaultRule")}</th>
         <td>
           <TextField
             size="small"
@@ -407,17 +405,40 @@ export function NativeApp({ name }: { name: string }) {
     <div>
       <strong className="title">{name}</strong>
       <div className="optionNavbar">
-        <label onClick={() => setOptionSelected("basic")}>
+        <label
+          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("basic")}
+        >
           {t("Basic Option")}
         </label>
-        <label onClick={() => setOptionSelected("locationRules")}>
+        <label
+          className={`option ${
+            optionSelected === "locationRules" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("locationRules")}
+        >
           {t("locationRules")}
         </label>
-        <label onClick={() => setOptionSelected("exportedHeaders")}>
+        <label
+          className={`option ${
+            optionSelected === "exportedHeaders" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("exportedHeaders")}
+        >
           {t("exportedHeaders")}
         </label>
-        <label onClick={() => setOptionSelected("post")}>{t("post")}</label>
-        <label onClick={() => setOptionSelected("vhostOptions")}>
+        <label
+          className={`option ${optionSelected === "post" ? "selected" : ""}`}
+          onClick={() => setOptionSelected("post")}
+        >
+          {t("post")}
+        </label>
+        <label
+          className={`option ${
+            optionSelected === "vhostOptions" ? "selected" : ""
+          }`}
+          onClick={() => setOptionSelected("vhostOptions")}
+        >
           {t("vhostOptions")}
         </label>
       </div>
@@ -428,30 +449,28 @@ export function NativeApp({ name }: { name: string }) {
               <tbody>
                 <tr>
                   <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                    <Tooltip
+                      title={
+                        <Markdown>
+                          {definitions.vhostComment
+                            ? definitions.vhostComment
+                            : ""}
+                        </Markdown>
+                      }
+                    >
                       <th>{t("vhostComment")}</th>
                     </Tooltip>
                   </th>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("regexp")}</th>
-                    </Tooltip>
-                  </th>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("rules")}</th>
-                    </Tooltip>
-                  </th>
-                  <th>
-                    <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                      <th>{t("rulesAuthnLevel")}</th>
-                    </Tooltip>
-                  </th>
+
+                  <th>{t("regexp")}</th>
+
+                  <th>{t("rules")}</th>
+
+                  <th>{t("rulesAuthnLevel")}</th>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("defaultRule")}</th>
-                  </Tooltip>
+                  <th>{t("defaultRule")}</th>
+
                   <td>
                     <TextField
                       size="small"
@@ -499,7 +518,9 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={<Markdown>{definitions.maintenance}</Markdown>}
+                  >
                     <th>{t("maintenance")}</th>
                   </Tooltip>
                   <td>
@@ -544,18 +565,10 @@ export function NativeApp({ name }: { name: string }) {
             <table id="locationRules">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("vhostComment")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("regexp")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("rules")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("rulesAuthnLevel")}</th>
-                  </Tooltip>
+                  <th>{t("vhostComment")}</th>
+                  <th>{t("regexp")}</th>
+                  <th>{t("rules")}</th>
+                  <th>{t("rulesAuthnLevel")}</th>
                   <th>
                     <Button
                       className="plus"
@@ -579,10 +592,10 @@ export function NativeApp({ name }: { name: string }) {
             <table id="exportedHeaders">
               <thead>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("keys")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <th>{t("keys")}</th>
+                  <Tooltip
+                    title={<Markdown>{definitions.exportedHeaders}</Markdown>}
+                  >
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
@@ -661,7 +674,7 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip title={<Markdown>{definitions.port}</Markdown>}>
                     <th>{t("port")}</th>
                   </Tooltip>
                   <td>
@@ -689,7 +702,13 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostHttps ? definitions.vhostHttps : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("vhostHttps")}</th>
                   </Tooltip>
                   <td>
@@ -731,7 +750,9 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={<Markdown>{definitions.maintenance}</Markdown>}
+                  >
                     <th>{t("maintenance")}</th>
                   </Tooltip>
                   <td>
@@ -764,7 +785,15 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostAliases
+                          ? definitions.vhostAliases
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("vhostAliases")}</th>
                   </Tooltip>
                   <td>
@@ -792,7 +821,15 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostAccessToTrace
+                          ? definitions.vhostAccessToTrace
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("vhostAccessToTrace")}</th>
                   </Tooltip>
                   <td>
@@ -820,7 +857,7 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip title={<Markdown>{definitions.vhostType}</Markdown>}>
                     <th>{t("vhostType")}</th>
                   </Tooltip>
                   <td>
@@ -855,7 +892,15 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostAuthnLevel
+                          ? definitions.vhostAuthnLevel
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("vhostAuthnLevel")}</th>
                   </Tooltip>
                   <td>
@@ -879,7 +924,15 @@ export function NativeApp({ name }: { name: string }) {
                   </td>
                 </tr>
                 <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostServiceTokenTTL
+                          ? definitions.vhostServiceTokenTTL
+                          : ""}
+                      </Markdown>
+                    }
+                  >
                     <th>{t("vhostServiceTokenTTL")}</th>
                   </Tooltip>
                   <td>
