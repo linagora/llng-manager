@@ -7,6 +7,7 @@ export interface ConfigState {
   loading: boolean;
   error: { has: boolean; errorContent: string };
   data: { metadata: MetaData; config: llngConfig };
+  saveResponse?: Record<string, Array<Record<string, string>>>;
 }
 
 export const initialState: ConfigState = {
@@ -27,6 +28,13 @@ export const getConfigAsync = createAsyncThunk(
       const response = await getConfig(configlatestMetadata.data.cfgNum);
       return { metadata: configlatestMetadata.data, config: response.data };
     }
+  }
+);
+export const saveConfigAsync = createAsyncThunk(
+  "config/saveConfig",
+  async (config: llngConfig): Promise<Object> => {
+    const response = await saveConfig(config);
+    return response.data;
   }
 );
 
@@ -72,9 +80,6 @@ const configSlice = createSlice({
     toggleGET(state) {
       state.data.config.issuerDBGetActivation =
         !state.data.config.issuerDBGetActivation;
-    },
-    saveConfigCall(state) {
-      saveConfig(state.data.config);
     },
     saveOIDCPrivSig(state, action: PayloadAction<string>) {
       state.data.config.oidcServicePrivateKeySig = action.payload;
@@ -938,6 +943,26 @@ const configSlice = createSlice({
             state.error.errorContent = action.payload.message;
           }
         }
+      )
+      .addCase(saveConfigAsync.pending, (state: ConfigState) => {
+        state.loading = true;
+      })
+      .addCase(
+        saveConfigAsync.fulfilled,
+        (state: ConfigState, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.saveResponse = action.payload.details;
+        }
+      )
+      .addCase(
+        saveConfigAsync.rejected,
+        (state: ConfigState, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.error.has = true;
+          if (action.payload instanceof Error) {
+            state.error.errorContent = action.payload.message;
+          }
+        }
       );
   },
 });
@@ -951,7 +976,6 @@ export const {
   toggleSAML,
   toggleGET,
   toggleOID2,
-  saveConfigCall,
   saveOIDCPrivSig,
   saveOIDCPrivIdSig,
   saveOIDCPubSig,

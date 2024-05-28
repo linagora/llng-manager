@@ -1,16 +1,26 @@
 import SaveIcon from "@mui/icons-material/Save";
-import { Fab } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Fab,
+} from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getConfigAsync, saveConfigCall } from "../features/config/configSlice";
+import {
+  getConfigAsync,
+  saveConfigAsync,
+} from "../features/config/configSlice";
 import { ruleOIDC, ruleSAML } from "../utils/rules";
 import "./SaveButton.css";
 export default function SaveButton() {
   const [openSavePopup, setOpenSavePopup] = useState(false);
-  const [openSavingPopup, setOpenSavingPopup] = useState(false);
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
   const dispatch = useAppDispatch();
+  const config = useAppSelector((state) => state.config);
   const data = useAppSelector((state) => state.config.data.config);
   return (
     <div>
@@ -18,7 +28,7 @@ export default function SaveButton() {
         style={{ position: "fixed", bottom: "2%", left: "2%" }}
         color="primary"
         className="saveButton"
-        onClick={() => {
+        onClick={async () => {
           let stateOk = true;
           if (data.oidcRPMetaDataOptions) {
             Object.keys(data.oidcRPMetaDataOptions).forEach((app) => {
@@ -45,16 +55,8 @@ export default function SaveButton() {
             });
           }
           if (stateOk) {
-            dispatch(saveConfigCall());
-            setOpenSavingPopup(true);
-            setTimeout(() => {
-              setOpenSavingPopup(false);
-              dispatch(getConfigAsync());
-              setOpenSavePopup(true);
-              setTimeout(() => {
-                setOpenSavePopup(false);
-              }, 2000);
-            }, 2000);
+            dispatch(saveConfigAsync(config.data.config));
+            setOpenSavePopup(true);
           } else {
             setOpenErrorPopup(true);
             setTimeout(() => {
@@ -65,12 +67,57 @@ export default function SaveButton() {
       >
         <SaveIcon fontSize="large" />
       </Fab>
-      <div className={`notif orange ${openSavingPopup ? "visible" : "hidden"}`}>
-        {t("Saving...")}
-      </div>
-      <div className={`notif green ${openSavePopup ? "visible" : "hidden"}`}>
-        {t("successfullySaved")}
-      </div>
+
+      <Dialog open={openSavePopup}>
+        <DialogTitle>{t("saveReport")}</DialogTitle>
+        <Divider />
+        <DialogContent>
+          {config.saveResponse ? (
+            <>
+              {config.saveResponse.__warnings__ ? (
+                <>
+                  <strong>{t("warnings")}</strong>
+                  <span>
+                    {config.saveResponse.__warnings__?.map(
+                      (el: Record<string, string>) => (
+                        <ul key={el.message}>{el.message}</ul>
+                      )
+                    )}
+                  </span>
+                </>
+              ) : (
+                ""
+              )}
+              {config.saveResponse.__errors__ ? (
+                <>
+                  <strong>{t("errors")}</strong>
+                  <span>
+                    {config.saveResponse.__errors__?.map(
+                      (el: Record<string, string>) => (
+                        <ul key={el.message}>{el.message}</ul>
+                      )
+                    )}
+                  </span>
+                </>
+              ) : (
+                ""
+              )}
+            </>
+          ) : (
+            ""
+          )}
+        </DialogContent>
+        <Divider />
+
+        <Button
+          onClick={() => {
+            dispatch(getConfigAsync());
+            setOpenSavePopup(false);
+          }}
+        >
+          {t("close")}
+        </Button>
+      </Dialog>
       <div className={`notif red ${openErrorPopup ? "visible" : "hidden"}`}>
         {t("Cannot save with app warnings")}
       </div>
