@@ -133,15 +133,15 @@ export function CasApp({ name }: { name: string }) {
               <thead>
                 <tr>
                   <th>{t("keys")}</th>
-                  <th>
-                    <Tooltip
-                      title={
-                        <Markdown>{definitions.casAppMetaDataMacros}</Markdown>
-                      }
-                    >
-                      <th>{t("values")}</th>
-                    </Tooltip>
-                  </th>
+
+                  <Tooltip
+                    title={
+                      <Markdown>{definitions.casAppMetaDataMacros}</Markdown>
+                    }
+                  >
+                    <th>{t("values")}</th>
+                  </Tooltip>
+
                   <th>
                     <Button
                       className="plus"

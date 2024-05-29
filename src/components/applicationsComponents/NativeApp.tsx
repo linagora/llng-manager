@@ -15,7 +15,6 @@ import {
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   delLocationRule,
@@ -98,8 +97,11 @@ function updatePost(tableID: string) {
   return post;
 }
 
-function NativeRule(appName: string, locationRules: Record<string, string>) {
-  const dispatch = useAppDispatch();
+function NativeRule(
+  appName: string,
+  locationRules: Record<string, string>,
+  dispatch: Function
+) {
   let i = 0;
   return (
     <tbody>
@@ -107,7 +109,7 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
         i++;
         const [commentary, regex, authLevel] = transformJsonToList(group);
         if (regex === "default") {
-          return <></>;
+          return null;
         }
         return (
           <tr key={i}>
@@ -260,9 +262,9 @@ function NativeRule(appName: string, locationRules: Record<string, string>) {
 
 function NativPost(
   appName: string,
-  post: Record<string, Record<string, string>>
+  post: Record<string, Record<string, string>>,
+  dispatch: Function
 ) {
-  const dispatch = useDispatch();
   let i = 0;
   return (
     <tbody>
@@ -448,19 +450,17 @@ export function NativeApp({ name }: { name: string }) {
             <table>
               <tbody>
                 <tr>
-                  <th>
-                    <Tooltip
-                      title={
-                        <Markdown>
-                          {definitions.vhostComment
-                            ? definitions.vhostComment
-                            : ""}
-                        </Markdown>
-                      }
-                    >
-                      <th>{t("vhostComment")}</th>
-                    </Tooltip>
-                  </th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.vhostComment
+                          ? definitions.vhostComment
+                          : ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("vhostComment")}</th>
+                  </Tooltip>
 
                   <th>{t("regexp")}</th>
 
@@ -579,7 +579,7 @@ export function NativeApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {NativeRule(name, locationRules)}
+              {NativeRule(name, locationRules, dispatch)}
             </table>
           </div>
         )}
@@ -657,7 +657,7 @@ export function NativeApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {NativPost(name, post ? post : {})}
+              {NativPost(name, post ? post : {}, dispatch)}
             </table>
             <Button
               className="plus"

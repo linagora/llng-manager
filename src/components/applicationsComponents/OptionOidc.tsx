@@ -433,14 +433,16 @@ export function OptionOidc({ name }: { name: string }) {
                   >
                     <th>{t("values")}</th>
                   </Tooltip>
-                  <Button
-                    className="plus"
-                    onClick={() =>
-                      dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
-                    }
-                  >
-                    <AddCircleIcon color="success" />
-                  </Button>
+                  <th>
+                    <Button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
+                      }
+                    >
+                      <AddCircleIcon color="success" />
+                    </Button>
+                  </th>
                 </tr>
               </thead>
               {TableVars(
@@ -478,12 +480,16 @@ export function OptionOidc({ name }: { name: string }) {
                   >
                     <th>{t("values")}</th>
                   </Tooltip>
-                  <Button
-                    className="plus"
-                    onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
-                  >
-                    <AddCircleIcon color="success" />
-                  </Button>
+                  <th>
+                    <Button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newOidcRPMetaDataScopeRules(name))
+                      }
+                    >
+                      <AddCircleIcon color="success" />
+                    </Button>
+                  </th>
                 </tr>
               </thead>
               {TableVars(
@@ -547,7 +553,7 @@ export function OptionOidc({ name }: { name: string }) {
                     {attributes.oidcRPMetaDataOptionsIDTokenSignAlg.select.map(
                       (el) => {
                         return (
-                          <MenuItem key={el.k} value={el.k}>
+                          <MenuItem key={el.v} value={el.k}>
                             {t(el.v)}
                           </MenuItem>
                         );
@@ -596,7 +602,7 @@ export function OptionOidc({ name }: { name: string }) {
                     {attributes.oidcRPMetaDataOptionsAccessTokenSignAlg.select.map(
                       (el) => {
                         return (
-                          <MenuItem key={el.k} value={el.k}>
+                          <MenuItem key={el.v} value={el.k}>
                             {t(el.v)}
                           </MenuItem>
                         );
@@ -645,7 +651,11 @@ export function OptionOidc({ name }: { name: string }) {
                   >
                     {attributes.oidcRPMetaDataOptionsUserInfoSignAlg.select.map(
                       (el) => {
-                        return <MenuItem value={el.k}>{t(el.v)}</MenuItem>;
+                        return (
+                          <MenuItem key={el.v} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
                       }
                     )}
                   </Select>
@@ -985,7 +995,11 @@ export function OptionOidc({ name }: { name: string }) {
                   >
                     {attributes.oidcRPMetaDataOptionsAccessTokenEncKeyMgtAlg.select.map(
                       (el) => {
-                        return <MenuItem value={el.k}>{t(el.v)}</MenuItem>;
+                        return (
+                          <MenuItem key={el.v} value={el.k}>
+                            {t(el.v)}
+                          </MenuItem>
+                        );
                       }
                     )}
                   </Select>
@@ -1035,7 +1049,7 @@ export function OptionOidc({ name }: { name: string }) {
                     {attributes.oidcRPMetaDataOptionsAccessTokenEncContentEncAlg.select.map(
                       (el) => {
                         return (
-                          <MenuItem key={el.k} value={el.k}>
+                          <MenuItem key={el.v} value={el.k}>
                             {t(el.v)}
                           </MenuItem>
                         );
@@ -1325,7 +1339,7 @@ export function OptionOidc({ name }: { name: string }) {
                     {attributes.oidcRPMetaDataOptionsLogoutEncContentEncAlg.select.map(
                       (el) => {
                         return (
-                          <MenuItem key={el.k} value={el.k}>
+                          <MenuItem key={el.v} value={el.k}>
                             {t(el.v)}
                           </MenuItem>
                         );
@@ -1381,74 +1395,76 @@ export function OptionOidc({ name }: { name: string }) {
             </tr>
             <tr>
               <th className="title2">{t("oidcRPMetaDataOptionsJwks")}</th>
-              <div>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  multiline
-                  variant="filled"
-                  fullWidth
-                  rows={4}
-                  placeholder="oidcRPMetaDataOptionsJwks"
-                  value={String(
-                    name
-                      ? data.oidcRPMetaDataOptions
-                        ? data.oidcRPMetaDataOptions[name]
+              <td>
+                <div>
+                  <TextField
+                    size="small"
+                    margin="normal"
+                    multiline
+                    variant="filled"
+                    fullWidth
+                    rows={4}
+                    placeholder="oidcRPMetaDataOptionsJwks"
+                    value={String(
+                      name
+                        ? data.oidcRPMetaDataOptions
                           ? data.oidcRPMetaDataOptions[name]
-                              .oidcRPMetaDataOptionsJwks
                             ? data.oidcRPMetaDataOptions[name]
                                 .oidcRPMetaDataOptionsJwks
+                              ? data.oidcRPMetaDataOptions[name]
+                                  .oidcRPMetaDataOptionsJwks
+                              : ""
                             : ""
                           : ""
                         : ""
-                      : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsJwks",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </div>
-              <div>
-                <Button
-                  sx={{ margin: "5px" }}
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  {t("upload")}
-                  <VisuallyHiddenInput
-                    type="file"
+                    )}
                     onChange={(e) => {
-                      if (e.target instanceof HTMLInputElement) {
-                        handleChangeFile(
-                          e as ChangeEvent<HTMLInputElement>
-                        ).then((fileContent) => {
-                          console.log("File content:", fileContent);
-                          dispatch(
-                            updateOidcMetaDataOptions({
-                              name,
-                              option: "oidcRPMetaDataOptionsJwks",
-                              value: fileContent,
-                            })
-                          );
-                        });
-                      }
+                      dispatch(
+                        updateOidcMetaDataOptions({
+                          name,
+                          option: "oidcRPMetaDataOptionsJwks",
+                          value: e.target.value,
+                        })
+                      );
                     }}
                   />
-                </Button>
-              </div>
-              <URLLoader
-                appName={name}
-                loadFunction={updateOidcRPMetaDataOptionsJwks}
-              />
+                </div>
+                <div>
+                  <Button
+                    sx={{ margin: "5px" }}
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    {t("upload")}
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                          handleChangeFile(
+                            e as ChangeEvent<HTMLInputElement>
+                          ).then((fileContent) => {
+                            console.log("File content:", fileContent);
+                            dispatch(
+                              updateOidcMetaDataOptions({
+                                name,
+                                option: "oidcRPMetaDataOptionsJwks",
+                                value: fileContent,
+                              })
+                            );
+                          });
+                        }
+                      }}
+                    />
+                  </Button>
+                </div>
+                <URLLoader
+                  appName={name}
+                  loadFunction={updateOidcRPMetaDataOptionsJwks}
+                />
+              </td>
             </tr>
           </tbody>
         </table>
