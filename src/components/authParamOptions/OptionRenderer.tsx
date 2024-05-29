@@ -143,10 +143,11 @@ function updateChoice(
   return headerList;
 }
 
-function cmbModuleContainer(
+function CmbModuleContainer(
   data: Record<string, Record<string, string | Record<string, string>>>,
   dispatch: Function
 ) {
+  let i = 0;
   return (
     <>
       <table id="combTable">
@@ -164,8 +165,9 @@ function cmbModuleContainer(
         </thead>
         <tbody>
           {Object.keys(data).map((key) => {
+            i++;
             return (
-              <tr>
+              <tr key={i}>
                 <td>
                   <TextField
                     size="small"
@@ -207,7 +209,11 @@ function cmbModuleContainer(
                       }
                     >
                       {attributes.combModules.select.map((e) => {
-                        return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
+                        return (
+                          <MenuItem key={e.v} value={e.k}>
+                            {t(e.v)}
+                          </MenuItem>
+                        );
                       })}
                     </Select>
                   </FormControl>
@@ -250,42 +256,51 @@ function cmbModuleContainer(
         </tbody>
       </table>
 
-      {Object.keys(data).map((key) => (
-        <Accordion>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            {t("overPrm") + " " + key}
-          </AccordionSummary>
+      {Object.keys(data).map((key) => {
+        i++;
+        return (
+          <Accordion key={i}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              {t("overPrm") + " " + key}
+            </AccordionSummary>
 
-          <table id={`overParam${key}`}>
-            <thead>
-              <tr>
-                <th>{t("overPrm")}</th>
-                <th>{t("value")}</th>
-                <th>
-                  <Button
-                    className="plus"
-                    onClick={() => dispatch(newCombOverParam(key))}
+            <table id={`overParam${key}`}>
+              <thead>
+                <tr>
+                  <th>{t("overPrm")}</th>
+                  <th>{t("value")}</th>
+                  <th>
+                    <Button
+                      className="plus"
+                      onClick={() => dispatch(newCombOverParam(key))}
+                    >
+                      <AddCircleIcon color="success" />
+                    </Button>
+                  </th>
+                </tr>
+              </thead>
+              <TableVars
+                appName={key}
+                vars={
+                  (data[key].over ? data[key].over : {}) as Record<
+                    string,
+                    string
                   >
-                    <AddCircleIcon color="success" />
-                  </Button>
-                </th>
-              </tr>
-            </thead>
-            {TableVars(
-              key,
-              (data[key].over ? data[key].over : {}) as Record<string, string>,
-              `overParam${key}`,
-              dispatch,
-              delCombOverParam,
-              updateCombOverParam
-            )}
-          </table>
-        </Accordion>
-      ))}
+                }
+                tableID={`overParam${key}`}
+                dispatch={dispatch}
+                delFunction={delCombOverParam}
+                updateFunction={updateCombOverParam}
+              />
+            </table>
+          </Accordion>
+        );
+      })}
     </>
   );
 }
 function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
+  let i = 0;
   return (
     <>
       <table id="choiceParam">
@@ -309,151 +324,163 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
         </thead>
         <tbody>
           {Object.keys(data).map((key) => {
+            i++;
             const [authMod, userMod, passMod, url, cond] = data[key].split(";");
             return (
-              <>
-                <tr>
-                  <td>
-                    <TextField
-                      size="small"
-                      type="text"
-                      value={key}
+              <tr key={i}>
+                <td>
+                  <TextField
+                    size="small"
+                    type="text"
+                    value={key}
+                    onChange={(e) =>
+                      dispatch(
+                        updateChoiceParam(
+                          updateChoice(
+                            "choiceParam",
+                            data,
+                            { name: key },
+                            e.target.value
+                          )
+                        )
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel shrink>{t("type")}</InputLabel>
+                    <Select
+                      label={t("type")}
+                      defaultValue={"LDAP"}
+                      value={authMod}
                       onChange={(e) =>
                         dispatch(
                           updateChoiceParam(
-                            updateChoice(
-                              "choiceParam",
-                              data,
-                              { name: key },
-                              e.target.value
-                            )
-                          )
-                        )
-                      }
-                    />
-                  </td>
-                  <td>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel shrink>{t("type")}</InputLabel>
-                      <Select
-                        label={t("type")}
-                        defaultValue={"LDAP"}
-                        value={authMod}
-                        onChange={(e) =>
-                          dispatch(
-                            updateChoiceParam(
-                              updateChoice("choiceParam", data, {
-                                name: key,
-                                auth: e.target.value,
-                              })
-                            )
-                          )
-                        }
-                      >
-                        {attributes.authChoiceModules.select[0].map((e) => {
-                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                        })}
-                      </Select>
-                    </FormControl>
-                  </td>
-                  <td>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel shrink>{t("type")}</InputLabel>
-                      <Select
-                        label={t("type")}
-                        defaultValue={"LDAP"}
-                        value={userMod}
-                        onChange={(e) =>
-                          dispatch(
-                            updateChoiceParam(
-                              updateChoice("choiceParam", data, {
-                                name: key,
-                                user: e.target.value,
-                              })
-                            )
-                          )
-                        }
-                      >
-                        {attributes.authChoiceModules.select[1].map((e) => {
-                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                        })}
-                      </Select>
-                    </FormControl>
-                  </td>
-                  <td>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel shrink>{t("type")}</InputLabel>
-                      <Select
-                        label={t("type")}
-                        defaultValue={"LDAP"}
-                        value={passMod}
-                        onChange={(e) =>
-                          dispatch(
-                            updateChoiceParam(
-                              updateChoice("choiceParam", data, {
-                                name: key,
-                                pass: e.target.value,
-                              })
-                            )
-                          )
-                        }
-                      >
-                        {attributes.authChoiceModules.select[2].map((e) => {
-                          return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
-                        })}
-                      </Select>
-                    </FormControl>
-                  </td>
-                  <td>
-                    <TextField
-                      size="small"
-                      type="url"
-                      value={url}
-                      onChange={() =>
-                        dispatch(
-                          updateChoiceParam(
                             updateChoice("choiceParam", data, {
                               name: key,
+                              auth: e.target.value,
                             })
                           )
                         )
                       }
-                    />
-                  </td>
-                  <td>
-                    <TextField
-                      size="small"
-                      type="text"
-                      value={cond}
-                      onChange={() =>
-                        dispatch(
-                          updateChoiceParam(
-                            updateChoice("choiceParam", data, {
-                              name: key,
-                            })
-                          )
-                        )
-                      }
-                    />
-                  </td>
-                  <td>
-                    <Button
-                      className="minus"
-                      onClick={() => dispatch(delChoiceParam(key))}
                     >
-                      <RemoveCircleIcon color="error" />
-                    </Button>
-                  </td>
-                </tr>
-              </>
+                      {attributes.authChoiceModules.select[0].map((e) => {
+                        return (
+                          <MenuItem key={e.v + "auth"} value={e.k}>
+                            {t(e.v)}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </td>
+                <td>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel shrink>{t("type")}</InputLabel>
+                    <Select
+                      label={t("type")}
+                      defaultValue={"LDAP"}
+                      value={userMod}
+                      onChange={(e) =>
+                        dispatch(
+                          updateChoiceParam(
+                            updateChoice("choiceParam", data, {
+                              name: key,
+                              user: e.target.value,
+                            })
+                          )
+                        )
+                      }
+                    >
+                      {attributes.authChoiceModules.select[1].map((e) => {
+                        return (
+                          <MenuItem key={e.v + "auth"} value={e.k}>
+                            {t(e.v)}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </td>
+                <td>
+                  <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <InputLabel shrink>{t("type")}</InputLabel>
+                    <Select
+                      label={t("type")}
+                      defaultValue={"LDAP"}
+                      value={passMod}
+                      onChange={(e) =>
+                        dispatch(
+                          updateChoiceParam(
+                            updateChoice("choiceParam", data, {
+                              name: key,
+                              pass: e.target.value,
+                            })
+                          )
+                        )
+                      }
+                    >
+                      {attributes.authChoiceModules.select[2].map((e) => {
+                        return (
+                          <MenuItem key={e.v + "choice"} value={e.k}>
+                            {t(e.v)}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </FormControl>
+                </td>
+                <td>
+                  <TextField
+                    size="small"
+                    type="url"
+                    value={url}
+                    onChange={() =>
+                      dispatch(
+                        updateChoiceParam(
+                          updateChoice("choiceParam", data, {
+                            name: key,
+                          })
+                        )
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <TextField
+                    size="small"
+                    type="text"
+                    value={cond}
+                    onChange={() =>
+                      dispatch(
+                        updateChoiceParam(
+                          updateChoice("choiceParam", data, {
+                            name: key,
+                          })
+                        )
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <Button
+                    className="minus"
+                    onClick={() => dispatch(delChoiceParam(key))}
+                  >
+                    <RemoveCircleIcon color="error" />
+                  </Button>
+                </td>
+              </tr>
             );
           })}
         </tbody>
       </table>
       {Object.keys(data).map((key) => {
+        i++;
         const over = data[key].split(";")[5];
         return (
-          <Accordion>
+          <Accordion key={i}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("overPrm") + " " + key}
             </AccordionSummary>
@@ -473,14 +500,14 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                   </th>
                 </tr>
               </thead>
-              {TableVars(
-                key,
-                (over ? JSON.parse(over) : {}) as Record<string, string>,
-                `overParam${key}`,
-                dispatch,
-                delChoiceOverParam,
-                updateChoiceOverParam
-              )}
+              <TableVars
+                appName={key}
+                vars={(over ? JSON.parse(over) : {}) as Record<string, string>}
+                tableID={`overParam${key}`}
+                dispatch={dispatch}
+                delFunction={delChoiceOverParam}
+                updateFunction={updateChoiceOverParam}
+              />
             </table>
           </Accordion>
         );
@@ -489,29 +516,40 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
   );
 }
 
-function RecursRender(
-  values: Record<string, any>,
-  config: llngConfig,
-  tab: number,
-  dispatch: Function
-) {
+function RecursRender({
+  param,
+}: {
+  param: {
+    values: Record<string, any>;
+    config: llngConfig;
+    tab: number;
+    dispatch: Function;
+  };
+}) {
   type TypeKeyValue = keyof typeof attributes;
   type YourType = { k: string; v: string };
-  return values.map((el: string | Record<string, any>) => {
+  return param.values.map((el: string | Record<string, any>) => {
     if (typeof el === "object") {
       return (
-        <Accordion>
+        <Accordion key={el.title + param.tab}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             {t(el.title)}
           </AccordionSummary>
-          {RecursRender(el.nodes, config, tab + 1, dispatch)}
+          <RecursRender
+            param={{
+              values: el.nodes,
+              config: param.config,
+              tab: param.tab + 1,
+              dispatch: param.dispatch,
+            }}
+          />
         </Accordion>
       );
     }
     switch (attributes[el as TypeKeyValue].type) {
       case "int":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -527,7 +565,7 @@ function RecursRender(
               size="small"
               type="number"
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: Number(e.target.value),
@@ -535,13 +573,13 @@ function RecursRender(
                 )
               }
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
             />
           </ul>
         );
       case "text":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -557,7 +595,7 @@ function RecursRender(
               size="small"
               type="text"
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
@@ -565,13 +603,13 @@ function RecursRender(
                 )
               }
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
             />
           </ul>
         );
       case "PerlModule":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -587,7 +625,7 @@ function RecursRender(
               size="small"
               type="text"
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
@@ -595,13 +633,13 @@ function RecursRender(
                 )
               }
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
             />
           </ul>
         );
       case "password":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -617,7 +655,7 @@ function RecursRender(
               size="small"
               type="password"
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
@@ -625,13 +663,13 @@ function RecursRender(
                 )
               }
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
             />
           </ul>
         );
       case "intOrNull":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -647,7 +685,7 @@ function RecursRender(
               size="small"
               type="number"
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: Number(e.target.value),
@@ -655,13 +693,13 @@ function RecursRender(
                 )
               }
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
             />
           </ul>
         );
       case "authChoiceContainer":
         return (
-          <>
+          <div key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -674,14 +712,14 @@ function RecursRender(
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             {authChoiceContainer(
-              config[el as keyof llngConfig] as Record<string, string>,
-              dispatch
+              param.config[el as keyof llngConfig] as Record<string, string>,
+              param.dispatch
             )}
-          </>
+          </div>
         );
       case "cmbModuleContainer":
         return (
-          <>
+          <div key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -693,14 +731,14 @@ function RecursRender(
             >
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
-            {cmbModuleContainer(
-              config[el as keyof llngConfig] as Record<
+            {CmbModuleContainer(
+              param.config[el as keyof llngConfig] as Record<
                 string,
                 Record<string, any>
               >,
-              dispatch
+              param.dispatch
             )}
-          </>
+          </div>
         );
       case "select":
         return (
@@ -709,9 +747,9 @@ function RecursRender(
             <Select
               label={t(el)}
               displayEmpty
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
@@ -728,7 +766,11 @@ function RecursRender(
                       }
                     ).select || []
                   ).map((e) => {
-                    return <MenuItem value={e.k}>{t(e.v)}</MenuItem>;
+                    return (
+                      <MenuItem key={e.v} value={e.k}>
+                        {t(e.v)}
+                      </MenuItem>
+                    );
                   })
                 : ""}
             </Select>
@@ -736,14 +778,14 @@ function RecursRender(
         );
       case "bool":
         return (
-          <div>
+          <ul key={el}>
             <FormControl>
               <FormLabel>{t(el)}</FormLabel>
               <RadioGroup
                 row
-                value={config[el as keyof llngConfig]}
+                value={param.config[el as keyof llngConfig]}
                 onChange={(e) =>
-                  dispatch(
+                  param.dispatch(
                     updateConfigParams({
                       param: el as keyof llngConfig,
                       value: Number(e.target.value),
@@ -763,11 +805,11 @@ function RecursRender(
                 />
               </RadioGroup>
             </FormControl>
-          </div>
+          </ul>
         );
       case "keyTextContainer":
         return (
-          <>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -788,7 +830,7 @@ function RecursRender(
                     <Button
                       className="plus"
                       onClick={() =>
-                        dispatch(newModuleOpt(el as keyof llngConfig))
+                        param.dispatch(newModuleOpt(el as keyof llngConfig))
                       }
                     >
                       <AddCircleIcon color="success" />
@@ -796,20 +838,22 @@ function RecursRender(
                   </th>
                 </tr>
               </thead>
-              {TableVars(
-                el,
-                config[el as keyof llngConfig] as Record<string, string>,
-                el + "Table",
-                dispatch,
-                delModuleOpt,
-                updateModuleOpt
-              )}
+              <TableVars
+                appName={el}
+                vars={
+                  param.config[el as keyof llngConfig] as Record<string, string>
+                }
+                tableID={el + "Table"}
+                dispatch={param.dispatch}
+                delFunction={delModuleOpt}
+                updateFunction={updateModuleOpt}
+              />
             </table>
-          </>
+          </ul>
         );
       case "url":
         return (
-          <ul>
+          <ul key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -825,9 +869,9 @@ function RecursRender(
               size="small"
               type="url"
               placeholder={t(el)}
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: String(e.target.value),
@@ -839,13 +883,13 @@ function RecursRender(
         );
       case "blackWhiteList":
         return (
-          <ul>
+          <ul key={el}>
             <FormControl>
               <RadioGroup
                 row
-                value={config[el as keyof llngConfig]}
+                value={param.config[el as keyof llngConfig]}
                 onChange={(e) =>
-                  dispatch(
+                  param.dispatch(
                     updateConfigParams({
                       param: el as keyof llngConfig,
                       value: Number(e.target.value),
@@ -868,9 +912,9 @@ function RecursRender(
             <TextField
               size="small"
               type="url"
-              value={config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig]}
               onChange={(e) =>
-                dispatch(
+                param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
                     value: e.target.value,
@@ -882,7 +926,7 @@ function RecursRender(
           </ul>
         );
       default:
-        return <ul>{attributes[el as TypeKeyValue].type} </ul>;
+        return <ul key={el}>{attributes[el as TypeKeyValue].type} </ul>;
     }
   });
 }
@@ -905,7 +949,15 @@ export function OptionRenderer({ selected }: { selected: string }) {
       <div>
         <strong className="title2">{t(l)}</strong>
         <div className="appDesc">
-          {nodeSelected ? RecursRender(nodeSelected, config, 0, dispatch) : ""}
+          {nodeSelected ? (
+            <div key={selected}>
+              <RecursRender
+                param={{ values: nodeSelected, config, tab: 0, dispatch }}
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     );

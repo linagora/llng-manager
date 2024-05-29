@@ -1,21 +1,28 @@
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { Button, TextField } from "@mui/material";
 
-export function TableVars(
-  appName: string,
-  vars: Record<string, string>,
-  tableID: string,
-  dispatch: Function,
-  delFunction: Function,
-  updateFunction: Function
-) {
+export function TableVars({
+  appName,
+  vars,
+  tableID,
+  dispatch,
+  delFunction,
+  updateFunction,
+}: {
+  appName: string;
+  vars: Record<string, string>;
+  tableID: string;
+  dispatch: Function;
+  delFunction: Function;
+  updateFunction: Function;
+}) {
   let i = 0;
   return (
     <tbody>
       {Object.keys(vars).map((key) => {
         i++;
         return (
-          <tr key={i}>
+          <tr key={appName + i}>
             <td>
               <TextField
                 size="small"

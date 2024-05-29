@@ -91,6 +91,7 @@ export function Configuration({
             </Link>
           </Breadcrumbs>
           <IssuerDashboard type={location.info.name} />
+          <SaveButton />
         </div>
       );
     default:

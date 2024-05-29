@@ -430,16 +430,18 @@ export function SAMLApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {data.samlSPMetaDataMacros
-                ? TableVars(
-                    name,
-                    data.samlSPMetaDataMacros[name],
-                    "samlSPMetaDataMacros",
-                    dispatch,
-                    delSAMLSPMetaDataMacros,
-                    updateSAMLSPMetaDataMacros
-                  )
-                : ""}
+              {data.samlSPMetaDataMacros ? (
+                <TableVars
+                  appName={name}
+                  vars={data.samlSPMetaDataMacros[name]}
+                  tableID={"samlSPMetaDataMacros"}
+                  dispatch={dispatch}
+                  delFunction={delSAMLSPMetaDataMacros}
+                  updateFunction={updateSAMLSPMetaDataMacros}
+                />
+              ) : (
+                ""
+              )}
             </table>
             <Button
               className="plus"

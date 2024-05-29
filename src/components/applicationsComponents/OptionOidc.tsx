@@ -444,17 +444,19 @@ export function OptionOidc({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>
-              {TableVars(
-                name,
-                data.oidcRPMetaDataOptionsExtraClaims
-                  ? data.oidcRPMetaDataOptionsExtraClaims[name]
-                  : {},
-                "oidcRPMetaDataOptionsExtraClaims",
-                dispatch,
-                delOidcRPMetaDataOptionsExtraClaims,
-                updateOidcRPMetaDataOptionsExtraClaims
-              )}
+              </thead>{" "}
+              <TableVars
+                appName={name}
+                vars={
+                  data.oidcRPMetaDataOptionsExtraClaims
+                    ? data.oidcRPMetaDataOptionsExtraClaims[name]
+                    : {}
+                }
+                tableID={"oidcRPMetaDataOptionsExtraClaims"}
+                dispatch={dispatch}
+                delFunction={delOidcRPMetaDataOptionsExtraClaims}
+                updateFunction={updateOidcRPMetaDataOptionsExtraClaims}
+              />
             </table>
             <Button
               className="plus"
@@ -491,17 +493,19 @@ export function OptionOidc({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>
-              {TableVars(
-                name,
-                data.oidcRPMetaDataScopeRules
-                  ? data.oidcRPMetaDataScopeRules[name]
-                  : {},
-                "oidcRPMetaDataScopeRules",
-                dispatch,
-                delOidcRPMetaDataScopeRules,
-                updateOidcRPMetaDataScopeRules
-              )}
+              </thead>{" "}
+              <TableVars
+                appName={name}
+                vars={
+                  data.oidcRPMetaDataScopeRules
+                    ? data.oidcRPMetaDataScopeRules[name]
+                    : {}
+                }
+                tableID={"oidcRPMetaDataScopeRules"}
+                dispatch={dispatch}
+                delFunction={delOidcRPMetaDataScopeRules}
+                updateFunction={updateOidcRPMetaDataScopeRules}
+              />
             </table>
             <Button
               className="plus"

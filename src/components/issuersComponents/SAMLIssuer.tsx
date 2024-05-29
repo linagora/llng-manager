@@ -127,8 +127,7 @@ export function SAMLIssuer() {
                       margin="normal"
                       variant="filled"
                       className="form"
-                      defaultValue={""}
-                      value={config.samlEntityID}
+                      value={config.samlEntityID || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -165,8 +164,7 @@ export function SAMLIssuer() {
                         margin="normal"
                         variant="filled"
                         className="form"
-                        defaultValue={""}
-                        value={config.samlOrganizationDisplayName}
+                        value={config.samlOrganizationDisplayName || ""}
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -192,8 +190,7 @@ export function SAMLIssuer() {
                         margin="normal"
                         variant="filled"
                         className="form"
-                        defaultValue={""}
-                        value={config.samlOrganizationName}
+                        value={config.samlOrganizationName || ""}
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -219,8 +216,7 @@ export function SAMLIssuer() {
                         margin="normal"
                         variant="filled"
                         className="form"
-                        defaultValue={""}
-                        value={config.samlOrganizationURL}
+                        value={config.samlOrganizationURL || ""}
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -521,8 +517,7 @@ export function SAMLIssuer() {
                       margin="normal"
                       variant="filled"
                       className="form"
-                      defaultValue={""}
-                      value={config.samlOverrideIDPEntityID}
+                      value={config.samlOverrideIDPEntityID || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -546,8 +541,7 @@ export function SAMLIssuer() {
                       margin="normal"
                       variant="filled"
                       className="form"
-                      defaultValue={""}
-                      value={config.samlStorage}
+                      value={config.samlStorage || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -573,14 +567,14 @@ export function SAMLIssuer() {
                   </th>
                 </tr>
               </thead>
-              {TableVars(
-                "samlStorageOptions",
-                config.samlStorageOptions ? config.samlStorageOptions : {},
-                "samlStorageOptions",
-                console.log,
-                console.log,
-                console.log
-              )}
+              <TableVars
+                appName={"samlStorageOptions"}
+                vars={config.casStorageOptions ? config.casStorageOptions : {}}
+                tableID={"casStorageOptions"}
+                dispatch={console.log}
+                delFunction={console.log}
+                updateFunction={console.log}
+              />
             </table>
           </>
         )}

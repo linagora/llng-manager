@@ -101,8 +101,7 @@ export function CasIssuer() {
                       margin="normal"
                       variant="filled"
                       className="form"
-                      defaultValue={""}
-                      value={config.casAttr}
+                      value={config.casAttr || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -162,8 +161,10 @@ export function CasIssuer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        defaultValue={attributes.casStrictMatching.default}
-                        value={config.casStrictMatching}
+                        value={
+                          config.casStrictMatching ||
+                          attributes.casStrictMatching.default
+                        }
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -202,8 +203,10 @@ export function CasIssuer() {
                       variant="filled"
                       className="form"
                       type="number"
-                      defaultValue={attributes.casTicketExpiration.default}
-                      value={String(config.casTicketExpiration)}
+                      value={String(
+                        config.casTicketExpiration ||
+                          attributes.casTicketExpiration.default
+                      )}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -229,10 +232,10 @@ export function CasIssuer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        defaultValue={
+                        value={
+                          config.casBackChannelSingleLogout ||
                           attributes.casBackChannelSingleLogout.default
                         }
-                        value={config.casBackChannelSingleLogout}
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -268,8 +271,7 @@ export function CasIssuer() {
                       margin="normal"
                       variant="filled"
                       className="form"
-                      defaultValue={""}
-                      value={config.casStorage}
+                      value={config.casStorage || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -297,15 +299,15 @@ export function CasIssuer() {
                   </Button>
                 </th>
               </tr>
-            </thead>
-            {TableVars(
-              "cas",
-              config.casStorageOptions ? config.casStorageOptions : {},
-              "casStorageOptions",
-              console.log,
-              console.log,
-              console.log
-            )}
+            </thead>{" "}
+            <TableVars
+              appName={"cas"}
+              vars={config.casStorageOptions ? config.casStorageOptions : {}}
+              tableID={"casStorageOptions"}
+              dispatch={console.log}
+              delFunction={console.log}
+              updateFunction={console.log}
+            />
           </table>
         )}
         {option === "casAttributes" && (
@@ -321,14 +323,14 @@ export function CasIssuer() {
                 </th>
               </tr>
             </thead>
-            {TableVars(
-              "cas",
-              config.casAttributes ? config.casAttributes : {},
-              "casAttributes",
-              console.log,
-              console.log,
-              console.log
-            )}
+            <TableVars
+              appName={"cas"}
+              vars={config.casAttributes ? config.casAttributes : {}}
+              tableID={"casAttributes"}
+              dispatch={console.log}
+              delFunction={console.log}
+              updateFunction={console.log}
+            />
           </table>
         )}
       </div>

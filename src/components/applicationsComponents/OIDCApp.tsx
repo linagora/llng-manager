@@ -579,16 +579,18 @@ export function OIDCApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {data.oidcRPMetaDataMacros
-                ? TableVars(
-                    name,
-                    data.oidcRPMetaDataMacros[name],
-                    "oidcRPMetaDataMacros",
-                    dispatch,
-                    delOIDCRPMetaDataMacros,
-                    updateOIDCRPMetaDataMacros
-                  )
-                : ""}
+              {data.oidcRPMetaDataMacros ? (
+                <TableVars
+                  appName={name}
+                  vars={data.oidcRPMetaDataMacros[name]}
+                  tableID={"oidcRPMetaDataMacros"}
+                  dispatch={dispatch}
+                  delFunction={delOIDCRPMetaDataMacros}
+                  updateFunction={updateOIDCRPMetaDataMacros}
+                />
+              ) : (
+                ""
+              )}
             </table>
             <Button
               className="plus"

@@ -100,7 +100,7 @@ export function AuthParams() {
             >
               {attributes.authentication.select.map((el) => {
                 return (
-                  <MenuItem key={el.k} value={el.k}>
+                  <MenuItem key={"auth" + el.v} value={el.k}>
                     {t(el.v)}
                   </MenuItem>
                 );
@@ -126,7 +126,7 @@ export function AuthParams() {
             >
               {attributes.userDB.select.map((el) => {
                 return (
-                  <MenuItem key={el.k} value={el.k}>
+                  <MenuItem key={"user" + el.v} value={el.k}>
                     {t(el.v)}
                   </MenuItem>
                 );
@@ -152,7 +152,7 @@ export function AuthParams() {
             >
               {attributes.passwordDB.select.map((el) => {
                 return (
-                  <MenuItem key={el.k} value={el.k}>
+                  <MenuItem key={"pass" + el.v} value={el.k}>
                     {t(el.v)}
                   </MenuItem>
                 );
@@ -177,7 +177,7 @@ export function AuthParams() {
               }
             >
               {attributes.registerDB.select.map((el) => (
-                <MenuItem key={el.k} value={el.k}>
+                <MenuItem key={"reg" + el.v} value={el.k}>
                   {t(el.v)}
                 </MenuItem>
               ))}
@@ -187,12 +187,16 @@ export function AuthParams() {
         <div className="optionNavbar">
           {allOptChoices.map((el) =>
             selectedOptions.includes(el.k) && el.k !== "Same" ? (
-              <span key={el.k} onClick={() => setOptionSelected(el.k)}>
+              <span
+                className={`option ${
+                  optionSelected === el.k ? "selected" : ""
+                }`}
+                key={"selected" + el.v}
+                onClick={() => setOptionSelected(el.k)}
+              >
                 {el.v}
               </span>
-            ) : (
-              <></>
-            )
+            ) : null
           )}
         </div>
         <div className="options">

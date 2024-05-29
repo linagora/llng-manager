@@ -607,15 +607,15 @@ export function NativeApp({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>
-              {TableVars(
-                name,
-                exportedHeaders ? exportedHeaders : {},
-                "exportedHeaders",
-                dispatch,
-                delVhostHeader,
-                updateVhostHeaders
-              )}
+              </thead>{" "}
+              <TableVars
+                appName={name}
+                vars={exportedHeaders ? exportedHeaders : {}}
+                tableID={"exportedHeaders"}
+                dispatch={dispatch}
+                delFunction={delVhostHeader}
+                updateFunction={updateVhostHeaders}
+              />
             </table>
             <Button
               className="plus"

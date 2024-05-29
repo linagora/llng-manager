@@ -108,14 +108,14 @@ export function CasApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {TableVars(
-                name,
-                vars,
-                "exportedVars",
-                dispatch,
-                delCASexportedVars,
-                updateCASexportedVars
-              )}
+              <TableVars
+                appName={name}
+                vars={vars}
+                tableID={"exportedVars"}
+                dispatch={dispatch}
+                delFunction={delCASexportedVars}
+                updateFunction={updateCASexportedVars}
+              />
             </table>
             <Button
               className="plus"
@@ -152,14 +152,14 @@ export function CasApp({ name }: { name: string }) {
                   </th>
                 </tr>
               </thead>
-              {TableVars(
-                name,
-                casAppMetaDataMacros,
-                "macros",
-                dispatch,
-                delCASAppMetaDataMacros,
-                updateCASAppMetaDataMacros
-              )}
+              <TableVars
+                appName={name}
+                vars={casAppMetaDataMacros}
+                tableID={"macros"}
+                dispatch={dispatch}
+                delFunction={delCASAppMetaDataMacros}
+                updateFunction={updateCASAppMetaDataMacros}
+              />
             </table>
             <Button
               className="plus"

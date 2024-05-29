@@ -1,10 +1,3 @@
-import { MouseEventHandler, useState } from "react";
-import { MandatoryFields } from "./MandatoryFields";
-import "./CreationAssistant.css";
-import { t } from "i18next";
-import attributes from "../../static/attributes.json";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { delApp, newApp } from "../../features/config/configSlice";
 import {
   Button,
   ButtonGroup,
@@ -14,6 +7,13 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { t } from "i18next";
+import { MouseEventHandler, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { delApp, newApp } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
+import "./CreationAssistant.css";
+import { MandatoryFields } from "./MandatoryFields";
 
 export function CreationAssistant({
   closeModal,
@@ -42,7 +42,7 @@ export function CreationAssistant({
                   <InputLabel>{t("chooseType")}</InputLabel>
                   <Select
                     label={t("chooseType")}
-                    defaultValue={"native"}
+                    value={appType}
                     onChange={(e) => {
                       setAppType(String(e.target.value));
                       if (e.target.value === "native") {
