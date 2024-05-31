@@ -1,15 +1,16 @@
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { Button, TextField } from "@mui/material";
+import { t } from "i18next";
+import { useEffect, useState } from "react";
 import { push } from "redux-first-history";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { ConfStats } from "../components/ConfStats";
+import { Footer } from "../components/Footer";
 import {
   getConfigAsync,
   removeError,
   setError,
 } from "../features/config/configSlice";
-import { Button, TextField } from "@mui/material";
-import { t } from "i18next";
-import { useEffect, useState } from "react";
 import "./HomePage.css";
-import { Footer } from "../components/Footer";
 export function HomePage() {
   const config = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
@@ -41,19 +42,6 @@ export function HomePage() {
       );
     } else {
       const createdDate = new Date(config.data.metadata.cfgDate * 1000);
-      const appNum =
-        (config.data.config.locationRules
-          ? Object.keys(config.data.config.locationRules).length
-          : 0) +
-        (config.data.config.samlSPMetaDataXML
-          ? Object.keys(config.data.config.samlSPMetaDataXML).length
-          : 0) +
-        (config.data.config.oidcRPMetaDataOptions
-          ? Object.keys(config.data.config.oidcRPMetaDataOptions).length
-          : 0) +
-        (config.data.config.casAppMetaDataOptions
-          ? Object.keys(config.data.config.casAppMetaDataOptions).length
-          : 0);
 
       return (
         <>
@@ -164,16 +152,13 @@ export function HomePage() {
                       </th>
                       <td>{config.data.metadata.cfgAuthorIP}</td>
                     </tr>
-
-                    <tr>
-                      <th>
-                        <span>{t("App Number")}</span>
-                      </th>
-                      <td>{appNum}</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div>
+              <strong className="title2">{t("Latest conf stats")}</strong>
+              <ConfStats />
             </div>
             <div
               style={{
