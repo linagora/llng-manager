@@ -51,7 +51,7 @@ export function IssuerAssistant({
 
   const handleGenerateKeys = async (type: string) => {
     try {
-      const result = await GenerateKeys();
+      const result = await GenerateKeys("RSA");
 
       switch (type) {
         case "oidc":

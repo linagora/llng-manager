@@ -17,11 +17,14 @@ import Markdown from "markdown-to-jsx";
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  delModuleOpt,
+  newModuleOpt,
   saveSAMLPrivIdSig,
   saveSAMLPrivSig,
   saveSAMLPubSig,
   toggleSAML,
   updateConfigParams,
+  updateModuleOpt,
 } from "../../features/config/configSlice";
 import definitions from "../../static/definitions.json";
 import { GenerateKeys } from "../../utils/generateKey";
@@ -34,7 +37,7 @@ export function SAMLIssuer() {
   const [option, setOption] = useState("basic");
   const handleGenerateKeys = async () => {
     try {
-      const result = await GenerateKeys();
+      const result = await GenerateKeys("RSA");
 
       result.hash ? dispatch(saveSAMLPrivIdSig(result.hash)) : console.log();
       dispatch(saveSAMLPrivSig(result.private));
@@ -561,7 +564,12 @@ export function SAMLIssuer() {
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <Button className="plus">
+                    <Button
+                      className="plus"
+                      onClick={() =>
+                        dispatch(newModuleOpt("samlStorageOptions"))
+                      }
+                    >
                       <AddCircleIcon color="success" />
                     </Button>
                   </th>
@@ -569,11 +577,13 @@ export function SAMLIssuer() {
               </thead>
               <TableVars
                 appName={"samlStorageOptions"}
-                vars={config.casStorageOptions ? config.casStorageOptions : {}}
-                tableID={"casStorageOptions"}
-                dispatch={console.log}
-                delFunction={console.log}
-                updateFunction={console.log}
+                vars={
+                  config.samlStorageOptions ? config.samlStorageOptions : {}
+                }
+                tableID={"samlStorageOptions"}
+                dispatch={dispatch}
+                delFunction={delModuleOpt}
+                updateFunction={updateModuleOpt}
               />
             </table>
           </>

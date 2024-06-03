@@ -16,8 +16,11 @@ import Markdown from "markdown-to-jsx";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  delModuleOpt,
+  newModuleOpt,
   toggleCAS,
   updateConfigParams,
+  updateModuleOpt,
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
@@ -294,19 +297,22 @@ export function CasIssuer() {
                 <th>{t("keys")}</th>
                 <th>{t("values")}</th>
                 <th>
-                  <Button className="plus">
+                  <Button
+                    className="plus"
+                    onClick={() => dispatch(newModuleOpt("casStorageOptions"))}
+                  >
                     <AddCircleIcon color="success" />
                   </Button>
                 </th>
               </tr>
-            </thead>{" "}
+            </thead>
             <TableVars
-              appName={"cas"}
+              appName={"casStorageOptions"}
               vars={config.casStorageOptions ? config.casStorageOptions : {}}
               tableID={"casStorageOptions"}
-              dispatch={console.log}
-              delFunction={console.log}
-              updateFunction={console.log}
+              dispatch={dispatch}
+              delFunction={delModuleOpt}
+              updateFunction={updateModuleOpt}
             />
           </table>
         )}
@@ -317,19 +323,22 @@ export function CasIssuer() {
                 <th>{t("keys")}</th>
                 <th>{t("values")}</th>
                 <th>
-                  <Button className="plus">
+                  <Button
+                    className="plus"
+                    onClick={() => dispatch(newModuleOpt("casAttributes"))}
+                  >
                     <AddCircleIcon color="success" />
                   </Button>
                 </th>
               </tr>
             </thead>
             <TableVars
-              appName={"cas"}
+              appName={"casAttributes"}
               vars={config.casAttributes ? config.casAttributes : {}}
               tableID={"casAttributes"}
-              dispatch={console.log}
-              delFunction={console.log}
-              updateFunction={console.log}
+              dispatch={dispatch}
+              delFunction={delModuleOpt}
+              updateFunction={updateModuleOpt}
             />
           </table>
         )}

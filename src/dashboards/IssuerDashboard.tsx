@@ -1,5 +1,6 @@
 import { useAppDispatch } from "../app/hooks";
 import { CasIssuer } from "../components/issuersComponents/CasIssuer";
+import { OIDCIssuer } from "../components/issuersComponents/OIDCIssuer";
 import { SAMLIssuer } from "../components/issuersComponents/SAMLIssuer";
 import { setError } from "../features/config/configSlice";
 
@@ -11,8 +12,8 @@ export function IssuerDashboard({ type }: { type: string }) {
         return <CasIssuer />;
       case "saml":
         return <SAMLIssuer />;
-      // case "oidc":
-      //   return <OIDCIssuer />;
+      case "oidc":
+        return <OIDCIssuer />;
       default:
         return <div>¯\_(ツ)_/¯</div>;
     }
@@ -20,6 +21,6 @@ export function IssuerDashboard({ type }: { type: string }) {
     if (e instanceof Error) {
       dispatch(setError(e.message));
     }
-    return <div>e</div>;
+    return <div>Error</div>;
   }
 }

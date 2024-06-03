@@ -497,22 +497,16 @@ export interface llngConfig {
   oidcServiceAllowImplicitFlow?: boolean | number;
   oidcServiceAllowOnlyDeclaredScopes?: boolean | number;
   oidcServiceAuthorizationCodeExpiration?: number;
-  oidcServiceDynamicRegistrationExportedVars?: Record<
-    string,
-    Record<string, string>
-  >;
-  oidcServiceDynamicRegistrationExtraClaims?: Record<
-    string,
-    Record<string, string>
-  >;
+  oidcServiceDynamicRegistrationExportedVars?: Record<string, string>;
+  oidcServiceDynamicRegistrationExtraClaims?: Record<string, string>;
   oidcServiceEncAlgorithmAlg?: Array<{ k: string; v: string }>;
   oidcServiceEncAlgorithmEnc?: Array<{ k: string; v: string }>;
   oidcServiceIDTokenExpiration?: number;
   oidcServiceIgnoreScopeForClaims?: boolean | number;
   oidcServiceKeyIdEnc?: string;
   oidcServiceKeyIdSig?: string;
-  oidcServiceKeyTypeEnc?: Array<{ k: string; v: string }>;
-  oidcServiceKeyTypeSig?: Array<{ k: string; v: string }>;
+  oidcServiceKeyTypeEnc?: string;
+  oidcServiceKeyTypeSig?: string;
   oidcServiceMetaDataAuthnContext?: Record<string, Record<string, string>>;
   oidcServiceMetaDataAuthorizeURI?: string;
   oidcServiceMetaDataBackChannelURI?: string;
@@ -543,7 +537,7 @@ export interface llngConfig {
   oidcServicePublicKeyEnc?: string;
   oidcServicePublicKeySig?: string;
   oidcStorage?: string;
-  oidcStorageOptions?: Record<string, Record<string, string>>;
+  oidcStorageOptions?: Record<string, string>;
   oldNotifFormat?: boolean | number;
   openIdAttr?: string;
   openIdAuthnLevel?: number;
