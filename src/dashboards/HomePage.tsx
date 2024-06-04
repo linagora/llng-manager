@@ -1,17 +1,26 @@
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Button, TextField } from "@mui/material";
 import { t } from "i18next";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { ConfStats } from "../components/ConfStats";
 import { Footer } from "../components/Footer";
+import { SavePopup } from "../components/SavePopup";
+import { VisuallyHiddenInput } from "../components/managerComponents/VisuallyHiddenInput";
 import {
   getConfigAsync,
   removeError,
+  saveConfigAsync,
   setError,
 } from "../features/config/configSlice";
+import { exportData } from "../utils/exportData";
+import { handleChangeFile } from "../utils/readFiles";
+import { llngConfig } from "../utils/types";
 import "./HomePage.css";
 export function HomePage() {
+  const [openSavePopup, setOpenSavePopup] = useState(false);
   const config = useAppSelector((state) => state.config);
   const dispatch = useAppDispatch();
   const [configPresent, setConfigPresent] = useState<boolean>(
@@ -57,6 +66,49 @@ export function HomePage() {
               <strong className="title1">{t("Configuration Manager")}</strong>
             </div>
             <div className="search-container">
+              <div className="search">
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<DownloadIcon />}
+                  onClick={() =>
+                    exportData(config.data.config, config.data.config.cfgNum)
+                  }
+                >
+                  {t("downloadIt")}
+                </Button>
+              </div>
+              <div className="search">
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  {t("restore")}
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={(e) => {
+                      if (e.target instanceof HTMLInputElement) {
+                        handleChangeFile(
+                          e as ChangeEvent<HTMLInputElement>
+                        ).then((fileContent) => {
+                          console.log("File content:", fileContent);
+                          dispatch(
+                            saveConfigAsync(
+                              JSON.parse(fileContent) as llngConfig
+                            )
+                          );
+                          setOpenSavePopup(true);
+                        });
+                      }
+                    }}
+                  />
+                </Button>
+              </div>
               <div className="search">
                 <Button
                   variant="contained"
@@ -169,6 +221,12 @@ export function HomePage() {
             </div>
           </div>
           <Footer />
+          <SavePopup
+            config={config}
+            dispatch={dispatch}
+            openSavePopup={openSavePopup}
+            setOpenSavePopup={setOpenSavePopup}
+          />
         </>
       );
     }

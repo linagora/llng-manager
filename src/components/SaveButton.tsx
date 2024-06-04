@@ -1,21 +1,12 @@
 import SaveIcon from "@mui/icons-material/Save";
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Fab,
-} from "@mui/material";
+import { Fab } from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import {
-  getConfigAsync,
-  saveConfigAsync,
-} from "../features/config/configSlice";
+import { saveConfigAsync } from "../features/config/configSlice";
 import { ruleOIDC, ruleSAML } from "../utils/rules";
 import "./SaveButton.css";
+import { SavePopup } from "./SavePopup";
 export default function SaveButton() {
   const [openSavePopup, setOpenSavePopup] = useState(false);
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
@@ -67,57 +58,12 @@ export default function SaveButton() {
       >
         <SaveIcon fontSize="large" />
       </Fab>
-
-      <Dialog open={openSavePopup}>
-        <DialogTitle>{t("saveReport")}</DialogTitle>
-        <Divider />
-        <DialogContent>
-          {config.saveResponse ? (
-            <>
-              {config.saveResponse.__warnings__ ? (
-                <>
-                  <strong>{t("warnings")}</strong>
-                  <span>
-                    {config.saveResponse.__warnings__?.map(
-                      (el: Record<string, string>) => (
-                        <ul key={el.message}>{el.message}</ul>
-                      )
-                    )}
-                  </span>
-                </>
-              ) : (
-                ""
-              )}
-              {config.saveResponse.__errors__ ? (
-                <>
-                  <strong>{t("errors")}</strong>
-                  <span>
-                    {config.saveResponse.__errors__?.map(
-                      (el: Record<string, string>) => (
-                        <ul key={el.message}>{el.message}</ul>
-                      )
-                    )}
-                  </span>
-                </>
-              ) : (
-                ""
-              )}
-            </>
-          ) : (
-            ""
-          )}
-        </DialogContent>
-        <Divider />
-
-        <Button
-          onClick={() => {
-            dispatch(getConfigAsync());
-            setOpenSavePopup(false);
-          }}
-        >
-          {t("close")}
-        </Button>
-      </Dialog>
+      <SavePopup
+        config={config}
+        dispatch={dispatch}
+        openSavePopup={openSavePopup}
+        setOpenSavePopup={setOpenSavePopup}
+      />
       <div className={`notif red ${openErrorPopup ? "visible" : "hidden"}`}>
         {t("Cannot save with app warnings")}
       </div>

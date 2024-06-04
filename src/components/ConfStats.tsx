@@ -52,7 +52,7 @@ export function ConfStats() {
             fontFamily: "sans-serif",
           })}
           lineWidth={30}
-          labelPosition={120}
+          labelPosition={110}
           radius={30}
         />
       </div>

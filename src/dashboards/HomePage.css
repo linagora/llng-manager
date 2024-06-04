@@ -27,7 +27,6 @@ th {
 
 .search-container {
   display: flex;
-  justify-content: flex-end;
   margin: 15px;
 }
 

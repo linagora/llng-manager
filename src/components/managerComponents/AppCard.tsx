@@ -1,3 +1,10 @@
+import ControlPointDuplicateOutlinedIcon from "@mui/icons-material/ControlPointDuplicateOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { Button, ButtonGroup, Menu, TextField } from "@mui/material";
+import { t } from "i18next";
+import { useState } from "react";
+import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   changeAppName,
@@ -7,13 +14,6 @@ import {
 } from "../../features/config/configSlice";
 import ToggleButton from "../ToggleButton";
 import "./AppCard.css";
-import { t } from "i18next";
-import { push } from "redux-first-history";
-import { useState } from "react";
-import { Button, ButtonGroup, Menu, TextField } from "@mui/material";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import ControlPointDuplicateOutlinedIcon from "@mui/icons-material/ControlPointDuplicateOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 function Maintenance(
   type: string,
@@ -156,6 +156,8 @@ function AppCard({
             onClick={() => {
               if (name) {
                 dispatch(changeAppName({ name: info.name, newName: name }));
+                setOpenName(false);
+                setAnchorEl(null);
               }
             }}
           >
@@ -187,6 +189,8 @@ function AppCard({
           onClick={() => {
             if (name) {
               dispatch(dupApp({ oldName: info.name, newAppName: name }));
+              setOpenDup(false);
+              setAnchorEl(null);
             }
           }}
         >
@@ -208,9 +212,13 @@ function AppCard({
           <Button
             sx={{ margin: "10px" }}
             variant="outlined"
-            onClick={() => dispatch(delApp(info.name))}
+            onClick={() => {
+              dispatch(delApp(info.name));
+              setOpenDel(false);
+              setAnchorEl(null);
+            }}
           >
-            confirm
+            {t("confirm")}
           </Button>
         </div>
       </Menu>
