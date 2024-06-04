@@ -1,9 +1,9 @@
-export const exportData = (data: Object, num?: number) => {
-  const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-    JSON.stringify(data)
-  )}`;
+export const exportData = (
+  data: "full" | "samlMetadata" | "oidcMetadata",
+  num: number
+) => {
   const link = document.createElement("a");
-  link.href = jsonString;
-  link.download = `lmConf-${num}.json`;
+  link.href = `/confs/${num}?${data}=1`;
+  link.download = `${data}-Conf-${num}.json`;
   link.click();
 };

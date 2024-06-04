@@ -1,5 +1,6 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DownloadIcon from "@mui/icons-material/Download";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -27,6 +28,7 @@ import {
   updateModuleOpt,
 } from "../../features/config/configSlice";
 import definitions from "../../static/definitions.json";
+import { exportData } from "../../utils/exportData";
 import { GenerateKeys } from "../../utils/generateKey";
 import { handleChangeFile } from "../../utils/readFiles";
 import { TableVars } from "../applicationsComponents/TableVars";
@@ -50,6 +52,13 @@ export function SAMLIssuer() {
   return (
     <div>
       <strong className="title">{t("samlServiceMetaData")}</strong>
+      <Button
+        tabIndex={-1}
+        startIcon={<DownloadIcon />}
+        onClick={() =>
+          exportData("samlMetadata", config.cfgNum ? config.cfgNum : 1)
+        }
+      ></Button>
       <div className="optionNavbar">
         <label
           className={`option ${option === "basic" ? "selected" : ""}`}

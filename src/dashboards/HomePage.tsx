@@ -74,7 +74,7 @@ export function HomePage() {
                   tabIndex={-1}
                   startIcon={<DownloadIcon />}
                   onClick={() =>
-                    exportData(config.data.config, config.data.config.cfgNum)
+                    exportData("full", config.data.metadata.cfgNum)
                   }
                 >
                   {t("downloadIt")}
