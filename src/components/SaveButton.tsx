@@ -18,7 +18,6 @@ export default function SaveButton() {
       <Fab
         style={{ position: "fixed", bottom: "2%", left: "2%" }}
         color="primary"
-        className="saveButton"
         onClick={async () => {
           let stateOk = true;
           if (data.oidcRPMetaDataOptions) {

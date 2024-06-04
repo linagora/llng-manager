@@ -73,8 +73,8 @@ export function HomePage() {
                   variant="contained"
                   tabIndex={-1}
                   startIcon={<DownloadIcon />}
-                  onClick={() =>
-                    exportData("full", config.data.metadata.cfgNum)
+                  onClick={async () =>
+                    await exportData("full", config.data.metadata.cfgNum)
                   }
                 >
                   {t("downloadIt")}

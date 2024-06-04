@@ -51,14 +51,18 @@ export function SAMLIssuer() {
 
   return (
     <div>
-      <strong className="title">{t("samlServiceMetaData")}</strong>
-      <Button
-        tabIndex={-1}
-        startIcon={<DownloadIcon />}
-        onClick={() =>
-          exportData("samlMetadata", config.cfgNum ? config.cfgNum : 1)
-        }
-      ></Button>
+      <strong className="title">
+        {t("samlServiceMetaData")}{" "}
+        <Button
+          size="large"
+          color="secondary"
+          startIcon={<DownloadIcon />}
+          onClick={async () =>
+            await exportData("samlMetadata", config.cfgNum ? config.cfgNum : 1)
+          }
+        />
+      </strong>
+
       <div className="optionNavbar">
         <label
           className={`option ${option === "basic" ? "selected" : ""}`}

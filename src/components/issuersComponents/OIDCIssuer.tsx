@@ -100,7 +100,7 @@ export function OIDCIssuer() {
           onClick={() => setOption("oidcServiceMetaDataTimeouts")}
         >
           {t("oidcServiceMetaDataTimeouts")}
-        </label>{" "}
+        </label>
         <label
           className={`option ${
             option === "oidcServiceMetaDataSessions" ? "selected" : ""
