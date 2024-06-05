@@ -176,18 +176,14 @@ function ExportedAttribute(
 
 export function OIDCApp({ name }: { name: string }) {
   const data = useAppSelector((state) => state.config.data.config);
-  const [optionSelected, setOptionSelected] = useState("basic");
+  const [optionSelected, setOptionSelected] = useState(
+    "oidcRPMetaDataOptionsBasic"
+  );
   const dispatch = useAppDispatch();
   return (
     <div>
       <strong className="title">{name}</strong>
       <div className="optionNavbar">
-        <label
-          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("basic")}
-        >
-          {t("Basic Option")}
-        </label>
         <label
           className={`option ${
             optionSelected === "oidcRPMetaDataOptionsBasic" ? "selected" : ""

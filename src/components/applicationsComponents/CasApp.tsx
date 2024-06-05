@@ -79,7 +79,8 @@ export function CasApp({ name }: { name: string }) {
         </label>
       </div>
       <div className="appDesc">
-        {optionSelected === "casAppMetaDataExportedVars" && (
+        {(optionSelected === "casAppMetaDataExportedVars" ||
+          optionSelected === "basic") && (
           <div className="box">
             <strong className="title2">
               {t("casAppMetaDataExportedVars")}

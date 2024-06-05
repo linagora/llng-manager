@@ -1,3 +1,5 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Button,
   FormControl,
@@ -30,9 +32,6 @@ import definitions from "../../static/definitions.json";
 import { handleChangeFile } from "../../utils/readFiles";
 import { URLLoader } from "../managerComponents/URLLoader";
 import { TableVars } from "./TableVars";
-
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -444,7 +443,7 @@ export function OptionOidc({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>{" "}
+              </thead>
               <TableVars
                 appName={name}
                 vars={
@@ -493,7 +492,7 @@ export function OptionOidc({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>{" "}
+              </thead>
               <TableVars
                 appName={name}
                 vars={

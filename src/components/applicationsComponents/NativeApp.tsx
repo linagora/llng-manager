@@ -607,7 +607,7 @@ export function NativeApp({ name }: { name: string }) {
                     </Button>
                   </th>
                 </tr>
-              </thead>{" "}
+              </thead>
               <TableVars
                 appName={name}
                 vars={exportedHeaders ? exportedHeaders : {}}
