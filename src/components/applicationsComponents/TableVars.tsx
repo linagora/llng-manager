@@ -1,5 +1,5 @@
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { Button, TextField } from "@mui/material";
+import { IconButton, TextField } from "@mui/material";
 
 export function TableVars({
   appName,
@@ -61,7 +61,7 @@ export function TableVars({
             </td>
 
             <td>
-              <Button
+              <IconButton
                 onClick={() => {
                   dispatch(
                     delFunction({
@@ -73,7 +73,7 @@ export function TableVars({
                 className="minus"
               >
                 <RemoveCircleIcon color="error" />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         );

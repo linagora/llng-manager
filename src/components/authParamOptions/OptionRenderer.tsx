@@ -8,6 +8,7 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -243,12 +244,12 @@ function CmbModuleContainer(
                   </FormControl>
                 </td>
                 <td>
-                  <Button
+                  <IconButton
                     className="minus"
                     onClick={() => dispatch(delCombParam(key))}
                   >
                     <RemoveCircleIcon color="error" />
-                  </Button>
+                  </IconButton>
                 </td>
               </tr>
             );
@@ -270,12 +271,12 @@ function CmbModuleContainer(
                   <th>{t("overPrm")}</th>
                   <th>{t("value")}</th>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newCombOverParam(key))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -313,12 +314,12 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
             <th>{t("url")}</th>
             <th>{t("condition")}</th>
             <th>
-              <Button
+              <IconButton
                 className="plus"
                 onClick={() => dispatch(newChoiceParam())}
               >
                 <AddCircleIcon color="success" />
-              </Button>
+              </IconButton>
             </th>
           </tr>
         </thead>
@@ -464,12 +465,12 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                   />
                 </td>
                 <td>
-                  <Button
+                  <IconButton
                     className="minus"
                     onClick={() => dispatch(delChoiceParam(key))}
                   >
                     <RemoveCircleIcon color="error" />
-                  </Button>
+                  </IconButton>
                 </td>
               </tr>
             );
@@ -491,12 +492,12 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                   <th>{t("overPrm")}</th>
                   <th>{t("value")}</th>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newChoiceOverParam(key))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -827,14 +828,14 @@ function RecursRender({
                   <th>{t("keys")}</th>
                   <th>{t("values")}</th>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() =>
                         param.dispatch(newModuleOpt(el as keyof llngConfig))
                       }
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>

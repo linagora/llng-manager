@@ -184,7 +184,7 @@ export interface llngConfig {
   decryptValueFunctions?: string;
   decryptValueRule?: boolean | number | string;
   defaultNewKeySize?: number;
-  demoExportedVars?: Record<string, Record<string, string>>;
+  demoExportedVars?: Record<string, string>;
   disablePersistentStorage?: boolean | number;
   displaySessionId?: boolean | number;
   domain?: string;

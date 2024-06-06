@@ -1633,7 +1633,16 @@ export function SAMLRenderer() {
           <table>
             <tbody>
               <tr>
-                <th>{t("samlMetadataForceUTF8")}</th>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {(definitions ? definitions.samlMetadataForceUTF8 : "") +
+                        ""}
+                    </Markdown>
+                  }
+                >
+                  <th>{t("samlMetadataForceUTF8")}</th>
+                </Tooltip>
                 <td>
                   <FormControl>
                     <RadioGroup
@@ -1663,7 +1672,16 @@ export function SAMLRenderer() {
                 </td>
               </tr>
               <tr>
-                <th>{t("samlRelayStateTimeout")}</th>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {(definitions ? definitions.samlRelayStateTimeout : "") +
+                        ""}
+                    </Markdown>
+                  }
+                >
+                  <th>{t("samlRelayStateTimeout")}</th>
+                </Tooltip>
                 <td>
                   <TextField
                     size="small"
@@ -1684,7 +1702,17 @@ export function SAMLRenderer() {
                 </td>
               </tr>
               <tr>
-                <th>{t("samlUseQueryStringSpecific")}</th>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {(definitions
+                        ? definitions.samlUseQueryStringSpecific
+                        : "") + ""}
+                    </Markdown>
+                  }
+                >
+                  <th>{t("samlUseQueryStringSpecific")}</th>
+                </Tooltip>
                 <td>
                   <FormControl>
                     <RadioGroup
@@ -1714,7 +1742,16 @@ export function SAMLRenderer() {
                 </td>
               </tr>
               <tr>
-                <th>{t("samlFederationFiles")}</th>
+                <Tooltip
+                  title={
+                    <Markdown>
+                      {(definitions ? definitions.samlFederationFiles : "") +
+                        ""}
+                    </Markdown>
+                  }
+                >
+                  <th>{t("samlFederationFiles")}</th>
+                </Tooltip>
                 <td>
                   <TextField
                     size="small"
@@ -1743,7 +1780,17 @@ export function SAMLRenderer() {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("samlCommonDomainCookieActivation")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {(definitions
+                          ? definitions.samlCommonDomainCookieActivation
+                          : "") + ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlCommonDomainCookieActivation")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -1773,7 +1820,17 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlCommonDomainCookieDomain")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {(definitions
+                          ? definitions.samlCommonDomainCookieDomain
+                          : "") + ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlCommonDomainCookieDomain")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -1793,7 +1850,17 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlCommonDomainCookieReader")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {(definitions
+                          ? definitions.samlCommonDomainCookieReader
+                          : "") + ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlCommonDomainCookieReader")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -1813,7 +1880,17 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlCommonDomainCookieWriter")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {(definitions
+                          ? definitions.samlCommonDomainCookieWriter
+                          : "") + ""}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlCommonDomainCookieWriter")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -1843,7 +1920,15 @@ export function SAMLRenderer() {
             <table>
               <tbody>
                 <tr>
-                  <th>{t("samlDiscoveryProtocolActivation")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.samlDiscoveryProtocolActivation}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlDiscoveryProtocolActivation")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup
@@ -1873,7 +1958,15 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlDiscoveryProtocolURL")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.samlDiscoveryProtocolURL}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlDiscoveryProtocolURL")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -1893,7 +1986,15 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlDiscoveryProtocolPolicy")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.samlDiscoveryProtocolPolicy}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlDiscoveryProtocolPolicy")}</th>
+                  </Tooltip>
                   <td>
                     <TextField
                       size="small"
@@ -1913,7 +2014,15 @@ export function SAMLRenderer() {
                   </td>
                 </tr>
                 <tr>
-                  <th>{t("samlDiscoveryProtocolIsPassive")}</th>
+                  <Tooltip
+                    title={
+                      <Markdown>
+                        {definitions.samlDiscoveryProtocolIsPassive}
+                      </Markdown>
+                    }
+                  >
+                    <th>{t("samlDiscoveryProtocolIsPassive")}</th>
+                  </Tooltip>
                   <td>
                     <FormControl>
                       <RadioGroup

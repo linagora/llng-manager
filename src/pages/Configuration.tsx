@@ -1,15 +1,17 @@
-import { Breadcrumbs, Link } from "@mui/material";
+import TuneIcon from "@mui/icons-material/Tune";
+import { Breadcrumbs, IconButton, Link } from "@mui/material";
 import { t } from "i18next";
+import { useState } from "react";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AddApp from "../components/managerComponents/AddApp";
+import { AdvancedAuthParams } from "../dashboards/AdvancedAuthParams";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
-import { AuthParams } from "../dashboards/AuthParams";
 import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
+import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
-
 export function Configuration({
   location,
 }: {
@@ -17,6 +19,8 @@ export function Configuration({
 }) {
   const metadata = useAppSelector((state) => state.config.data.metadata);
   const dispatch = useAppDispatch();
+  const [authSimple, setAuthSimple] = useState(true);
+
   switch (location.type) {
     case "app":
       return (
@@ -67,7 +71,14 @@ export function Configuration({
               {t(location.type)}
             </Link>
           </Breadcrumbs>
-          <AuthParams />
+          <div>
+            <strong className="title">{t("authParams")}</strong>
+            <IconButton onClick={() => setAuthSimple(!authSimple)}>
+              <TuneIcon />
+            </IconButton>
+          </div>
+          {authSimple && <SimpleAuthParams />}
+          {!authSimple && <AdvancedAuthParams />}
           <div>
             <SaveButton />
           </div>

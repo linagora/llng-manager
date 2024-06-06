@@ -11,7 +11,7 @@ import {
 } from "../features/config/configSlice";
 import attributes from "../static/attributes.json";
 import "./AuthParams.css";
-export function AuthParams() {
+export function AdvancedAuthParams() {
   const dispatch = useAppDispatch();
   const authChoiceModules = useAppSelector(
     (state) => state.config.data.config.authChoiceModules
@@ -55,6 +55,9 @@ export function AuthParams() {
       return [];
     }),
   ];
+  if (selectedOptions.includes("AD") && !selectedOptions.includes("LDAP")) {
+    selectedOptions.push("LDAP");
+  }
   const configNum = useAppSelector((state) =>
     state.router.location?.hash.replace("#authParams/", "")
   );
@@ -75,9 +78,6 @@ export function AuthParams() {
   try {
     return (
       <div>
-        <div>
-          <strong className="title">{t("authParams")}</strong>
-        </div>
         <div className="authOptionChoices">
           <FormControl>
             <InputLabel id="authenticationLabel">
