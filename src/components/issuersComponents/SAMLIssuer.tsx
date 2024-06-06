@@ -8,6 +8,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   Radio,
   RadioGroup,
   TextField,
@@ -52,15 +53,16 @@ export function SAMLIssuer() {
   return (
     <div>
       <strong className="title">
-        {t("samlServiceMetaData")}{" "}
-        <Button
+        {t("samlServiceMetaData")}
+        <IconButton
           size="large"
           color="secondary"
-          startIcon={<DownloadIcon />}
           onClick={async () =>
             await exportData("samlMetadata", config.cfgNum ? config.cfgNum : 1)
           }
-        />
+        >
+          <DownloadIcon />
+        </IconButton>
       </strong>
 
       <div className="optionNavbar">

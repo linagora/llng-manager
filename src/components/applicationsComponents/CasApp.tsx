@@ -1,8 +1,8 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
-  Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   Radio,
   RadioGroup,
   TextField,
@@ -100,12 +100,12 @@ export function CasApp({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newCASexportedVars(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -118,12 +118,12 @@ export function CasApp({ name }: { name: string }) {
                 updateFunction={updateCASexportedVars}
               />
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newCASexportedVars(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "casAppMetaDataMacros" && (
@@ -144,12 +144,12 @@ export function CasApp({ name }: { name: string }) {
                   </Tooltip>
 
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newCASAppMetaDataMacros(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -162,12 +162,12 @@ export function CasApp({ name }: { name: string }) {
                 updateFunction={updateCASAppMetaDataMacros}
               />
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newCASAppMetaDataMacros(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "casAppMetaDataOptions" && (

@@ -1,9 +1,9 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
-  Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -186,7 +186,7 @@ function NativeRule(
               />
             </td>
             <td>
-              <Button
+              <IconButton
                 onClick={() => {
                   dispatch(
                     delLocationRule({
@@ -200,7 +200,7 @@ function NativeRule(
                 className="minus"
               >
                 <RemoveCircleIcon color="error" />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         );
@@ -248,12 +248,12 @@ function NativeRule(
           />
         </td>
         <td>
-          <Button
+          <IconButton
             className="plus"
             onClick={() => dispatch(newLocationRule(appName))}
           >
             <AddCircleIcon color="success" />
-          </Button>
+          </IconButton>
         </td>
       </tr>
     </tbody>
@@ -363,14 +363,14 @@ function NativPost(
               />
             </td>
             <td>
-              <Button
+              <IconButton
                 className="minus"
                 onClick={() =>
                   dispatch(delVhostPost({ name: appName, key: link }))
                 }
               >
                 <RemoveCircleIcon color="error" />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         );
@@ -570,12 +570,12 @@ export function NativeApp({ name }: { name: string }) {
                   <th>{t("rules")}</th>
                   <th>{t("rulesAuthnLevel")}</th>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newLocationRule(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -599,12 +599,12 @@ export function NativeApp({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newVhostHeaders(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -617,12 +617,12 @@ export function NativeApp({ name }: { name: string }) {
                 updateFunction={updateVhostHeaders}
               />
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newVhostHeaders(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "post" && (
@@ -648,23 +648,23 @@ export function NativeApp({ name }: { name: string }) {
                     <th>{t("jqueryButtonSelector")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newVhostPost(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
               {NativPost(name, post ? post : {}, dispatch)}
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newVhostPost(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
 

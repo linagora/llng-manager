@@ -1,8 +1,8 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
-  Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -297,12 +297,12 @@ export function CasIssuer() {
                 <th>{t("keys")}</th>
                 <th>{t("values")}</th>
                 <th>
-                  <Button
+                  <IconButton
                     className="plus"
                     onClick={() => dispatch(newModuleOpt("casStorageOptions"))}
                   >
                     <AddCircleIcon color="success" />
-                  </Button>
+                  </IconButton>
                 </th>
               </tr>
             </thead>
@@ -323,12 +323,12 @@ export function CasIssuer() {
                 <th>{t("keys")}</th>
                 <th>{t("values")}</th>
                 <th>
-                  <Button
+                  <IconButton
                     className="plus"
                     onClick={() => dispatch(newModuleOpt("casAttributes"))}
                   >
                     <AddCircleIcon color="success" />
-                  </Button>
+                  </IconButton>
                 </th>
               </tr>
             </thead>

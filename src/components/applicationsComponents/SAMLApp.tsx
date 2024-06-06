@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -210,7 +211,7 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
             </td>
 
             <td>
-              <Button
+              <IconButton
                 onClick={() => {
                   dispatch(
                     delSamlSPMetadataExportedAttribute({ appName, key })
@@ -219,7 +220,7 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
                 className="minus"
               >
                 <RemoveCircleIcon color="error" />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         );
@@ -397,12 +398,12 @@ export function SAMLApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "samlSPMetaDataMacros" && (
@@ -421,12 +422,12 @@ export function SAMLApp({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -443,12 +444,12 @@ export function SAMLApp({ name }: { name: string }) {
                 ""
               )}
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "samlSPMetaDataOptions" && (

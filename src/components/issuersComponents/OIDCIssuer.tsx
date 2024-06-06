@@ -7,6 +7,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -571,7 +572,7 @@ export function OIDCIssuer() {
                           <th>{t("keys")}</th>
                           <th>{t("values")}</th>
                           <th>
-                            <Button
+                            <IconButton
                               className="plus"
                               onClick={() =>
                                 dispatch(
@@ -582,7 +583,7 @@ export function OIDCIssuer() {
                               }
                             >
                               <AddCircleIcon color="success" />
-                            </Button>
+                            </IconButton>
                           </th>
                         </tr>
                       </thead>
@@ -614,7 +615,7 @@ export function OIDCIssuer() {
                           <th>{t("keys")}</th>
                           <th>{t("values")}</th>
                           <th>
-                            <Button
+                            <IconButton
                               className="plus"
                               onClick={() =>
                                 dispatch(
@@ -625,7 +626,7 @@ export function OIDCIssuer() {
                               }
                             >
                               <AddCircleIcon color="success" />
-                            </Button>
+                            </IconButton>
                           </th>
                         </tr>
                       </thead>
@@ -825,14 +826,14 @@ export function OIDCIssuer() {
                         <th>{t("keys")}</th>
                         <th> {t("values")}</th>
                         <th>
-                          <Button
+                          <IconButton
                             className="plus"
                             onClick={() =>
                               dispatch(newModuleOpt("oidcStorageOptions"))
                             }
                           >
                             <AddCircleIcon color="success" />
-                          </Button>
+                          </IconButton>
                         </th>
                       </tr>
                     </thead>

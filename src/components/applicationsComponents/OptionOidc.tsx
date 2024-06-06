@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -433,14 +434,14 @@ export function OptionOidc({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() =>
                         dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
                       }
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -457,14 +458,14 @@ export function OptionOidc({ name }: { name: string }) {
                 updateFunction={updateOidcRPMetaDataOptionsExtraClaims}
               />
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() =>
                 dispatch(newOidcRPMetaDataOptionsExtraClaims(name))
               }
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
           <div>
             <strong className="title3">{t("oidcRPMetaDataScopeRules")}</strong>
@@ -482,14 +483,14 @@ export function OptionOidc({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() =>
                         dispatch(newOidcRPMetaDataScopeRules(name))
                       }
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -506,12 +507,12 @@ export function OptionOidc({ name }: { name: string }) {
                 updateFunction={updateOidcRPMetaDataScopeRules}
               />
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newOidcRPMetaDataScopeRules(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         </div>
       )}

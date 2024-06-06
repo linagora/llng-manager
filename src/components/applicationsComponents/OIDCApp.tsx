@@ -1,8 +1,8 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
-  Button,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Radio,
@@ -158,14 +158,14 @@ function ExportedAttribute(
               </FormControl>
             </td>
             <td>
-              <Button
+              <IconButton
                 className="minus"
                 onClick={() =>
                   dispatch(delOidcRPMetaDataExportedVars({ appName, key: key }))
                 }
               >
                 <RemoveCircleIcon color="error" />
-              </Button>
+              </IconButton>
             </td>
           </tr>
         );
@@ -523,14 +523,14 @@ export function OIDCApp({ name }: { name: string }) {
                   <th>{t("type")}</th>
                   <th>{t("array")}</th>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() =>
                         dispatch(newOidcRPMetaDataExportedVars(name))
                       }
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -542,12 +542,12 @@ export function OIDCApp({ name }: { name: string }) {
                   )
                 : ""}
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newOidcRPMetaDataExportedVars(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "oidcRPMetaDataMacros" && (
@@ -566,12 +566,12 @@ export function OIDCApp({ name }: { name: string }) {
                     <th>{t("values")}</th>
                   </Tooltip>
                   <th>
-                    <Button
+                    <IconButton
                       className="plus"
                       onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
                     >
                       <AddCircleIcon color="success" />
-                    </Button>
+                    </IconButton>
                   </th>
                 </tr>
               </thead>
@@ -588,12 +588,12 @@ export function OIDCApp({ name }: { name: string }) {
                 ""
               )}
             </table>
-            <Button
+            <IconButton
               className="plus"
               onClick={() => dispatch(newOIDCRPMetaDataMacros(name))}
             >
               <AddCircleIcon color="success" />
-            </Button>
+            </IconButton>
           </div>
         )}
         {optionSelected === "oidcRPMetaDataOptions" && (
