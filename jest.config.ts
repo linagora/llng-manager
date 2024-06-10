@@ -56,6 +56,7 @@ const config: Config = {
     },
   ],
   collectCoverage: true,
+  collectCoverageFrom: ["./src/**"],
   coverageProvider: "babel",
 };
 

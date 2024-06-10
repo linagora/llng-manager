@@ -41,7 +41,7 @@ export function CreationAssistant({
                 >
                   <InputLabel>{t("chooseType")}</InputLabel>
                   <Select
-                    label={t("chooseType")}
+                    aria-label={t("chooseType")}
                     value={appType}
                     onChange={(e) => {
                       setAppType(String(e.target.value));
