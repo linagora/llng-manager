@@ -1096,7 +1096,8 @@ export const {
   updateModuleOpt,
   updateGetParamHostname,
   delGetParam,
-  updateGetParamOption,newGetParam,
+  updateGetParamOption,
+  newGetParam,
   delGetParamOption,
   newGetParamOption,
 } = configSlice.actions;

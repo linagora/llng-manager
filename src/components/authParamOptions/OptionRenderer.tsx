@@ -888,23 +888,35 @@ function RecursRender({
             <FormControl>
               <RadioGroup
                 row
-                value={param.config[el as keyof llngConfig]}
+                value={
+                  String(
+                    param.config[el as keyof llngConfig]
+                      ? param.config[el as keyof llngConfig]
+                      : ""
+                  ).split(";")[0]
+                }
                 onChange={(e) =>
                   param.dispatch(
                     updateConfigParams({
                       param: el as keyof llngConfig,
-                      value: Number(e.target.value),
+                      value: `${Number(e.target.value)};${
+                        String(
+                          param.config[el as keyof llngConfig]
+                            ? param.config[el as keyof llngConfig]
+                            : ""
+                        ).split(";")[1]
+                      }`,
                     })
                   )
                 }
               >
                 <FormControlLabel
-                  value={1}
+                  value={0}
                   control={<Radio />}
                   label={t("blacklist")}
                 />
                 <FormControlLabel
-                  value={0}
+                  value={1}
                   control={<Radio />}
                   label={t("whitelist")}
                 />
@@ -913,12 +925,24 @@ function RecursRender({
             <TextField
               size="small"
               type="url"
-              value={param.config[el as keyof llngConfig]}
+              value={
+                String(
+                  param.config[el as keyof llngConfig]
+                    ? param.config[el as keyof llngConfig]
+                    : ""
+                ).split(";")[1]
+              }
               onChange={(e) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: e.target.value,
+                    value: `${
+                      String(
+                        param.config[el as keyof llngConfig]
+                          ? param.config[el as keyof llngConfig]
+                          : ""
+                      ).split(";")[0]
+                    };${e.target.value}`,
                   })
                 )
               }
