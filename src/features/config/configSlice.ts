@@ -921,6 +921,54 @@ const configSlice = createSlice({
         }
       }
     },
+    updateGetParamHostname(
+      state,
+      action: PayloadAction<Record<string, Record<string, string>>>
+    ) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      state.data.config.issuerDBGetParameters = action.payload;
+    },
+    delGetParam(state, action: PayloadAction<string>) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      delete state.data.config.issuerDBGetParameters[action.payload];
+    },
+    newGetParam(state) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      state.data.config.issuerDBGetParameters["new"] = {};
+    },
+    updateGetParamOption(
+      state,
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      state.data.config.issuerDBGetParameters[action.payload.name] =
+        action.payload.data;
+    },
+    delGetParamOption(
+      state,
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      delete state.data.config.issuerDBGetParameters[action.payload.name][
+        action.payload.key
+      ];
+    },
+    newGetParamOption(state, action: PayloadAction<string>) {
+      if (!state.data.config.issuerDBGetParameters) {
+        state.data.config.issuerDBGetParameters = {};
+      }
+      state.data.config.issuerDBGetParameters[action.payload]["new"] = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -1046,5 +1094,10 @@ export const {
   newModuleOpt,
   delModuleOpt,
   updateModuleOpt,
+  updateGetParamHostname,
+  delGetParam,
+  updateGetParamOption,newGetParam,
+  delGetParamOption,
+  newGetParamOption,
 } = configSlice.actions;
 export default configSlice.reducer;
