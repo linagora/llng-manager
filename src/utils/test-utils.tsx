@@ -1,13 +1,13 @@
-import React, { PropsWithChildren } from "react";
-import { render } from "@testing-library/react";
 import type { RenderOptions } from "@testing-library/react";
-import { Provider } from "react-redux";
+import { render } from "@testing-library/react";
+import React, { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
+import { Provider } from "react-redux";
 import "../i18n";
 
+import { MemoryRouter } from "react-router-dom";
 import type { AppStore, RootState } from "../app/store";
 import { setupStore } from "../app/store";
-import { MemoryRouter } from "react-router-dom";
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, "queries"> {
   preloadedState?: Partial<RootState>;
@@ -34,6 +34,10 @@ export function renderWithProviders(
             cfgAuthorIP: "172.30.0.1",
           },
           config: {
+            authentication: "Demo",
+            userDB: "Same",
+            registerDB: "Demo",
+            passwordDB: "Demo",
             casAppMetaDataOptions: {
               cas_test: {
                 casAppMetaDataOptionsService: "https://google.com",

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { fireEvent, screen } from "@testing-library/react";
 import { t } from "i18next";
-import { act } from "react-dom/test-utils";
+import { act } from "react";
 import AddApp from "../../src/components/managerComponents/AddApp";
 import { CreationAssistant } from "../../src/components/managerComponents/CreationAssistant";
 import { renderWithProviders } from "../../src/utils/test-utils";

@@ -842,7 +842,10 @@ function RecursRender({
               <TableVars
                 appName={el}
                 vars={
-                  param.config[el as keyof llngConfig] as Record<string, string>
+                  (param.config[el as keyof llngConfig] as Record<
+                    string,
+                    string
+                  >) || {}
                 }
                 tableID={el + "Table"}
                 dispatch={param.dispatch}

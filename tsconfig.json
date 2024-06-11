@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,6 +17,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "__test__/components/AddApp.test.tsx", "__test__/features/config/configAPI.test.ts", "__test__/App.test.tsx", "__test__/utils/rules.test.ts"  ]
+    "src",
+    "__test__"  ]
 }
