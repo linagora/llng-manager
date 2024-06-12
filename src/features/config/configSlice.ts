@@ -540,7 +540,7 @@ const configSlice = createSlice({
       }
       state.data.config.samlSPMetaDataExportedAttributes[action.payload] = {
         ...state.data.config.samlSPMetaDataExportedAttributes[action.payload],
-        new: "0;New",
+        new: "0;New;urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified",
       };
     },
     delSamlSPMetadataExportedAttribute(
@@ -563,6 +563,9 @@ const configSlice = createSlice({
     ) {
       if (!state.data.config.samlSPMetaDataOptions) {
         state.data.config.samlSPMetaDataOptions = {};
+      }
+      if (!state.data.config.samlSPMetaDataOptions[action.payload.name]) {
+        state.data.config.samlSPMetaDataOptions[action.payload.name] = {};
       }
       state.data.config.samlSPMetaDataOptions[action.payload.name][
         action.payload.option

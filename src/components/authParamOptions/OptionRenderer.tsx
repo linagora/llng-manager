@@ -324,7 +324,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(data).map((key) => {
+          {Object.keys(data || {}).map((key) => {
             i++;
             const [authMod, userMod, passMod, url, cond] = data[key].split(";");
             return (
@@ -713,7 +713,10 @@ function RecursRender({
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             {authChoiceContainer(
-              param.config[el as keyof llngConfig] as Record<string, string>,
+              (param.config[el as keyof llngConfig] as Record<
+                string,
+                string
+              >) || {},
               param.dispatch
             )}
           </div>
@@ -733,10 +736,10 @@ function RecursRender({
               <strong className="title3">{t(el)}</strong>
             </Tooltip>
             {CmbModuleContainer(
-              param.config[el as keyof llngConfig] as Record<
+              (param.config[el as keyof llngConfig] as Record<
                 string,
                 Record<string, any>
-              >,
+              >) || {},
               param.dispatch
             )}
           </div>

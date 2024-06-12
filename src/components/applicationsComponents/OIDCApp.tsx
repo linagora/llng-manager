@@ -450,7 +450,7 @@ export function OIDCApp({ name }: { name: string }) {
                               .oidcRPMetaDataOptionsDisplay
                             ? data.oidcRPMetaDataOptions[name]
                                 .oidcRPMetaDataOptionsDisplay
-                            : ""
+                            : attributes.oidcOPMetaDataOptionsDisplay.default
                           : ""
                       )}
                       onChange={(e) => {

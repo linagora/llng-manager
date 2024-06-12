@@ -229,11 +229,15 @@ function ExportedAttribute(appName: string, vars: Record<string, string>) {
   );
 }
 
-export function SAMLApp({ name }: { name: string }) {
+export function SAMLApp({
+  name,
+  dispatch,
+}: {
+  name: string;
+  dispatch: Function;
+}) {
   const data = useAppSelector((state) => state.config.data.config);
-
   const [optionSelected, setOptionSelected] = useState("basic");
-  const dispatch = useAppDispatch();
   return (
     <div>
       <strong className="title">{name}</strong>
@@ -455,7 +459,7 @@ export function SAMLApp({ name }: { name: string }) {
         {optionSelected === "samlSPMetaDataOptions" && (
           <div className="box">
             <strong className="title2">{t("samlSPMetaDataOptions")}</strong>
-            <OptionSaml name={name} />
+            <OptionSaml name={name} dispatch={dispatch} />
           </div>
         )}
       </div>

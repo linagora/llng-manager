@@ -12,19 +12,25 @@ import {
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
-export function OptionSaml({ name }: { name: string }) {
-  const data = useAppSelector((state) =>
-    state.config.data.config.samlSPMetaDataOptions
-      ? state.config.data.config.samlSPMetaDataOptions[name]
-      : {}
-  );
+export function OptionSaml({
+  name,
+  dispatch,
+}: {
+  name: string;
+  dispatch: Function;
+}) {
+  const data =
+    useAppSelector((state) => {
+      if (state.config.data.config.samlSPMetaDataOptions) {
+        return state.config.data.config.samlSPMetaDataOptions[name];
+      }
+    }) || {};
   const [optionSelect, setOptionSelected] = useState("authResponse");
-  const dispatch = useAppDispatch();
   return (
     <>
       <div className="optionNavbar">
@@ -84,7 +90,10 @@ export function OptionSaml({ name }: { name: string }) {
                     {t("samlSPMetaDataOptionsNameIDFormat")}
                   </InputLabel>
                   <Select
-                    value={data.samlSPMetaDataOptionsNameIDFormat}
+                    value={
+                      data.samlSPMetaDataOptionsNameIDFormat ||
+                      attributes.samlSPMetaDataOptionsNameIDFormat.default
+                    }
                     label={t("samlSPMetaDataOptionsNameIDFormat")}
                     displayEmpty
                     onChange={(e) =>
@@ -92,7 +101,7 @@ export function OptionSaml({ name }: { name: string }) {
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsNameIDFormat",
-                          value: String(e.target.value),
+                          value: String(e.target.value || ""),
                         })
                       )
                     }
@@ -139,7 +148,7 @@ export function OptionSaml({ name }: { name: string }) {
                       updateSamlMetaDataOptions({
                         name,
                         option: "samlSPMetaDataOptionsNameIDSessionKey",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -162,13 +171,16 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsOneTimeUse}
+                    value={
+                      data.samlSPMetaDataOptionsOneTimeUse ||
+                      attributes.samlSPMetaDataOptionsOneTimeUse.default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsOneTimeUse",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -207,7 +219,9 @@ export function OptionSaml({ name }: { name: string }) {
                   className="form"
                   type="number"
                   value={String(
-                    data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
+                    data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout ||
+                      attributes.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                        .default
                   )}
                   onChange={(e) =>
                     dispatch(
@@ -215,7 +229,7 @@ export function OptionSaml({ name }: { name: string }) {
                         name,
                         option:
                           "samlSPMetaDataOptionsSessionNotOnOrAfterTimeout",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -241,13 +255,17 @@ export function OptionSaml({ name }: { name: string }) {
                   variant="filled"
                   className="form"
                   type="number"
-                  value={String(data.samlSPMetaDataOptionsNotOnOrAfterTimeout)}
+                  value={String(
+                    data.samlSPMetaDataOptionsNotOnOrAfterTimeout ||
+                      attributes.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                        .default
+                  )}
                   onChange={(e) =>
                     dispatch(
                       updateSamlMetaDataOptions({
                         name,
                         option: "samlSPMetaDataOptionsNotOnOrAfterTimeout",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -270,13 +288,16 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsForceUTF8}
+                    value={
+                      data.samlSPMetaDataOptionsForceUTF8 ||
+                      attributes.samlMetadataForceUTF8.default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsForceUTF8",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -319,7 +340,10 @@ export function OptionSaml({ name }: { name: string }) {
                     {t("samlSPMetaDataOptionsSignatureMethod")}
                   </InputLabel>
                   <Select
-                    value={data.samlSPMetaDataOptionsSignatureMethod}
+                    value={
+                      data.samlSPMetaDataOptionsSignatureMethod ||
+                      attributes.samlSPMetaDataOptionsSignatureMethod.default
+                    }
                     label={t("samlSPMetaDataOptionsSignatureMethod")}
                     displayEmpty
                     onChange={(e) =>
@@ -327,7 +351,7 @@ export function OptionSaml({ name }: { name: string }) {
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsSignatureMethod",
-                          value: String(e.target.value),
+                          value: String(e.target.value || ""),
                         })
                       )
                     }
@@ -361,13 +385,16 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsSignSSOMessage}
+                    value={
+                      data.samlSPMetaDataOptionsSignSSOMessage ||
+                      attributes.samlSPMetaDataOptionsSignSSOMessage.default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsSignSSOMessage",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -381,6 +408,11 @@ export function OptionSaml({ name }: { name: string }) {
                       value={0}
                       control={<Radio />}
                       label={t("off")}
+                    />{" "}
+                    <FormControlLabel
+                      value={-1}
+                      control={<Radio />}
+                      label={t("default")}
                     />
                   </RadioGroup>
                 </FormControl>
@@ -402,14 +434,18 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsCheckSSOMessageSignature}
+                    value={
+                      data.samlSPMetaDataOptionsCheckSSOMessageSignature ||
+                      attributes.samlSPMetaDataOptionsCheckSSOMessageSignature
+                        .default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option:
                             "samlSPMetaDataOptionsCheckSSOMessageSignature",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -432,50 +468,6 @@ export function OptionSaml({ name }: { name: string }) {
               <Tooltip
                 title={
                   <Markdown>
-                    {definitions.samlSPMetaDataOptionsSignatureMethod
-                      ? definitions.samlSPMetaDataOptionsSignatureMethod
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsSignatureMethod")}
-                  </InputLabel>
-                  <Select
-                    value={data.samlSPMetaDataOptionsSignatureMethod}
-                    label={t("samlSPMetaDataOptionsSignatureMethod")}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsSignatureMethod",
-                          value: String(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
-            </tr>
-            <tr>
-              <Tooltip
-                title={
-                  <Markdown>
                     {definitions.samlSPMetaDataOptionsSignSLOMessage
                       ? definitions.samlSPMetaDataOptionsSignSLOMessage
                       : ""}
@@ -488,13 +480,16 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsSignSLOMessage}
+                    value={
+                      data.samlSPMetaDataOptionsSignSLOMessage ||
+                      attributes.samlSPMetaDataOptionsSignSLOMessage.default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsSignSLOMessage",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -534,14 +529,18 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsCheckSLOMessageSignature}
+                    value={
+                      data.samlSPMetaDataOptionsCheckSLOMessageSignature ||
+                      attributes.samlSPMetaDataOptionsCheckSLOMessageSignature
+                        .default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option:
                             "samlSPMetaDataOptionsCheckSLOMessageSignature",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -584,7 +583,10 @@ export function OptionSaml({ name }: { name: string }) {
                     {t("samlSPMetaDataOptionsEncryptionMode")}
                   </InputLabel>
                   <Select
-                    value={data.samlSPMetaDataOptionsEncryptionMode}
+                    value={
+                      data.samlSPMetaDataOptionsEncryptionMode ||
+                      attributes.samlSPMetaDataOptionsEncryptionMode.default
+                    }
                     label={t("samlSPMetaDataOptionsEncryptionMode")}
                     displayEmpty
                     onChange={(e) =>
@@ -592,7 +594,7 @@ export function OptionSaml({ name }: { name: string }) {
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsEncryptionMode",
-                          value: String(e.target.value),
+                          value: String(e.target.value || ""),
                         })
                       )
                     }
@@ -626,13 +628,17 @@ export function OptionSaml({ name }: { name: string }) {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={data.samlSPMetaDataOptionsEnableIDPInitiatedURL}
+                    value={
+                      data.samlSPMetaDataOptionsEnableIDPInitiatedURL ||
+                      attributes.samlSPMetaDataOptionsEnableIDPInitiatedURL
+                        .default
+                    }
                     onChange={(e) => {
                       dispatch(
                         updateSamlMetaDataOptions({
                           name,
                           option: "samlSPMetaDataOptionsEnableIDPInitiatedURL",
-                          value: Number(e.target.value),
+                          value: Number(e.target.value || ""),
                         })
                       );
                     }}
@@ -668,13 +674,13 @@ export function OptionSaml({ name }: { name: string }) {
                   variant="filled"
                   className="form"
                   type="text"
-                  value={String(data.samlSPMetaDataOptionsAuthnLevel)}
+                  value={String(data.samlSPMetaDataOptionsAuthnLevel || "")}
                   onChange={(e) =>
                     dispatch(
                       updateSamlMetaDataOptions({
                         name,
                         option: "samlSPMetaDataOptionsAuthnLevel",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -696,13 +702,13 @@ export function OptionSaml({ name }: { name: string }) {
                   variant="filled"
                   className="form"
                   type="number"
-                  value={String(data.samlSPMetaDataOptionsRule)}
+                  value={String(data.samlSPMetaDataOptionsRule || "")}
                   onChange={(e) =>
                     dispatch(
                       updateSamlMetaDataOptions({
                         name,
                         option: "samlSPMetaDataOptionsRule",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -744,7 +750,7 @@ export function OptionSaml({ name }: { name: string }) {
                       updateSamlMetaDataOptions({
                         name,
                         option: "samlSPMetaDataOptionsFederationEntityID",
-                        value: e.target.value,
+                        value: e.target.value || "",
                       })
                     )
                   }
@@ -772,7 +778,10 @@ export function OptionSaml({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.samlSPMetaDataOptionsFederationOptionalAttributes
+                      data.samlSPMetaDataOptionsFederationOptionalAttributes ||
+                      attributes
+                        .samlSPMetaDataOptionsFederationOptionalAttributes
+                        .default
                     }
                     label={t(
                       "samlSPMetaDataOptionsFederationOptionalAttributes"
@@ -784,7 +793,7 @@ export function OptionSaml({ name }: { name: string }) {
                           name,
                           option:
                             "samlSPMetaDataOptionsFederationOptionalAttributes",
-                          value: String(e.target.value),
+                          value: String(e.target.value || ""),
                         })
                       )
                     }
@@ -823,7 +832,10 @@ export function OptionSaml({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.samlSPMetaDataOptionsFederationRequiredAttributes
+                      data.samlSPMetaDataOptionsFederationRequiredAttributes ||
+                      attributes
+                        .samlSPMetaDataOptionsFederationRequiredAttributes
+                        .default
                     }
                     label={t(
                       "samlSPMetaDataOptionsFederationRequiredAttributes"
@@ -835,7 +847,7 @@ export function OptionSaml({ name }: { name: string }) {
                           name,
                           option:
                             "samlSPMetaDataOptionsFederationRequiredAttributes",
-                          value: String(e.target.value),
+                          value: String(e.target.value || ""),
                         })
                       )
                     }
@@ -874,7 +886,7 @@ export function OptionSaml({ name }: { name: string }) {
               updateSamlMetaDataOptions({
                 name,
                 option: "samlSPMetaDataOptionsComment",
-                value: e.target.value,
+                value: e.target.value || "",
               })
             )
           }

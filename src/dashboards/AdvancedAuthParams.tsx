@@ -194,7 +194,7 @@ export function AdvancedAuthParams() {
                 key={"selected" + el.v}
                 onClick={() => setOptionSelected(el.k)}
               >
-                {el.v}
+                {t(el.v)}
               </span>
             ) : null
           )}

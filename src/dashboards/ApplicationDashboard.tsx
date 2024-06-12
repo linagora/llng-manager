@@ -1,8 +1,8 @@
-import { NativeApp } from "../components/applicationsComponents/NativeApp";
-import { CasApp } from "../components/applicationsComponents/CasApp";
-import { SAMLApp } from "../components/applicationsComponents/SAMLApp";
-import { OIDCApp } from "../components/applicationsComponents/OIDCApp";
 import { useAppDispatch } from "../app/hooks";
+import { CasApp } from "../components/applicationsComponents/CasApp";
+import { NativeApp } from "../components/applicationsComponents/NativeApp";
+import { OIDCApp } from "../components/applicationsComponents/OIDCApp";
+import { SAMLApp } from "../components/applicationsComponents/SAMLApp";
 import { setError } from "../features/config/configSlice";
 
 export function ApplicationDashboard({
@@ -20,7 +20,7 @@ export function ApplicationDashboard({
       case "cas":
         return <CasApp name={name} />;
       case "saml":
-        return <SAMLApp name={name} />;
+        return <SAMLApp dispatch={dispatch} name={name} />;
       case "oidc":
         return <OIDCApp name={name} />;
       default:
