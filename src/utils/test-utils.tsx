@@ -113,7 +113,7 @@ export function renderWithProviders(
   const Wrapper = ({ children }: PropsWithChildren) => {
     useTranslation();
     return (
-      <MemoryRouter initialEntries={["/manager.html#conf/14"]}>
+      <MemoryRouter initialEntries={["/manager.html"]}>
         <Provider store={store}>{children}</Provider>
       </MemoryRouter>
     );

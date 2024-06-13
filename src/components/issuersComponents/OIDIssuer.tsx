@@ -15,12 +15,9 @@ import definitions from "../../static/definitions.json";
 export function OIDIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
-  let i = 0;
-
   return (
     <div>
       <strong className="title">{t("issuerDBOIDParameters")}</strong>
-
       <div className="appDesc">
         <div className="box">
           <table>

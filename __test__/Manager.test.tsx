@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, screen, within } from "@testing-library/react";
 import { t } from "i18next";
-import React from "react";
 import Manager from "../src/dashboards/Manager";
 import { renderWithProviders } from "../src/utils/test-utils";
 

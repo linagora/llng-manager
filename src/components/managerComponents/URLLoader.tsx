@@ -1,8 +1,8 @@
+import { Button, TextField } from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
-import { getFromURL } from "../../utils/getFromURL";
 import { useAppDispatch } from "../../app/hooks";
-import { Button, TextField } from "@mui/material";
+import { getFromURL } from "../../utils/getFromURL";
 
 export function URLLoader({
   appName,

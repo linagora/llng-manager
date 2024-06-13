@@ -28,7 +28,7 @@ export function HomePage() {
       config.data.metadata &&
         !config.data.metadata.next &&
         !config.loading &&
-        !config.error
+        !config.error.has
     )
   );
   const [aimedConf, SetAimedConf] = useState(0);
@@ -235,6 +235,6 @@ export function HomePage() {
       dispatch(setError(`${e.name} : ${e.message}`));
       dispatch(removeError());
     }
-    return <div>{config.error.errorContent}</div>;
+    return <div>halle{config.error.errorContent}</div>;
   }
 }
