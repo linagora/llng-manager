@@ -7,7 +7,7 @@ export function transformJsonToList(key: string): string[] {
     const result: string[] = [matches[1], matches[2], matches[3] || ""];
     return result;
   } else {
-    console.log("No match found.");
+    console.debug("No match found.");
     return ["", "default", ""];
   }
 }

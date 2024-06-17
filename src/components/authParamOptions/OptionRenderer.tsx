@@ -174,7 +174,7 @@ function CmbModuleContainer(
                     size="small"
                     type="text"
                     placeholder={t(key)}
-                    value={key}
+                    value={key || ""}
                     onChange={(e) =>
                       dispatch(
                         updateCombParam(
@@ -196,8 +196,7 @@ function CmbModuleContainer(
                     <InputLabel shrink>{t("type")}</InputLabel>
                     <Select
                       label={t("type")}
-                      defaultValue={"LDAP"}
-                      value={data[key].type}
+                      value={data[key].type || "LDAP"}
                       onChange={(e) =>
                         dispatch(
                           updateCombParam(
@@ -224,8 +223,7 @@ function CmbModuleContainer(
                     <InputLabel shrink>{t("use")}</InputLabel>
                     <Select
                       label={t("use")}
-                      defaultValue={"0"}
-                      value={String(data[key].for)}
+                      value={String(data[key].for) || "0"}
                       onChange={(e) =>
                         dispatch(
                           updateCombParam(
@@ -353,8 +351,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                     <InputLabel shrink>{t("type")}</InputLabel>
                     <Select
                       label={t("type")}
-                      defaultValue={"LDAP"}
-                      value={authMod}
+                      value={authMod || "LDAP"}
                       onChange={(e) =>
                         dispatch(
                           updateChoiceParam(
@@ -381,8 +378,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                     <InputLabel shrink>{t("type")}</InputLabel>
                     <Select
                       label={t("type")}
-                      defaultValue={"LDAP"}
-                      value={userMod}
+                      value={userMod || "LDAP"}
                       onChange={(e) =>
                         dispatch(
                           updateChoiceParam(
@@ -409,8 +405,7 @@ function authChoiceContainer(data: Record<string, string>, dispatch: Function) {
                     <InputLabel shrink>{t("type")}</InputLabel>
                     <Select
                       label={t("type")}
-                      defaultValue={"LDAP"}
-                      value={passMod}
+                      value={passMod || "LDAP"}
                       onChange={(e) =>
                         dispatch(
                           updateChoiceParam(
@@ -574,7 +569,7 @@ function RecursRender({
                 )
               }
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || 0}
             />
           </ul>
         );
@@ -604,7 +599,7 @@ function RecursRender({
                 )
               }
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || ""}
             />
           </ul>
         );
@@ -634,7 +629,7 @@ function RecursRender({
                 )
               }
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || ""}
             />
           </ul>
         );
@@ -664,7 +659,7 @@ function RecursRender({
                 )
               }
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || ""}
             />
           </ul>
         );
@@ -694,7 +689,7 @@ function RecursRender({
                 )
               }
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || 0}
             />
           </ul>
         );
@@ -746,39 +741,41 @@ function RecursRender({
         );
       case "select":
         return (
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel shrink>{t(el)}</InputLabel>
-            <Select
-              label={t(el)}
-              displayEmpty
-              value={param.config[el as keyof llngConfig]}
-              onChange={(e) =>
-                param.dispatch(
-                  updateConfigParams({
-                    param: el as keyof llngConfig,
-                    value: e.target.value,
-                  })
-                )
-              }
-            >
-              {attributes[el as TypeKeyValue] &&
-              "select" in attributes[el as TypeKeyValue]
-                ? (
-                    (
-                      attributes[el as TypeKeyValue] as {
-                        select?: YourType[];
-                      }
-                    ).select || []
-                  ).map((e) => {
-                    return (
-                      <MenuItem key={e.v} value={e.k}>
-                        {t(e.v)}
-                      </MenuItem>
-                    );
-                  })
-                : ""}
-            </Select>
-          </FormControl>
+          <ul key={el}>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel shrink>{t(el)}</InputLabel>
+              <Select
+                label={t(el)}
+                displayEmpty
+                value={param.config[el as keyof llngConfig] || ""}
+                onChange={(e) =>
+                  param.dispatch(
+                    updateConfigParams({
+                      param: el as keyof llngConfig,
+                      value: e.target.value,
+                    })
+                  )
+                }
+              >
+                {attributes[el as TypeKeyValue] &&
+                "select" in attributes[el as TypeKeyValue]
+                  ? (
+                      (
+                        attributes[el as TypeKeyValue] as {
+                          select?: YourType[];
+                        }
+                      ).select || []
+                    ).map((e) => {
+                      return (
+                        <MenuItem key={e.v} value={e.k}>
+                          {t(e.v)}
+                        </MenuItem>
+                      );
+                    })
+                  : ""}
+              </Select>
+            </FormControl>
+          </ul>
         );
       case "bool":
         return (
@@ -787,7 +784,7 @@ function RecursRender({
               <FormLabel>{t(el)}</FormLabel>
               <RadioGroup
                 row
-                value={param.config[el as keyof llngConfig]}
+                value={param.config[el as keyof llngConfig] || 0}
                 onChange={(e) =>
                   param.dispatch(
                     updateConfigParams({
@@ -876,7 +873,7 @@ function RecursRender({
               size="small"
               type="url"
               placeholder={t(el)}
-              value={param.config[el as keyof llngConfig]}
+              value={param.config[el as keyof llngConfig] || ""}
               onChange={(e) =>
                 param.dispatch(
                   updateConfigParams({
@@ -898,7 +895,7 @@ function RecursRender({
                   String(
                     param.config[el as keyof llngConfig]
                       ? param.config[el as keyof llngConfig]
-                      : ""
+                      : 0
                   ).split(";")[0]
                 }
                 onChange={(e) =>
@@ -936,7 +933,7 @@ function RecursRender({
                   param.config[el as keyof llngConfig]
                     ? param.config[el as keyof llngConfig]
                     : ""
-                ).split(";")[1]
+                ).split(";")[1] || ""
               }
               onChange={(e) =>
                 param.dispatch(

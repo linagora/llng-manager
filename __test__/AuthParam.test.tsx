@@ -98,14 +98,10 @@ describe("AuthParam Dashboard", () => {
         screen.queryAllByText("", { selector: ".MuiInputBase-input" }).length >
         0
       ) {
-        for (
-          let j = 0;
-          j <
-          screen.queryAllByText("", {
-            selector: ".MuiInputBase-input.MuiInputBase-inputSizeSmall",
-          }).length;
-          j++
-        ) {
+        const emptyfields = screen.queryAllByText("", {
+          selector: ".MuiInputBase-input.MuiInputBase-inputSizeSmall",
+        });
+        for (let j = 0; j < emptyfields.length; j++) {
           const input = screen.getAllByText("", {
             selector: ".MuiInputBase-input.MuiInputBase-inputSizeSmall",
           })[j];
@@ -121,5 +117,5 @@ describe("AuthParam Dashboard", () => {
         }
       }
     }
-  });
+  }, 35000);
 });

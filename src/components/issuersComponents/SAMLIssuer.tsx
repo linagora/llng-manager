@@ -28,6 +28,7 @@ import {
   updateConfigParams,
   updateModuleOpt,
 } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import { exportData } from "../../utils/exportData";
 import { GenerateKeys } from "../../utils/generateKey";
@@ -42,7 +43,7 @@ export function SAMLIssuer() {
     try {
       const result = await GenerateKeys("RSA");
 
-      result.hash ? dispatch(saveSAMLPrivIdSig(result.hash)) : console.log();
+      result.hash ? dispatch(saveSAMLPrivIdSig(result.hash)) : console.debug();
       dispatch(saveSAMLPrivSig(result.private));
       dispatch(saveSAMLPubSig(result.public));
     } catch (error) {
@@ -116,16 +117,19 @@ export function SAMLIssuer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={config.issuerDBSAMLActivation ? true : false}
+                        value={
+                          config.issuerDBSAMLActivation ||
+                          attributes.issuerDBSAMLActivation.default
+                        }
                         onChange={() => dispatch(toggleSAML())}
                       >
                         <FormControlLabel
-                          value={true}
+                          value={1}
                           control={<Radio />}
                           label={t("on")}
                         />
                         <FormControlLabel
-                          value={false}
+                          value={0}
                           control={<Radio />}
                           label={t("off")}
                         />
@@ -273,7 +277,7 @@ export function SAMLIssuer() {
                           handleChangeFile(
                             e as ChangeEvent<HTMLInputElement>
                           ).then((fileContent) => {
-                            console.log("File content:", fileContent);
+                            console.debug("File content:", fileContent);
                             dispatch(saveSAMLPrivSig(fileContent));
                           });
                         }
@@ -290,7 +294,10 @@ export function SAMLIssuer() {
                     fullWidth
                     rows={4}
                     className="formInput"
-                    value={config.samlServicePrivateKeySig}
+                    value={
+                      config.samlServicePrivateKeySig ||
+                      attributes.samlServicePrivateKeySig.default
+                    }
                     onChange={(e) => dispatch(saveSAMLPrivSig(e.target.value))}
                   />
                 </td>
@@ -303,7 +310,10 @@ export function SAMLIssuer() {
                     margin="normal"
                     variant="filled"
                     className="formInput"
-                    value={config.samlServicePrivateKeySigPwd}
+                    value={
+                      config.samlServicePrivateKeySigPwd ||
+                      attributes.samlServicePrivateKeySigPwd.default
+                    }
                     onChange={(e) =>
                       dispatch(saveSAMLPrivIdSig(e.target.value))
                     }
@@ -329,7 +339,7 @@ export function SAMLIssuer() {
                           handleChangeFile(
                             e as ChangeEvent<HTMLInputElement>
                           ).then((fileContent) => {
-                            console.log("File content:", fileContent);
+                            console.debug("File content:", fileContent);
                             dispatch(saveSAMLPubSig(fileContent));
                           });
                         }
@@ -346,7 +356,10 @@ export function SAMLIssuer() {
                     fullWidth
                     rows={4}
                     className="formInput"
-                    value={config.samlServicePublicKeySig}
+                    value={
+                      config.samlServicePublicKeySig ||
+                      attributes.samlServicePublicKeySig.default
+                    }
                     onChange={(e) => dispatch(saveSAMLPubSig(e.target.value))}
                   />
                 </td>
@@ -391,7 +404,11 @@ export function SAMLIssuer() {
                       <FormControl>
                         <RadioGroup
                           row
-                          value={config.samlSPSSODescriptorAuthnRequestsSigned}
+                          value={
+                            config.samlSPSSODescriptorAuthnRequestsSigned ||
+                            attributes.samlSPSSODescriptorAuthnRequestsSigned
+                              .default
+                          }
                           onChange={(e) =>
                             dispatch(
                               updateConfigParams({
@@ -432,7 +449,11 @@ export function SAMLIssuer() {
                       <FormControl>
                         <RadioGroup
                           row
-                          value={config.samlSPSSODescriptorWantAssertionsSigned}
+                          value={
+                            config.samlSPSSODescriptorWantAssertionsSigned ||
+                            attributes.samlSPSSODescriptorWantAssertionsSigned
+                              .default
+                          }
                           onChange={(e) =>
                             dispatch(
                               updateConfigParams({
@@ -486,7 +507,10 @@ export function SAMLIssuer() {
                         <RadioGroup
                           row
                           value={
-                            config.samlIDPSSODescriptorWantAuthnRequestsSigned
+                            config.samlIDPSSODescriptorWantAuthnRequestsSigned ||
+                            attributes
+                              .samlIDPSSODescriptorWantAuthnRequestsSigned
+                              .default
                           }
                           onChange={(e) =>
                             dispatch(

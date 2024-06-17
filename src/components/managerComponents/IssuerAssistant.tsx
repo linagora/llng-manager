@@ -86,7 +86,7 @@ export function IssuerAssistant({
           <ButtonGroup variant="outlined">
             <Button
               onClick={() => {
-                console.log("cancel");
+                console.debug("cancel");
                 onIgnore();
                 setStep(0);
               }}
@@ -111,7 +111,7 @@ export function IssuerAssistant({
               fullWidth
               rows={4}
               className="formInput"
-              value={newKeysSAML.private}
+              value={newKeysSAML.private || ""}
               onChange={(e) =>
                 setNewKeysSAML({ ...newKeysSAML, private: e.target.value })
               }
@@ -131,7 +131,7 @@ export function IssuerAssistant({
                   if (e.target instanceof HTMLInputElement) {
                     handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                       (fileContent) => {
-                        console.log("File content:", fileContent);
+                        console.debug("File content:", fileContent);
                         setNewKeysSAML({
                           ...newKeysSAML,
                           private: fileContent,
@@ -150,7 +150,7 @@ export function IssuerAssistant({
                 margin="normal"
                 variant="filled"
                 className="formInput"
-                value={newKeysSAML.hash}
+                value={newKeysSAML.hash || ""}
                 onChange={(e) =>
                   setNewKeysSAML({ ...newKeysSAML, hash: e.target.value })
                 }
@@ -165,7 +165,7 @@ export function IssuerAssistant({
               fullWidth
               rows={4}
               className="formInput"
-              value={newKeysSAML.public}
+              value={newKeysSAML.public || ""}
               onChange={(e) =>
                 setNewKeysSAML({ ...newKeysSAML, public: e.target.value })
               }
@@ -185,7 +185,7 @@ export function IssuerAssistant({
                   if (e.target instanceof HTMLInputElement) {
                     handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                       (fileContent) => {
-                        console.log("File content:", fileContent);
+                        console.debug("File content:", fileContent);
                         setNewKeysSAML({ ...newKeysSAML, public: fileContent });
                       }
                     );
@@ -219,7 +219,7 @@ export function IssuerAssistant({
                     if (newKeysSAML.private && newKeysSAML.public) {
                       newKeysSAML.hash
                         ? dispatch(saveSAMLPrivIdSig(newKeysSAML.hash))
-                        : console.log();
+                        : console.debug();
                       dispatch(saveSAMLPrivSig(newKeysSAML.private));
                       dispatch(saveSAMLPubSig(newKeysSAML.public));
                       setVisible(false);
@@ -245,7 +245,7 @@ export function IssuerAssistant({
               variant="filled"
               rows={4}
               className="formInput"
-              value={newKeysOIDC.private}
+              value={newKeysOIDC.private || ""}
               onChange={(e) =>
                 setNewKeysOIDC({ ...newKeysOIDC, private: e.target.value })
               }
@@ -265,7 +265,7 @@ export function IssuerAssistant({
                   if (e.target instanceof HTMLInputElement) {
                     handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                       (fileContent) => {
-                        console.log("File content:", fileContent);
+                        console.debug("File content:", fileContent);
                         setNewKeysOIDC({
                           ...newKeysOIDC,
                           private: fileContent,
@@ -284,7 +284,7 @@ export function IssuerAssistant({
                 margin="normal"
                 variant="filled"
                 className="formInput"
-                value={newKeysOIDC.hash}
+                value={newKeysOIDC.hash || ""}
                 onChange={(e) =>
                   setNewKeysOIDC({ ...newKeysOIDC, hash: e.target.value })
                 }
@@ -299,7 +299,7 @@ export function IssuerAssistant({
               fullWidth
               rows={4}
               className="formInput"
-              value={newKeysOIDC.public}
+              value={newKeysOIDC.public || ""}
               onChange={(e) =>
                 setNewKeysOIDC({ ...newKeysOIDC, public: e.target.value })
               }
@@ -319,7 +319,7 @@ export function IssuerAssistant({
                   if (e.target instanceof HTMLInputElement) {
                     handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                       (fileContent) => {
-                        console.log("File content:", fileContent);
+                        console.debug("File content:", fileContent);
                         setNewKeysOIDC({ ...newKeysOIDC, public: fileContent });
                       }
                     );
@@ -361,7 +361,7 @@ export function IssuerAssistant({
                     if (newKeysOIDC.private && newKeysOIDC.public) {
                       newKeysOIDC.hash
                         ? dispatch(saveOIDCPrivIdSig(newKeysOIDC.hash))
-                        : console.log();
+                        : console.debug();
                       dispatch(saveOIDCPrivSig(newKeysOIDC.private));
                       dispatch(saveOIDCPubSig(newKeysOIDC.public));
                       setVisible(false);

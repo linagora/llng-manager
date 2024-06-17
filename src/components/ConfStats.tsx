@@ -1,9 +1,8 @@
 import { t } from "i18next";
 import { PieChart } from "react-minimal-pie-chart";
-import { useAppSelector } from "../app/hooks";
+import { llngConfig } from "../utils/types";
 
-export function ConfStats() {
-  const config = useAppSelector((state) => state.config.data.config);
+export function ConfStats({ config }: { config: llngConfig }) {
   const appNum =
     (config.locationRules ? Object.keys(config.locationRules).length : 0) +
     (config.samlSPMetaDataXML

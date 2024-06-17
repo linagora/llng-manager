@@ -63,23 +63,23 @@ const configSlice = createSlice({
     },
     toggleSAML(state) {
       state.data.config.issuerDBSAMLActivation =
-        !state.data.config.issuerDBSAMLActivation;
+        1 - Number(state.data.config.issuerDBSAMLActivation);
     },
     toggleOIDC(state) {
       state.data.config.issuerDBOpenIDConnectActivation =
-        !state.data.config.issuerDBOpenIDConnectActivation;
+        1 - Number(state.data.config.issuerDBOpenIDConnectActivation);
     },
     toggleCAS(state) {
       state.data.config.issuerDBCASActivation =
-        !state.data.config.issuerDBCASActivation;
+        1 - Number(state.data.config.issuerDBCASActivation);
     },
     toggleOID2(state) {
       state.data.config.issuerDBOpenIDActivation =
-        !state.data.config.issuerDBOpenIDActivation;
+        1 - Number(state.data.config.issuerDBOpenIDActivation);
     },
     toggleGET(state) {
       state.data.config.issuerDBGetActivation =
-        !state.data.config.issuerDBGetActivation;
+        1 - Number(state.data.config.issuerDBGetActivation);
     },
     saveOIDCPrivSig(state, action: PayloadAction<string>) {
       state.data.config.oidcServicePrivateKeySig = action.payload;

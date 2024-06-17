@@ -21,26 +21,30 @@ import {
   updateCASOptions,
   updateCASexportedVars,
 } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import "./AppPage.css";
 import { TableVars } from "./TableVars";
 
 export function CasApp({ name }: { name: string }) {
-  const vars = useAppSelector((state) =>
-    state.config.data.config.casAppMetaDataExportedVars
-      ? state.config.data.config.casAppMetaDataExportedVars[name]
-      : {}
-  );
-  const casAppMetaDataMacros = useAppSelector((state) => {
-    return state.config.data.config.casAppMetaDataMacros
-      ? state.config.data.config.casAppMetaDataMacros[name]
-      : {};
-  });
-  const casAppMetaDataOptions = useAppSelector((state) => {
-    return state.config.data.config.casAppMetaDataOptions
-      ? state.config.data.config.casAppMetaDataOptions[name]
-      : {};
-  });
+  const vars =
+    useAppSelector((state) => {
+      if (state.config.data.config.casAppMetaDataExportedVars) {
+        return state.config.data.config.casAppMetaDataExportedVars[name];
+      }
+    }) || {};
+  const casAppMetaDataMacros =
+    useAppSelector((state) => {
+      if (state.config.data.config.casAppMetaDataMacros) {
+        return state.config.data.config.casAppMetaDataMacros[name];
+      }
+    }) || {};
+  const casAppMetaDataOptions =
+    useAppSelector((state) => {
+      if (state.config.data.config.casAppMetaDataOptions) {
+        return state.config.data.config.casAppMetaDataOptions[name];
+      }
+    }) || {};
   const [optionSelected, setOptionSelected] = useState("basic");
   const dispatch = useAppDispatch();
   return (
@@ -263,7 +267,8 @@ export function CasApp({ name }: { name: string }) {
                       <RadioGroup
                         row
                         value={
-                          casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout ||
+                          attributes.casAppMetaDataOptionsLogout.default
                         }
                         onChange={(e) => {
                           dispatch(

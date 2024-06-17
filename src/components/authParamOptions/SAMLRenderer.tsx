@@ -13,7 +13,9 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
+
 export function SAMLRenderer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
@@ -618,7 +620,7 @@ export function SAMLRenderer() {
                         value={
                           config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
                             ";"
-                          )[0]
+                          )[0] || 0
                         }
                         onChange={(e) =>
                           dispatch(
@@ -717,7 +719,7 @@ export function SAMLRenderer() {
                         value={
                           config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
                             ";"
-                          )[0]
+                          )[0] || 0
                         }
                         onChange={(e) =>
                           dispatch(
@@ -824,7 +826,7 @@ export function SAMLRenderer() {
                         value={
                           config.samlSPSSODescriptorArtifactResolutionServiceArtifact?.split(
                             ";"
-                          )[0]
+                          )[0] || 0
                         }
                         onChange={(e) =>
                           dispatch(
@@ -1458,7 +1460,7 @@ export function SAMLRenderer() {
                         value={
                           config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
                             ";"
-                          )[0]
+                          )[0] || 0
                         }
                         onChange={(e) =>
                           dispatch(
@@ -1647,7 +1649,10 @@ export function SAMLRenderer() {
                   <FormControl>
                     <RadioGroup
                       row
-                      value={config.samlMetadataForceUTF8}
+                      value={
+                        config.samlMetadataForceUTF8 ||
+                        attributes.samlMetadataForceUTF8.default
+                      }
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -1689,7 +1694,10 @@ export function SAMLRenderer() {
                     variant="filled"
                     type="number"
                     className="form"
-                    value={config.samlRelayStateTimeout || ""}
+                    value={
+                      config.samlRelayStateTimeout ||
+                      attributes.samlRelayStateTimeout.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -1717,7 +1725,10 @@ export function SAMLRenderer() {
                   <FormControl>
                     <RadioGroup
                       row
-                      value={config.samlUseQueryStringSpecific || 0}
+                      value={
+                        config.samlUseQueryStringSpecific ||
+                        attributes.samlUseQueryStringSpecific.default
+                      }
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -1795,7 +1806,10 @@ export function SAMLRenderer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={config.samlCommonDomainCookieActivation}
+                        value={
+                          config.samlCommonDomainCookieActivation ||
+                          attributes.samlCommonDomainCookieActivation.default
+                        }
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -1933,7 +1947,10 @@ export function SAMLRenderer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={config.samlDiscoveryProtocolActivation || 0}
+                        value={
+                          config.samlDiscoveryProtocolActivation ||
+                          attributes.samlDiscoveryProtocolActivation.default
+                        }
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({
@@ -2027,7 +2044,10 @@ export function SAMLRenderer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={config.samlDiscoveryProtocolIsPassive || 0}
+                        value={
+                          config.samlDiscoveryProtocolIsPassive ||
+                          attributes.samlDiscoveryProtocolIsPassive.default
+                        }
                         onChange={(e) =>
                           dispatch(
                             updateConfigParams({

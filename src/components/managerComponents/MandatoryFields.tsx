@@ -18,6 +18,7 @@ import {
   updateOIDCclientID,
   updateSamlSPMetadata,
 } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import { handleChangeFile } from "../../utils/readFiles";
 import { useAppDispatch, useAppSelector } from "./../../app/hooks";
@@ -67,13 +68,13 @@ export function MandatoryFields({
                 )
               }
               value={
-                name
+                (name
                   ? data.samlSPMetaDataXML
                     ? data.samlSPMetaDataXML[name]
                       ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
                       : undefined
                     : undefined
-                  : undefined
+                  : undefined) || ""
               }
             />
           </div>
@@ -93,7 +94,7 @@ export function MandatoryFields({
                   if (e.target instanceof HTMLInputElement) {
                     handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                       (fileContent) => {
-                        console.log("File content:", fileContent);
+                        console.debug("File content:", fileContent);
                         dispatch(
                           updateSamlSPMetadata({
                             name: name ? name : "",
@@ -217,7 +218,12 @@ export function MandatoryFields({
                   <FormControl>
                     <RadioGroup
                       row
-                      value={data.samlSPMetaDataOptionsOneTimeUse}
+                      value={
+                        data.oidcRPMetaDataOptions === undefined
+                          ? attributes.oidcRPMetaDataOptionsPublic.default
+                          : data.oidcRPMetaDataOptions[name ? name : ""]
+                              .oidcRPMetaDataOptionsPublic
+                      }
                       onChange={(e) => {
                         dispatch(
                           updateOIDCPublicClient({

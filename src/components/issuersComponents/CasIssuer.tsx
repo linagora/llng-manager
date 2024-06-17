@@ -77,16 +77,19 @@ export function CasIssuer() {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={config.issuerDBCASActivation ? true : false}
+                        value={
+                          config.issuerDBCASActivation ||
+                          attributes.issuerDBCASActivation.default
+                        }
                         onChange={() => dispatch(toggleCAS())}
                       >
                         <FormControlLabel
-                          value={true}
+                          value={1}
                           control={<Radio />}
                           label={t("on")}
                         />
                         <FormControlLabel
-                          value={false}
+                          value={0}
                           control={<Radio />}
                           label={t("off")}
                         />

@@ -10,6 +10,7 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
 export function KerberosSimpleView() {
@@ -36,7 +37,7 @@ export function KerberosSimpleView() {
                     })
                   )
                 }
-                value={config.krbKeytab}
+                value={config.krbKeytab || ""}
               />
             </td>
           </tr>
@@ -54,7 +55,7 @@ export function KerberosSimpleView() {
               <FormControl>
                 <RadioGroup
                   row
-                  value={config.krbByJs}
+                  value={config.krbByJs || attributes.krbByJs.default}
                   onChange={(e) =>
                     dispatch(
                       updateConfigParams({
@@ -92,7 +93,9 @@ export function KerberosSimpleView() {
               <FormControl>
                 <RadioGroup
                   row
-                  value={config.krbRemoveDomain}
+                  value={
+                    config.krbRemoveDomain || attributes.krbRemoveDomain.default
+                  }
                   onChange={(e) =>
                     dispatch(
                       updateConfigParams({
@@ -134,7 +137,7 @@ export function KerberosSimpleView() {
                     })
                   )
                 }
-                value={config.krbAllowedDomains}
+                value={config.krbAllowedDomains || ""}
               />
             </td>
           </tr>

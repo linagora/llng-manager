@@ -128,7 +128,7 @@ function NativeRule(
                   )
                 }
                 type="text"
-                value={commentary}
+                value={commentary || ""}
               />
             </td>
             <td>
@@ -146,7 +146,7 @@ function NativeRule(
                   )
                 }
                 type="text"
-                value={regex}
+                value={regex || ""}
               />
             </td>
             <td>
@@ -164,7 +164,7 @@ function NativeRule(
                   )
                 }
                 type="text"
-                value={locationRules[group]}
+                value={locationRules[group] || ""}
               />
             </td>
             <td>
@@ -182,7 +182,7 @@ function NativeRule(
                     })
                   )
                 }
-                value={authLevel}
+                value={authLevel || 0}
               />
             </td>
             <td>
@@ -527,24 +527,28 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={options ? options.vhostMaintenance : false}
+                        value={
+                          options
+                            ? options.vhostMaintenance
+                            : attributes.vhostMaintenance.default
+                        }
                         onChange={(e) => {
                           dispatch(
                             updateVhostOptions({
                               name,
                               option: "vhostMaintenance",
-                              value: JSON.parse(e.target.value),
+                              value: Number(e.target.value),
                             })
                           );
                         }}
                       >
                         <FormControlLabel
-                          value={true}
+                          value={1}
                           control={<Radio />}
                           label={t("on")}
                         />
                         <FormControlLabel
-                          value={false}
+                          value={0}
                           control={<Radio />}
                           label={t("off")}
                         />
@@ -759,24 +763,28 @@ export function NativeApp({ name }: { name: string }) {
                     <FormControl>
                       <RadioGroup
                         row
-                        value={options ? options.vhostMaintenance : false}
+                        value={
+                          options
+                            ? options.vhostMaintenance
+                            : attributes.vhostMaintenance.default
+                        }
                         onChange={(e) => {
                           dispatch(
                             updateVhostOptions({
                               name,
                               option: "vhostMaintenance",
-                              value: JSON.parse(e.target.value),
+                              value: Number(e.target.value),
                             })
                           );
                         }}
                       >
                         <FormControlLabel
-                          value={true}
+                          value={1}
                           control={<Radio />}
                           label={t("on")}
                         />
                         <FormControlLabel
-                          value={false}
+                          value={0}
                           control={<Radio />}
                           label={t("off")}
                         />

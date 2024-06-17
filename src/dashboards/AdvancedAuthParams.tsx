@@ -87,8 +87,7 @@ export function AdvancedAuthParams() {
               labelId="authenticationLabel"
               label={t("authentication")}
               size="small"
-              value={authModule}
-              defaultValue={attributes.authentication.default}
+              value={authModule || attributes.authentication.default}
               onChange={(e) =>
                 dispatch(
                   updateAuthParams({
@@ -113,8 +112,7 @@ export function AdvancedAuthParams() {
               labelId="userDBLabel"
               label={t("userDB")}
               size="small"
-              value={userDB}
-              defaultValue={attributes.userDB.default}
+              value={userDB || attributes.userDB.default}
               onChange={(e) =>
                 dispatch(
                   updateAuthParams({
@@ -139,8 +137,7 @@ export function AdvancedAuthParams() {
               labelId="passwordDBLabel"
               label={t("passwordDB")}
               size="small"
-              value={passwordDB}
-              defaultValue={attributes.passwordDB.default}
+              value={passwordDB || attributes.passwordDB.default}
               onChange={(e) =>
                 dispatch(
                   updateAuthParams({
@@ -165,8 +162,7 @@ export function AdvancedAuthParams() {
               labelId="registerDBLabel"
               label={t("registerDB")}
               size="small"
-              value={registerDB}
-              defaultValue={attributes.registerDB.default}
+              value={registerDB || attributes.registerDB.default}
               onChange={(e) =>
                 dispatch(
                   updateAuthParams({

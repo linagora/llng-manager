@@ -3,7 +3,6 @@ import { fireEvent, screen } from "@testing-library/react";
 import { t } from "i18next";
 import { Configuration } from "../src/pages/Configuration";
 import { renderWithProviders } from "../src/utils/test-utils";
-
 jest.mock("axios");
 export const changeInput = async (index: number, value: string | number) => {
   const input = screen.getAllByText("", {

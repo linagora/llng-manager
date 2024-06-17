@@ -316,13 +316,13 @@ export function SAMLApp({
                   )
                 }
                 value={
-                  name
+                  (name
                     ? data.samlSPMetaDataXML
                       ? data.samlSPMetaDataXML[name]
                         ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
                         : undefined
                       : undefined
-                    : undefined
+                    : undefined) || ""
                 }
               />
             </div>
@@ -342,7 +342,7 @@ export function SAMLApp({
                     if (e.target instanceof HTMLInputElement) {
                       handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
                         (fileContent) => {
-                          console.log("File content:", fileContent);
+                          console.debug("File content:", fileContent);
                           dispatch(
                             updateSamlSPMetadata({
                               name: name ? name : "",

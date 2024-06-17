@@ -1,6 +1,8 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import attributes from "../../static/attributes.json";
+
 import {
   Accordion,
   AccordionSummary,
@@ -20,7 +22,7 @@ import {
   delGetParamOption,
   newGetParam,
   newGetParamOption,
-  updateConfigParams,
+  toggleGET,
   updateGetParamHostname,
   updateGetParamOption,
 } from "../../features/config/configSlice";
@@ -85,15 +87,11 @@ export function GetIssuer() {
                   <FormControl>
                     <RadioGroup
                       row
-                      value={config.issuerDBGetActivation}
-                      onChange={() =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "issuerDBGetActivation",
-                            value: 1 - Number(config.issuerDBGetActivation),
-                          })
-                        )
+                      value={
+                        config.issuerDBGetActivation ||
+                        attributes.issuerDBGetActivation.default
                       }
+                      onChange={() => dispatch(toggleGET())}
                     >
                       <FormControlLabel
                         value={1}

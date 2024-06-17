@@ -266,7 +266,7 @@ export default function Manager() {
       );
     }
   } catch (e) {
-    console.log(e);
+    console.debug(e);
     if (e instanceof Error) {
       dispatch(setError(`${e.name} : ${e.message}`));
       dispatch(removeError());

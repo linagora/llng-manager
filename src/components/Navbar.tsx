@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import "./NavBar.css";
-import i18n from "../i18n";
-import { useAppDispatch } from "../app/hooks";
-import { push } from "redux-first-history";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Typography,
-  Toolbar,
+  Button,
+  ButtonGroup,
   Divider,
   IconButton,
   Menu,
   MenuItem,
-  Button,
-  ButtonGroup,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { push } from "redux-first-history";
+import { useAppDispatch } from "../app/hooks";
+import i18n from "../i18n";
+import "./NavBar.css";
 
 function Navbar() {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ function Navbar() {
   const dispatch = useAppDispatch();
   const handleLanguageChange = (language: string) => {
     i18n.changeLanguage(language);
-    console.log(`Language changed to ${language}`);
+    console.debug(`Language changed to ${language}`);
   };
 
   return (
@@ -96,10 +96,10 @@ function Navbar() {
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
         >
-          <MenuItem onClick={() => console.log("portal")}>
+          <MenuItem onClick={() => console.debug("portal")}>
             {t("backtoportal")}
           </MenuItem>
-          <MenuItem onClick={() => console.log("logout")}>
+          <MenuItem onClick={() => console.debug("logout")}>
             {t("logout")}
           </MenuItem>
           <Divider />

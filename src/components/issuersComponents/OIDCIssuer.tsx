@@ -48,7 +48,7 @@ export function OIDCIssuer() {
               value: result.hash,
             })
           )
-        : console.log();
+        : console.debug();
       dispatch(
         updateConfigParams({
           param: `oidcServicePrivateKeySig`,
@@ -133,17 +133,18 @@ export function OIDCIssuer() {
                       <RadioGroup
                         row
                         value={
-                          config.issuerDBOpenIDConnectActivation ? true : false
+                          config.issuerDBOpenIDConnectActivation ||
+                          attributes.issuerDBOpenIDActivation.default
                         }
                         onChange={() => dispatch(toggleOIDC())}
                       >
                         <FormControlLabel
-                          value={true}
+                          value={1}
                           control={<Radio />}
                           label={t("on")}
                         />
                         <FormControlLabel
-                          value={false}
+                          value={0}
                           control={<Radio />}
                           label={t("off")}
                         />
@@ -213,7 +214,7 @@ export function OIDCIssuer() {
                       margin="normal"
                       variant="filled"
                       className="formInput"
-                      value={config.oidcServiceKeyIdSig}
+                      value={config.oidcServiceKeyIdSig || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -256,7 +257,7 @@ export function OIDCIssuer() {
                             handleChangeFile(
                               e as ChangeEvent<HTMLInputElement>
                             ).then((fileContent) => {
-                              console.log("File content:", fileContent);
+                              console.debug("File content:", fileContent);
                               dispatch(
                                 updateConfigParams({
                                   param: "oidcServicePrivateKeySig",
@@ -278,7 +279,7 @@ export function OIDCIssuer() {
                       variant="filled"
                       rows={5}
                       className="formInput"
-                      value={config.oidcServicePrivateKeySig}
+                      value={config.oidcServicePrivateKeySig || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -322,7 +323,7 @@ export function OIDCIssuer() {
                             handleChangeFile(
                               e as ChangeEvent<HTMLInputElement>
                             ).then((fileContent) => {
-                              console.log("File content:", fileContent);
+                              console.debug("File content:", fileContent);
                               dispatch(
                                 updateConfigParams({
                                   param: "oidcServicePublicKeySig",
@@ -344,7 +345,7 @@ export function OIDCIssuer() {
                       fullWidth
                       rows={5}
                       className="formInput"
-                      value={config.oidcServicePublicKeySig}
+                      value={config.oidcServicePublicKeySig || ""}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -672,7 +673,10 @@ export function OIDCIssuer() {
                     fullWidth
                     type="number"
                     className="formInput"
-                    value={config.oidcServiceAuthorizationCodeExpiration}
+                    value={
+                      config.oidcServiceAuthorizationCodeExpiration ||
+                      attributes.oidcServiceAuthorizationCodeExpiration.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -704,7 +708,10 @@ export function OIDCIssuer() {
                     fullWidth
                     type="number"
                     className="formInput"
-                    value={config.oidcServiceIDTokenExpiration}
+                    value={
+                      config.oidcServiceIDTokenExpiration ||
+                      attributes.oidcServiceIDTokenExpiration.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -736,7 +743,10 @@ export function OIDCIssuer() {
                     fullWidth
                     type="number"
                     className="formInput"
-                    value={config.oidcServiceAccessTokenExpiration}
+                    value={
+                      config.oidcServiceAccessTokenExpiration ||
+                      attributes.oidcServiceAccessTokenExpiration.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -768,7 +778,10 @@ export function OIDCIssuer() {
                     fullWidth
                     type="number"
                     className="formInput"
-                    value={config.oidcServiceOfflineSessionExpiration}
+                    value={
+                      config.oidcServiceOfflineSessionExpiration ||
+                      attributes.oidcServiceOfflineSessionExpiration.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -803,7 +816,7 @@ export function OIDCIssuer() {
                     variant="filled"
                     fullWidth
                     className="formInput"
-                    value={config.oidcStorage}
+                    value={config.oidcStorage || ""}
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({

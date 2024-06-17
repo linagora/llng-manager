@@ -83,8 +83,10 @@ export function SimpleAuthParams() {
               labelId="authenticationLabel"
               label={t("authentication")}
               size="small"
-              value={authModule === "Kerberos" ? "AD+K" : authModule}
-              defaultValue={attributes.authentication.default}
+              value={
+                (authModule === "Kerberos" ? "AD+K" : authModule) ||
+                attributes.authentication.default
+              }
               onChange={(e) => {
                 if (e.target.value === "AD+K") {
                   dispatch(
@@ -159,7 +161,7 @@ export function SimpleAuthParams() {
             </Select>
           </FormControl>
           <FormControlLabel
-            control={<Switch defaultChecked />}
+            control={<Switch />}
             checked={passwordDB !== "Null"}
             label={t("passwordDB")}
             onClick={() => {
@@ -181,7 +183,7 @@ export function SimpleAuthParams() {
             }}
           />
           <FormControlLabel
-            control={<Switch defaultChecked />}
+            control={<Switch />}
             label={t("registerDB")}
             checked={registerDB !== "Null"}
             onClick={() => {

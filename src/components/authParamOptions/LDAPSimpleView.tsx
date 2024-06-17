@@ -13,6 +13,7 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
 export function LDAPSimpleView() {
@@ -44,7 +45,7 @@ export function LDAPSimpleView() {
                     })
                   )
                 }
-                value={config.ldapBase}
+                value={config.ldapBase || attributes.ldapBase.default}
               />
             </td>
           </tr>
@@ -64,7 +65,7 @@ export function LDAPSimpleView() {
                     })
                   )
                 }
-                value={config.managerDn}
+                value={config.managerDn || attributes.managerDn.default}
               />
             </td>
           </tr>
@@ -84,7 +85,9 @@ export function LDAPSimpleView() {
                     })
                   )
                 }
-                value={config.managerPassword}
+                value={
+                  config.managerPassword || attributes.managerPassword.default
+                }
               />
             </td>
           </tr>
@@ -110,7 +113,7 @@ export function LDAPSimpleView() {
                     })
                   )
                 }
-                value={config.LDAPFilter}
+                value={config.LDAPFilter || ""}
               />
             </td>
           </tr>
@@ -144,7 +147,7 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupBase}
+                  value={config.ldapGroupBase || ""}
                 />
               </td>
             </tr>
@@ -170,7 +173,7 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.groupLDAPFilter}
+                  value={config.groupLDAPFilter || ""}
                 />
               </td>
             </tr>
@@ -196,7 +199,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupObjectClass}
+                  value={
+                    config.ldapGroupObjectClass ||
+                    attributes.ldapGroupObjectClass.default
+                  }
                 />
               </td>
             </tr>
@@ -223,7 +229,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupAttributeName}
+                  value={
+                    config.ldapGroupAttributeName ||
+                    attributes.ldapGroupAttributeName.default
+                  }
                 />
               </td>
             </tr>
@@ -251,7 +260,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupAttributeNameUser}
+                  value={
+                    config.ldapGroupAttributeNameUser ||
+                    attributes.ldapGroupAttributeNameUser.default
+                  }
                 />
               </td>
             </tr>
@@ -279,7 +291,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupAttributeNameSearch}
+                  value={
+                    config.ldapGroupAttributeNameSearch ||
+                    attributes.ldapGroupAttributeNameSearch.default
+                  }
                 />
               </td>
             </tr>
@@ -299,7 +314,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapGroupDecodeSearchedValue}
+                    value={
+                      config.ldapGroupDecodeSearchedValue ||
+                      attributes.ldapGroupDecodeSearchedValue.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -337,7 +355,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapGroupRecursive}
+                    value={
+                      config.ldapGroupRecursive ||
+                      attributes.ldapGroupRecursive.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -385,7 +406,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapGroupAttributeNameGroup}
+                  value={
+                    config.ldapGroupAttributeNameGroup ||
+                    attributes.ldapGroupAttributeNameGroup.default
+                  }
                 />
               </td>
             </tr>
@@ -412,7 +436,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapPpolicyControl}
+                    value={
+                      config.ldapPpolicyControl ||
+                      attributes.ldapPpolicyControl.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -450,7 +477,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapSetPassword}
+                    value={
+                      config.ldapSetPassword ||
+                      attributes.ldapSetPassword.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -489,7 +519,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapChangePasswordAsUser}
+                    value={
+                      config.ldapChangePasswordAsUser ||
+                      attributes.ldapChangePasswordAsUser.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -535,7 +568,7 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapPwdEnc}
+                  value={config.ldapPwdEnc || attributes.ldapPwdEnc.default}
                 />
               </td>
             </tr>
@@ -555,7 +588,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapUsePasswordResetAttribute}
+                    value={
+                      config.ldapUsePasswordResetAttribute ||
+                      attributes.ldapUsePasswordResetAttribute.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -603,7 +639,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapPasswordResetAttribute}
+                  value={
+                    config.ldapPasswordResetAttribute ||
+                    attributes.ldapPasswordResetAttribute.default
+                  }
                 />
               </td>
             </tr>
@@ -631,7 +670,10 @@ export function LDAPSimpleView() {
                       })
                     )
                   }
-                  value={config.ldapPasswordResetAttributeValue}
+                  value={
+                    config.ldapPasswordResetAttributeValue ||
+                    attributes.ldapPasswordResetAttributeValue.default
+                  }
                 />
               </td>
             </tr>
@@ -651,7 +693,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapAllowResetExpiredPassword}
+                    value={
+                      config.ldapAllowResetExpiredPassword ||
+                      attributes.ldapAllowResetExpiredPassword.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -691,7 +736,10 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapGetUserBeforePasswordChange}
+                    value={
+                      config.ldapGetUserBeforePasswordChange ||
+                      attributes.ldapGetUserBeforePasswordChange.default
+                    }
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({
@@ -729,7 +777,7 @@ export function LDAPSimpleView() {
                 <FormControl>
                   <RadioGroup
                     row
-                    value={config.ldapITDS}
+                    value={config.ldapITDS || attributes.ldapITDS.default}
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({

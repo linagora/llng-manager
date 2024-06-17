@@ -10,6 +10,7 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
 export function OIDIssuer() {
@@ -38,7 +39,10 @@ export function OIDIssuer() {
                   <FormControl>
                     <RadioGroup
                       row
-                      value={config.issuerDBOpenIDActivation}
+                      value={
+                        config.issuerDBOpenIDActivation ||
+                        attributes.issuerDBOpenIDActivation.default
+                      }
                       onChange={() =>
                         dispatch(
                           updateConfigParams({
@@ -134,7 +138,7 @@ export function OIDIssuer() {
                   <FormControl>
                     <RadioGroup
                       row
-                      value={config.openIdSPList?.split(";")[0]}
+                      value={config.openIdSPList?.split(";")[0] || 0}
                       onChange={(e) =>
                         dispatch(
                           updateConfigParams({
@@ -161,7 +165,7 @@ export function OIDIssuer() {
                   <TextField
                     size="small"
                     type="url"
-                    value={config.openIdSPList?.split(";")[1]}
+                    value={config.openIdSPList?.split(";")[1] || ""}
                     onChange={(e) =>
                       dispatch(
                         updateConfigParams({

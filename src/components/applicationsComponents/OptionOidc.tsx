@@ -1081,13 +1081,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions
+                      (data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
                             .oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg
-                        : ""
+                        : "") || ""
                     }
                     displayEmpty
-                    defaultValue=""
                     label={t("oidcRPMetaDataOptionsIdTokenEncKeyMgtAlg")}
                     onChange={(e) =>
                       dispatch(
@@ -1178,13 +1177,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions
+                      (data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
                             .oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg
-                        : ""
+                        : "") || ""
                     }
                     displayEmpty
-                    defaultValue=""
                     label={t("oidcRPMetaDataOptionsUserInfoEncKeyMgtAlg")}
                     onChange={(e) =>
                       dispatch(
@@ -1275,13 +1273,12 @@ export function OptionOidc({ name }: { name: string }) {
                   </InputLabel>
                   <Select
                     value={
-                      data.oidcRPMetaDataOptions
+                      (data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
                             .oidcRPMetaDataOptionsLogoutEncKeyMgtAlg
-                        : ""
+                        : "") || ""
                     }
                     displayEmpty
-                    defaultValue=""
                     label={t("oidcRPMetaDataOptionsLogoutEncKeyMgtAlg")}
                     onChange={(e) =>
                       dispatch(
@@ -1450,7 +1447,7 @@ export function OptionOidc({ name }: { name: string }) {
                           handleChangeFile(
                             e as ChangeEvent<HTMLInputElement>
                           ).then((fileContent) => {
-                            console.log("File content:", fileContent);
+                            console.debug("File content:", fileContent);
                             dispatch(
                               updateOidcMetaDataOptions({
                                 name,
@@ -1654,11 +1651,13 @@ export function OptionOidc({ name }: { name: string }) {
                   <RadioGroup
                     row
                     value={
-                      data.oidcRPMetaDataOptions
+                      (data.oidcRPMetaDataOptions
                         ? data.oidcRPMetaDataOptions[name]
                             .oidcRPMetaDataOptionsLogoutBypassConfirm
                         : attributes.oidcRPMetaDataOptionsLogoutBypassConfirm
-                            .default
+                            .default) ||
+                      attributes.oidcRPMetaDataOptionsLogoutBypassConfirm
+                        .default
                     }
                     onChange={(e) => {
                       dispatch(

@@ -3,6 +3,7 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 
 export function ADSimpleView() {
@@ -29,7 +30,7 @@ export function ADSimpleView() {
                     })
                   )
                 }
-                value={config.ADPwdMaxAge}
+                value={config.ADPwdMaxAge || attributes.ADPwdMaxAge.default}
               />
             </td>
           </tr>
@@ -51,7 +52,10 @@ export function ADSimpleView() {
                     })
                   )
                 }
-                value={config.ADPwdExpireWarning}
+                value={
+                  config.ADPwdExpireWarning ||
+                  attributes.ADPwdExpireWarning.default
+                }
               />
             </td>
           </tr>

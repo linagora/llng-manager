@@ -46,7 +46,8 @@ export function renderWithProviders(
             issuerDBCASActivation: 0,
             issuerDBOpenIDActivation: 0,
             issuerDBOpenIDConnectActivation: 1,
-            issuerDBSAMLActivation: false,
+            issuerDBSAMLActivation: 0,
+            issuerDBGetActivation: 0,
 
             locationRules: {
               "native.example.com": {

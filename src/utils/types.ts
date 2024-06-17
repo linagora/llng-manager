@@ -258,7 +258,7 @@ export interface llngConfig {
   issuerDBOpenIDConnectRule?: boolean | number | string;
   issuerDBOpenIDPath?: string;
   issuerDBOpenIDRule?: boolean | number | string;
-  issuerDBSAMLActivation?: boolean;
+  issuerDBSAMLActivation?: boolean | number;
   issuerDBSAMLPath?: string;
   issuerDBSAMLRule?: boolean | number | string;
   issuersTimeout?: number;

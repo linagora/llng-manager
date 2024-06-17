@@ -96,7 +96,7 @@ export function HomePage() {
                         handleChangeFile(
                           e as ChangeEvent<HTMLInputElement>
                         ).then((fileContent) => {
-                          console.log("File content:", fileContent);
+                          console.debug("File content:", fileContent);
                           dispatch(
                             saveConfigAsync(
                               JSON.parse(fileContent) as llngConfig
@@ -210,7 +210,7 @@ export function HomePage() {
             </div>
             <div>
               <strong className="title2">{t("Latest conf stats")}</strong>
-              <ConfStats />
+              <ConfStats config={config.data.config} />
             </div>
             <div
               style={{
@@ -220,7 +220,7 @@ export function HomePage() {
               <strong>{t("latestError")}</strong> {config.error.errorContent}
             </div>
           </div>
-          <Footer />
+          <Footer cfgVersion={config.data.config.cfgVersion} />
           <SavePopup
             config={config}
             dispatch={dispatch}

@@ -6,7 +6,7 @@ export function getMetadataConfig(num?: number) {
     const response = axios.get(`/confs/${num ? num : "latest"}`);
     return response;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("400");
   }
 }
