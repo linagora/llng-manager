@@ -6,8 +6,8 @@ export function getMetadataConfig(num?: number) {
     const response = axios.get(`/confs/${num ? num : "latest"}`);
     return response;
   } catch (error) {
-    console.error(error);
-    throw new Error("400");
+    // console.error(error)
+    throw new Error(JSON.stringify(error));
   }
 }
 
@@ -16,7 +16,7 @@ export function getConfig(num: number) {
     const response = axios.get(`/manager.fcgi/confs/${num}?full=1`);
     return response;
   } catch (error) {
-    throw new Error("400");
+    throw new Error(JSON.stringify(error));
   }
 }
 
@@ -25,6 +25,6 @@ export function saveConfig(config: llngConfig) {
     const response = axios.post("/manager.fcgi/confs/raw", config);
     return response;
   } catch (error) {
-    throw new Error("400");
+    throw new Error(JSON.stringify(error));
   }
 }

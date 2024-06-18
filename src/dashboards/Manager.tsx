@@ -68,7 +68,7 @@ export default function Manager() {
         <div>
           <strong className="title"> {t("currentConfiguration")} </strong>
           <strong>{t("failedLoading")}</strong>
-          <span>{JSON.stringify(config.error)}</span>
+          <span>{config.error.errorContent}</span>
         </div>
       );
     } else {

@@ -235,6 +235,6 @@ export function HomePage() {
       dispatch(setError(`${e.name} : ${e.message}`));
       dispatch(removeError());
     }
-    return <div>halle{config.error.errorContent}</div>;
+    return <div>{config.error.errorContent}</div>;
   }
 }

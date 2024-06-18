@@ -1,4 +1,9 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  PayloadAction,
+  SerializedError,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
 import attributes from "../../static/attributes.json";
 import { MetaData, llngConfig } from "../../utils/types";
 import { getConfig, getMetadataConfig, saveConfig } from "./configAPI";
@@ -987,12 +992,31 @@ const configSlice = createSlice({
       )
       .addCase(
         getConfigAsync.rejected,
-        (state: ConfigState, action: PayloadAction<any>) => {
+        (
+          state: ConfigState,
+          action: PayloadAction<
+            unknown,
+            string,
+            {
+              arg: number | undefined;
+              requestId: string;
+              requestStatus: "rejected";
+              aborted: boolean;
+              condition: boolean;
+            } & (
+              | { rejectedWithValue: true }
+              | ({ rejectedWithValue: false } & {})
+            ),
+            SerializedError
+          >
+        ) => {
           state.loading = false;
           state.error.has = true;
-          if (action.payload instanceof Error) {
-            state.error.errorContent = action.payload.message;
-          }
+          state.error.errorContent =
+            action.error.code +
+            " : " +
+            action.error.name +
+            action.error.message;
         }
       )
       .addCase(saveConfigAsync.pending, (state: ConfigState) => {
