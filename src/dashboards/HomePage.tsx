@@ -118,6 +118,14 @@ export function HomePage() {
                 </Button>
               </div>
               <div className="search">
+                <Button
+                  variant="contained"
+                  onClick={() => dispatch(push(`#tree/latest`))}
+                >
+                  {t("tree")}
+                </Button>
+              </div>
+              <div className="search">
                 <TextField
                   type="number"
                   size="small"

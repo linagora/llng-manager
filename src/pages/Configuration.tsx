@@ -10,14 +10,19 @@ import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
 import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
 import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
+import TreeRender from "../dashboards/Tree";
+import ctree from "../static/ctrees.json";
+import tree from "../static/tree.json";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
+
 export function Configuration({
   location,
 }: {
   location: { type: string; info: { name: string; type?: string } };
 }) {
   const metadata = useAppSelector((state) => state.config.data.metadata);
+  const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
   const [authSimple, setAuthSimple] = useState(true);
 
@@ -93,6 +98,20 @@ export function Configuration({
                 {t("conf")} {metadata.cfgNum}
               </span>
             </Link>
+          </Breadcrumbs>
+          <IssuerDashboard type={location.info.name} />
+          <SaveButton />
+        </div>
+      );
+    case "tree":
+      return (
+        <div className="main">
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#tree/${metadata.cfgNum}`))}>
+                {t("conf")} {metadata.cfgNum}
+              </span>
+            </Link>
             <Link underline="none" color="inherit">
               {t(location.type)}
             </Link>
@@ -101,7 +120,7 @@ export function Configuration({
               {t(location.info.name)}
             </Link>
           </Breadcrumbs>
-          <IssuerDashboard type={location.info.name} />
+          <TreeRender tree={tree} ctree={ctree} config={config} />
           <SaveButton />
         </div>
       );
