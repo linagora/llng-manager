@@ -117,6 +117,20 @@ export function Configuration({
                 {metadata.cfgNum}
               </span>
             </Link>
+          </Breadcrumbs>
+          <IssuerDashboard type={location.info.name} />
+          <SaveButton />
+        </div>
+      );
+    case "tree":
+      return (
+        <div className="main">
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#tree/${metadata.cfgNum}`))}>
+                {t("conf")} {metadata.cfgNum}
+              </span>
+            </Link>
             <Link underline="none" color="inherit">
               {location.type}
             </Link>
