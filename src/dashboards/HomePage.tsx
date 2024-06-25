@@ -204,10 +204,21 @@ export function HomePage() {
                 </tbody>
               </table>
             </div>
-          </div>
-          <div>
-            <strong className="title2">{t("Latest conf stats")}</strong>
-            <ConfStats config={config.data.config} />
+            <div>
+              <table className="infoTable">
+                <tbody>
+                  <tr>
+                    <th>{t("cfgLog")}</th>
+                  </tr>
+                  <tr>
+                    <td>{config.data.config.cfgLog}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="statBox">
+              <ConfStats config={config.data.config} />
+            </div>
           </div>
           <div
             style={{
