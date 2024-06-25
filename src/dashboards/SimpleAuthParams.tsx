@@ -279,7 +279,9 @@ export function SimpleAuthParams() {
               {ADKoptionSelected === "LDAP" && <LDAPSimpleView />}
             </>
           )}
-
+          {optionSelected === "adv" && (
+            <div>Use the Advanced Panel to manage your configuration.</div>
+          )}
           {optionSelected === "Demo" && (
             <div className="appDesc">
               <span className="title2">{t("demoParams")}</span>

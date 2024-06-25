@@ -117,6 +117,12 @@ export function Configuration({
                 {metadata.cfgNum}
               </span>
             </Link>
+            <Link underline="none" color="inherit">
+              {location.type}
+            </Link>
+            <Link underline="none" color="text.primary">
+              {location.info.name}
+            </Link>
           </Breadcrumbs>
           <IssuerDashboard type={location.info.name} />
           <SaveButton />
