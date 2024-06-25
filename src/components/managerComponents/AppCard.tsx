@@ -129,6 +129,7 @@ function AppCard({
           ) : (
             ""
           )}
+          <div className="bottomRectangle">{t(type)}</div>
         </div>
       </div>
       <Menu

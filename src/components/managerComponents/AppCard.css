@@ -5,6 +5,7 @@
   border-radius: 15px;
   align-content: center;
   cursor: pointer;
+  position: relative;
 }
 
 .card:hover {
@@ -51,4 +52,21 @@
   border-radius: 15px;
   text-align: center;
   width: max-content;
+}
+
+.bottomRectangle {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.158
+  ); /* Change this to the desired background color */
+  padding: 5px 10px;
+  border: 1px solid #acacac;
+  border-radius: 10px;
+  font-size: 12px;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
