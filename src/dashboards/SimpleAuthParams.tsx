@@ -105,6 +105,7 @@ export function SimpleAuthParams() {
     passwordDB,
   ]);
 
+  const [ADKoptionSelected, setADKOptionSelected] = useState("AD");
   try {
     return (
       <div>
@@ -244,11 +245,41 @@ export function SimpleAuthParams() {
           {optionSelected === "adv" && (
             <div>Use the Advanced Panel to manage your configuration.</div>
           )}
-          {(optionSelected === "LDAP" || optionSelected === "AD+K") && (
-            <LDAPSimpleView />
+          {optionSelected === "LDAP" && <LDAPSimpleView />}
+          {optionSelected === "AD+K" && (
+            <>
+              <div className="optionNavbar">
+                <span
+                  className={`option ${
+                    ADKoptionSelected === "AD" ? "selected" : ""
+                  }`}
+                  onClick={() => setADKOptionSelected("AD")}
+                >
+                  {t("AD")}
+                </span>
+                <span
+                  className={`option ${
+                    ADKoptionSelected === "Kerberos" ? "selected" : ""
+                  }`}
+                  onClick={() => setADKOptionSelected("Kerberos")}
+                >
+                  {t("Kerberos")}
+                </span>
+                <span
+                  className={`option ${
+                    ADKoptionSelected === "LDAP" ? "selected" : ""
+                  }`}
+                  onClick={() => setADKOptionSelected("LDAP")}
+                >
+                  {t("LDAP")}
+                </span>
+              </div>
+              {ADKoptionSelected === "AD" && <ADSimpleView />}
+              {ADKoptionSelected === "Kerberos" && <KerberosSimpleView />}
+              {ADKoptionSelected === "LDAP" && <LDAPSimpleView />}
+            </>
           )}
-          {optionSelected === "AD+K" && <ADSimpleView />}
-          {optionSelected === "AD+K" && <KerberosSimpleView />}
+
           {optionSelected === "Demo" && (
             <div className="appDesc">
               <span className="title2">{t("demoParams")}</span>
