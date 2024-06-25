@@ -4,7 +4,7 @@ import Markdown from "markdown-to-jsx";
 import attributes from "../static/attributes.json";
 import definitions from "../static/definitions.json";
 
-export default function TextForm({
+export default function PasswordForm({
   value,
   fieldName,
   updateFunc,
@@ -31,7 +31,7 @@ export default function TextForm({
       <td>
         <TextField
           size="small"
-          type="text"
+          type="password"
           onChange={(e) => updateFunc(e.target.value)}
           placeholder={t(fieldName)}
           value={value || ("default" in attribute ? attribute.default : "")}

@@ -33,19 +33,21 @@ export default function BoolForm({
           </Markdown>
         }
       >
-        <strong className="title3">{t(fieldName)}</strong>
+        <th className="title3">{t(fieldName)}</th>
       </Tooltip>
-      <FormControl>
-        <FormLabel>{t(fieldName)}</FormLabel>
-        <RadioGroup
-          row
-          value={value || ("default" in attribute ? attribute.default : 0)}
-          onChange={(e) => updateFunc(e)}
-        >
-          <FormControlLabel value={1} control={<Radio />} label={t("on")} />
-          <FormControlLabel value={0} control={<Radio />} label={t("off")} />
-        </RadioGroup>
-      </FormControl>
+      <td>
+        <FormControl>
+          <FormLabel>{t(fieldName)}</FormLabel>
+          <RadioGroup
+            row
+            value={value || ("default" in attribute ? attribute.default : 0)}
+            onChange={(e) => updateFunc(e)}
+          >
+            <FormControlLabel value={1} control={<Radio />} label={t("on")} />
+            <FormControlLabel value={0} control={<Radio />} label={t("off")} />
+          </RadioGroup>
+        </FormControl>
+      </td>
     </>
   );
 }

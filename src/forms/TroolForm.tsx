@@ -4,7 +4,6 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import { t } from "i18next";
@@ -12,12 +11,12 @@ import Markdown from "markdown-to-jsx";
 import attributes from "../static/attributes.json";
 import definitions from "../static/definitions.json";
 
-export default function BlackWhiteListForm({
+export default function TroolForm({
   value,
   fieldName,
   updateFunc,
 }: {
-  value: string;
+  value: number;
   fieldName: string;
   updateFunc: Function;
 }) {
@@ -41,33 +40,18 @@ export default function BlackWhiteListForm({
           <FormLabel>{t(fieldName)}</FormLabel>
           <RadioGroup
             row
-            value={
-              value.split(";")[0] ||
-              ("default" in attribute ? attribute.default : 0)
-            }
+            value={value || ("default" in attribute ? attribute.default : 0)}
             onChange={(e) => updateFunc(e)}
           >
+            <FormControlLabel value={1} control={<Radio />} label={t("on")} />
+            <FormControlLabel value={0} control={<Radio />} label={t("off")} />
             <FormControlLabel
-              value={1}
+              value={-1}
               control={<Radio />}
-              label={t("whiteList")}
-            />
-            <FormControlLabel
-              value={0}
-              control={<Radio />}
-              label={t("blackList")}
+              label={t("default")}
             />
           </RadioGroup>
         </FormControl>
-        <TextField
-          size="small"
-          onChange={(e) => updateFunc(e.target.value)}
-          placeholder={t(fieldName)}
-          value={
-            value.split(";")[1] ||
-            ("default" in attribute ? attribute.default : 0)
-          }
-        />
       </td>
     </>
   );

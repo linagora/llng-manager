@@ -682,7 +682,7 @@ export interface llngConfig {
   restPwdModifyUrl?: string;
   restSessionServer?: boolean | number;
   restUserDBUrl?: string;
-  sameSite?: Array<{ k: string; v: string }>;
+  sameSite?: string;
   samlAttributeAuthorityDescriptorAttributeServiceSOAP?: string;
   samlAuthnContextMapKerberos?: number;
   samlAuthnContextMapPassword?: number;
@@ -698,7 +698,7 @@ export interface llngConfig {
   samlDiscoveryProtocolURL?: string;
   samlEntityID?: string;
   samlFederationFiles?: string;
-  samlIDPMetaDataExportedAttributes?: Record<string, string>;
+  samlIDPMetaDataExportedAttributes?: Record<string, Record<string, string>>;
   samlIDPMetaDataNodes?: Record<string, object>;
   samlIDPMetaDataOptions?: Record<string, Record<string, string>>;
   samlIDPMetaDataOptionsAdaptSessionUtime?: boolean | number;
@@ -728,7 +728,7 @@ export interface llngConfig {
   samlIDPMetaDataOptionsStoreSAMLToken?: boolean | number;
   samlIDPMetaDataOptionsTooltip?: string;
   samlIDPMetaDataOptionsUserAttribute?: string;
-  samlIDPMetaDataXML?: string;
+  samlIDPMetaDataXML?: Record<string, Record<string, string>>;
   samlIDPSSODescriptorArtifactResolutionServiceArtifact?: string;
   samlIDPSSODescriptorSingleLogoutServiceHTTPPost?: string;
   samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?: string;

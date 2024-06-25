@@ -26,17 +26,19 @@ export default function LongtextForm({
           </Markdown>
         }
       >
-        <strong className="title3">{t(fieldName)}</strong>
+        <th className="title3">{t(fieldName)}</th>
       </Tooltip>
-      <TextField
-        size="small"
-        type="text"
-        multiline
-        rows={4}
-        onChange={(e) => updateFunc(e.target.value)}
-        placeholder={t(fieldName)}
-        value={value || ("default" in attribute ? attribute.default : "")}
-      />
+      <td>
+        <TextField
+          size="small"
+          type="text"
+          multiline
+          rows={4}
+          onChange={(e) => updateFunc(e.target.value)}
+          placeholder={t(fieldName)}
+          value={value || ("default" in attribute ? attribute.default : "")}
+        />
+      </td>
     </>
   );
 }

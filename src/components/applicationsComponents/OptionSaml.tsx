@@ -408,7 +408,7 @@ export function OptionSaml({
                       value={0}
                       control={<Radio />}
                       label={t("off")}
-                    />{" "}
+                    />
                     <FormControlLabel
                       value={-1}
                       control={<Radio />}

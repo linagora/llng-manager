@@ -1,3 +1,6 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import {
   Button,
   FormControl,
@@ -32,11 +35,6 @@ import { URLLoader } from "../managerComponents/URLLoader";
 import "./AppPage.css";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
-
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",

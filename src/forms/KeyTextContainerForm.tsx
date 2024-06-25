@@ -18,8 +18,8 @@ export default function KeyTextContainerForm({
   const attribute = attributes[fieldName as keyof typeof attributes];
 
   return (
-    <div className="box">
-      <strong className="title2">{t(fieldName)}</strong>
+    <td className="box">
+      <th className="title2">{t(fieldName)}</th>
 
       <table id="exportedVars">
         <thead>
@@ -51,6 +51,6 @@ export default function KeyTextContainerForm({
       <IconButton className="plus">
         <AddCircleIcon color="success" />
       </IconButton>
-    </div>
+    </td>
   );
 }

@@ -32,30 +32,32 @@ export default function SelectForm({
             </Markdown>
           }
         >
-          <strong className="title3">{t(fieldName)}</strong>
+          <th className="title3">{t(fieldName)}</th>
         </Tooltip>
-        <FormControl>
-          <InputLabel id="authenticationLabel">
-            {t("authentication")}
-          </InputLabel>
-          <Select
-            labelId="authenticationLabel"
-            label={t("authentication")}
-            size="small"
-            value={value || ("default" in attribute ? attribute.default : "")}
-            onChange={(e) => updateFunc(e.target.value)}
-          >
-            {(attribute.select as { k: string; v: string }[]).map((el) => {
-              return (
-                <MenuItem key={"auth" + el.v} value={el.k}>
-                  {t(el.v)}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+        <td>
+          <FormControl>
+            <InputLabel id="authenticationLabel">
+              {t("authentication")}
+            </InputLabel>
+            <Select
+              labelId="authenticationLabel"
+              label={t("authentication")}
+              size="small"
+              value={value || ("default" in attribute ? attribute.default : "")}
+              onChange={(e) => updateFunc(e.target.value)}
+            >
+              {(attribute.select as { k: string; v: string }[]).map((el) => {
+                return (
+                  <MenuItem key={"auth" + el.v} value={el.k}>
+                    {t(el.v)}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </td>
       </>
     );
   }
-  return <div>type issue : {fieldName}</div>;
+  return <td>type issue : {fieldName}</td>;
 }

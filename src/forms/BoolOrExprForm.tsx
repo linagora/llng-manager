@@ -34,39 +34,41 @@ export default function BoolOrExprForm({
           </Markdown>
         }
       >
-        <strong className="title3">{t(fieldName)}</strong>
+        <th className="title3">{t(fieldName)}</th>
       </Tooltip>
-      <FormControl>
-        <FormLabel>{t(fieldName)}</FormLabel>
-        <RadioGroup
-          row
-          value={
-            typeof value === "number"
-              ? value
-              : -1 || ("default" in attribute ? attribute.default : 0)
-          }
-          onChange={(e) => updateFunc(e)}
-        >
-          <FormControlLabel value={1} control={<Radio />} label={t("on")} />
-          <FormControlLabel value={0} control={<Radio />} label={t("off")} />
-          <FormControlLabel
-            value={-1}
-            control={<Radio />}
-            label={t("specialRule")}
+      <td>
+        <FormControl>
+          <FormLabel>{t(fieldName)}</FormLabel>
+          <RadioGroup
+            row
+            value={
+              typeof value === "number"
+                ? value
+                : -1 || ("default" in attribute ? attribute.default : 0)
+            }
+            onChange={(e) => updateFunc(e)}
+          >
+            <FormControlLabel value={1} control={<Radio />} label={t("on")} />
+            <FormControlLabel value={0} control={<Radio />} label={t("off")} />
+            <FormControlLabel
+              value={-1}
+              control={<Radio />}
+              label={t("specialRule")}
+            />
+          </RadioGroup>
+        </FormControl>
+        {(value === -1 || typeof value === "string") && (
+          <TextField
+            size="small"
+            multiline
+            variant="filled"
+            rows={4}
+            onChange={(e) => updateFunc(e.target.value)}
+            placeholder={t(fieldName)}
+            value={value || ("default" in attribute ? attribute.default : 0)}
           />
-        </RadioGroup>
-      </FormControl>
-      {(value === -1 || typeof value === "string") && (
-        <TextField
-          size="small"
-          multiline
-          variant="filled"
-          rows={4}
-          onChange={(e) => updateFunc(e.target.value)}
-          placeholder={t(fieldName)}
-          value={value || ("default" in attribute ? attribute.default : 0)}
-        />
-      )}
+        )}
+      </td>
     </>
   );
 }

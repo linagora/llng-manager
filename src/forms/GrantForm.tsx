@@ -17,7 +17,7 @@ export default function GrantForm({
   const [message, comments] = key.split("##");
 
   return (
-    <div>
+    <td>
       <table>
         <tbody>
           <tr>
@@ -43,6 +43,6 @@ export default function GrantForm({
           </tr>
         </tbody>
       </table>
-    </div>
+    </td>
   );
 }

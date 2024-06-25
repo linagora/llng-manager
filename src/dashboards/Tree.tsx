@@ -3,13 +3,13 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { SimpleTreeView } from "@mui/x-tree-view";
 import { TreeItem2 } from "@mui/x-tree-view/TreeItem2";
-import { t } from "i18next";
 import { useState } from "react";
 import attributes from "../static/attributes.json";
 import { llngConfig } from "../utils/types";
-import { TreeNode } from "./TreeNode";
+import { TreeNodeForm, TreeNodeType } from "./TreeNode";
+import { recursTree } from "./recursTree";
 
-const confFieldsEq = {
+export const confFieldsEq = {
   casAppMetaDataNode: "casAppMetaDataExportedVars",
   casSrvMetaDataNode: "casSrvMetaDataExportedVars",
   oidcOPMetaDataNode: "oidcOPMetaDataExportedVars",
@@ -25,108 +25,6 @@ export interface treeFormat {
   form?: string;
   children?: treeFormat[];
 }
-function recursTree(
-  tree: any,
-  config: llngConfig,
-  parentId: string,
-  ctree?: any
-): treeFormat {
-  if (typeof tree === "string") {
-    const id = tree.slice(0, -1);
-    if (ctree ? ctree[id as keyof typeof ctree] : false) {
-      return {
-        label: t(tree),
-        type: attributes[tree as keyof typeof attributes]?.type,
-        id: `${parentId}.${tree}`,
-        children: Object.keys(
-          config[
-            confFieldsEq[id as keyof typeof confFieldsEq] as keyof llngConfig
-          ] as Record<string, string>
-        ).map((el) => {
-          return {
-            label: t(el),
-            type: attributes[ctree.title as keyof typeof attributes]?.type,
-            form: ctree.form,
-            id: `${parentId}.${el}`,
-            children: ctree[id as keyof typeof ctree].map((node: any) => {
-              return recursTree(node, config, `${parentId}.${el}`);
-            }),
-          };
-        }) as Array<treeFormat>,
-      };
-    }
-    return {
-      label: t(tree),
-      type: attributes[tree as keyof typeof attributes]?.type,
-      id: `${parentId}.${tree}`,
-    };
-  } else {
-    const choices = [
-      config.authentication,
-      config.registerDB,
-      config.passwordDB,
-      config.userDB,
-    ];
-    const selectedOptions = [
-      config.authentication,
-      config.registerDB,
-      config.passwordDB,
-      config.userDB,
-      ...Object.keys(
-        choices.includes("Choice")
-          ? config.authChoiceModules
-            ? config.authChoiceModules
-            : {}
-          : {}
-      ).flatMap((key) => {
-        if (config.authChoiceModules) {
-          return config.authChoiceModules[key].split(";").splice(0, 3);
-        }
-        return [];
-      }),
-    ].map(
-      (el) => `${el === "OpenIDConnect" ? "oidc" : el?.toLowerCase()}Params`
-    );
-
-    if (tree.nodes_cond) {
-      console.log("aaaak");
-      return {
-        label: t(tree.title),
-        form: tree.form,
-        type: attributes[tree.title as keyof typeof attributes]?.type,
-        id: `${parentId}.${tree.title}`,
-        children: tree.nodes
-          ?.map((node: any) => {
-            return recursTree(node, config, `${parentId}.${tree.title}`, ctree);
-          })
-          .concat(
-            tree.nodes_cond
-              ?.map((condNode: any) => {
-                return recursTree(
-                  condNode,
-                  config,
-                  `${parentId}.${tree.title}`,
-                  ctree
-                );
-              })
-              .filter((el: any) =>
-                selectedOptions.includes(el.id.split(".").at(-1))
-              )
-          ),
-      };
-    }
-    return {
-      label: t(tree.title),
-      form: tree.form,
-      type: attributes[tree.title as keyof typeof attributes]?.type,
-      id: `${parentId}.${tree.title}`,
-      children: tree.nodes?.map((node: any) => {
-        return recursTree(node, config, `${parentId}.${tree.title}`, ctree);
-      }),
-    };
-  }
-}
-
 const renderTree = (nodes: treeFormat, handleClick: Function) => (
   <TreeItem2
     key={nodes.id}
@@ -193,33 +91,151 @@ export default function TreeRender({
           <div>
             <table style={{ width: "100%" }}>
               <tbody>
-                {selectedItem.children?.map((child) => (
-                  <tr>
-                    <td>
-                      <TreeNode
-                        node={(child || {}) as treeFormat}
-                        data={
-                          config[
-                            child.id?.split(".").at(-1) as keyof llngConfig
-                          ]
-                        }
-                      />
-                    </td>
-                  </tr>
-                ))}
+                <TreeNodeForm
+                  node={(selectedItem || {}) as treeFormat}
+                  data={getDataFromSelected(selectedItem, config)}
+                />
               </tbody>
             </table>
           </div>
         )}
-        {selectedItem?.type && (
-          <TreeNode
-            node={(selectedItem || {}) as treeFormat}
-            data={
-              config[selectedItem.id?.split(".").at(-1) as keyof llngConfig]
-            }
-          />
+        {selectedItem?.type && !selectedItem?.form && (
+          <div>
+            <table style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <TreeNodeType
+                    node={(selectedItem || {}) as treeFormat}
+                    data={getDataFromSelected(selectedItem, config)}
+                  />
+                </tr>
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
   );
+}
+
+function getDataFromSelected(selectedItem: treeFormat, config: llngConfig) {
+  const specialName = selectedItem.id.split(";").at(-2) || "";
+  switch (selectedItem.id.split(";").at(-1)) {
+    case "samlSPMetaDataNodes":
+      return config.samlSPMetaDataXML;
+    case "samlIDPMetaDataNodes":
+      return config.samlIDPMetaDataXML;
+    case "oidcRPMetaDataNodes":
+      return config.oidcRPMetaDataOptions;
+    case "oidcOPMetaDataNodes":
+      return config.oidcOPMetaDataOptions;
+    case "casAppMetaDataNodes":
+      return config.casAppMetaDataOptions;
+    case "casSrvMetaDataNodes":
+      return config.casSrvMetaDataOptions;
+    case "virtualHosts":
+      return config.locationRules;
+    case "locationRules":
+      return config.locationRules ? config.locationRules[specialName] : {};
+    case "exportedHeaders":
+      return config.exportedHeaders ? config.exportedHeaders[specialName] : {};
+    case "post":
+      return config.post ? config.post[specialName] : {};
+    case "vhostOptions":
+      return config.vhostOptions ? config.vhostOptions[specialName] : {};
+    case "samlServiceSecuritySig":
+      return {
+        values: {
+          priv: config.samlServicePublicKeySig,
+          hash: config.samlServicePrivateKeySigPwd,
+          pub: config.samlServicePublicKeySig,
+        },
+        fieldNames: {
+          priv: "samlServicePrivateKeySig",
+          hash: "samlServicePrivateKeySigPwd",
+          pub: "samlServicePublicKeySig",
+        },
+      };
+    case "samlServiceSecurityEnc":
+      return {
+        values: {
+          priv: config.samlServicePublicKeyEnc,
+          hash: config.samlServicePrivateKeyEncPwd,
+          pub: config.samlServicePublicKeyEnc,
+        },
+        fieldNames: {
+          priv: "samlServicePrivateKeyEnc",
+          hash: "samlServicePrivateKeyEncPwd",
+          pub: "samlServicePublicKeyEnc",
+        },
+      };
+    case "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect":
+      return {
+        values:
+          config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect ||
+          attributes.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect.default,
+        fieldName: "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect",
+      };
+    case "samlSPSSODescriptorSingleLogoutServiceHTTPPost":
+      return {
+        values:
+          config.samlSPSSODescriptorSingleLogoutServiceHTTPPost ||
+          attributes.samlSPSSODescriptorSingleLogoutServiceHTTPPost.default,
+        fieldName: "samlSPSSODescriptorSingleLogoutServiceHTTPPost",
+      };
+    case "samlSPSSODescriptorSingleLogoutServiceSOAP":
+      return {
+        values:
+          config.samlSPSSODescriptorSingleLogoutServiceSOAP ||
+          attributes.samlSPSSODescriptorSingleLogoutServiceSOAP.default,
+        fieldName: "samlSPSSODescriptorSingleLogoutServiceSOAP",
+      };
+    case "samlIDPMetaDataXML":
+      console.log(
+        config.samlIDPMetaDataXML
+          ? config.samlIDPMetaDataXML[specialName].samlIDPMetaDataXML
+          : ""
+      );
+      return config.samlIDPMetaDataXML
+        ? config.samlIDPMetaDataXML[specialName].samlIDPMetaDataXML
+        : "" || "";
+    case "samlSPMetaDataXML":
+      return config.samlSPMetaDataXML
+        ? config.samlSPMetaDataXML[specialName].samlSPMetaDataXML
+        : "" || "";
+    case "oidcRPMetaDataMacros":
+      return config.oidcRPMetaDataMacros
+        ? config.oidcRPMetaDataMacros[specialName]
+        : {};
+    case "samlSPMetaDataMacros":
+      return config.samlSPMetaDataMacros
+        ? config.samlSPMetaDataMacros[specialName]
+        : {};
+    case "samlIDPMetaDataExportedAttributes":
+      return {
+        value: config.samlIDPMetaDataExportedAttributes
+          ? config.samlIDPMetaDataExportedAttributes[specialName]
+          : {},
+        fieldName: "samlIDPMetaDataExportedAttributes",
+      };
+    case "samlSPMetaDataExportedAttributes":
+      return {
+        value: config.samlSPMetaDataExportedAttributes
+          ? config.samlSPMetaDataExportedAttributes[specialName]
+          : {},
+        fieldName: "samlSPMetaDataExportedAttributes",
+      };
+    default:
+      // if (selectedItem.id.includes("samlSPMetaDataOptions")) {
+      //   return getDataFromSelected(
+      //     selectedItem,
+      //     (config.samlSPMetaDataOptions
+      //       ? config.samlSPMetaDataOptions[specialName]
+      //       : {}) as unknown as llngConfig
+      //   );
+      // }
+      const data =
+        config[selectedItem.id?.split(";").at(-1) as keyof llngConfig];
+      return data !== undefined ? data : config;
+  }
 }

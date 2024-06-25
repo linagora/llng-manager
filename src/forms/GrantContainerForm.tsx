@@ -16,7 +16,7 @@ export default function GrantContainerForm({
   const attribute = attributes[fieldName as keyof typeof attributes];
 
   return (
-    <div>
+    <>
       <Tooltip
         title={
           <Markdown>
@@ -26,37 +26,39 @@ export default function GrantContainerForm({
           </Markdown>
         }
       >
-        <strong className="title3">{t(fieldName)}</strong>
+        <th className="title3">{t(fieldName)}</th>
       </Tooltip>
-      <table>
-        <thead>
-          <tr>
-            <th>{t("comments")}</th>
-            <th>{t("rules")}</th>
-            <th>{t("messages")}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(value).map((key) => {
-            const [message, comments] = key.split("##");
-            return (
-              <tr>
-                <td>
-                  <TextField size="small" value={comments || ""} />
-                </td>
-                <td>
-                  <TextField size="small" value={value[key] || ""} />
-                </td>
-                <td>
-                  <TextField size="small" value={message || ""} />
-                </td>
-                <td></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+      <td>
+        <table>
+          <thead>
+            <tr>
+              <th>{t("comments")}</th>
+              <th>{t("rules")}</th>
+              <th>{t("messages")}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(value).map((key) => {
+              const [message, comments] = key.split("##");
+              return (
+                <tr>
+                  <td>
+                    <TextField size="small" value={comments || ""} />
+                  </td>
+                  <td>
+                    <TextField size="small" value={value[key] || ""} />
+                  </td>
+                  <td>
+                    <TextField size="small" value={message || ""} />
+                  </td>
+                  <td></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </td>
+    </>
   );
 }

@@ -33,6 +33,7 @@ export function SimpleAuthParams() {
   const authModule = useAppSelector(
     (state) => state.config.data.config.authentication
   );
+  const userDB = useAppSelector((state) => state.config.data.config.userDB);
   const registerDB = useAppSelector(
     (state) => state.config.data.config.registerDB
   );
@@ -52,7 +53,9 @@ export function SimpleAuthParams() {
       k: "LDAP",
       v: "LDAP",
     },
+    { k: "adv", v: "Advanced Configuration" },
   ];
+  const [optionSelected, setOptionSelected] = useState(authModule);
 
   const configNum = useAppSelector((state) =>
     state.router.location?.hash.replace("#authParams/", "")
@@ -68,9 +71,40 @@ export function SimpleAuthParams() {
     } else if (configNum === "latest" && config.data.metadata.next) {
       dispatch(getConfigAsync());
     }
-  }, [dispatch, configNum, config.data.metadata]);
+    if (
+      authModule === "Demo" &&
+      userDB === "Same" &&
+      registerDB === "Demo" &&
+      passwordDB === "Demo"
+    ) {
+      setOptionSelected("Demo");
+    } else if (
+      authModule === "LDAP" &&
+      userDB === "Same" &&
+      registerDB === "LDAP" &&
+      passwordDB === "LDAP"
+    ) {
+      setOptionSelected("LDAP");
+    } else if (
+      authModule === "Kerberos" &&
+      userDB === "AD" &&
+      registerDB === "AD" &&
+      passwordDB === "AD"
+    ) {
+      setOptionSelected("AD+K");
+    } else {
+      setOptionSelected("adv");
+    }
+  }, [
+    dispatch,
+    configNum,
+    config.data.metadata,
+    authModule,
+    userDB,
+    registerDB,
+    passwordDB,
+  ]);
 
-  const [optionSelected, setOptionSelected] = useState(authModule);
   try {
     return (
       <div>
@@ -207,6 +241,9 @@ export function SimpleAuthParams() {
         </div>
 
         <div className="options">
+          {optionSelected === "adv" && (
+            <div>Use the Advanced Panel to manage your configuration.</div>
+          )}
           {(optionSelected === "LDAP" || optionSelected === "AD+K") && (
             <LDAPSimpleView />
           )}
