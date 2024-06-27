@@ -1,112 +1,191 @@
-import { Divider, Paper, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import { SimpleTreeView } from "@mui/x-tree-view";
-import { TreeItem2 } from "@mui/x-tree-view/TreeItem2";
-import { useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { Box, Divider, Paper, Typography } from "@mui/material";
+import { RefObject, useRef, useState } from "react";
+import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
+import useResizeObserver from "use-resize-observer";
 import attributes from "../static/attributes.json";
 import { llngConfig } from "../utils/types";
 import { TreeNodeForm, TreeNodeType } from "./TreeNode";
-import { recursTree } from "./recursTree";
+import { recursTree, treeFormat } from "./recursTree";
+import { TreeNode, findElementByTitleOrValue } from "./searchIntree";
 
-export const confFieldsEq = {
-  casAppMetaDataNode: "casAppMetaDataExportedVars",
-  casSrvMetaDataNode: "casSrvMetaDataExportedVars",
-  oidcOPMetaDataNode: "oidcOPMetaDataExportedVars",
-  oidcRPMetaDataNode: "oidcRPMetaDataOptions",
-  samlIDPMetaDataNode: "samlIDPMetaDataXML",
-  samlSPMetaDataNode: "samlSPMetaDataXML",
-  virtualHost: "locationRules",
-};
-export interface treeFormat {
-  id: string;
-  label: string;
-  type?: string;
-  form?: string;
-  children?: treeFormat[];
+function ToggleConfTree(
+  itemId: string,
+  treeRef: RefObject<TreeApi<treeFormat>>,
+  tree: (string | TreeNode)[],
+  ctree: Record<string, (string | TreeNode)[]>,
+  config: llngConfig,
+  treeData: treeFormat[],
+  setTreeData: Function
+): void {
+  const item = treeRef.current?.get(itemId)?.data;
+  const idCond = (itemId.split(";").at(1) || "").slice(0, -1);
+  if (item) {
+    item.children = item.children?.map((node: any) => {
+      if (node?.children) {
+        node.children = node?.children.map((child: any) => {
+          const childId = child.id.split(";").at(-1) || "";
+          const foundElement =
+            findElementByTitleOrValue(tree, childId) ||
+            (ctree[idCond]
+              ? findElementByTitleOrValue(ctree[idCond], childId)
+              : null);
+
+          if (foundElement) {
+            child = recursTree(foundElement || "", config, node.id, ctree);
+          }
+
+          return child;
+        });
+      } else {
+        const id = node.id.split(";").at(-1) || "";
+        const foundElement =
+          findElementByTitleOrValue(tree, id) ||
+          (ctree[idCond] ? findElementByTitleOrValue(ctree[idCond], id) : null);
+
+        if (foundElement) {
+          return recursTree(foundElement || "", config, item.id, ctree);
+        } else if (config[id as keyof llngConfig]) {
+          if (node.type === "catAndAppList") {
+            console.log(id, config[id as keyof llngConfig]);
+            node.children = Object.keys(
+              config[id as keyof llngConfig] as Record<
+                string,
+                Record<string, string>
+              >
+            ).map((el) => {
+              return {
+                name: (
+                  config[id as keyof llngConfig] as Record<
+                    string,
+                    Record<string, any>
+                  >
+                )[el].catname,
+                id: `${node.id};${el}`,
+                type: (
+                  config[id as keyof llngConfig] as Record<
+                    string,
+                    Record<string, any>
+                  >
+                )[el].type,
+                children: Object.keys(
+                  (
+                    config[id as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el]
+                )
+                  .filter((key) => key !== "type" && key !== "catname")
+                  .map((key) => {
+                    return {
+                      name: (
+                        config[id as keyof llngConfig] as Record<
+                          string,
+                          Record<string, any>
+                        >
+                      )[el][key].options.name,
+                      id: `${node.id};${el}:${key}`,
+                      type: "application",
+                    };
+                  }),
+              };
+            });
+          }
+        }
+      }
+      return node;
+    });
+
+    const updatedData = treeData;
+    setTreeData(updatedData);
+  }
 }
-const renderTree = (nodes: treeFormat, handleClick: Function) => (
-  <TreeItem2
-    key={nodes.id}
-    itemId={nodes.id}
-    label={
-      <div onClick={() => handleClick(nodes)}>
-        <Typography variant="body1">{nodes.label}</Typography>
-        {nodes.type && (
-          <Typography variant="body2" color="textSecondary">
-            type: {nodes.type}
-          </Typography>
-        )}
-        {nodes?.form && (
-          <Typography variant="caption" color="textSecondary">
-            form: {nodes.form}
-          </Typography>
-        )}
-      </div>
-    }
-  >
-    {Array.isArray(nodes.children)
-      ? nodes.children.map((node) => renderTree(node, handleClick))
-      : null}
-  </TreeItem2>
-);
 
 export default function TreeRender({
   tree,
   ctree,
   config,
 }: {
-  tree: Array<Object>;
-  ctree: Object;
+  tree: Array<string | TreeNode>;
+  ctree: Record<string, Array<string | TreeNode>>;
   config: llngConfig;
 }) {
-  const data = tree.map((el: any) => recursTree(el, config, "root", ctree));
-  const [selectedItem, setSelectedItem] = useState({} as treeFormat);
+  const treeRef = useRef<TreeApi<treeFormat>>(null);
+  const ITEMS = tree.map((el: any) => recursTree(el, config, "root", ctree));
+  const [selectedItem, setSelectedItem] = useState<NodeApi<treeFormat> | null>(
+    null
+  );
+  const [treeData, setTreeData] = useState<treeFormat[]>(ITEMS);
+  const { ref, width, height = 1 } = useResizeObserver();
 
-  const handleNodeClick = (node: treeFormat) => {
-    console.log("Clicked node:", node);
-    setSelectedItem(node);
-    // You can handle the node data here as needed
-  };
   return (
-    <div style={{ display: "flex", textAlign: "left" }}>
-      <div className="clickable-labels">
-        <Stack spacing={2}>
-          <Box sx={{ height: "80vh", overflowY: "scroll", minWidth: 250 }}>
-            <SimpleTreeView>
-              {data.map((node) => renderTree(node, handleNodeClick))}
-            </SimpleTreeView>
-          </Box>
-        </Stack>
-      </div>
+    <div style={{ display: "flex", textAlign: "left", height: "85vh" }}>
+      <Box
+        sx={{ flexGrow: 1, textAlign: "left", height: "90%", width: "35%" }}
+        ref={ref}
+      >
+        {width} {height}
+        <Tree
+          disableDrag={true}
+          ref={treeRef}
+          onToggle={(itemId) =>
+            ToggleConfTree(
+              itemId,
+              treeRef,
+              tree,
+              ctree,
+              config,
+              treeData,
+              setTreeData
+            )
+          }
+          height={height}
+          width={width}
+          onFocus={(node) => {
+            setSelectedItem(node);
+          }}
+          initialData={ITEMS}
+          openByDefault={false}
+        >
+          {Node}
+        </Tree>
+      </Box>
       <Divider orientation="vertical" flexItem />
       <div style={{ width: "100%" }}>
         <Paper style={{ backgroundColor: "lightgrey" }}>menu</Paper>
         <div>
           <strong>Clicked Node</strong>
-          {`: ${selectedItem?.id}, `}
+          {`: ${selectedItem?.data?.id}, `}
+          <Typography variant="body2" color="textSecondary">
+            type: {selectedItem?.data.type}
+          </Typography>
+          <Typography variant="caption" color="textSecondary">
+            form: {selectedItem?.data.form}
+          </Typography>
         </div>
-        {/* <div>{JSON.stringify(selectedItem)}</div> */}
-        {selectedItem?.form && (
+        {selectedItem?.data?.form && (
           <div>
             <table style={{ width: "100%" }}>
               <tbody>
                 <TreeNodeForm
-                  node={(selectedItem || {}) as treeFormat}
-                  data={getDataFromSelected(selectedItem, config)}
+                  node={(selectedItem.data || {}) as treeFormat}
+                  data={getDataFromSelected(selectedItem.data, config)}
                 />
               </tbody>
             </table>
           </div>
         )}
-        {selectedItem?.type && !selectedItem?.form && (
+        {selectedItem?.data?.type && !selectedItem?.data?.form && (
           <div>
             <table style={{ width: "100%" }}>
               <tbody>
                 <tr>
                   <TreeNodeType
-                    node={(selectedItem || {}) as treeFormat}
-                    data={getDataFromSelected(selectedItem, config)}
+                    node={(selectedItem.data || {}) as treeFormat}
+                    data={getDataFromSelected(selectedItem.data, config)}
                   />
                 </tr>
               </tbody>
@@ -114,6 +193,45 @@ export default function TreeRender({
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Node({ node, style }: NodeRendererProps<treeFormat>) {
+  const Icon = node.isInternal
+    ? node.isOpen
+      ? KeyboardArrowDownIcon
+      : KeyboardArrowRightIcon
+    : EditIcon;
+
+  return (
+    <div
+      style={{
+        ...style,
+        cursor: "pointer",
+      }}
+      onClick={() => {
+        if (node.data.form !== "simpleInputContainer") {
+          node.toggle();
+        }
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: `${node.data.id.split(";").length * 5}px`,
+        }}
+      >
+        <Icon />
+        <Typography
+          variant="body1"
+          style={{ marginLeft: "8px", wordBreak: "break-word" }}
+        >
+          {node?.data.name}
+        </Typography>
+      </div>
+      <Divider flexItem />
     </div>
   );
 }

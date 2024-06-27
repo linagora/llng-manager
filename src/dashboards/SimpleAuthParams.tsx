@@ -24,7 +24,6 @@ import {
   updateAuthParams,
   updateModuleOpt,
 } from "../features/config/configSlice";
-import attributes from "../static/attributes.json";
 import "./AuthParams.css";
 export function SimpleAuthParams() {
   const dispatch = useAppDispatch();
@@ -118,10 +117,7 @@ export function SimpleAuthParams() {
               labelId="authenticationLabel"
               label={t("authentication")}
               size="small"
-              value={
-                (authModule === "Kerberos" ? "AD+K" : authModule) ||
-                attributes.authentication.default
-              }
+              value={optionSelected}
               onChange={(e) => {
                 if (e.target.value === "AD+K") {
                   dispatch(
@@ -152,7 +148,7 @@ export function SimpleAuthParams() {
                       })
                     );
                   }
-                } else {
+                } else if (e.target.value !== "adv") {
                   dispatch(
                     updateAuthParams({
                       param: "authentication",
@@ -278,9 +274,6 @@ export function SimpleAuthParams() {
               {ADKoptionSelected === "Kerberos" && <KerberosSimpleView />}
               {ADKoptionSelected === "LDAP" && <LDAPSimpleView />}
             </>
-          )}
-          {optionSelected === "adv" && (
-            <div>Use the Advanced Panel to manage your configuration.</div>
           )}
           {optionSelected === "Demo" && (
             <div className="appDesc">

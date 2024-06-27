@@ -26,7 +26,7 @@ import TroolForm from "../forms/TroolForm";
 import UrlForm from "../forms/UrlForm";
 import VirtualHostContainerForm from "../forms/VirtualHostContainerForm";
 import { llngConfig } from "../utils/types";
-import { treeFormat } from "./Tree";
+import { treeFormat } from "./recursTree";
 
 export function TreeNodeType({
   node,
@@ -289,11 +289,7 @@ export function TreeNodeType({
         />
       );
     default:
-      return (
-        <td>
-          {node.type} : {JSON.stringify(data)}
-        </td>
-      );
+      return <></>;
   }
 }
 
@@ -314,7 +310,7 @@ export function TreeNodeForm({ node, data }: { node: treeFormat; data: any }) {
       i = 0;
       return (
         <>
-          {node.children?.map((child) => {
+          {node.children?.map((child: treeFormat) => {
             i++;
             return (
               <tr key={i}>
@@ -331,7 +327,7 @@ export function TreeNodeForm({ node, data }: { node: treeFormat; data: any }) {
       i = 0;
       return (
         <>
-          {node.children?.map((child) => {
+          {node.children?.map((child: treeFormat) => {
             i++;
             return (
               <tr key={i}>
@@ -345,10 +341,6 @@ export function TreeNodeForm({ node, data }: { node: treeFormat; data: any }) {
         </>
       );
     default:
-      return (
-        <div>
-          {node.type} : {data}
-        </div>
-      );
+      return <></>;
   }
 }
