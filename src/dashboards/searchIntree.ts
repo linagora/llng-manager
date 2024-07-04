@@ -1,50 +1,172 @@
-export interface TreeNode {
-  form?: string;
-  help?: string;
-  nodes_cond?: (TreeNode | string)[];
-  nodes?: (TreeNode | string)[];
-  title: string;
-  group?: string[];
-}
+import { llngConfig } from "../utils/types";
+import { TreeNode, confFieldsEq, treeFormat } from "./recursTree";
 
 export function findElementByTitleOrValue(
-  arr: (TreeNode | string)[],
+  arr: TreeNode[],
   searchTerm: string
-): TreeNode | string | undefined {
+): TreeNode | undefined {
   for (const element of arr) {
-    if (typeof element === "object" && element !== null) {
-      if (element.title === searchTerm) {
+    if (element) {
+      if (element.id === searchTerm) {
         return element;
       }
-      if (element.nodes) {
+      if (element._nodes) {
         const result =
-          findElementByTitleOrValue(element.nodes, searchTerm) ||
-          (element.nodes_cond
-            ? findElementByTitleOrValue(element.nodes_cond, searchTerm)
+          findElementByTitleOrValue(element._nodes, searchTerm) ||
+          (element._nodes_cond
+            ? findElementByTitleOrValue(element._nodes_cond, searchTerm)
             : undefined);
         if (result) {
           return result;
         }
       }
-    }
-  }
-}
-
-export function findElementByTitleOrValueCtree(
-  arr: (TreeNode | string)[],
-  searchTerm: string
-): TreeNode | string | undefined {
-  for (const element of arr) {
-    if (typeof element === "object" && element !== null) {
-      if (element.title === searchTerm) {
-        return element;
-      }
-      if (element.nodes) {
-        const result = findElementByTitleOrValue(element.nodes, searchTerm);
+      if (element.cnodes) {
+        const result = findElementByTitleOrValue(element.cnodes, searchTerm);
         if (result) {
           return result;
         }
       }
     }
   }
+}
+
+export function findElementInConf(config: llngConfig, node: treeFormat): any {
+  const searchedId = node.id.split(";").at(-1) || "";
+  let result: any;
+
+  if (node.app) {
+    const appfields = Object.keys(config)
+      .map((key) => {
+        const val = (config[key as keyof llngConfig] || {}) as Record<
+          string,
+          any
+        >;
+        const returnObject: Record<string, any> = {};
+
+        if (val[node.app || ""]) {
+          returnObject[key] = val[node.app || ""];
+          return returnObject;
+        }
+        return null;
+      })
+      .filter(Boolean);
+
+    for (const el of appfields) {
+      if (el && Object.keys(el).includes(searchedId)) {
+        console.log("found: ", el);
+        return el[searchedId];
+      }
+
+      for (const field of appfields) {
+        const found = recursSearchConf(field, searchedId);
+        if (found !== undefined) {
+          result = found;
+          break;
+        }
+      }
+
+      if (result !== undefined || result !== null) break;
+    }
+    if (searchedId.includes("XML")) {
+      return result[searchedId];
+    }
+    return result;
+  } else if (Object.keys(confFieldsEq).includes(searchedId.slice(0, -1))) {
+    return config[
+      confFieldsEq[
+        searchedId.slice(0, -1) as keyof typeof confFieldsEq
+      ] as keyof llngConfig
+    ];
+  } else {
+    return recursSearchConf(config, searchedId);
+  }
+}
+
+function recursSearchConf(conf: any, id: string): any {
+  if (typeof conf !== "object" || conf === null) {
+    return undefined;
+  }
+
+  for (const key of Object.keys(conf)) {
+    if (key === id) {
+      return conf[key];
+    }
+
+    const found = recursSearchConf(conf[key], id);
+    if (found !== undefined) {
+      return found;
+    }
+  }
+
+  return undefined;
+}
+
+export function changeElementInConf(
+  config: llngConfig,
+  node: treeFormat,
+  obj: any
+) {
+  const searchedId = node.id.split(";").at(-1) || "";
+  let found = false;
+  if (node.app) {
+    for (const key in config) {
+      const val = (config[key as keyof llngConfig] || {}) as Record<
+        string,
+        any
+      >;
+      const el = val[node.app || ""];
+      console.debug("Searching ", searchedId, " in ", el);
+      if (el) {
+        if (Object.keys(el).includes(searchedId)) {
+          console.log("changing: ", el);
+          el[searchedId] = obj;
+          return true;
+        }
+        found = recursChangeConf(el, searchedId, obj);
+        if (found) {
+          return found;
+        } else {
+          node.id.split(";").forEach((nook) => {
+            console.log("looking at ", nook, node.id.split(";"));
+            Object.keys(config).forEach((key) => {
+              if (key === nook || nook.includes(key)) {
+                ((config[key as keyof llngConfig] as any)[node.app || ""][
+                  searchedId
+                ] as any) = obj;
+                return true;
+              }
+            });
+          });
+        }
+      }
+    }
+  } else if (Object.keys(confFieldsEq).includes(searchedId.slice(0, -1))) {
+    (config[
+      confFieldsEq[
+        searchedId.slice(0, -1) as keyof typeof confFieldsEq
+      ] as keyof llngConfig
+    ] as any) = obj;
+    return true;
+  } else {
+    found = recursChangeConf(config, searchedId, obj);
+    if (!found) {
+      (config[searchedId as keyof llngConfig] as any) = obj;
+    }
+  }
+}
+
+function recursChangeConf(conf: any, id: string, obj: any): boolean {
+  if (typeof conf !== "object" || conf === null) {
+    return false;
+  }
+
+  for (const key of Object.keys(conf)) {
+    if (key === id) {
+      console.log("found ", key, " and changed to ", obj);
+      conf[key] = obj;
+      return true;
+    }
+    return recursSearchConf(conf[key], id);
+  }
+  return false;
 }

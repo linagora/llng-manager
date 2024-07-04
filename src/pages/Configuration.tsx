@@ -1,7 +1,7 @@
 import TuneIcon from "@mui/icons-material/Tune";
 import { Breadcrumbs, IconButton, Link } from "@mui/material";
 import { t } from "i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AddApp from "../components/managerComponents/AddApp";
@@ -11,8 +11,7 @@ import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
 import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
 import TreeRender from "../dashboards/Tree";
-import ctree from "../static/ctrees.json";
-import tree from "../static/tree.json";
+import { getTree } from "../utils/getTree";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
 
@@ -25,6 +24,17 @@ export function Configuration({
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
   const [authSimple, setAuthSimple] = useState(true);
+  const [tree, setTree] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (location.type === "tree") {
+        const tree = await getTree();
+        setTree(tree.data);
+      }
+    }
+    fetchData();
+  }, [location.type]);
 
   switch (location.type) {
     case "app":
@@ -145,7 +155,8 @@ export function Configuration({
               {t(location.info.name)}
             </Link>
           </Breadcrumbs>
-          <TreeRender tree={tree} ctree={ctree} config={config} />
+          <TreeRender tree={tree ? tree : undefined} config={config} />
+
           <SaveButton />
         </div>
       );

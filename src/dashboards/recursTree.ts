@@ -1,14 +1,25 @@
 import { t } from "i18next";
 import attributes from "../static/attributes.json";
 import { llngConfig } from "../utils/types";
-import { TreeNode } from "./searchIntree";
+
+export interface TreeNode {
+  help?: string;
+  cnodes?: TreeNode[];
+  template?: string;
+  _nodes_cond?: TreeNode[];
+  _nodes?: TreeNode[];
+  title: string;
+  id?: string;
+  type?: string;
+  get?: string;
+}
 
 export interface treeFormat {
   id: string;
   name: string;
   type?: string;
-  form?: string;
   children?: treeFormat[];
+  app?: string;
 }
 
 export const confFieldsEq = {
@@ -22,18 +33,18 @@ export const confFieldsEq = {
 };
 
 export function recursTree(
-  tree: TreeNode | string,
+  tree: TreeNode,
   config: llngConfig,
   parentId: string,
-  ctree?: any
+  app?: string
 ): treeFormat {
-  if (typeof tree === "string") {
-    const id = tree.slice(0, -1);
+  if (tree.cnodes && typeof tree.cnodes === "object") {
+    const id = tree.title?.slice(0, -1) || "";
     if (Object.keys(confFieldsEq).includes(id)) {
       return {
-        name: t(tree),
-        type: attributes[id as keyof typeof attributes]?.type,
-        id: `${parentId};${tree}`,
+        name: t(tree.title),
+        type: attributes[tree.title as keyof typeof attributes]?.type,
+        id: `${parentId};${tree.title}`,
         children: Object.keys(
           (config[
             confFieldsEq[id as keyof typeof confFieldsEq] as keyof llngConfig
@@ -42,55 +53,47 @@ export function recursTree(
           return {
             name: t(el),
             type: id,
-            form: ctree.form,
-            id: `${parentId};${tree};${el}`,
-            children: ctree[id as keyof typeof ctree].map((node: any) => {
-              // return recursTree(node, config, `${parentId};${el}`);
-              return {
-                name: t(node.title ? node.title : node),
-                type: attributes[
-                  (node.title ? node.title : node) as keyof typeof attributes
-                ]?.type,
-                form: node.form,
-                id: `${parentId};${tree};${el};${
-                  node.title ? node.title : node
-                }`,
-              };
+            app: el,
+            id: `${parentId};${tree.title};${el}`,
+            children: tree.cnodes?.map((node: any) => {
+              return recursTree(
+                node,
+                config,
+                `${parentId};${tree.title};${el}`,
+                el
+              );
             }),
           };
         }) as Array<treeFormat>,
-      };
-    } else if (config[tree as keyof typeof config] instanceof Object) {
-      return {
-        name: t(tree),
-        type: attributes[tree as keyof typeof attributes]?.type,
-        id: `${parentId};${tree}`,
+        app: app,
       };
     }
-    return {
-      name: t(tree),
-      type: attributes[tree as keyof typeof attributes]?.type,
-      id: `${parentId};${tree}`,
-    };
-  } else {
-    if (tree.nodes_cond) {
-      tree.nodes = tree.nodes?.concat(tree.nodes_cond);
+  } else if (tree._nodes) {
+    if (tree._nodes_cond) {
+      tree._nodes = tree._nodes.concat(tree._nodes_cond);
     }
     return {
       name: t(tree.title),
-      form: tree.form,
-      type: attributes[tree.title as keyof typeof attributes]?.type,
+      type:
+        tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
       id: `${parentId};${tree.title}`,
-      children: tree.nodes?.map((node: any) => {
+      children: tree._nodes?.map((node: any) => {
         return {
-          name: t(node.title ? node.title : node),
-          type: attributes[
-            (node.title ? node.title : node) as keyof typeof attributes
-          ]?.type,
-          form: node.form,
-          id: `${parentId};${tree.title};${node.title ? node.title : node}`,
+          name: t(node.title),
+          type:
+            node.type ||
+            attributes[node.title as keyof typeof attributes]?.type,
+          id: `${parentId};${tree.title};${node.title}`,
+          app: app,
         };
       }),
+      app: app,
     };
   }
+  return {
+    name: t(tree.title),
+    type: tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
+    id: `${parentId};${tree.title}`,
+    app: app,
+  };
 }

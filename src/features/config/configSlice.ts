@@ -4,6 +4,8 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
+import { treeFormat } from "../../dashboards/recursTree";
+import { changeElementInConf } from "../../dashboards/searchIntree";
 import attributes from "../../static/attributes.json";
 import { MetaData, llngConfig } from "../../utils/types";
 import { getConfig, getMetadataConfig, saveConfig } from "./configAPI";
@@ -977,6 +979,17 @@ const configSlice = createSlice({
       }
       state.data.config.issuerDBGetParameters[action.payload]["new"] = "";
     },
+    changeConf(
+      state,
+      action: PayloadAction<{ node: treeFormat; newValue: any }>
+    ) {
+      console.debug("launched func");
+      changeElementInConf(
+        state.data.config,
+        action.payload.node,
+        action.payload.newValue
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -1127,5 +1140,6 @@ export const {
   newGetParam,
   delGetParamOption,
   newGetParamOption,
+  changeConf,
 } = configSlice.actions;
 export default configSlice.reducer;

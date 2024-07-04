@@ -18,39 +18,40 @@ export default function KeyTextContainerForm({
   const attribute = attributes[fieldName as keyof typeof attributes];
 
   return (
-    <td className="box">
+    <>
       <th className="title2">{t(fieldName)}</th>
-
-      <table id="exportedVars">
-        <thead>
-          <tr>
-            <th>{t("keys")}</th>
-            <Tooltip
-              title={
-                <Markdown>{definitions.casAppMetaDataExportedVars}</Markdown>
-              }
-            >
-              <th>{t("values")}</th>
-            </Tooltip>
-            <th>
-              <IconButton className="plus">
-                <AddCircleIcon color="success" />
-              </IconButton>
-            </th>
-          </tr>
-        </thead>
-        <TableVars
-          appName={"test"}
-          vars={value}
-          tableID={"exportedVars"}
-          dispatch={console.log}
-          delFunction={console.log}
-          updateFunction={console.log}
-        />
-      </table>
-      <IconButton className="plus">
-        <AddCircleIcon color="success" />
-      </IconButton>
-    </td>
+      <td>
+        <table id="exportedVars">
+          <thead>
+            <tr>
+              <th>{t("keys")}</th>
+              <Tooltip
+                title={
+                  <Markdown>{definitions.casAppMetaDataExportedVars}</Markdown>
+                }
+              >
+                <th>{t("values")}</th>
+              </Tooltip>
+              <th>
+                <IconButton className="plus">
+                  <AddCircleIcon color="success" />
+                </IconButton>
+              </th>
+            </tr>
+          </thead>
+          <TableVars
+            appName={"test"}
+            vars={value || {}}
+            tableID={"exportedVars"}
+            dispatch={console.log}
+            delFunction={console.log}
+            updateFunction={console.log}
+          />
+        </table>
+        <IconButton className="plus">
+          <AddCircleIcon color="success" />
+        </IconButton>
+      </td>
+    </>
   );
 }

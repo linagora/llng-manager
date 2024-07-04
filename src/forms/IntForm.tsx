@@ -13,7 +13,7 @@ export default function IntForm({
   fieldName: string;
   updateFunc: Function;
 }) {
-  const attribute = attributes[fieldName as keyof typeof attributes];
+  const attribute = attributes[fieldName as keyof typeof attributes] || {};
 
   return (
     <>
@@ -34,7 +34,15 @@ export default function IntForm({
           type="number"
           onChange={(e) => updateFunc(e.target.value)}
           placeholder={t(fieldName)}
-          value={value || ("default" in attribute ? attribute.default : 0)}
+          value={
+            !isNaN(value)
+              ? value
+              : attribute
+              ? "default" in attribute
+                ? attribute.default
+                : 0
+              : 0
+          }
         />
       </td>
     </>

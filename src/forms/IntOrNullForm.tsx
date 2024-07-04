@@ -34,7 +34,13 @@ export default function IntForm({
           type="number"
           onChange={(e) => updateFunc(e.target.value)}
           placeholder={t(fieldName)}
-          value={value || ("default" in attribute ? attribute.default : 0)}
+          value={
+            value || attribute
+              ? "default" in attribute
+                ? attribute.default
+                : 0
+              : 0
+          }
         />
       </td>
     </>

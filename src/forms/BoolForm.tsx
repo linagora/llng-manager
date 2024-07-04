@@ -20,7 +20,7 @@ export default function BoolForm({
   fieldName: string;
   updateFunc: Function;
 }) {
-  const attribute = attributes[fieldName as keyof typeof attributes];
+  const attribute = attributes[fieldName as keyof typeof attributes] || {};
 
   return (
     <>
@@ -40,8 +40,16 @@ export default function BoolForm({
           <FormLabel>{t(fieldName)}</FormLabel>
           <RadioGroup
             row
-            value={value || ("default" in attribute ? attribute.default : 0)}
-            onChange={(e) => updateFunc(e)}
+            value={
+              !isNaN(value)
+                ? value
+                : attribute
+                ? "default" in attribute
+                  ? attribute.default
+                  : 0
+                : 0
+            }
+            onChange={(e) => updateFunc(Number(e.target.value))}
           >
             <FormControlLabel value={1} control={<Radio />} label={t("on")} />
             <FormControlLabel value={0} control={<Radio />} label={t("off")} />

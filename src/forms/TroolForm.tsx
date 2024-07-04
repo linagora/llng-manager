@@ -21,7 +21,7 @@ export default function TroolForm({
   updateFunc: Function;
 }) {
   const attribute = attributes[fieldName as keyof typeof attributes];
-
+  const fieldValue = value === 1 || value === 0 ? value : -1;
   return (
     <>
       <Tooltip
@@ -40,8 +40,8 @@ export default function TroolForm({
           <FormLabel>{t(fieldName)}</FormLabel>
           <RadioGroup
             row
-            value={value || ("default" in attribute ? attribute.default : 0)}
-            onChange={(e) => updateFunc(e)}
+            value={fieldValue}
+            onChange={(e) => updateFunc(Number(e.target.value))}
           >
             <FormControlLabel value={1} control={<Radio />} label={t("on")} />
             <FormControlLabel value={0} control={<Radio />} label={t("off")} />

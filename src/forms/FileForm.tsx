@@ -29,7 +29,7 @@ export default function FileForm({
             fullWidth
             rows={12}
             placeholder={fieldName}
-            onChange={(e) => updateFunc(e)}
+            onChange={(e) => updateFunc(e.target.value)}
             value={value || ""}
           />
         </div>

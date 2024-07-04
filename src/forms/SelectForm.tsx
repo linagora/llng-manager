@@ -20,7 +20,7 @@ export default function SelectForm({
   updateFunc: Function;
 }) {
   const attribute = attributes[fieldName as keyof typeof attributes];
-  if ("select" in attribute && attribute.type === "select") {
+  if (attribute && "select" in attribute && attribute.type === "select") {
     return (
       <>
         <Tooltip

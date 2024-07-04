@@ -1,3 +1,6 @@
+import { useAppDispatch } from "../app/hooks";
+import { changeConf } from "../features/config/configSlice";
+import AuthChoiceContainerForm from "../forms/AuthChoiceContainerForm";
 import BlackWhiteListForm from "../forms/BlackWhiteListForm";
 import BoolForm from "../forms/BoolForm";
 import BoolOrExprForm from "../forms/BoolOrExprForm";
@@ -14,7 +17,6 @@ import OidcOPMetaDataNodeContainerForm from "../forms/OidcOPMetaDataNodeContaine
 import OidcRPMetaDataNodeContainerForm from "../forms/OidcRPMetaDataNodeContainerForm";
 import PasswordForm from "../forms/PasswordForm";
 import PostContainerForm from "../forms/PostContainerForm";
-import RSACertKeyForm from "../forms/RSACertKeyForm";
 import RuleContainerForm from "../forms/RuleContainerForm";
 import SamlAttributeContainerForm from "../forms/SamlAttributeContainerForm";
 import SamlIDPMetaDataNodeContainerForm from "../forms/SamlIDPMetaDataNodeContainerForm";
@@ -27,298 +29,47 @@ import UrlForm from "../forms/UrlForm";
 import VirtualHostContainerForm from "../forms/VirtualHostContainerForm";
 import { llngConfig } from "../utils/types";
 import { treeFormat } from "./recursTree";
+import { findElementInConf } from "./searchIntree";
 
 export function TreeNodeType({
   node,
-  data,
+  config,
 }: {
   node: treeFormat;
-  data:
-    | string
-    | number
-    | boolean
-    | llngConfig
-    | string[]
-    | Record<string, string | number | boolean>
-    | Record<string, object>
-    | { k: string; v: string }[]
-    | { value: Record<string, string>; fieldName: string }
-    | null
-    | undefined;
+  config: llngConfig;
 }) {
-  console.log(`node data :  ${JSON.stringify(data)}`);
-  switch (node.type) {
-    case "select":
-      return (
-        <SelectForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "int":
-      return (
-        <IntForm
-          value={Number(data)}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "intOrNull":
-      return (
-        <IntForm
-          value={Number(data)}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "grantContainer":
-      return (
-        <GrantContainerForm
-          value={data as Record<string, string>}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "grant":
-      return (
-        <GrantForm
-          key={(data as Record<string, string>).key}
-          value={(data as Record<string, string>).value}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "boolOrExpr":
-      return (
-        <BoolOrExprForm
-          value={data as string | number}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "trool":
-      return (
-        <TroolForm
-          value={Number(data)}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "keyTextContainer":
-      return (
-        <KeyTextContainerForm
-          value={data as Record<string, string>}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "bool":
-      return (
-        <BoolForm
-          value={Number(data)}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "text":
-      return (
-        <TextForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "longtext":
-      return (
-        <LongtextForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "file":
-      return (
-        <FileForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "PerlModule":
-      return (
-        <TextForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "url":
-      return (
-        <UrlForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "password":
-      return (
-        <PasswordForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "lmAttrOrMacro":
-      return (
-        <TextForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "doubleHash":
-      return (
-        <DoubleHashForm
-          value={data as Record<string, Record<string, string>>}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "pcre":
-      return (
-        <TextForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "blackWhiteList":
-      return (
-        <BlackWhiteListForm
-          value={String(data || "")}
-          fieldName={node.id.split(";").at(-1) || ""}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "samlIDPMetaDataNodeContainer":
-      return (
-        <SamlIDPMetaDataNodeContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "samlSPMetaDataNodeContainer":
-      return (
-        <SamlSPMetaDataNodeContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "virtualHostContainer":
-      return (
-        <VirtualHostContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "oidcRPMetaDataNodeContainer":
-      return (
-        <OidcRPMetaDataNodeContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "oidcOPMetaDataNodeContainer":
-      return (
-        <OidcOPMetaDataNodeContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "casAppMetaDataNodeContainer":
-      return (
-        <CasAppMetaDataNodeContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "casSrvMetaDataNodeContainer":
-      return (
-        <CasSrvMetaDataNodeContainerForm
-          value={
-            data as Record<string, Record<string, string | number | boolean>>
-          }
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "ruleContainer":
-      return (
-        <RuleContainerForm
-          value={data as Record<string, string>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "postContainer":
-      return (
-        <PostContainerForm
-          value={data as Record<string, Record<string, string>>}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "samlService":
-      return (
-        <SamlServiceForm
-          value={(data as Record<string, string>).value}
-          fieldName={(data as Record<string, string>).fieldName}
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    case "samlAttributeContainer":
-      return (
-        <SamlAttributeContainerForm
-          value={
-            (data as { value: Record<string, string>; fieldName: string })
-              .value as Record<string, string>
-          }
-          fieldName={
-            (data as { value: Record<string, string>; fieldName: string })
-              .fieldName
-          }
-          updateFunc={(e: any) => console.log(e)}
-        />
-      );
-    default:
-      return <></>;
-  }
-}
-
-export function TreeNodeForm({ node, data }: { node: treeFormat; data: any }) {
+  console.log("find dans le truc ", findElementInConf(config, node));
+  const dispatch = useAppDispatch();
+  const data = findElementInConf(config, node);
+  console.log(`node ${node.id} data :  ${JSON.stringify(data)}`);
   let i = 0;
-  switch (node.form) {
-    case "RSACertKey":
-      return (
-        <tr>
-          <RSACertKeyForm
-            value={data.values}
-            fieldNames={data.fieldNames}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
-      );
+  switch (node.type) {
+    // case "RSACertKey":
+    //   return (
+    //     <tr>
+    //       <RSACertKeyForm
+    //         value={(              findElementInConf(config, node)
+    //           as Record<string, Record<string, string>>).values}
+    //         fieldNames={
+    //           (data as Record<string, Record<string, string>>).fieldNames
+    //         }
+    //         updateFunc={(e: any) => console.log(e)}
+    //       />
+    //     </tr>
+    //   );
     case "simpleInputContainer":
       i = 0;
+
       return (
         <>
           {node.children?.map((child: treeFormat) => {
             i++;
             return (
-              <tr key={i}>
-                <TreeNodeType
-                  node={(child || {}) as treeFormat}
-                  data={data[child.id?.split(";").at(-1) as keyof llngConfig]}
-                />
-              </tr>
+              <TreeNodeType
+                key={i}
+                node={(child || {}) as treeFormat}
+                config={config}
+              />
             );
           })}
         </>
@@ -329,16 +80,329 @@ export function TreeNodeForm({ node, data }: { node: treeFormat; data: any }) {
         <>
           {node.children?.map((child: treeFormat) => {
             i++;
-            return (
-              <tr key={i}>
+            if (child.type === "select") {
+              return (
                 <TreeNodeType
+                  key={i}
                   node={(child || {}) as treeFormat}
-                  data={data[child.id?.split(";").at(-1) as keyof llngConfig]}
+                  config={config}
                 />
-              </tr>
-            );
+              );
+            }
+            return <></>;
           })}
         </>
+      );
+    case "select":
+      return (
+        <tr>
+          <SelectForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "int":
+      return (
+        <tr>
+          <IntForm
+            value={Number(data)}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "intOrNull":
+      return (
+        <tr>
+          <IntForm
+            value={Number(data)}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "grantContainer":
+      return (
+        <tr>
+          <GrantContainerForm
+            value={data as Record<string, string>}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "grant":
+      return (
+        <tr>
+          <GrantForm
+            key={(data as Record<string, string>).key}
+            value={(data as Record<string, string>).value}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "boolOrExpr":
+      return (
+        <tr>
+          <BoolOrExprForm
+            value={data as string | number}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "trool":
+      return (
+        <tr>
+          <TroolForm
+            value={Number(data)}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "keyTextContainer":
+      return (
+        <tr>
+          <KeyTextContainerForm
+            value={data as Record<string, string>}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "bool":
+      return (
+        <tr>
+          <BoolForm
+            value={Number(data)}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "text":
+      return (
+        <tr>
+          <TextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "longtext":
+      return (
+        <tr>
+          <LongtextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "file":
+      return (
+        <tr>
+          <FileForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "PerlModule":
+      return (
+        <tr>
+          <TextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "authParamsText":
+      return (
+        <tr>
+          <TextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "url":
+      return (
+        <tr>
+          <UrlForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "password":
+      return (
+        <tr>
+          <PasswordForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "lmAttrOrMacro":
+      return (
+        <tr>
+          <TextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "doubleHash":
+      return (
+        <tr>
+          <DoubleHashForm
+            value={data as Record<string, Record<string, string>>}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "pcre":
+      return (
+        <tr>
+          <TextForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "blackWhiteList":
+      return (
+        <tr>
+          <BlackWhiteListForm
+            value={String(data || "")}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+          />
+        </tr>
+      );
+    case "samlIDPMetaDataNodeContainer":
+      return (
+        <tr>
+          <SamlIDPMetaDataNodeContainerForm
+            value={config.samlIDPMetaDataXML || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "samlSPMetaDataNodeContainer":
+      return (
+        <tr>
+          <SamlSPMetaDataNodeContainerForm
+            value={config.samlSPMetaDataXML || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "virtualHostContainer":
+      return (
+        <tr>
+          <VirtualHostContainerForm
+            value={config.locationRules || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "oidcRPMetaDataNodeContainer":
+      return (
+        <tr>
+          <OidcRPMetaDataNodeContainerForm
+            value={config.oidcRPMetaDataOptions || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "oidcOPMetaDataNodeContainer":
+      return (
+        <tr>
+          <OidcOPMetaDataNodeContainerForm
+            value={config.oidcOPMetaDataOptions || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "casAppMetaDataNodeContainer":
+      return (
+        <tr>
+          <CasAppMetaDataNodeContainerForm
+            value={config.casAppMetaDataOptions || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "casSrvMetaDataNodeContainer":
+      return (
+        <tr>
+          <CasSrvMetaDataNodeContainerForm
+            value={config.casSrvMetaDataOptions || {}}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "ruleContainer":
+      return (
+        <tr>
+          <RuleContainerForm
+            value={data as Record<string, string>}
+            appName={node?.app || ""}
+          />
+        </tr>
+      );
+    case "postContainer":
+      return (
+        <tr>
+          <PostContainerForm
+            value={data as Record<string, Record<string, string>>}
+            appName={node.app || ""}
+          />
+        </tr>
+      );
+    case "samlService":
+      return (
+        <tr>
+          <SamlServiceForm
+            value={String(data)}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "samlAttributeContainer":
+      return (
+        <tr>
+          <SamlAttributeContainerForm
+            value={data as Record<string, string>}
+            fieldName={node.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) => console.log(e)}
+          />
+        </tr>
+      );
+    case "authChoiceContainer":
+      return (
+        <tr>
+          <AuthChoiceContainerForm
+            data={data as Record<string, string>}
+            dispatch={(e: any) => console.log(e)}
+          />
+        </tr>
       );
     default:
       return <></>;

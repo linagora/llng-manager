@@ -34,7 +34,15 @@ export default function UrlForm({
           type="url"
           onChange={(e) => updateFunc(e.target.value)}
           placeholder={t(fieldName)}
-          value={value || ("default" in attribute ? attribute.default : "")}
+          value={
+            value !== undefined && value !== null
+              ? value
+              : attribute
+              ? "default" in attribute
+                ? attribute.default
+                : ""
+              : ""
+          }
         />
       </td>
     </>

@@ -61,7 +61,10 @@ export interface llngConfig {
   casBackChannelSingleLogout?: boolean | number;
   casSrvMetaDataExportedVars?: Record<string, Record<string, string>>;
   casSrvMetaDataNodes?: Record<string, object>;
-  casSrvMetaDataOptions?: Record<string, object>;
+  casSrvMetaDataOptions?: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   casSrvMetaDataOptionsComment?: string;
   casSrvMetaDataOptionsDisplayName?: string;
   casSrvMetaDataOptionsGateway?: boolean | number;
@@ -384,7 +387,10 @@ export interface llngConfig {
   oidcOPMetaDataJSON?: string;
   oidcOPMetaDataJWKS?: string;
   oidcOPMetaDataNodes?: Record<string, object>;
-  oidcOPMetaDataOptions?: Record<string, object>;
+  oidcOPMetaDataOptions?: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   oidcOPMetaDataOptionsAcrValues?: string;
   oidcOPMetaDataOptionsAuthnEndpointAuthMethod?: Array<{
     k: string;
