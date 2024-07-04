@@ -386,8 +386,10 @@ export function OptionSaml({
                   <RadioGroup
                     row
                     value={
-                      data.samlSPMetaDataOptionsSignSSOMessage ||
-                      attributes.samlSPMetaDataOptionsSignSSOMessage.default
+                      data.samlSPMetaDataOptionsSignSSOMessage !== undefined &&
+                      data.samlSPMetaDataOptionsSignSSOMessage !== null
+                        ? data.samlSPMetaDataOptionsSignSSOMessage
+                        : attributes.samlSPMetaDataOptionsSignSSOMessage.default
                     }
                     onChange={(e) => {
                       dispatch(
@@ -481,8 +483,10 @@ export function OptionSaml({
                   <RadioGroup
                     row
                     value={
-                      data.samlSPMetaDataOptionsSignSLOMessage ||
-                      attributes.samlSPMetaDataOptionsSignSLOMessage.default
+                      data.samlSPMetaDataOptionsSignSLOMessage !== undefined &&
+                      data.samlSPMetaDataOptionsSignSLOMessage !== null
+                        ? data.samlSPMetaDataOptionsSignSLOMessage
+                        : attributes.samlSPMetaDataOptionsSignSLOMessage.default
                     }
                     onChange={(e) => {
                       dispatch(

@@ -267,8 +267,12 @@ export function CasApp({ name }: { name: string }) {
                       <RadioGroup
                         row
                         value={
-                          casAppMetaDataOptions.casAppMetaDataOptionsLogout ||
-                          attributes.casAppMetaDataOptionsLogout.default
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                            undefined &&
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                            null
+                            ? casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                            : attributes.casAppMetaDataOptionsLogout.default
                         }
                         onChange={(e) => {
                           dispatch(
