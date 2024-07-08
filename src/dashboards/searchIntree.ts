@@ -3,25 +3,34 @@ import { TreeNode, confFieldsEq, treeFormat } from "./recursTree";
 
 export function findElementByTitleOrValue(
   arr: TreeNode[],
-  searchTerm: string
+  searchTerm: string,
+  parent?: string
 ): TreeNode | undefined {
   for (const element of arr) {
     if (element) {
-      if (element.id === searchTerm) {
-        return element;
+      if (element.id === parent) {
+        for (const child of element._nodes || []) {
+          if (child.id === searchTerm) {
+            return child;
+          }
+        }
       }
       if (element._nodes) {
         const result =
-          findElementByTitleOrValue(element._nodes, searchTerm) ||
+          findElementByTitleOrValue(element._nodes, searchTerm, parent) ||
           (element._nodes_cond
-            ? findElementByTitleOrValue(element._nodes_cond, searchTerm)
+            ? findElementByTitleOrValue(element._nodes_cond, searchTerm, parent)
             : undefined);
         if (result) {
           return result;
         }
       }
       if (element.cnodes) {
-        const result = findElementByTitleOrValue(element.cnodes, searchTerm);
+        const result = findElementByTitleOrValue(
+          element.cnodes,
+          searchTerm,
+          parent
+        );
         if (result) {
           return result;
         }
@@ -130,10 +139,31 @@ export function changeElementInConf(
             console.log("looking at ", nook, node.id.split(";"));
             Object.keys(config).forEach((key) => {
               if (key === nook || nook.includes(key)) {
-                ((config[key as keyof llngConfig] as any)[node.app || ""][
-                  searchedId
-                ] as any) = obj;
-                return true;
+                console.log(
+                  "valueparent ",
+                  key,
+                  typeof config[key as keyof llngConfig]
+                );
+                if (typeof config[key as keyof llngConfig] === "object") {
+                  if (
+                    !(config[key as keyof llngConfig] as any)[node.app || ""]
+                  ) {
+                    ((config[key as keyof llngConfig] as any)[
+                      node.app || ""
+                    ] as any) = {};
+                  }
+                  console.log(obj);
+                  if (node.type === "keyTextContainer") {
+                    ((config[key as keyof llngConfig] as any)[
+                      node.app || ""
+                    ] as any) = obj;
+                  } else {
+                    ((config[key as keyof llngConfig] as any)[node.app || ""][
+                      searchedId
+                    ] as any) = obj;
+                  }
+                  return true;
+                }
               }
             });
           });

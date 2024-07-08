@@ -1,32 +1,42 @@
-import { TextField } from "@mui/material";
-import { t } from "i18next";
+import { NodeApi } from "react-arborist";
+import { treeFormat } from "../dashboards/recursTree";
+import { changeAppName } from "../features/config/configSlice";
+import SamlSPMetaDataNodeForm from "./SamlSPMetaDataNodeForm";
 
-export default function SamlSPMetaDataNodeContainerForm({
-  value,
-  updateFunc,
+export default function SamlSPMetaDataContainerForm({
+  node,
+  dispatch,
 }: {
-  value: Record<string, Record<string, string>>;
-  updateFunc: Function;
+  node: NodeApi<treeFormat>;
+  dispatch: Function;
 }) {
   let i = 0;
   return (
     <td>
       <table>
         <tbody>
-          {Object.keys(value).map((key) => {
+          {node.children?.map((child) => {
             i++;
             return (
               <tr key={i}>
-                <th className="title3">{t("samlSPName")}</th>
-                <td>
-                  <TextField
-                    size="small"
-                    type="text"
-                    onChange={(e) => updateFunc(e.target.value)}
-                    placeholder={t("samlSPName")}
-                    value={key || ""}
-                  />
-                </td>
+                <SamlSPMetaDataNodeForm
+                  value={child.data.name}
+                  updateFunc={(e: { name: string; newName: string }) => {
+                    dispatch(changeAppName(e));
+                    child.data.name = e.newName;
+                    child.data.id = `${child.data.id
+                      .split(";")
+                      .slice(0, -1)
+                      .join(";")};${e.newName}`;
+                    child.data.app = e.newName;
+                    child.data.children?.forEach((el) => {
+                      el.id = `${el.id.split(";").slice(0, -2).join(";")};${
+                        e.newName
+                      };${el.id.split(";").at(-1)}`;
+                      el.app = e.newName;
+                    });
+                  }}
+                />
                 <td>+-</td>
               </tr>
             );

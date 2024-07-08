@@ -46,7 +46,7 @@ export default function BoolOrExprForm({
                 ? value
                 : -1 || ("default" in attribute ? attribute.default : 0)
             }
-            onChange={(e) => updateFunc(e.target.value)}
+            onChange={(e) => updateFunc(Number(e.target.value))}
           >
             <FormControlLabel value={1} control={<Radio />} label={t("on")} />
             <FormControlLabel value={0} control={<Radio />} label={t("off")} />

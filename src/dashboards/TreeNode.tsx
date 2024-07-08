@@ -1,11 +1,16 @@
+import { NodeApi } from "react-arborist";
 import { useAppDispatch } from "../app/hooks";
-import { changeConf } from "../features/config/configSlice";
+import { changeAppName, changeConf } from "../features/config/configSlice";
 import AuthChoiceContainerForm from "../forms/AuthChoiceContainerForm";
 import BlackWhiteListForm from "../forms/BlackWhiteListForm";
 import BoolForm from "../forms/BoolForm";
 import BoolOrExprForm from "../forms/BoolOrExprForm";
 import CasAppMetaDataNodeContainerForm from "../forms/CasAppMetaDataNodeContainerForm";
+import CasAppMetaDataNodeForm from "../forms/CasAppMetaDataNodeForm";
 import CasSrvMetaDataNodeContainerForm from "../forms/CasSrvMetaDataNodeContainerForm";
+import CasSrvMetaDataNodeForm from "../forms/CasSrvMetaDataNodeForm";
+import CatAndAppListForm from "../forms/CatAndAppListForm";
+import CmbModuleContainerForm from "../forms/CmbModuleContainerForm";
 import DoubleHashForm from "../forms/DoubleHashForm";
 import FileForm from "../forms/FileForm";
 import GrantContainerForm from "../forms/GrantContainerForm";
@@ -13,20 +18,27 @@ import GrantForm from "../forms/GrantForm";
 import IntForm from "../forms/IntForm";
 import KeyTextContainerForm from "../forms/KeyTextContainerForm";
 import LongtextForm from "../forms/LongtextForm";
+import MenuCatForm from "../forms/MenuCatForm";
+import OidcAttributeContainerForm from "../forms/OidcAttributeContainerForm";
 import OidcOPMetaDataNodeContainerForm from "../forms/OidcOPMetaDataNodeContainerForm";
+import OidcOPMetaDataNodeForm from "../forms/OidcOPMetaDataNodeForm";
 import OidcRPMetaDataNodeContainerForm from "../forms/OidcRPMetaDataNodeContainerForm";
+import OidcRPMetaDataNodeForm from "../forms/OidcRPMetaDataNodeForm";
 import PasswordForm from "../forms/PasswordForm";
 import PostContainerForm from "../forms/PostContainerForm";
 import RuleContainerForm from "../forms/RuleContainerForm";
 import SamlAttributeContainerForm from "../forms/SamlAttributeContainerForm";
 import SamlIDPMetaDataNodeContainerForm from "../forms/SamlIDPMetaDataNodeContainerForm";
+import SamlIDPMetaDataNodeForm from "../forms/SamlIDPMetaDataNodeForm";
 import SamlSPMetaDataNodeContainerForm from "../forms/SamlSPMetaDataNodeContainerForm";
+import SamlSPMetaDataNodeForm from "../forms/SamlSPMetaDataNodeForm";
 import SamlServiceForm from "../forms/SamlServiceForm";
 import SelectForm from "../forms/SelectForm";
 import TextForm from "../forms/TextForm";
 import TroolForm from "../forms/TroolForm";
 import UrlForm from "../forms/UrlForm";
 import VirtualHostContainerForm from "../forms/VirtualHostContainerForm";
+import VirtualHostForm from "../forms/VirtualHostForm";
 import { llngConfig } from "../utils/types";
 import { treeFormat } from "./recursTree";
 import { findElementInConf } from "./searchIntree";
@@ -35,15 +47,15 @@ export function TreeNodeType({
   node,
   config,
 }: {
-  node: treeFormat;
+  node: NodeApi<treeFormat>;
   config: llngConfig;
 }) {
-  console.log("find dans le truc ", findElementInConf(config, node));
+  console.log("find dans le truc ", findElementInConf(config, node.data));
   const dispatch = useAppDispatch();
-  const data = findElementInConf(config, node);
+  const data = findElementInConf(config, node.data);
   console.log(`node ${node.id} data :  ${JSON.stringify(data)}`);
   let i = 0;
-  switch (node.type) {
+  switch (node.data.type) {
     // case "RSACertKey":
     //   return (
     //     <tr>
@@ -62,15 +74,9 @@ export function TreeNodeType({
 
       return (
         <>
-          {node.children?.map((child: treeFormat) => {
+          {node.children?.map((child: NodeApi<treeFormat>) => {
             i++;
-            return (
-              <TreeNodeType
-                key={i}
-                node={(child || {}) as treeFormat}
-                config={config}
-              />
-            );
+            return <TreeNodeType key={i} node={child} config={config} />;
           })}
         </>
       );
@@ -78,16 +84,10 @@ export function TreeNodeType({
       i = 0;
       return (
         <>
-          {node.children?.map((child: treeFormat) => {
+          {node.children?.map((child: NodeApi<treeFormat>) => {
             i++;
-            if (child.type === "select") {
-              return (
-                <TreeNodeType
-                  key={i}
-                  node={(child || {}) as treeFormat}
-                  config={config}
-                />
-              );
+            if (child.data.type === "select") {
+              return <TreeNodeType key={i} node={child} config={config} />;
             }
             return <></>;
           })}
@@ -98,8 +98,10 @@ export function TreeNodeType({
         <tr>
           <SelectForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -108,8 +110,10 @@ export function TreeNodeType({
         <tr>
           <IntForm
             value={Number(data)}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: number) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -118,8 +122,10 @@ export function TreeNodeType({
         <tr>
           <IntForm
             value={Number(data)}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: number) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -128,7 +134,7 @@ export function TreeNodeType({
         <tr>
           <GrantContainerForm
             value={data as Record<string, string>}
-            fieldName={node.id.split(";").at(-1) || ""}
+            fieldName={node.data.id.split(";").at(-1) || ""}
             updateFunc={(e: any) => console.log(e)}
           />
         </tr>
@@ -139,7 +145,7 @@ export function TreeNodeType({
           <GrantForm
             key={(data as Record<string, string>).key}
             value={(data as Record<string, string>).value}
-            fieldName={node.id.split(";").at(-1) || ""}
+            fieldName={node.data.id.split(";").at(-1) || ""}
             updateFunc={(e: any) => console.log(e)}
           />
         </tr>
@@ -149,8 +155,10 @@ export function TreeNodeType({
         <tr>
           <BoolOrExprForm
             value={data as string | number}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: number | string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -159,8 +167,10 @@ export function TreeNodeType({
         <tr>
           <TroolForm
             value={Number(data)}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: number) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -169,8 +179,10 @@ export function TreeNodeType({
         <tr>
           <KeyTextContainerForm
             value={data as Record<string, string>}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: Record<string, string>) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -179,8 +191,10 @@ export function TreeNodeType({
         <tr>
           <BoolForm
             value={Number(data)}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: number) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -189,8 +203,10 @@ export function TreeNodeType({
         <tr>
           <TextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: any) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -199,8 +215,10 @@ export function TreeNodeType({
         <tr>
           <LongtextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -209,8 +227,10 @@ export function TreeNodeType({
         <tr>
           <FileForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -219,8 +239,10 @@ export function TreeNodeType({
         <tr>
           <TextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -229,8 +251,10 @@ export function TreeNodeType({
         <tr>
           <TextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -239,8 +263,10 @@ export function TreeNodeType({
         <tr>
           <UrlForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -249,8 +275,10 @@ export function TreeNodeType({
         <tr>
           <PasswordForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -259,8 +287,10 @@ export function TreeNodeType({
         <tr>
           <TextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -269,8 +299,10 @@ export function TreeNodeType({
         <tr>
           <DoubleHashForm
             value={data as Record<string, Record<string, string>>}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: Record<string, Record<string, string>>) =>
+              console.log(e)
+            }
           />
         </tr>
       );
@@ -279,8 +311,10 @@ export function TreeNodeType({
         <tr>
           <TextForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
@@ -289,80 +323,211 @@ export function TreeNodeType({
         <tr>
           <BlackWhiteListForm
             value={String(data || "")}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => dispatch(changeConf({ node, newValue: e }))}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            updateFunc={(e: string) =>
+              dispatch(changeConf({ node: node.data, newValue: e }))
+            }
           />
         </tr>
       );
     case "samlIDPMetaDataNodeContainer":
       return (
-        <tr>
-          <SamlIDPMetaDataNodeContainerForm
-            value={config.samlIDPMetaDataXML || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
+        <SamlIDPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
     case "samlSPMetaDataNodeContainer":
       return (
+        <SamlSPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+      );
+
+    case "virtualHost":
+      return (
         <tr>
-          <SamlSPMetaDataNodeContainerForm
-            value={config.samlSPMetaDataXML || {}}
-            updateFunc={(e: any) => console.log(e)}
+          <VirtualHostForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "samlSPMetaDataNode":
+      return (
+        <tr>
+          <SamlSPMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "samlIDPMetaDataNode":
+      return (
+        <tr>
+          <SamlIDPMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "oidcOPMetaDataNode":
+      return (
+        <tr>
+          <OidcOPMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "oidcRPMetaDataNode":
+      return (
+        <tr>
+          <OidcRPMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "casSrvMetaDataNode":
+      return (
+        <tr>
+          <CasSrvMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
+          />
+        </tr>
+      );
+    case "casAppMetaDataNode":
+      return (
+        <tr>
+          <CasAppMetaDataNodeForm
+            value={node.data.name}
+            updateFunc={(e: { name: string; newName: string }) => {
+              dispatch(changeAppName(e));
+              node.data.name = e.newName;
+              node.data.id = `${node.data.id
+                .split(";")
+                .slice(0, -1)
+                .join(";")};${e.newName}`;
+              node.data.app = e.newName;
+              node.data.children?.forEach((child) => {
+                child.id = `${child.id.split(";").slice(0, -2).join(";")};${
+                  e.newName
+                };${child.id.split(";").at(-1)}`;
+                child.app = e.newName;
+              });
+            }}
           />
         </tr>
       );
     case "virtualHostContainer":
-      return (
-        <tr>
-          <VirtualHostContainerForm
-            value={config.locationRules || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
-      );
+      return <VirtualHostContainerForm dispatch={dispatch} node={node} />;
     case "oidcRPMetaDataNodeContainer":
       return (
-        <tr>
-          <OidcRPMetaDataNodeContainerForm
-            value={config.oidcRPMetaDataOptions || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
+        <OidcRPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
+
     case "oidcOPMetaDataNodeContainer":
       return (
-        <tr>
-          <OidcOPMetaDataNodeContainerForm
-            value={config.oidcOPMetaDataOptions || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
+        <OidcOPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
+
     case "casAppMetaDataNodeContainer":
       return (
-        <tr>
-          <CasAppMetaDataNodeContainerForm
-            value={config.casAppMetaDataOptions || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
+        <CasAppMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
+
     case "casSrvMetaDataNodeContainer":
       return (
-        <tr>
-          <CasSrvMetaDataNodeContainerForm
-            value={config.casSrvMetaDataOptions || {}}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
+        <CasSrvMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
+
     case "ruleContainer":
       return (
         <tr>
           <RuleContainerForm
             value={data as Record<string, string>}
-            appName={node?.app || ""}
+            appName={node.data?.app || ""}
           />
         </tr>
       );
@@ -371,7 +536,7 @@ export function TreeNodeType({
         <tr>
           <PostContainerForm
             value={data as Record<string, Record<string, string>>}
-            appName={node.app || ""}
+            appName={node.data.app || ""}
           />
         </tr>
       );
@@ -380,7 +545,7 @@ export function TreeNodeType({
         <tr>
           <SamlServiceForm
             value={String(data)}
-            fieldName={node.id.split(";").at(-1) || ""}
+            fieldName={node.data.id.split(";").at(-1) || ""}
             updateFunc={(e: any) => console.log(e)}
           />
         </tr>
@@ -390,8 +555,8 @@ export function TreeNodeType({
         <tr>
           <SamlAttributeContainerForm
             value={data as Record<string, string>}
-            fieldName={node.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            appName={node.data.app || ""}
           />
         </tr>
       );
@@ -404,6 +569,23 @@ export function TreeNodeType({
           />
         </tr>
       );
+    case "oidcAttributeContainer":
+      return (
+        <tr>
+          <OidcAttributeContainerForm
+            value={data as Record<string, string>}
+            fieldName={node.data.id.split(";").at(-1) || ""}
+            appName={node.data.app || ""}
+          />
+        </tr>
+      );
+    case "cmbModuleContainer":
+      return <CmbModuleContainerForm data={data} dispatch={dispatch} />;
+    case "catAndAppList":
+      return <CatAndAppListForm values={data} />;
+    case "category":
+      console.log("cat", data);
+      return <MenuCatForm values={data} />;
     default:
       return <></>;
   }

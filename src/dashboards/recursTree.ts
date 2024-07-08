@@ -55,7 +55,7 @@ export function recursTree(
             type: id,
             app: el,
             id: `${parentId};${tree.title};${el}`,
-            children: tree.cnodes?.map((node: any) => {
+            children: tree.cnodes?.map((node: TreeNode) => {
               return recursTree(
                 node,
                 config,
@@ -77,7 +77,7 @@ export function recursTree(
       type:
         tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
       id: `${parentId};${tree.title}`,
-      children: tree._nodes?.map((node: any) => {
+      children: tree._nodes?.map((node: TreeNode) => {
         return {
           name: t(node.title),
           type:

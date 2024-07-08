@@ -1,34 +1,48 @@
-import { TextField } from "@mui/material";
-import { t } from "i18next";
+import { NodeApi } from "react-arborist";
+import { treeFormat } from "../dashboards/recursTree";
+import { changeAppName } from "../features/config/configSlice";
+import SamlIDPMetaDataNodeForm from "./SamlIDPMetaDataNodeForm";
 
-export default function SamlIDPMetaDataNodeContainerForm({
-  value,
-  updateFunc,
+export default function SamlIDPMetaDataContainerForm({
+  node,
+  dispatch,
 }: {
-  value: Record<string, Record<string, string>>;
-  updateFunc: Function;
+  node: NodeApi<treeFormat>;
+  dispatch: Function;
 }) {
+  let i = 0;
   return (
-    <table>
-      <tbody>
-        {Object.keys(value).map((key) => (
-          <tr>
-            <th>
-              <th className="title3">{t("samlIDPName")}</th>
-            </th>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) => updateFunc(e.target.value)}
-                placeholder={t("samlIDPName")}
-                value={key || ""}
-              />
-            </td>
-            <td>+-</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <td>
+      <table>
+        <tbody>
+          {node.children?.map((child) => {
+            i++;
+            return (
+              <tr key={i}>
+                <SamlIDPMetaDataNodeForm
+                  value={child.data.name}
+                  updateFunc={(e: { name: string; newName: string }) => {
+                    dispatch(changeAppName(e));
+                    child.data.name = e.newName;
+                    child.data.id = `${child.data.id
+                      .split(";")
+                      .slice(0, -1)
+                      .join(";")};${e.newName}`;
+                    child.data.app = e.newName;
+                    child.data.children?.forEach((el) => {
+                      el.id = `${el.id.split(";").slice(0, -2).join(";")};${
+                        e.newName
+                      };${el.id.split(";").at(-1)}`;
+                      el.app = e.newName;
+                    });
+                  }}
+                />
+                <td>+-</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </td>
   );
 }

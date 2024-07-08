@@ -1,0 +1,22 @@
+.tree {
+  flex-grow: 1;
+  text-align: left;
+  width: 40%;
+}
+
+@media (max-width: 1000px) {
+  .tree {
+    width: 75%;
+    font-size: smaller;
+  }
+}
+
+.treePage {
+  display: flex;
+  text-align: left;
+  height: 85vh;
+}
+
+.nodeContent {
+  word-break: break-word;
+}

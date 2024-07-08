@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Tooltip,
-} from "@mui/material";
+import { FormControl, MenuItem, Select, Tooltip } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import attributes from "../static/attributes.json";
@@ -36,13 +30,10 @@ export default function SelectForm({
         </Tooltip>
         <td>
           <FormControl>
-            <InputLabel id="authenticationLabel">
-              {t("authentication")}
-            </InputLabel>
             <Select
-              labelId="authenticationLabel"
-              label={t("authentication")}
+              labelId={fieldName}
               size="small"
+              displayEmpty
               value={value || ("default" in attribute ? attribute.default : "")}
               onChange={(e) => updateFunc(e.target.value)}
             >

@@ -11,12 +11,11 @@ import {
 import { RefObject, useRef, useState } from "react";
 import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import useResizeObserver from "use-resize-observer";
-import attributes from "../static/attributes.json";
 import { llngConfig } from "../utils/types";
-import { TreeNodeType } from "./TreeNode";
 import { TreeNode, recursTree, treeFormat } from "./recursTree";
 import { findElementByTitleOrValue } from "./searchIntree";
-
+import "./Tree.css";
+import { TreeNodeType } from "./TreeNode";
 function ToggleConfTree(
   itemId: string,
   treeRef: RefObject<TreeApi<treeFormat>>,
@@ -31,7 +30,11 @@ function ToggleConfTree(
       if (node?.children) {
         node.children = node?.children.map((child: any) => {
           const childId = child.id.split(";").at(-1) || "";
-          const foundElement = findElementByTitleOrValue(tree, childId);
+          const foundElement = findElementByTitleOrValue(
+            tree,
+            childId,
+            child.id.split(";").at(-2)
+          );
           if (foundElement) {
             child = recursTree(foundElement, config, node.id, node.app);
           }
@@ -39,12 +42,15 @@ function ToggleConfTree(
         });
       } else {
         const id = node.id.split(";").at(-1) || "";
-        const foundElement = findElementByTitleOrValue(tree, id);
+        const foundElement = findElementByTitleOrValue(
+          tree,
+          id,
+          node.id.split(";").at(-2)
+        );
 
         if (foundElement) {
-          return recursTree(foundElement, config, item.id, item.app);
-        } else if (config[id as keyof llngConfig]) {
           if (node.type === "catAndAppList") {
+            console.log(node);
             node.children = Object.keys(
               config[id as keyof llngConfig] as Record<
                 string,
@@ -88,6 +94,8 @@ function ToggleConfTree(
                   }),
               };
             });
+          } else {
+            return recursTree(foundElement, config, item.id, item.app);
           }
         }
       }
@@ -112,17 +120,14 @@ export default function TreeRender({
   );
   const [treeData, setTreeData] = useState<treeFormat[] | undefined>(ITEMS);
   const { ref, width, height = 1 } = useResizeObserver();
-  const [data, setData] = useState<any>(config);
   if (tree) {
     return (
-      <div style={{ display: "flex", textAlign: "left", height: "85vh" }}>
-        <Box
-          sx={{ flexGrow: 1, textAlign: "left", height: "90%", width: "35%" }}
-          ref={ref}
-        >
+      <div className="treePage">
+        <div className="tree" ref={ref}>
           {width} {height}
           <Tree
             disableDrag={true}
+            rowHeight={height / 25}
             ref={treeRef}
             onToggle={(itemId) =>
               ToggleConfTree(
@@ -144,11 +149,11 @@ export default function TreeRender({
           >
             {Node}
           </Tree>
-        </Box>
+        </div>
         <Divider orientation="vertical" flexItem />
         <div style={{ width: "100%" }}>
           <Paper style={{ backgroundColor: "lightgrey" }}>menu</Paper>
-          <div>
+          <div className="nodeContent">
             <strong>Clicked Node</strong>
             {`: ${selectedItem?.data?.id}, `}
             <Typography variant="body2" color="textSecondary">
@@ -174,10 +179,7 @@ export default function TreeRender({
             <div>
               <table style={{ width: "100%" }}>
                 <tbody>
-                  <TreeNodeType
-                    node={(selectedItem.data || {}) as treeFormat}
-                    config={config}
-                  />
+                  <TreeNodeType node={selectedItem} config={config} />
                 </tbody>
               </table>
             </div>
@@ -203,6 +205,7 @@ function Node({ node, style }: NodeRendererProps<treeFormat>) {
 
   return (
     <div
+      className="treeitem"
       style={{
         ...style,
         cursor: "pointer",
@@ -217,7 +220,7 @@ function Node({ node, style }: NodeRendererProps<treeFormat>) {
         style={{
           display: "flex",
           alignItems: "center",
-          paddingLeft: `${node.data.id.split(";").length * 5}px`,
+          paddingLeft: `${node.data.id.split(";").length}px`,
         }}
       >
         <Icon />
@@ -231,132 +234,4 @@ function Node({ node, style }: NodeRendererProps<treeFormat>) {
       <Divider flexItem />
     </div>
   );
-}
-
-function getDataFromSelected(
-  selectedItem: treeFormat,
-  currentData: any,
-  config: llngConfig
-) {
-  const leafName = selectedItem.id.split(";").at(-1) || "";
-  const leafParentName = selectedItem.id.split(";").at(-2) || "";
-  const eldestName = selectedItem.id.split(";").at(-3) || "";
-  switch (selectedItem.id.split(";").at(-1)) {
-    case "samlSPMetaDataNodes":
-      return config.samlSPMetaDataXML;
-    case "samlIDPMetaDataNodes":
-      return config.samlIDPMetaDataXML;
-    case "oidcRPMetaDataNodes":
-      return config.oidcRPMetaDataOptions;
-    case "oidcOPMetaDataNodes":
-      return config.oidcOPMetaDataOptions;
-    case "casAppMetaDataNodes":
-      return config.casAppMetaDataOptions;
-    case "casSrvMetaDataNodes":
-      return config.casSrvMetaDataOptions;
-    case "virtualHosts":
-      return config.locationRules;
-
-    //   case "samlServiceSecuritySig":
-    //     return {
-    //       values: {
-    //         priv: config.samlServicePublicKeySig,
-    //         hash: config.samlServicePrivateKeySigPwd,
-    //         pub: config.samlServicePublicKeySig,
-    //       },
-    //       fieldNames: {
-    //         priv: "samlServicePrivateKeySig",
-    //         hash: "samlServicePrivateKeySigPwd",
-    //         pub: "samlServicePublicKeySig",
-    //       },
-    //     };
-    //   case "samlServiceSecurityEnc":
-    //     return {
-    //       values: {
-    //         priv: config.samlServicePublicKeyEnc,
-    //         hash: config.samlServicePrivateKeyEncPwd,
-    //         pub: config.samlServicePublicKeyEnc,
-    //       },
-    //       fieldNames: {
-    //         priv: "samlServicePrivateKeyEnc",
-    //         hash: "samlServicePrivateKeyEncPwd",
-    //         pub: "samlServicePublicKeyEnc",
-    //       },
-    //     };
-    //   case "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect":
-    //     return {
-    //       values:
-    //         config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect ||
-    //         attributes.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect.default,
-    //       fieldName: "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect",
-    //     };
-    //   case "samlSPSSODescriptorSingleLogoutServiceHTTPPost":
-    //     return {
-    //       values:
-    //         config.samlSPSSODescriptorSingleLogoutServiceHTTPPost ||
-    //         attributes.samlSPSSODescriptorSingleLogoutServiceHTTPPost.default,
-    //       fieldName: "samlSPSSODescriptorSingleLogoutServiceHTTPPost",
-    //     };
-    //   case "samlSPSSODescriptorSingleLogoutServiceSOAP":
-    //     return {
-    //       values:
-    //         config.samlSPSSODescriptorSingleLogoutServiceSOAP ||
-    //         attributes.samlSPSSODescriptorSingleLogoutServiceSOAP.default,
-    //       fieldName: "samlSPSSODescriptorSingleLogoutServiceSOAP",
-    //     };
-    //   case "samlIDPMetaDataXML":
-    //     return config.samlIDPMetaDataXML
-    //       ? config.samlIDPMetaDataXML[specialName].samlIDPMetaDataXML
-    //       : "" || "";
-    //   case "samlSPMetaDataXML":
-    //     return config.samlSPMetaDataXML
-    //       ? config.samlSPMetaDataXML[specialName].samlSPMetaDataXML
-    //       : "" || "";
-    //   case "oidcRPMetaDataMacros":
-    //     return config.oidcRPMetaDataMacros
-    //       ? config.oidcRPMetaDataMacros[specialName]
-    //       : {};
-    //   case "samlSPMetaDataMacros":
-    //     return config.samlSPMetaDataMacros
-    //       ? config.samlSPMetaDataMacros[specialName]
-    //       : {};
-    //   case "samlIDPMetaDataExportedAttributes":
-    //     return {
-    //       value: config.samlIDPMetaDataExportedAttributes
-    //         ? config.samlIDPMetaDataExportedAttributes[specialName]
-    //         : {},
-    //       fieldName: "samlIDPMetaDataExportedAttributes",
-    //     };
-    //   case "samlSPMetaDataExportedAttributes":
-    //     return {
-    //       value: config.samlSPMetaDataExportedAttributes
-    //         ? config.samlSPMetaDataExportedAttributes[specialName]
-    //         : {},
-    //       fieldName: "samlSPMetaDataExportedAttributes",
-    //     };
-    default:
-      //     // if (selectedItem.id.includes("samlSPMetaDataOptions")) {
-      //     //   return getDataFromSelected(
-      //     //     selectedItem,
-      //     //     (config.samlSPMetaDataOptions
-      //     //       ? config.samlSPMetaDataOptions[specialName]
-      //     //       : {}) as unknown as llngConfig
-      //     //   );
-      //     // }
-
-      const data = config[leafName as keyof llngConfig];
-      const defaultData = attributes[leafName as keyof typeof attributes]
-        ? (
-            attributes[leafName as keyof typeof attributes] as Record<
-              string,
-              string
-            >
-          )?.default
-        : "";
-      return data !== undefined && data !== null
-        ? data[leafParentName as keyof typeof data]
-          ? data[leafParentName as keyof typeof data]
-          : data
-        : defaultData;
-  }
 }
