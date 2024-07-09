@@ -216,7 +216,7 @@ export default function SamlAttributeContainerForm({
               );
             })}
           </tbody>
-        </table>{" "}
+        </table>
         <IconButton
           className="plus"
           onClick={() =>

@@ -36,7 +36,6 @@ export default function OidcAttributeContainerForm({
         <th className="title2">{t(fieldName)}</th>
       </tr>
       <tr>
-        {" "}
         <td>
           <table id="exportedVars">
             <thead>
@@ -60,7 +59,7 @@ export default function OidcAttributeContainerForm({
                   </IconButton>
                 </th>
               </tr>
-            </thead>{" "}
+            </thead>
             <tbody>
               {Object.keys(value).map((key) => {
                 i++;

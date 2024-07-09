@@ -233,12 +233,23 @@ const configSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; newName: string }>
     ) {
-      state.data.config = JSON.parse(
-        JSON.stringify(state.data.config).replaceAll(
-          action.payload.name,
-          action.payload.newName
-        )
-      );
+      for (const key of Object.keys(state.data.config) as Array<
+        keyof llngConfig
+      >) {
+        const value = state.data.config[key];
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value)
+        ) {
+          for (const name of Object.keys(value)) {
+            if (name === action.payload.name) {
+              value[action.payload.newName] = value[action.payload.name];
+              delete value[action.payload.name];
+            }
+          }
+        }
+      }
     },
     dupApp(
       state,
@@ -530,34 +541,49 @@ const configSlice = createSlice({
         ];
       }
     },
-    updateSamlSPMetadataExportedAttribute(
+    updateSamlMetadataExportedAttribute(
       state,
-      action: PayloadAction<{ appName: string; data: Record<string, string> }>
+      action: PayloadAction<{
+        appName: string;
+        data: Record<string, string>;
+        fieldName: string;
+      }>
     ) {
-      if (!state.data.config.samlSPMetaDataExportedAttributes) {
-        state.data.config.samlSPMetaDataExportedAttributes = {};
+      if (!state.data.config[action.payload.fieldName as keyof llngConfig]) {
+        (state.data.config[
+          action.payload.fieldName as keyof llngConfig
+        ] as any) = {};
       }
-      state.data.config.samlSPMetaDataExportedAttributes[
+      (state.data.config[action.payload.fieldName as keyof llngConfig] as any)[
         action.payload.appName
       ] = action.payload.data;
     },
-    newSamlSPMetadataExportedAttribute(state, action: PayloadAction<string>) {
-      if (!state.data.config.samlSPMetaDataExportedAttributes) {
-        state.data.config.samlSPMetaDataExportedAttributes = {};
+    newSamlMetadataExportedAttribute(
+      state,
+      action: PayloadAction<{ appName: string; fieldName: string }>
+    ) {
+      if (!state.data.config[action.payload.fieldName as keyof llngConfig]) {
+        (state.data.config[
+          action.payload.fieldName as keyof llngConfig
+        ] as any) = {};
       }
-      state.data.config.samlSPMetaDataExportedAttributes[action.payload] = {
-        ...state.data.config.samlSPMetaDataExportedAttributes[action.payload],
+      (state.data.config[action.payload.fieldName as keyof llngConfig] as any)[
+        action.payload.appName
+      ] = {
+        ...(
+          state.data.config[action.payload.fieldName as keyof llngConfig] as any
+        )[action.payload.appName],
         new: "0;New;urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified",
       };
     },
-    delSamlSPMetadataExportedAttribute(
+    delSamlMetadataExportedAttribute(
       state,
-      action: PayloadAction<{ appName: string; key: string }>
+      action: PayloadAction<{ appName: string; key: string; fieldName: string }>
     ) {
-      if (state.data.config.samlSPMetaDataExportedAttributes) {
-        delete state.data.config.samlSPMetaDataExportedAttributes[
-          action.payload.appName
-        ][action.payload.key];
+      if (state.data.config[action.payload.fieldName as keyof llngConfig]) {
+        delete (
+          state.data.config[action.payload.fieldName as keyof llngConfig] as any
+        )[action.payload.appName][action.payload.key];
       }
     },
     updateSamlMetaDataOptions(
@@ -1099,9 +1125,9 @@ export const {
   newSAMLSPMetaDataMacros,
   updateSAMLSPMetaDataMacros,
   delSAMLSPMetaDataMacros,
-  updateSamlSPMetadataExportedAttribute,
-  newSamlSPMetadataExportedAttribute,
-  delSamlSPMetadataExportedAttribute,
+  updateSamlMetadataExportedAttribute,
+  newSamlMetadataExportedAttribute,
+  delSamlMetadataExportedAttribute,
   updateSamlMetaDataOptions,
   newOIDCRPMetaDataMacros,
   updateOIDCRPMetaDataMacros,
