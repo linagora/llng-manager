@@ -1,6 +1,10 @@
 import { NodeApi } from "react-arborist";
 import { useAppDispatch } from "../app/hooks";
-import { changeAppName, changeConf } from "../features/config/configSlice";
+import {
+  changeAppName,
+  changeConf,
+  updateConfigParams,
+} from "../features/config/configSlice";
 import AuthChoiceContainerForm from "../forms/AuthChoiceContainerForm";
 import BlackWhiteListForm from "../forms/BlackWhiteListForm";
 import BoolForm from "../forms/BoolForm";
@@ -11,6 +15,8 @@ import CasSrvMetaDataNodeContainerForm from "../forms/CasSrvMetaDataNodeContaine
 import CasSrvMetaDataNodeForm from "../forms/CasSrvMetaDataNodeForm";
 import CatAndAppListForm from "../forms/CatAndAppListForm";
 import CmbModuleContainerForm from "../forms/CmbModuleContainerForm";
+import DisplayOidcMetaDataForm from "../forms/DisplayOidcMetadataForm";
+import DisplaySamlMetaDataForm from "../forms/DisplaySamlMetadataForm";
 import DoubleHashForm from "../forms/DoubleHashForm";
 import FileForm from "../forms/FileForm";
 import GrantContainerForm from "../forms/GrantContainerForm";
@@ -18,15 +24,22 @@ import GrantForm from "../forms/GrantForm";
 import IntForm from "../forms/IntForm";
 import KeyTextContainerForm from "../forms/KeyTextContainerForm";
 import LongtextForm from "../forms/LongtextForm";
+import MenuAppForm from "../forms/MenuAppForm";
 import MenuCatForm from "../forms/MenuCatForm";
 import OidcAttributeContainerForm from "../forms/OidcAttributeContainerForm";
+import OidcKeyForm from "../forms/OidcKeyForm";
 import OidcOPMetaDataNodeContainerForm from "../forms/OidcOPMetaDataNodeContainerForm";
 import OidcOPMetaDataNodeForm from "../forms/OidcOPMetaDataNodeForm";
 import OidcRPMetaDataNodeContainerForm from "../forms/OidcRPMetaDataNodeContainerForm";
 import OidcRPMetaDataNodeForm from "../forms/OidcRPMetaDataNodeForm";
 import PasswordForm from "../forms/PasswordForm";
+import PortalskinForm from "../forms/PortalskinForm";
+import PortalskinbackgroundForm from "../forms/PortalskinbackgroundForm";
 import PostContainerForm from "../forms/PostContainerForm";
+import RSACertKeyForm from "../forms/RSACertKeyForm";
 import RuleContainerForm from "../forms/RuleContainerForm";
+import SMTPForm from "../forms/SMTPForm";
+import SamlAssertionForm from "../forms/SamlAssertionForm";
 import SamlAttributeContainerForm from "../forms/SamlAttributeContainerForm";
 import SamlIDPMetaDataNodeContainerForm from "../forms/SamlIDPMetaDataNodeContainerForm";
 import SamlIDPMetaDataNodeForm from "../forms/SamlIDPMetaDataNodeForm";
@@ -39,9 +52,9 @@ import TroolForm from "../forms/TroolForm";
 import UrlForm from "../forms/UrlForm";
 import VirtualHostContainerForm from "../forms/VirtualHostContainerForm";
 import VirtualHostForm from "../forms/VirtualHostForm";
+import { treeFormat } from "../utils/recursTree";
+import { findElementInConf } from "../utils/searchIntree";
 import { llngConfig } from "../utils/types";
-import { treeFormat } from "./recursTree";
-import { findElementInConf } from "./searchIntree";
 
 export function TreeNodeType({
   node,
@@ -50,25 +63,145 @@ export function TreeNodeType({
   node: NodeApi<treeFormat>;
   config: llngConfig;
 }) {
-  console.log("find dans le truc ", findElementInConf(config, node.data));
   const dispatch = useAppDispatch();
   const data = findElementInConf(config, node.data);
   console.log(`node ${node.id} data :  ${JSON.stringify(data)}`);
   let i = 0;
   switch (node.data.type) {
-    // case "RSACertKey":
-    //   return (
-    //     <tr>
-    //       <RSACertKeyForm
-    //         value={(              findElementInConf(config, node)
-    //           as Record<string, Record<string, string>>).values}
-    //         fieldNames={
-    //           (data as Record<string, Record<string, string>>).fieldNames
-    //         }
-    //         updateFunc={(e: any) => console.log(e)}
-    //       />
-    //     </tr>
-    //   );
+    case "RSACertKey":
+      return (
+        <tr>
+          <RSACertKeyForm
+            value={{
+              pub: String(
+                config[
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Security", "PublicKey") as keyof llngConfig
+                ] || ""
+              ),
+              hash: String(
+                config[
+                  (node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Security", "PrivateKey") +
+                    "Pwd") as keyof llngConfig
+                ] || ""
+              ),
+              priv: String(
+                config[
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Security", "PrivateKey") as keyof llngConfig
+                ] || ""
+              ),
+            }}
+            fieldNames={{
+              pub:
+                node.data.id
+                  .split(";")
+                  .at(-1)
+                  ?.replace("Security", "PublicKey") || "",
+              hash:
+                node.data.id
+                  .split(";")
+                  .at(-1)
+                  ?.replace("Security", "PrivateKey") + "Pwd",
+              priv:
+                node.data.id
+                  .split(";")
+                  .at(-1)
+                  ?.replace("Security", "PrivateKey") || "",
+            }}
+            updateFunc={<K extends keyof llngConfig>(e: {
+              param: K;
+              value: llngConfig[K];
+            }) => dispatch(updateConfigParams(e))}
+          />
+        </tr>
+      );
+    case "OidcKey":
+      return (
+        <tr>
+          <td>
+            <OidcKeyForm
+              value={{
+                pub: String(
+                  config[
+                    node.data.id
+                      .split(";")
+                      .at(-1)
+                      ?.replace("Keys", "")
+                      ?.replace("MetaData", "PublicKey") as keyof llngConfig
+                  ] || ""
+                ),
+                hash: String(
+                  config[
+                    node.data.id
+                      .split(";")
+                      .at(-1)
+                      ?.replace("Keys", "")
+                      ?.replace("MetaData", "KeyId") as keyof llngConfig
+                  ] || ""
+                ),
+                type: String(
+                  config[
+                    node.data.id
+                      .split(";")
+                      .at(-1)
+                      ?.replace("Keys", "")
+                      ?.replace("MetaData", "KeyType") as keyof llngConfig
+                  ] || ""
+                ),
+                priv: String(
+                  config[
+                    node.data.id
+                      .split(";")
+                      .at(-1)
+                      ?.replace("Keys", "")
+                      ?.replace("MetaData", "PrivateKey") as keyof llngConfig
+                  ] || ""
+                ),
+              }}
+              fieldNames={{
+                pub:
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Keys", "")
+                    ?.replace("MetaData", "PublicKey") || "",
+                hash:
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Keys", "")
+                    ?.replace("MetaData", "KeyId") || "",
+
+                type:
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Keys", "")
+                    ?.replace("MetaData", "KeyType") || "",
+
+                priv:
+                  node.data.id
+                    .split(";")
+                    .at(-1)
+                    ?.replace("Keys", "")
+                    ?.replace("MetaData", "PrivateKey") || "",
+              }}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+          </td>
+        </tr>
+      );
     case "simpleInputContainer":
       i = 0;
 
@@ -338,7 +471,6 @@ export function TreeNodeType({
       return (
         <SamlSPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
-
     case "virtualHost":
       return (
         <tr>
@@ -506,22 +638,18 @@ export function TreeNodeType({
       return (
         <OidcRPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
-
     case "oidcOPMetaDataNodeContainer":
       return (
         <OidcOPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
-
     case "casAppMetaDataNodeContainer":
       return (
         <CasAppMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
-
     case "casSrvMetaDataNodeContainer":
       return (
         <CasSrvMetaDataNodeContainerForm dispatch={dispatch} node={node} />
       );
-
     case "ruleContainer":
       return (
         <tr>
@@ -543,11 +671,31 @@ export function TreeNodeType({
     case "samlService":
       return (
         <tr>
-          <SamlServiceForm
-            value={String(data)}
-            fieldName={node.data.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
-          />
+          <td>
+            <SamlServiceForm
+              value={String(data)}
+              fieldName={node.data.id.split(";").at(-1) || ""}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+          </td>
+        </tr>
+      );
+    case "samlAssertion":
+      return (
+        <tr>
+          <td>
+            <SamlAssertionForm
+              value={String(data)}
+              fieldName={node.data.id.split(";").at(-1) || ""}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+          </td>
         </tr>
       );
     case "samlAttributeContainer":
@@ -584,8 +732,34 @@ export function TreeNodeType({
     case "catAndAppList":
       return <CatAndAppListForm values={data} />;
     case "category":
-      console.log("cat", data);
       return <MenuCatForm values={data} />;
+    case "application":
+      console.log("app", data);
+      return <MenuAppForm values={data} portal={config.portal || ""} />;
+    case "displayOidcMetadata":
+      return <DisplayOidcMetaDataForm confNum={config.cfgNum || 0} />;
+    case "displaySamlMetadata":
+      return <DisplaySamlMetaDataForm confNum={config.cfgNum || 0} />;
+    case "portalskinbackground":
+      return (
+        <PortalskinbackgroundForm value={data} portal={config.portal || ""} />
+      );
+    case "portalskin":
+      return (
+        <tr>
+          <td>
+            <PortalskinForm value={data} portal={config.managerDn || ""} />
+          </td>
+        </tr>
+      );
+    case "SMTP":
+      return (
+        <tr>
+          <td>
+            <SMTPForm />
+          </td>
+        </tr>
+      );
     default:
       return <></>;
   }

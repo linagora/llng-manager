@@ -11,9 +11,9 @@ import {
 import { RefObject, useRef, useState } from "react";
 import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import useResizeObserver from "use-resize-observer";
+import { TreeNode, recursTree, treeFormat } from "../utils/recursTree";
+import { findElementByTitleOrValue } from "../utils/searchIntree";
 import { llngConfig } from "../utils/types";
-import { TreeNode, recursTree, treeFormat } from "./recursTree";
-import { findElementByTitleOrValue } from "./searchIntree";
 import "./Tree.css";
 import { TreeNodeType } from "./TreeNode";
 function ToggleConfTree(
@@ -56,44 +56,87 @@ function ToggleConfTree(
                 string,
                 Record<string, string>
               >
-            ).map((el) => {
-              return {
-                name: (
-                  config[id as keyof llngConfig] as Record<
-                    string,
-                    Record<string, any>
-                  >
-                )[el].catname,
-                id: `${node.id};${el}`,
-                type: (
-                  config[id as keyof llngConfig] as Record<
-                    string,
-                    Record<string, any>
-                  >
-                )[el].type,
-                children: Object.keys(
+            )
+              .sort(
+                (key1, key2) =>
                   (
                     config[id as keyof llngConfig] as Record<
                       string,
                       Record<string, any>
                     >
-                  )[el]
-                )
-                  .filter((key) => key !== "type" && key !== "catname")
-                  .map((key) => {
-                    return {
-                      name: (
-                        config[id as keyof llngConfig] as Record<
-                          string,
-                          Record<string, any>
-                        >
-                      )[el][key].options.name,
-                      id: `${node.id};${el}:${key}`,
-                      type: "application",
-                    };
-                  }),
-              };
-            });
+                  )[key1].order -
+                  (
+                    config[id as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[key2].order
+              )
+              .map((el) => {
+                return {
+                  name: (
+                    config[id as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el].catname,
+                  id: `${node.id};${el}`,
+                  type: (
+                    config[id as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el].type,
+                  children: Object.keys(
+                    (
+                      config[id as keyof llngConfig] as Record<
+                        string,
+                        Record<string, any>
+                      >
+                    )[el]
+                  )
+                    .filter(
+                      (key) =>
+                        key !== "type" && key !== "catname" && key !== "order"
+                    )
+                    .sort(
+                      (key1, key2) =>
+                        (
+                          config[id as keyof llngConfig] as Record<
+                            string,
+                            Record<string, any>
+                          >
+                        )[el][key1].order -
+                        (
+                          config[id as keyof llngConfig] as Record<
+                            string,
+                            Record<string, any>
+                          >
+                        )[el][key2].order
+                    )
+                    .map((key) => {
+                      console.log(
+                        "hello",
+                        (
+                          config[id as keyof llngConfig] as Record<
+                            string,
+                            Record<string, any>
+                          >
+                        )[el]
+                      );
+                      return {
+                        name: (
+                          config[id as keyof llngConfig] as Record<
+                            string,
+                            Record<string, any>
+                          >
+                        )[el][key].options.name,
+                        id: `${node.id};${el};${key}`,
+                        type: "application",
+                      };
+                    }),
+                };
+              });
           } else {
             return recursTree(foundElement, config, item.id, item.app);
           }
@@ -163,19 +206,7 @@ export default function TreeRender({
               app: {selectedItem?.data.app}
             </Typography>
           </div>
-          {/* {selectedItem?.data?.form && (
-            <div>
-              <table style={{ width: "100%" }}>
-                <tbody>
-                  <TreeNodeForm
-                    node={(selectedItem.data || {}) as treeFormat}
-                    data={data}
-                  />
-                </tbody>
-              </table>
-            </div>
-          )} */}
-          {selectedItem?.data?.type && ( // && !selectedItem?.data?.form
+          {selectedItem?.data?.type && (
             <div>
               <table style={{ width: "100%" }}>
                 <tbody>

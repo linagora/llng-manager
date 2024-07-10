@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from "react";
 import { VisuallyHiddenInput } from "../components/managerComponents/VisuallyHiddenInput";
 import { NewCertificate } from "../utils/generateKey";
 import { handleChangeFile } from "../utils/readFiles";
+
 export default function RSACertKeyForm({
   value,
   fieldNames,
@@ -14,13 +15,24 @@ export default function RSACertKeyForm({
   fieldNames: Record<string, string>;
   updateFunc: Function;
 }) {
-  let i = 0;
   const [genPopup, setGenPopup] = useState(false);
   const [password, setPassword] = useState<string>();
   const handleGenerateKeys = async (password?: string) => {
     try {
       const result = await NewCertificate(password);
-      updateFunc(result);
+      updateFunc({
+        param: fieldNames.pub,
+        value: result.public,
+      });
+      updateFunc({
+        param: fieldNames.priv,
+        value: result.private,
+      });
+      updateFunc({
+        param: fieldNames.hash,
+        value: password,
+      });
+      setPassword("");
     } catch (error) {
       console.error("Error generating keys:", error);
     }
@@ -50,7 +62,10 @@ export default function RSACertKeyForm({
                           e as ChangeEvent<HTMLInputElement>
                         ).then((fileContent) => {
                           console.debug("File content:", fileContent);
-                          updateFunc(fileContent);
+                          updateFunc({
+                            param: fieldNames.priv,
+                            value: fileContent,
+                          });
                         });
                       }
                     }}
@@ -67,7 +82,12 @@ export default function RSACertKeyForm({
                   rows={4}
                   className="formInput"
                   value={value.priv || ""}
-                  onChange={(e) => updateFunc(e.target.value)}
+                  onChange={(e) =>
+                    updateFunc({
+                      param: fieldNames.priv,
+                      value: e.target.value,
+                    })
+                  }
                 />
               </td>
             </tr>
@@ -80,7 +100,12 @@ export default function RSACertKeyForm({
                   variant="filled"
                   className="formInput"
                   value={value.hash || ""}
-                  onChange={(e) => updateFunc(e.target.value)}
+                  onChange={(e) =>
+                    updateFunc({
+                      param: fieldNames.hash,
+                      value: e.target.value,
+                    })
+                  }
                 />
               </td>
             </tr>
@@ -104,7 +129,10 @@ export default function RSACertKeyForm({
                           e as ChangeEvent<HTMLInputElement>
                         ).then((fileContent) => {
                           console.debug("File content:", fileContent);
-                          updateFunc(fileContent);
+                          updateFunc({
+                            param: fieldNames.pub,
+                            value: fileContent,
+                          });
                         });
                       }
                     }}
@@ -120,7 +148,12 @@ export default function RSACertKeyForm({
                   rows={4}
                   className="formInput"
                   value={value.pub || ""}
-                  onChange={(e) => updateFunc(e.target.value)}
+                  onChange={(e) =>
+                    updateFunc({
+                      param: fieldNames.pub,
+                      value: e.target.value,
+                    })
+                  }
                 />
               </td>
             </tr>
@@ -144,7 +177,8 @@ export default function RSACertKeyForm({
           size="small"
           margin="normal"
           className="formInput"
-          value={""}
+          value={password}
+          placeholder={t("enterPassword")}
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button

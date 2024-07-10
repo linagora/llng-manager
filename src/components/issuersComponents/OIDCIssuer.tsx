@@ -1,24 +1,19 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionSummary,
-  Button,
   FormControl,
   FormControlLabel,
   IconButton,
-  InputLabel,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
   TextField,
   Tooltip,
 } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   delModuleOpt,
@@ -27,44 +22,15 @@ import {
   updateConfigParams,
   updateModuleOpt,
 } from "../../features/config/configSlice";
+import OidcKeyForm from "../../forms/OidcKeyForm";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
-import { GenerateKeys } from "../../utils/generateKey";
-import { handleChangeFile } from "../../utils/readFiles";
+import { llngConfig } from "../../utils/types";
 import { TableVars } from "../applicationsComponents/TableVars";
-import { VisuallyHiddenInput } from "../managerComponents/VisuallyHiddenInput";
 export function OIDCIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
   const [option, setOption] = useState("basic");
-  const handleGenerateKeys = async (type: string) => {
-    try {
-      const result = await GenerateKeys(type);
-
-      result.hash
-        ? dispatch(
-            updateConfigParams({
-              param: `oidcServiceKeyIdSig`,
-              value: result.hash,
-            })
-          )
-        : console.debug();
-      dispatch(
-        updateConfigParams({
-          param: `oidcServicePrivateKeySig`,
-          value: result.private,
-        })
-      );
-      dispatch(
-        updateConfigParams({
-          param: `oidcServicePublicKeySig`,
-          value: result.public,
-        })
-      );
-    } catch (error) {
-      console.error("Error generating keys:", error);
-    }
-  };
 
   return (
     <div>
@@ -158,224 +124,27 @@ export function OIDCIssuer() {
         )}
         {option === "oidcServiceMetaDataSecurity" && (
           <>
-            <table>
-              <tbody>
-                <tr>
-                  <th colSpan={2}> {t("oidcServiceMetaDataSigKeys")}</th>
-                </tr>
-                <tr>
-                  <th>{t("oidcServiceKeyTypeSig")}</th>
-                  <td>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel>{t("oidcServiceKeyTypeSig")}</InputLabel>
-                      <Select
-                        value={
-                          config.oidcServiceKeyTypeSig
-                            ? config.oidcServiceKeyTypeSig
-                            : attributes.oidcServiceKeyTypeSig.default
-                        }
-                        label={t("oidcServiceKeyTypeSig")}
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param: "oidcServiceKeyTypeSig",
-                              value: e.target.value,
-                            })
-                          )
-                        }
-                      >
-                        {attributes.oidcServiceKeyTypeSig.select.map((el) => {
-                          return (
-                            <MenuItem key={el.k} value={el.k}>
-                              {t(el.v)}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.oidcServiceKeyIdSig
-                          ? definitions.oidcServiceKeyIdSig
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th> {t("oidcServiceKeyIdSig")} </th>
-                  </Tooltip>
+            <OidcKeyForm
+              value={{
+                type: config.oidcServiceKeyTypeSig
+                  ? config.oidcServiceKeyTypeSig
+                  : attributes.oidcServiceKeyTypeSig.default,
+                hash: config.oidcServiceKeyIdSig || "",
+                priv: config.oidcServicePrivateKeySig || "",
+                pub: config.oidcServicePublicKeySig || "",
+              }}
+              fieldNames={{
+                type: "oidcServiceKeyTypeSig",
+                hash: "oidcServiceKeyIdSig",
+                priv: "oidcServicePrivateKeySig",
+                pub: "oidcServicePublicKeySig",
+              }}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
 
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="formInput"
-                      value={config.oidcServiceKeyIdSig || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "oidcServiceKeyIdSig",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>
-                    <div>
-                      <Tooltip
-                        title={
-                          <Markdown>
-                            {definitions.oidcServicePrivateKeySig
-                              ? definitions.oidcServicePrivateKeySig
-                              : ""}
-                          </Markdown>
-                        }
-                      >
-                        <span>{t("oidcServicePrivateKeySig")}</span>
-                      </Tooltip>
-                    </div>
-                    <Button
-                      sx={{ margin: "5px" }}
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      {t("upload")}
-                      <VisuallyHiddenInput
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target instanceof HTMLInputElement) {
-                            handleChangeFile(
-                              e as ChangeEvent<HTMLInputElement>
-                            ).then((fileContent) => {
-                              console.debug("File content:", fileContent);
-                              dispatch(
-                                updateConfigParams({
-                                  param: "oidcServicePrivateKeySig",
-                                  value: fileContent,
-                                })
-                              );
-                            });
-                          }
-                        }}
-                      />
-                    </Button>
-                  </th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      multiline
-                      fullWidth
-                      variant="filled"
-                      rows={5}
-                      className="formInput"
-                      value={config.oidcServicePrivateKeySig || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "oidcServicePrivateKeySig",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>
-                    <div>
-                      <Tooltip
-                        title={
-                          <Markdown>
-                            {definitions.oidcServicePublicKeySig
-                              ? definitions.oidcServicePublicKeySig
-                              : ""}
-                          </Markdown>
-                        }
-                      >
-                        <span>{t("oidcServicePublicKeySig")}</span>
-                      </Tooltip>
-                    </div>
-                    <Button
-                      sx={{ margin: "5px" }}
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
-                    >
-                      {t("upload")}
-                      <VisuallyHiddenInput
-                        type="file"
-                        onChange={(e) => {
-                          if (e.target instanceof HTMLInputElement) {
-                            handleChangeFile(
-                              e as ChangeEvent<HTMLInputElement>
-                            ).then((fileContent) => {
-                              console.debug("File content:", fileContent);
-                              dispatch(
-                                updateConfigParams({
-                                  param: "oidcServicePublicKeySig",
-                                  value: fileContent,
-                                })
-                              );
-                            });
-                          }
-                        }}
-                      />
-                    </Button>
-                  </th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      multiline
-                      variant="filled"
-                      fullWidth
-                      rows={5}
-                      className="formInput"
-                      value={config.oidcServicePublicKeySig || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "oidcServicePublicKeySig",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={2}>
-                    <Button
-                      variant="outlined"
-                      className="generateButton"
-                      onClick={() =>
-                        handleGenerateKeys(
-                          config.oidcServiceKeyTypeSig
-                            ? config.oidcServiceKeyTypeSig
-                            : "RSA"
-                        )
-                      }
-                    >
-                      {t("newRSAKey")}
-                    </Button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
             <table>
               <tbody>
                 <tr>

@@ -13,8 +13,11 @@ import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
+import SamlAssertionForm from "../../forms/SamlAssertionForm";
+import SamlServiceForm from "../../forms/SamlServiceForm";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
+import { llngConfig } from "../../utils/types";
 
 export function SAMLRenderer() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -328,577 +331,89 @@ export function SAMLRenderer() {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlSPSSODescriptorSingleLogoutService")}
             </AccordionSummary>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlSPSSODescriptorSingleLogoutServiceHTTPRedirect")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                          ";"
-                        )[1]
-                          ? config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                              ";"
-                            )[1]
-                          : ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorSingleLogoutServiceHTTPRedirect",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorSingleLogoutServiceHTTPPost
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlSPSSODescriptorSingleLogoutServiceHTTPPost")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorSingleLogoutServiceHTTPPost",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorSingleLogoutServiceHTTPPost",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorSingleLogoutServiceSOAP
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlSPSSODescriptorSingleLogoutServiceSOAP")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlSPSSODescriptorSingleLogoutServiceSOAP",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlSPSSODescriptorSingleLogoutServiceSOAP",
-                            value: [
-                              config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlServiceForm
+              value={
+                config.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect ||
+                attributes.samlSPSSODescriptorSingleLogoutServiceHTTPRedirect
+                  .default
+              }
+              fieldName={"samlSPSSODescriptorSingleLogoutServiceHTTPRedirect"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlSPSSODescriptorSingleLogoutServiceHTTPPost ||
+                attributes.samlSPSSODescriptorSingleLogoutServiceHTTPPost
+                  .default
+              }
+              fieldName={"samlSPSSODescriptorSingleLogoutServiceHTTPPost"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlSPSSODescriptorSingleLogoutServiceSOAP ||
+                attributes.samlSPSSODescriptorSingleLogoutServiceSOAP.default
+              }
+              fieldName={"samlSPSSODescriptorSingleLogoutServiceSOAP"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlSPSSODescriptorAssertionConsumerService")}
             </AccordionSummary>
 
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t(
-                        "samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact"
-                      )}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("default")}</th>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                            ";"
-                          )[0] || 0
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param:
-                                "samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact",
-                              value: [
-                                e.target.value,
-                                1 - Number(e.target.value),
-                                config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                  ";"
-                                )[2],
-                                config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                  ";"
-                                )[3],
-                              ].join(";"),
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                          ";"
-                        )[3] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact",
-                            value: [
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[1],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[2],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorAssertionConsumerServiceHTTPPost
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlSPSSODescriptorAssertionConsumerServiceHTTPPost")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("default")}</th>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
-                            ";"
-                          )[0] || 0
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param:
-                                "samlSPSSODescriptorAssertionConsumerServiceHTTPPost",
-                              value: [
-                                e.target.value,
-                                1 - Number(e.target.value),
-                                config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                  ";"
-                                )[2],
-                                config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                  ";"
-                                )[3],
-                              ].join(";"),
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
-                          ";"
-                        )[3] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorAssertionConsumerServiceHTTPPost",
-                            value: [
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
-                                ";"
-                              )[1],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost?.split(
-                                ";"
-                              )[2],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlAssertionForm
+              value={
+                config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact ||
+                attributes
+                  .samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact
+                  .default
+              }
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+              fieldName="samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact"
+            />
+            <SamlAssertionForm
+              value={
+                config.samlSPSSODescriptorAssertionConsumerServiceHTTPPost ||
+                attributes.samlSPSSODescriptorAssertionConsumerServiceHTTPPost
+                  .default
+              }
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+              fieldName="samlSPSSODescriptorAssertionConsumerServiceHTTPPost"
+            />
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlSPSSODescriptorArtifactResolutionService")}
             </AccordionSummary>
-
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlSPSSODescriptorArtifactResolutionServiceArtifact
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t(
-                        "samlSPSSODescriptorArtifactResolutionServiceArtifact"
-                      )}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("default")}</th>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlSPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                            ";"
-                          )[0] || 0
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param:
-                                "samlSPSSODescriptorArtifactResolutionServiceArtifact",
-                              value: [
-                                e.target.value,
-                                1 - Number(e.target.value),
-                                config.samlSPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                  ";"
-                                )[2],
-                                config.samlSPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                  ";"
-                                )[3],
-                              ].join(";"),
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                          ";"
-                        )[3] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact",
-                            value: [
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[0],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[1],
-                              config.samlSPSSODescriptorAssertionConsumerServiceHTTPArtifact?.split(
-                                ";"
-                              )[2],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlAssertionForm
+              value={
+                config.samlSPSSODescriptorArtifactResolutionServiceArtifact ||
+                attributes.samlSPSSODescriptorArtifactResolutionServiceArtifact
+                  .default
+              }
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+              fieldName="samlSPSSODescriptorArtifactResolutionServiceArtifact"
+            />
           </Accordion>
         </Accordion>
         <Accordion>
@@ -909,724 +424,117 @@ export function SAMLRenderer() {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlIDPSSODescriptorSingleSignOnService")}
             </AccordionSummary>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleSignOnServiceHTTPPost
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleSignOnServiceHTTPPost")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPPost",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPPost",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact",
-                            value: [
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect ||
+                attributes.samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect
+                  .default
+              }
+              fieldName={"samlIDPSSODescriptorSingleSignOnServiceHTTPRedirect"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleSignOnServiceHTTPPost ||
+                attributes.samlIDPSSODescriptorSingleSignOnServiceHTTPPost
+                  .default
+              }
+              fieldName={"samlIDPSSODescriptorSingleSignOnServiceHTTPPost"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact ||
+                attributes.samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact
+                  .default
+              }
+              fieldName={"samlIDPSSODescriptorSingleSignOnServiceHTTPArtifact"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlIDPSSODescriptorSingleLogoutService")}
             </AccordionSummary>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleLogoutServiceHTTPPost
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleLogoutServiceHTTPPost")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceHTTPPost",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceHTTPPost",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorSingleLogoutServiceSOAP
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t("samlIDPSSODescriptorSingleLogoutServiceSOAP")}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                          ";"
-                        )[1] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceSOAP",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[0],
-                              e.target.value,
-                              config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[2],
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("returnUrl")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                          ";"
-                        )[2] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorSingleLogoutServiceSOAP",
-                            value: [
-                              config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorSingleLogoutServiceSOAP?.split(
-                                ";"
-                              )[1],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect ||
+                attributes.samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect
+                  .default
+              }
+              fieldName={"samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleLogoutServiceHTTPPost ||
+                attributes.samlIDPSSODescriptorSingleLogoutServiceHTTPPost
+                  .default
+              }
+              fieldName={"samlIDPSSODescriptorSingleLogoutServiceHTTPPost"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
+            <SamlServiceForm
+              value={
+                config.samlIDPSSODescriptorSingleLogoutServiceSOAP ||
+                attributes.samlIDPSSODescriptorSingleLogoutServiceSOAP.default
+              }
+              fieldName={"samlIDPSSODescriptorSingleLogoutServiceSOAP"}
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+            />
           </Accordion>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               {t("samlIDPSSODescriptorArtifactResolutionService")}
             </AccordionSummary>
-
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlIDPSSODescriptorArtifactResolutionServiceArtifact
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th colSpan={2}>
-                      {t(
-                        "samlIDPSSODescriptorArtifactResolutionServiceArtifact"
-                      )}
-                    </th>
-                  </Tooltip>
-                </tr>
-                <tr>
-                  <th>{t("default")}</th>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                            ";"
-                          )[0] || 0
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param:
-                                "samlIDPSSODescriptorArtifactResolutionServiceArtifact",
-                              value: [
-                                e.target.value,
-                                1 - Number(e.target.value),
-                                config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                  ";"
-                                )[2],
-                                config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                  ";"
-                                )[3],
-                              ].join(";"),
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <th>{t("url")}</th>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={
-                        config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                          ";"
-                        )[3] || ""
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param:
-                              "samlIDPSSODescriptorArtifactResolutionServiceArtifact",
-                            value: [
-                              config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                ";"
-                              )[0],
-                              config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                ";"
-                              )[1],
-                              config.samlIDPSSODescriptorArtifactResolutionServiceArtifact?.split(
-                                ";"
-                              )[2],
-                              e.target.value,
-                            ].join(";"),
-                          })
-                        )
-                      }
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <SamlAssertionForm
+              value={
+                config.samlIDPSSODescriptorArtifactResolutionServiceArtifact ||
+                attributes.samlIDPSSODescriptorArtifactResolutionServiceArtifact
+                  .default
+              }
+              updateFunc={<K extends keyof llngConfig>(e: {
+                param: K;
+                value: llngConfig[K];
+              }) => dispatch(updateConfigParams(e))}
+              fieldName="samlIDPSSODescriptorArtifactResolutionServiceArtifact"
+            />
           </Accordion>
         </Accordion>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             {t("samlAttributeAuthorityDescriptor")}
           </AccordionSummary>
-
-          <table>
-            <tbody>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlAttributeAuthorityDescriptorAttributeServiceSOAP
-                        : "") + ""}
-                    </Markdown>
-                  }
-                >
-                  <th colSpan={2}>
-                    {t("samlAttributeAuthorityDescriptorAttributeService")} :
-                    {t("samlAttributeAuthorityDescriptorAttributeServiceSOAP")}
-                  </th>
-                </Tooltip>
-              </tr>
-              <tr>
-                <th>{t("url")}</th>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                        ";"
-                      )[1] || ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param:
-                            "samlAttributeAuthorityDescriptorAttributeServiceSOAP",
-                          value: [
-                            config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                              ";"
-                            )[0],
-                            e.target.value,
-                            config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                              ";"
-                            )[2],
-                          ].join(";"),
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-
-              <tr>
-                <th>{t("returnUrl")}</th>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                        ";"
-                      )[2] || ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param:
-                            "samlAttributeAuthorityDescriptorAttributeServiceSOAP",
-                          value: [
-                            config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                              ";"
-                            )[0],
-                            config.samlAttributeAuthorityDescriptorAttributeServiceSOAP?.split(
-                              ";"
-                            )[1],
-                            e.target.value,
-                          ].join(";"),
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <SamlServiceForm
+            value={
+              config.samlAttributeAuthorityDescriptorAttributeServiceSOAP ||
+              attributes.samlAttributeAuthorityDescriptorAttributeServiceSOAP
+                .default
+            }
+            fieldName={"samlAttributeAuthorityDescriptorAttributeServiceSOAP"}
+            updateFunc={<K extends keyof llngConfig>(e: {
+              param: K;
+              value: llngConfig[K];
+            }) => dispatch(updateConfigParams(e))}
+          />
         </Accordion>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

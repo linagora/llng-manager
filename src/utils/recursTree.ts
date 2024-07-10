@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import attributes from "../static/attributes.json";
-import { llngConfig } from "../utils/types";
+import { llngConfig } from "./types";
 
 export interface TreeNode {
   help?: string;

@@ -1,5 +1,5 @@
-import { llngConfig } from "../utils/types";
 import { TreeNode, confFieldsEq, treeFormat } from "./recursTree";
+import { llngConfig } from "./types";
 
 export function findElementByTitleOrValue(
   arr: TreeNode[],

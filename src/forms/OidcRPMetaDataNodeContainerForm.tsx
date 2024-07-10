@@ -1,6 +1,6 @@
 import { NodeApi } from "react-arborist";
-import { treeFormat } from "../dashboards/recursTree";
 import { changeAppName } from "../features/config/configSlice";
+import { treeFormat } from "../utils/recursTree";
 import OidcRPMetaDataNodeForm from "./OidcRPMetaDataNodeForm";
 
 export default function OidcRPMetaDataNodeContainerForm({

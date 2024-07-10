@@ -1,12 +1,8 @@
 import axios from "axios";
 
-export async function GenerateKeys(type: string) {
+export async function GenerateEcKeys() {
   try {
-    const response = await axios.post(
-      `/manager.fcgi/confs//new${type === "EC" ? "Ec" : type}Key${
-        type === "EC" ? "s" : ""
-      }`
-    );
+    const response = await axios.post("/manager.fcgi/confs//newEcKeys");
     const result = response.data;
     return result;
   } catch (error) {
