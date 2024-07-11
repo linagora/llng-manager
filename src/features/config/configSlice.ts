@@ -935,7 +935,7 @@ const configSlice = createSlice({
       state: {
         data: { config: llngConfig; metadata: MetaData };
       },
-      action: PayloadAction<{ name: K; data: Record<string, string> }>
+      action: PayloadAction<{ name: K; data: llngConfig[K] }>
     ) {
       if (!state.data.config[action.payload.name]) {
         state.data.config[action.payload.name] = {} as llngConfig[K];
@@ -1015,6 +1015,72 @@ const configSlice = createSlice({
         action.payload.node,
         action.payload.newValue
       );
+    },
+    newSfExtraOverParam(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<string>
+    ) {
+      if (!state.data.config.sfExtra) {
+        state.data.config.sfExtra = {};
+      }
+      if (!state.data.config.sfExtra[action.payload]) {
+        state.data.config.sfExtra[action.payload] = {};
+      }
+      if (!state.data.config.sfExtra[action.payload].over) {
+        state.data.config.sfExtra[action.payload].over = {};
+      }
+      const length =
+        Object.keys(
+          state.data.config.sfExtra[action.payload].over as Record<
+            string,
+            string | number
+          >
+        ).length + 1;
+      (
+        state.data.config.sfExtra[action.payload].over as Record<
+          string,
+          string | number
+        >
+      )[`new${length}`] = "";
+    },
+    updateSfExtraOverParam(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<{ name: string; data: Record<string, string> }>
+    ) {
+      if (!state.data.config.sfExtra) {
+        state.data.config.sfExtra = {};
+      }
+      if (!state.data.config.sfExtra[action.payload.name]) {
+        state.data.config.sfExtra[action.payload.name] = {};
+      }
+      if (!state.data.config.sfExtra[action.payload.name].over) {
+        state.data.config.sfExtra[action.payload.name].over = {};
+      }
+
+      state.data.config.sfExtra[action.payload.name].over = action.payload.data;
+    },
+    deleteSfExtraOverParam(
+      state: {
+        data: { config: llngConfig; metadata: MetaData };
+      },
+      action: PayloadAction<{ name: string; key: string }>
+    ) {
+      if (state.data.config.sfExtra) {
+        if (state.data.config.sfExtra[action.payload.name]) {
+          if (state.data.config.sfExtra[action.payload.name].over) {
+            delete (
+              state.data.config.sfExtra[action.payload.name].over as Record<
+                string,
+                string | number
+              >
+            )[action.payload.key];
+          }
+        }
+      }
     },
   },
   extraReducers: (builder) => {
@@ -1167,5 +1233,8 @@ export const {
   delGetParamOption,
   newGetParamOption,
   changeConf,
+  newSfExtraOverParam,
+  updateSfExtraOverParam,
+  deleteSfExtraOverParam,
 } = configSlice.actions;
 export default configSlice.reducer;

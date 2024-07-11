@@ -47,6 +47,7 @@ import SamlSPMetaDataNodeContainerForm from "../forms/SamlSPMetaDataNodeContaine
 import SamlSPMetaDataNodeForm from "../forms/SamlSPMetaDataNodeForm";
 import SamlServiceForm from "../forms/SamlServiceForm";
 import SelectForm from "../forms/SelectForm";
+import SfExtraContainerForm from "../forms/SfExtraContainerForm";
 import TextForm from "../forms/TextForm";
 import TroolForm from "../forms/TroolForm";
 import UrlForm from "../forms/UrlForm";
@@ -757,6 +758,14 @@ export function TreeNodeType({
         <tr>
           <td>
             <SMTPForm />
+          </td>
+        </tr>
+      );
+    case "sfExtraContainer":
+      return (
+        <tr>
+          <td>
+            <SfExtraContainerForm data={data} dispatch={dispatch} />
           </td>
         </tr>
       );

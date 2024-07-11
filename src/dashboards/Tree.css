@@ -17,6 +17,10 @@
   height: 85vh;
 }
 
+.treePage table {
+  width: 100%;
+}
+
 .nodeContent {
   word-break: break-word;
 }

@@ -818,14 +818,11 @@ export interface llngConfig {
   sfEngine?: string;
   sfExtra?: Record<
     string,
-    Record<
-      string,
-      {
-        type?: string;
-        over?: Record<string, string | number>;
-        register?: number | boolean;
-      }
-    >
+    {
+      type?: string;
+      over?: Record<string, string | number>;
+      register?: number | boolean;
+    }
   >;
   sfLoginTimeout?: number | null;
   sfManagerRule?: boolean | number | string;

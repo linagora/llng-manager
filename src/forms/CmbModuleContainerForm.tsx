@@ -181,47 +181,48 @@ export default function CmbModuleContainerForm({
           })}
         </tbody>
       </table>
+      <div>
+        {Object.keys(data).map((key) => {
+          i++;
+          return (
+            <Accordion key={i}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                {t("overPrm") + " " + key}
+              </AccordionSummary>
 
-      {Object.keys(data).map((key) => {
-        i++;
-        return (
-          <Accordion key={i}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              {t("overPrm") + " " + key}
-            </AccordionSummary>
-
-            <table id={`overParam${key}`}>
-              <thead>
-                <tr>
-                  <th>{t("overPrm")}</th>
-                  <th>{t("value")}</th>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newCombOverParam(key))}
+              <table id={`overParam${key}`}>
+                <thead>
+                  <tr>
+                    <th>{t("overPrm")}</th>
+                    <th>{t("value")}</th>
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() => dispatch(newCombOverParam(key))}
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                <TableVars
+                  appName={key}
+                  vars={
+                    (data[key].over ? data[key].over : {}) as Record<
+                      string,
+                      string
                     >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={key}
-                vars={
-                  (data[key].over ? data[key].over : {}) as Record<
-                    string,
-                    string
-                  >
-                }
-                tableID={`overParam${key}`}
-                dispatch={dispatch}
-                delFunction={delCombOverParam}
-                updateFunction={updateCombOverParam}
-              />
-            </table>
-          </Accordion>
-        );
-      })}
+                  }
+                  tableID={`overParam${key}`}
+                  dispatch={dispatch}
+                  delFunction={delCombOverParam}
+                  updateFunction={updateCombOverParam}
+                />
+              </table>
+            </Accordion>
+          );
+        })}
+      </div>
     </>
   );
 }
