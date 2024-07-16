@@ -272,22 +272,97 @@ const configSlice = createSlice({
         }
       }
     },
-    delApp(state, action: PayloadAction<string>) {
-      for (const key of Object.keys(state.data.config) as Array<
-        keyof llngConfig
-      >) {
-        const value = state.data.config[key];
-        if (
-          typeof value === "object" &&
-          value !== null &&
-          !Array.isArray(value)
-        ) {
-          for (const name of Object.keys(value)) {
-            if (name === action.payload) {
-              delete value[name];
-            }
+    delApp(state, action: PayloadAction<{ name: string; type: string }>) {
+      switch (action.payload.type) {
+        case "native":
+          if (state.data.config.locationRules) {
+            delete state.data.config.locationRules[action.payload.name];
           }
-        }
+          if (state.data.config.vhostOptions) {
+            delete state.data.config.vhostOptions[action.payload.name];
+          }
+          if (state.data.config.exportedHeaders) {
+            delete state.data.config.exportedHeaders[action.payload.name];
+          }
+          if (state.data.config.post) {
+            delete state.data.config.post[action.payload.name];
+          }
+          break;
+        case "SPsaml":
+          if (state.data.config.samlSPMetaDataXML) {
+            delete state.data.config.samlSPMetaDataXML[action.payload.name];
+          }
+          if (state.data.config.samlSPMetaDataOptions) {
+            delete state.data.config.samlSPMetaDataOptions[action.payload.name];
+          }
+          break;
+        case "IdPsaml":
+          if (state.data.config.samlIDPMetaDataXML) {
+            delete state.data.config.samlIDPMetaDataXML[action.payload.name];
+          }
+          if (state.data.config.samlIDPMetaDataOptions) {
+            delete state.data.config.samlIDPMetaDataOptions[
+              action.payload.name
+            ];
+          }
+          break;
+        case "RPoidc":
+          if (state.data.config.oidcRPMetaDataOptions) {
+            delete state.data.config.oidcRPMetaDataOptions[action.payload.name];
+          }
+          if (state.data.config.oidcRPMetaDataExportedVars) {
+            delete state.data.config.oidcRPMetaDataExportedVars[
+              action.payload.name
+            ];
+          }
+          if (state.data.config.oidcRPMetaDataMacros) {
+            delete state.data.config.oidcRPMetaDataMacros[action.payload.name];
+          }
+          break;
+        case "OPoidc":
+          if (state.data.config.oidcOPMetaDataOptions) {
+            delete state.data.config.oidcOPMetaDataOptions[action.payload.name];
+          }
+          if (state.data.config.oidcOPMetaDataExportedVars) {
+            delete state.data.config.oidcOPMetaDataExportedVars[
+              action.payload.name
+            ];
+          }
+          if (state.data.config.oidcOPMetaDataJSON) {
+            delete state.data.config.oidcOPMetaDataJSON[action.payload.name];
+          }
+
+          if (state.data.config.oidcOPMetaDataJWKS) {
+            delete state.data.config.oidcOPMetaDataJWKS[action.payload.name];
+          }
+          break;
+        case "AppCas":
+          if (state.data.config.casAppMetaDataOptions) {
+            delete state.data.config.casAppMetaDataOptions[action.payload.name];
+          }
+
+          if (state.data.config.casAppMetaDataMacros) {
+            delete state.data.config.casAppMetaDataMacros[action.payload.name];
+          }
+
+          if (state.data.config.casAppMetaDataExportedVars) {
+            delete state.data.config.casAppMetaDataExportedVars[
+              action.payload.name
+            ];
+          }
+          break;
+        case "SrvCas":
+          if (state.data.config.casSrvMetaDataOptions) {
+            delete state.data.config.casSrvMetaDataOptions[action.payload.name];
+          }
+          if (state.data.config.casSrvMetaDataExportedVars) {
+            delete state.data.config.casSrvMetaDataExportedVars[
+              action.payload.name
+            ];
+          }
+          break;
+        default:
+          break;
       }
     },
     newApp(state, action: PayloadAction<{ name: string; type: string }>) {
@@ -311,7 +386,7 @@ const configSlice = createSlice({
           }
           state.data.config.post[action.payload.name] = {};
           break;
-        case "saml":
+        case "SPsaml":
           if (!state.data.config.samlSPMetaDataXML) {
             state.data.config.samlSPMetaDataXML = {};
           }
@@ -323,7 +398,19 @@ const configSlice = createSlice({
           }
           state.data.config.samlSPMetaDataOptions[action.payload.name] = {};
           break;
-        case "oidc":
+        case "IdPsaml":
+          if (!state.data.config.samlIDPMetaDataXML) {
+            state.data.config.samlIDPMetaDataXML = {};
+          }
+          state.data.config.samlIDPMetaDataXML[action.payload.name] = {
+            samlIDPMetaDataXML: "",
+          };
+          if (!state.data.config.samlIDPMetaDataOptions) {
+            state.data.config.samlIDPMetaDataOptions = {};
+          }
+          state.data.config.samlIDPMetaDataOptions[action.payload.name] = {};
+          break;
+        case "RPoidc":
           if (!state.data.config.oidcRPMetaDataOptions) {
             state.data.config.oidcRPMetaDataOptions = {};
           }
@@ -370,7 +457,26 @@ const configSlice = createSlice({
           state.data.config.oidcRPMetaDataMacros[action.payload.name] =
             attributes.oidcRPMetaDataMacros.default;
           break;
-        case "cas":
+        case "OPoidc":
+          if (!state.data.config.oidcOPMetaDataOptions) {
+            state.data.config.oidcOPMetaDataOptions = {};
+          }
+          state.data.config.oidcOPMetaDataOptions[action.payload.name] = {};
+          if (!state.data.config.oidcOPMetaDataExportedVars) {
+            state.data.config.oidcOPMetaDataExportedVars = {};
+          }
+          state.data.config.oidcOPMetaDataExportedVars[action.payload.name] =
+            attributes.oidcOPMetaDataExportedVars.default;
+          if (!state.data.config.oidcOPMetaDataJSON) {
+            state.data.config.oidcOPMetaDataJSON = {};
+          }
+          state.data.config.oidcOPMetaDataJSON[action.payload.name] = "";
+          if (!state.data.config.oidcOPMetaDataJWKS) {
+            state.data.config.oidcOPMetaDataJWKS = {};
+          }
+          state.data.config.oidcOPMetaDataJWKS[action.payload.name] = "";
+          break;
+        case "AppCas":
           if (!state.data.config.casAppMetaDataOptions) {
             state.data.config.casAppMetaDataOptions = {};
           }
@@ -389,6 +495,17 @@ const configSlice = createSlice({
           }
           state.data.config.casAppMetaDataExportedVars[action.payload.name] =
             attributes.casAppMetaDataExportedVars.default;
+          break;
+        case "SrvCas":
+          if (!state.data.config.casSrvMetaDataOptions) {
+            state.data.config.casSrvMetaDataOptions = {};
+          }
+          state.data.config.casSrvMetaDataOptions[action.payload.name] = {};
+          if (!state.data.config.casSrvMetaDataExportedVars) {
+            state.data.config.casSrvMetaDataExportedVars = {};
+          }
+          state.data.config.casSrvMetaDataExportedVars[action.payload.name] =
+            attributes.casSrvMetaDataExportedVars.default;
           break;
         default:
           break;
@@ -1082,6 +1199,293 @@ const configSlice = createSlice({
         }
       }
     },
+    newCategory(state) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      const maxOrder = Math.max(
+        ...Object.keys(state.data.config.applicationList)
+          .map((key) =>
+            state.data.config.applicationList
+              ? (
+                  state.data.config.applicationList as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
+              : 0
+          )
+          .filter((el) => typeof el === "number"),
+        0
+      );
+      state.data.config.applicationList[
+        `new_category${Object.keys(state.data.config.applicationList).length}`
+      ] = {
+        catname: "New category",
+        order: (maxOrder ? maxOrder : 0) + 1,
+        type: "category",
+      };
+    },
+    renameCategory(
+      state,
+      action: PayloadAction<{ id: string; newname: string }>
+    ) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      state.data.config.applicationList[action.payload.id].catname =
+        action.payload.newname;
+    },
+    delCategory(state, action: PayloadAction<string>) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      delete state.data.config.applicationList[action.payload];
+    },
+    newApplication(state, action: PayloadAction<string>) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      if (!state.data.config.applicationList[action.payload]) {
+        state.data.config.applicationList[action.payload] = {};
+      }
+      const maxOrder = Math.max(
+        ...Object.keys(state.data.config.applicationList[action.payload])
+          .map((key) =>
+            state.data.config.applicationList
+              ? (
+                  state.data.config.applicationList[action.payload] as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
+              : 0
+          )
+          .filter((el) => typeof el === "number"),
+        0
+      );
+      state.data.config.applicationList[action.payload][
+        `new_application${
+          Object.keys(state.data.config.applicationList[action.payload]).length
+        }`
+      ] = {
+        options: { name: "New Application" },
+        order: (maxOrder ? maxOrder : 0) + 1,
+        type: "application",
+      };
+    },
+    changeApplicationField(
+      state,
+      action: PayloadAction<{
+        catid: string;
+        id: string;
+        field: string;
+        value: string;
+      }>
+    ) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      (
+        (
+          state.data.config.applicationList[action.payload.catid] as Record<
+            string,
+            object
+          >
+        )[action.payload.id] as Record<string, Record<string, string>>
+      ).options[action.payload.field] = action.payload.value;
+    },
+    delApplication(
+      state,
+      action: PayloadAction<{ catid: string; id: string }>
+    ) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      delete (
+        state.data.config.applicationList[action.payload.catid] as Record<
+          string,
+          object
+        >
+      )[action.payload.id];
+    },
+    moveCat(
+      state,
+      action: PayloadAction<{ category: string; direction: string }>
+    ) {
+      if (!state.data.config.applicationList) {
+        state.data.config.applicationList = {};
+      }
+      let categories = Object.keys(state.data.config.applicationList)
+        .filter((key: string) =>
+          state.data.config.applicationList
+            ? (
+                state.data.config.applicationList as Record<
+                  string,
+                  Record<string, number>
+                >
+              )[key].order
+              ? true
+              : false
+            : false
+        )
+        .sort((key1, key2) => {
+          if (state.data.config.applicationList) {
+            return (
+              (
+                state.data.config.applicationList as Record<
+                  string,
+                  Record<string, number>
+                >
+              )[key1].order -
+              (
+                state.data.config.applicationList as Record<
+                  string,
+                  Record<string, number>
+                >
+              )[key2].order
+            );
+          }
+          return 0;
+        });
+      const appIndex = categories.findIndex(
+        (el) => el === action.payload.category
+      );
+      const order = (
+        state.data.config.applicationList as Record<
+          string,
+          Record<string, number>
+        >
+      )[action.payload.category].order;
+
+      if (appIndex === -1) return;
+      if (action.payload.direction === "up" && appIndex > 0) {
+        (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[action.payload.category].order = (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[categories[appIndex - 1]].order;
+        (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[categories[appIndex - 1]].order = order;
+      } else if (
+        action.payload.direction === "down" &&
+        appIndex < categories.length - 1
+      ) {
+        (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[action.payload.category].order = (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[categories[appIndex + 1]].order;
+        (
+          state.data.config.applicationList as Record<
+            string,
+            Record<string, number>
+          >
+        )[categories[appIndex + 1]].order = order;
+      }
+    },
+    moveApp(
+      state,
+      action: PayloadAction<{
+        category: string;
+        appName: string;
+        direction: string;
+      }>
+    ) {
+      if (state.data.config.applicationList) {
+        let apps = Object.keys(
+          state.data.config.applicationList[action.payload.category]
+        )
+          .filter((key: string) =>
+            state.data.config.applicationList
+              ? (
+                  state.data.config.applicationList[
+                    action.payload.category
+                  ] as Record<string, Record<string, number>>
+                )[key].order
+                ? true
+                : false
+              : false
+          )
+          .sort((key1, key2) => {
+            if (state.data.config.applicationList) {
+              return (
+                (
+                  state.data.config.applicationList[
+                    action.payload.category
+                  ] as Record<string, Record<string, number>>
+                )[key1].order -
+                (
+                  state.data.config.applicationList[
+                    action.payload.category
+                  ] as Record<string, Record<string, number>>
+                )[key2].order
+              );
+            }
+            return 0;
+          });
+
+        const appIndex = apps.findIndex((el) => el === action.payload.appName);
+        const order = (
+          state.data.config.applicationList[action.payload.category] as Record<
+            string,
+            Record<string, number>
+          >
+        )[action.payload.appName].order;
+
+        if (appIndex === -1) return;
+        if (action.payload.direction === "up" && appIndex > 0) {
+          (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[action.payload.appName].order = (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[apps[appIndex - 1]].order;
+          (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[apps[appIndex - 1]].order = order;
+        } else if (
+          action.payload.direction === "down" &&
+          appIndex < apps.length - 1
+        ) {
+          (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[action.payload.appName].order = (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[apps[appIndex + 1]].order;
+          (
+            state.data.config.applicationList[
+              action.payload.category
+            ] as Record<string, Record<string, number>>
+          )[apps[appIndex + 1]].order = order;
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -1236,5 +1640,13 @@ export const {
   newSfExtraOverParam,
   updateSfExtraOverParam,
   deleteSfExtraOverParam,
+  newCategory,
+  renameCategory,
+  delCategory,
+  newApplication,
+  changeApplicationField,
+  delApplication,
+  moveCat,
+  moveApp,
 } = configSlice.actions;
 export default configSlice.reducer;

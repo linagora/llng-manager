@@ -277,7 +277,6 @@ export default function ContainerForm({
                     checked={data[key].register === 1 ? true : false}
                     value={data[key].register}
                     onChange={(e) => {
-                      console.log(e.target);
                       dispatch(
                         updateModuleOpt({
                           name: "sfExtra",

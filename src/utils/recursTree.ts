@@ -20,6 +20,7 @@ export interface treeFormat {
   type?: string;
   children?: treeFormat[];
   app?: string;
+  help?: string;
 }
 
 export const confFieldsEq = {
@@ -43,6 +44,7 @@ export function recursTree(
     if (Object.keys(confFieldsEq).includes(id)) {
       return {
         name: t(tree.title),
+        help: tree.help,
         type: attributes[tree.title as keyof typeof attributes]?.type,
         id: `${parentId};${tree.title}`,
         children: Object.keys(
@@ -52,6 +54,7 @@ export function recursTree(
         ).map((el) => {
           return {
             name: t(el),
+
             type: id,
             app: el,
             id: `${parentId};${tree.title};${el}`,
@@ -74,6 +77,7 @@ export function recursTree(
     }
     return {
       name: t(tree.title),
+      help: tree.help,
       type:
         tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
       id: `${parentId};${tree.title}`,
@@ -85,6 +89,7 @@ export function recursTree(
             attributes[node.title as keyof typeof attributes]?.type,
           id: `${parentId};${tree.title};${node.title}`,
           app: app,
+          help: node.help,
         };
       }),
       app: app,
@@ -95,5 +100,6 @@ export function recursTree(
     type: tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
     id: `${parentId};${tree.title}`,
     app: app,
+    help: tree.help,
   };
 }

@@ -1,14 +1,16 @@
 import EditIcon from "@mui/icons-material/Edit";
+import HelpCenterOutlinedIcon from "@mui/icons-material/HelpCenterOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import {
   Box,
   CircularProgress,
   Divider,
+  Link,
   Paper,
   Typography,
 } from "@mui/material";
-import { RefObject, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import useResizeObserver from "use-resize-observer";
 import { TreeNode, recursTree, treeFormat } from "../utils/recursTree";
@@ -16,13 +18,11 @@ import { findElementByTitleOrValue } from "../utils/searchIntree";
 import { llngConfig } from "../utils/types";
 import "./Tree.css";
 import { TreeNodeType } from "./TreeNode";
-function ToggleConfTree(
+export function ToggleConfTree(
   itemId: string,
   treeRef: RefObject<TreeApi<treeFormat>>,
   tree: TreeNode[],
-  config: llngConfig,
-  treeData: treeFormat[],
-  setTreeData: Function
+  config: llngConfig
 ): void {
   const item = treeRef.current?.get(itemId)?.data;
   if (item) {
@@ -115,15 +115,6 @@ function ToggleConfTree(
                         )[el][key2].order
                     )
                     .map((key) => {
-                      console.log(
-                        "hello",
-                        (
-                          config[id as keyof llngConfig] as Record<
-                            string,
-                            Record<string, any>
-                          >
-                        )[el]
-                      );
                       return {
                         name: (
                           config[id as keyof llngConfig] as Record<
@@ -144,8 +135,6 @@ function ToggleConfTree(
       }
       return node;
     });
-    // const updatedData = treeData;
-    //  setTreeData(updatedData);
   }
 }
 
@@ -157,12 +146,17 @@ export default function TreeRender({
   config: llngConfig;
 }) {
   const treeRef = useRef<TreeApi<treeFormat>>(null);
-  const ITEMS = tree?.map((el: any) => recursTree(el, config, "root"));
+  const [ITEMS, setItems] = useState(
+    tree?.map((el: any) => recursTree(el, config, "root"))
+  );
   const [selectedItem, setSelectedItem] = useState<NodeApi<treeFormat> | null>(
     null
   );
-  const [treeData, setTreeData] = useState<treeFormat[] | undefined>(ITEMS);
   const { ref, width, height = 1 } = useResizeObserver();
+  useEffect(() => {
+    setItems(tree?.map((el: any) => recursTree(el, config, "root")));
+  }, [tree, config]);
+
   if (tree) {
     return (
       <div className="treePage">
@@ -172,22 +166,13 @@ export default function TreeRender({
             disableDrag={true}
             rowHeight={height / 25}
             ref={treeRef}
-            onToggle={(itemId) =>
-              ToggleConfTree(
-                itemId,
-                treeRef,
-                tree,
-                config,
-                treeData ? treeData : ([] as treeFormat[]),
-                setTreeData
-              )
-            }
+            onToggle={(itemId) => ToggleConfTree(itemId, treeRef, tree, config)}
             height={height}
             width={width}
             onFocus={(node) => {
               setSelectedItem(node);
             }}
-            initialData={ITEMS}
+            data={ITEMS}
             openByDefault={false}
           >
             {Node}
@@ -195,7 +180,17 @@ export default function TreeRender({
         </div>
         <Divider orientation="vertical" flexItem />
         <div style={{ width: "100%" }}>
-          <Paper style={{ backgroundColor: "lightgrey" }}>menu</Paper>
+          <Paper style={{ backgroundColor: "lightgrey" }}>
+            <strong className="title3">{selectedItem?.data?.name}</strong>
+            {selectedItem?.data.help ? (
+              <Link target="blank" href={selectedItem?.data.help}>
+                <HelpCenterOutlinedIcon />
+                {selectedItem?.data.help}
+              </Link>
+            ) : (
+              <></>
+            )}
+          </Paper>
           <div className="nodeContent">
             <strong>Clicked Node</strong>
             {`: ${selectedItem?.data?.id}, `}
@@ -205,16 +200,14 @@ export default function TreeRender({
             <Typography variant="caption" color="textSecondary">
               app: {selectedItem?.data.app}
             </Typography>
-          </div>
-          {selectedItem?.data?.type && (
-            <div>
+            {selectedItem?.data?.type && (
               <table style={{ width: "100%" }}>
                 <tbody>
                   <TreeNodeType node={selectedItem} config={config} />
                 </tbody>
               </table>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     );

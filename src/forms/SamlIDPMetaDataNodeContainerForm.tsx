@@ -1,5 +1,7 @@
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { IconButton } from "@mui/material";
 import { NodeApi } from "react-arborist";
-import { changeAppName } from "../features/config/configSlice";
+import { changeAppName, delApp } from "../features/config/configSlice";
 import { treeFormat } from "../utils/recursTree";
 import SamlIDPMetaDataNodeForm from "./SamlIDPMetaDataNodeForm";
 
@@ -37,7 +39,18 @@ export default function SamlIDPMetaDataContainerForm({
                     });
                   }}
                 />
-                <td>+-</td>
+                <td>
+                  <IconButton
+                    onClick={() => {
+                      dispatch(
+                        delApp({ name: child.data.name || "", type: "IdPsaml" })
+                      );
+                    }}
+                    className="minus"
+                  >
+                    <RemoveCircleIcon color="error" />
+                  </IconButton>
+                </td>
               </tr>
             );
           })}

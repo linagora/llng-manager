@@ -3,7 +3,6 @@ import {
   FormControlLabel,
   FormLabel,
   MenuItem,
-  Paper,
   Radio,
   RadioGroup,
   Select,
@@ -11,15 +10,22 @@ import {
 } from "@mui/material";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
+import { changeApplicationField } from "../features/config/configSlice";
 import LongtextForm from "./LongtextForm";
 import TextForm from "./TextForm";
 
 export default function MenuAppForm({
   values,
   portal,
+  catid,
+  id,
+  dispatch,
 }: {
   values: Record<string, string | Record<string, string>>;
   portal: string;
+  catid: string;
+  id: string;
+  dispatch: Function;
 }) {
   const logoOptions = [
     "attach.png",
@@ -53,14 +59,10 @@ export default function MenuAppForm({
         : "specialRule"
     );
   }, [values.options]);
-  console.log(display);
   return (
     <td>
-      <Paper style={{ backgroundColor: "lightgrey" }}>
-        <div>up down newApp deleteApp</div>
-      </Paper>
       <div>
-        <h3> {t("menuApp")}</h3>
+        <h3>{t("application")}</h3>
       </div>
       <table>
         <tbody>
@@ -68,28 +70,54 @@ export default function MenuAppForm({
             <TextForm
               fieldName="name"
               value={(values.options as Record<string, string>).name}
-              updateFunc={console.log}
+              updateFunc={(e: string) =>
+                dispatch(
+                  changeApplicationField({ catid, id, field: "name", value: e })
+                )
+              }
             />
           </tr>
           <tr>
             <LongtextForm
               fieldName="description"
               value={(values.options as Record<string, string>).description}
-              updateFunc={console.log}
+              updateFunc={(e: string) =>
+                dispatch(
+                  changeApplicationField({
+                    catid,
+                    id,
+                    field: "description",
+                    value: e,
+                  })
+                )
+              }
             />
           </tr>
           <tr>
             <TextForm
               fieldName="uri"
               value={(values.options as Record<string, string>).uri}
-              updateFunc={console.log}
+              updateFunc={(e: string) =>
+                dispatch(
+                  changeApplicationField({ catid, id, field: "uri", value: e })
+                )
+              }
             />
           </tr>
           <tr>
             <TextForm
               fieldName="tooltip"
               value={(values.options as Record<string, string>).tooltip}
-              updateFunc={console.log}
+              updateFunc={(e: string) =>
+                dispatch(
+                  changeApplicationField({
+                    catid,
+                    id,
+                    field: "tooltip",
+                    value: e,
+                  })
+                )
+              }
             />
           </tr>
           <tr>
@@ -99,8 +127,20 @@ export default function MenuAppForm({
             <td>
               <FormControl>
                 <Select
-                  value={(values.options as Record<string, string>).logo}
-                  onChange={console.log}
+                  value={
+                    (values.options as Record<string, string>).logo ||
+                    "network.png"
+                  }
+                  onChange={(e) =>
+                    dispatch(
+                      changeApplicationField({
+                        catid,
+                        id,
+                        field: "logo",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                 >
                   {logoOptions.map((option) => (
                     <MenuItem value={option} key={option}>
@@ -129,7 +169,17 @@ export default function MenuAppForm({
                 <RadioGroup
                   row
                   value={display}
-                  onChange={(e) => setDisplay(e.target.value)}
+                  onChange={(e) => {
+                    dispatch(
+                      changeApplicationField({
+                        catid,
+                        id,
+                        field: "display",
+                        value: e.target.value,
+                      })
+                    );
+                    setDisplay(e.target.value);
+                  }}
                 >
                   <FormControlLabel
                     value={"on"}
@@ -159,7 +209,16 @@ export default function MenuAppForm({
                   multiline
                   variant="filled"
                   rows={4}
-                  onChange={console.log}
+                  onChange={(e) =>
+                    dispatch(
+                      changeApplicationField({
+                        catid,
+                        id,
+                        field: "specialRule",
+                        value: e.target.value,
+                      })
+                    )
+                  }
                   value={(values.options as Record<string, string>).display}
                 />
               )}

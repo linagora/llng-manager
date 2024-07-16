@@ -20,7 +20,6 @@ import DisplaySamlMetaDataForm from "../forms/DisplaySamlMetadataForm";
 import DoubleHashForm from "../forms/DoubleHashForm";
 import FileForm from "../forms/FileForm";
 import GrantContainerForm from "../forms/GrantContainerForm";
-import GrantForm from "../forms/GrantForm";
 import IntForm from "../forms/IntForm";
 import KeyTextContainerForm from "../forms/KeyTextContainerForm";
 import LongtextForm from "../forms/LongtextForm";
@@ -267,20 +266,9 @@ export function TreeNodeType({
       return (
         <tr>
           <GrantContainerForm
-            value={data as Record<string, string>}
+            value={(data as Record<string, string>) || {}}
             fieldName={node.data.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
-          />
-        </tr>
-      );
-    case "grant":
-      return (
-        <tr>
-          <GrantForm
-            key={(data as Record<string, string>).key}
-            value={(data as Record<string, string>).value}
-            fieldName={node.data.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) => console.log(e)}
+            dispatch={dispatch}
           />
         </tr>
       );
@@ -312,7 +300,7 @@ export function TreeNodeType({
       return (
         <tr>
           <KeyTextContainerForm
-            value={data as Record<string, string>}
+            value={(data as Record<string, string>) || {}}
             fieldName={node.data.id.split(";").at(-1) || ""}
             updateFunc={(e: Record<string, string>) =>
               dispatch(changeConf({ node: node.data, newValue: e }))
@@ -338,7 +326,7 @@ export function TreeNodeType({
           <TextForm
             value={String(data || "")}
             fieldName={node.data.id.split(";").at(-1) || ""}
-            updateFunc={(e: any) =>
+            updateFunc={(e: string) =>
               dispatch(changeConf({ node: node.data, newValue: e }))
             }
           />
@@ -431,13 +419,13 @@ export function TreeNodeType({
     case "doubleHash":
       return (
         <tr>
-          <DoubleHashForm
-            value={data as Record<string, Record<string, string>>}
-            fieldName={node.data.id.split(";").at(-1) || ""}
-            updateFunc={(e: Record<string, Record<string, string>>) =>
-              console.log(e)
-            }
-          />
+          <td>
+            <DoubleHashForm
+              value={(data as Record<string, Record<string, string>>) || {}}
+              fieldName={node.data.id.split(";").at(-1) || ""}
+              dispatch={dispatch}
+            />
+          </td>
         </tr>
       );
     case "pcre":
@@ -674,7 +662,7 @@ export function TreeNodeType({
         <tr>
           <td>
             <SamlServiceForm
-              value={String(data)}
+              value={String(data || "")}
               fieldName={node.data.id.split(";").at(-1) || ""}
               updateFunc={<K extends keyof llngConfig>(e: {
                 param: K;
@@ -689,7 +677,7 @@ export function TreeNodeType({
         <tr>
           <td>
             <SamlAssertionForm
-              value={String(data)}
+              value={String(data || "")}
               fieldName={node.data.id.split(";").at(-1) || ""}
               updateFunc={<K extends keyof llngConfig>(e: {
                 param: K;
@@ -703,7 +691,7 @@ export function TreeNodeType({
       return (
         <tr>
           <SamlAttributeContainerForm
-            value={data as Record<string, string>}
+            value={(data as Record<string, string>) || {}}
             fieldName={node.data.id.split(";").at(-1) || ""}
             appName={node.data.app || ""}
           />
@@ -713,8 +701,8 @@ export function TreeNodeType({
       return (
         <tr>
           <AuthChoiceContainerForm
-            data={data as Record<string, string>}
-            dispatch={(e: any) => console.log(e)}
+            data={(data as Record<string, string>) || {}}
+            dispatch={dispatch}
           />
         </tr>
       );
@@ -722,34 +710,58 @@ export function TreeNodeType({
       return (
         <tr>
           <OidcAttributeContainerForm
-            value={data as Record<string, string>}
+            value={(data as Record<string, string>) || {}}
             fieldName={node.data.id.split(";").at(-1) || ""}
             appName={node.data.app || ""}
           />
         </tr>
       );
     case "cmbModuleContainer":
-      return <CmbModuleContainerForm data={data} dispatch={dispatch} />;
+      return <CmbModuleContainerForm data={data || {}} dispatch={dispatch} />;
     case "catAndAppList":
-      return <CatAndAppListForm values={data} />;
+      return <CatAndAppListForm values={data || {}} dispatch={dispatch} />;
     case "category":
-      return <MenuCatForm values={data} />;
+      return (
+        <tr>
+          <td>
+            <MenuCatForm
+              values={data || {}}
+              id={node.data.id.split(";").at(-1) || ""}
+              dispatch={dispatch}
+            />
+          </td>
+        </tr>
+      );
     case "application":
-      console.log("app", data);
-      return <MenuAppForm values={data} portal={config.portal || ""} />;
+      return (
+        <MenuAppForm
+          values={data || {}}
+          dispatch={dispatch}
+          id={node.data.id.split(";").at(-1) || ""}
+          catid={node.data.id.split(";").at(-2) || ""}
+          portal={config.portal || ""}
+        />
+      );
     case "displayOidcMetadata":
       return <DisplayOidcMetaDataForm confNum={config.cfgNum || 0} />;
     case "displaySamlMetadata":
       return <DisplaySamlMetaDataForm confNum={config.cfgNum || 0} />;
     case "portalskinbackground":
       return (
-        <PortalskinbackgroundForm value={data} portal={config.portal || ""} />
+        <PortalskinbackgroundForm
+          value={data || {}}
+          portal={config.portal || ""}
+          dispatch={dispatch}
+        />
       );
     case "portalskin":
       return (
         <tr>
           <td>
-            <PortalskinForm value={data} portal={config.managerDn || ""} />
+            <PortalskinForm
+              value={data || {}}
+              portal={config.managerDn || ""}
+            />
           </td>
         </tr>
       );
@@ -765,7 +777,7 @@ export function TreeNodeType({
       return (
         <tr>
           <td>
-            <SfExtraContainerForm data={data} dispatch={dispatch} />
+            <SfExtraContainerForm data={data || {}} dispatch={dispatch} />
           </td>
         </tr>
       );

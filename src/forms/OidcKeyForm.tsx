@@ -56,7 +56,6 @@ export default function OidcKeyForm({
       console.error("Error generating keys:", error);
     }
   };
-  console.log(value, fieldNames);
   return (
     <>
       <table>

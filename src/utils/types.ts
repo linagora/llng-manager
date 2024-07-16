@@ -16,7 +16,13 @@ export interface llngConfig {
   activeTimer?: boolean | number;
   adaptativeAuthenticationLevelRules?: Record<string, Record<string, string>>;
   apacheAuthnLevel?: number;
-  applicationList?: Record<string, object>;
+  applicationList?: Record<
+    string,
+    Record<
+      string,
+      string | number | Record<string, string | number | Record<string, string>>
+    >
+  >;
   authChoiceAuthBasic?: string;
   authChoiceFindUser?: string;
   authChoiceModules?: Record<string, string>;
@@ -384,9 +390,9 @@ export interface llngConfig {
   oidcAuthnLevel?: number;
   oidcDropCspHeaders?: boolean | number;
   oidcOPMetaDataExportedVars?: Record<string, Record<string, string>>;
-  oidcOPMetaDataJSON?: string;
-  oidcOPMetaDataJWKS?: string;
-  oidcOPMetaDataNodes?: Record<string, object>;
+  oidcOPMetaDataJSON?: Record<string, string>;
+  oidcOPMetaDataJWKS?: Record<string, string>;
+  oidcOPMetaDataNodes?: Record<string, Record<string, string | number>>;
   oidcOPMetaDataOptions?: Record<
     string,
     Record<string, string | number | boolean>

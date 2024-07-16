@@ -1,20 +1,41 @@
-import { TextField, Tooltip } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import { IconButton, TextField, Tooltip } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
-import attributes from "../static/attributes.json";
+import {
+  delModuleOpt,
+  newModuleOpt,
+  updateModuleOpt,
+} from "../features/config/configSlice";
 import definitions from "../static/definitions.json";
+
+function updateGrant(tableID: string) {
+  const headerList: Record<string, string> = {};
+
+  const table = document.getElementById(tableID);
+  const rows = table?.getElementsByTagName("tr");
+  if (rows) {
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const comment = cells[0].querySelector("input")?.value;
+      const rule = cells[1].querySelector("input")?.value;
+      const message = cells[2].querySelector("input")?.value;
+      headerList[`${message || ""}##${comment || ""}`] = rule || "";
+    }
+  }
+  return headerList;
+}
 
 export default function GrantContainerForm({
   value,
   fieldName,
-  updateFunc,
+  dispatch,
 }: {
   value: Record<string, string>;
   fieldName: string;
-  updateFunc: Function;
+  dispatch: Function;
 }) {
-  const attribute = attributes[fieldName as keyof typeof attributes];
-
   return (
     <>
       <Tooltip
@@ -29,13 +50,20 @@ export default function GrantContainerForm({
         <th className="title3">{t(fieldName)}</th>
       </Tooltip>
       <td>
-        <table>
+        <table id="grantTable">
           <thead>
             <tr>
               <th>{t("comments")}</th>
               <th>{t("rules")}</th>
               <th>{t("messages")}</th>
-              <th></th>
+              <th>
+                <IconButton
+                  className="plus"
+                  onClick={() => dispatch(newModuleOpt("grantSessionRules"))}
+                >
+                  <AddCircleIcon color="success" />
+                </IconButton>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -44,15 +72,62 @@ export default function GrantContainerForm({
               return (
                 <tr>
                   <td>
-                    <TextField size="small" value={comments || ""} />
+                    <TextField
+                      size="small"
+                      type="text"
+                      onChange={(e) =>
+                        dispatch(
+                          updateModuleOpt({
+                            name: "grantSessionRules",
+                            data: updateGrant("grantTable"),
+                          })
+                        )
+                      }
+                      value={comments || ""}
+                    />
                   </td>
                   <td>
-                    <TextField size="small" value={value[key] || ""} />
+                    <TextField
+                      size="small"
+                      type="text"
+                      onChange={(e) =>
+                        dispatch(
+                          updateModuleOpt({
+                            name: "grantSessionRules",
+                            data: updateGrant("grantTable"),
+                          })
+                        )
+                      }
+                      value={value[key] || ""}
+                    />
                   </td>
                   <td>
-                    <TextField size="small" value={message || ""} />
+                    <TextField
+                      size="small"
+                      type="text"
+                      onChange={(e) =>
+                        dispatch(
+                          updateModuleOpt({
+                            name: "grantSessionRules",
+                            data: updateGrant("grantTable"),
+                          })
+                        )
+                      }
+                      value={message || ""}
+                    />
                   </td>
-                  <td></td>
+                  <td>
+                    <IconButton
+                      className="minus"
+                      onClick={() =>
+                        dispatch(
+                          delModuleOpt({ name: "grantSessionRules", key })
+                        )
+                      }
+                    >
+                      <RemoveCircleIcon color="error" />
+                    </IconButton>
+                  </td>
                 </tr>
               );
             })}

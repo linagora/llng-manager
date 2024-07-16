@@ -1,23 +1,28 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { IconButton } from "@mui/material";
+import { newCategory } from "../features/config/configSlice";
+
 export default function CatAndAppListForm({
   values,
+  dispatch,
 }: {
   values: Record<
     string,
-    Record<string, string | Record<string, Record<string, string>>>
+    Record<string, string | Record<string, Record<string, string> | number>>
   >;
+  dispatch: Function;
 }) {
   return (
     <tr>
       <td>
         {Object.keys(values)
           .sort((key1, key2) => {
-            console.log(key1, key2);
             return (
               Number(
                 (
                   values[key1] as Record<
                     string,
-                    string | Record<string, Record<string, string | number>>
+                    string | Record<string, Record<string, string> | number>
                   >
                 ).order
               ) -
@@ -25,7 +30,7 @@ export default function CatAndAppListForm({
                 (
                   values[key2] as Record<
                     string,
-                    string | Record<string, Record<string, string | number>>
+                    string | Record<string, Record<string, string> | number>
                   >
                 ).order
               )
@@ -41,26 +46,15 @@ export default function CatAndAppListForm({
                 </li>
                 <ul>
                   {Object.keys(values[key])
+                    .filter((el) => typeof values[key][el] === "object")
                     .sort((key1, key2) => {
-                      console.log(key1, key2);
-                      return (
-                        Number(
-                          (
-                            values[key][key1] as Record<
-                              string,
-                              Record<string, string>
-                            >
-                          ).order
-                        ) -
-                        Number(
-                          (
-                            values[key][key2] as Record<
-                              string,
-                              Record<string, string>
-                            >
-                          ).order
-                        )
-                      );
+                      const order1 = (
+                        values[key][key1] as Record<string, number>
+                      ).order;
+                      const order2 = (
+                        values[key][key2] as Record<string, number>
+                      ).order;
+                      return (order1 ?? 0) - (order2 ?? 0);
                     })
                     .map((el) =>
                       typeof values[key][el] === "object" ? (
@@ -79,9 +73,12 @@ export default function CatAndAppListForm({
                       )
                     )}
                 </ul>
-              </ul>
+              </ul>{" "}
             </>
-          ))}
+          ))}{" "}
+        <IconButton className="plus" onClick={() => dispatch(newCategory())}>
+          <AddCircleIcon color="success" />
+        </IconButton>
       </td>
     </tr>
   );

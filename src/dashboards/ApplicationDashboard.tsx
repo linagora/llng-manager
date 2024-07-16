@@ -17,11 +17,11 @@ export function ApplicationDashboard({
     switch (type) {
       case "native":
         return <NativeApp name={name} />;
-      case "cas":
+      case "AppCas":
         return <CasApp name={name} />;
-      case "saml":
+      case "SPsaml":
         return <SAMLApp dispatch={dispatch} name={name} />;
-      case "oidc":
+      case "RPoidc":
         return <OIDCApp name={name} />;
       default:
         return <div>¯\_(ツ)_/¯</div>;

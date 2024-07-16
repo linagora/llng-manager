@@ -11,6 +11,7 @@ import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
 import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
 import TreeRender from "../dashboards/Tree";
+import { getConfigAsync } from "../features/config/configSlice";
 import { getTree } from "../utils/getTree";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
@@ -29,12 +30,15 @@ export function Configuration({
   useEffect(() => {
     async function fetchData() {
       if (location.type === "tree") {
+        if (!config.cfgNum) {
+          dispatch(getConfigAsync());
+        }
         const tree = await getTree();
         setTree(tree.data);
       }
     }
     fetchData();
-  }, [location.type]);
+  }, [config, dispatch, location.type]);
 
   switch (location.type) {
     case "app":
