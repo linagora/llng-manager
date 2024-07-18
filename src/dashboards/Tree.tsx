@@ -26,7 +26,7 @@ export function ToggleConfTree(
 ): void {
   const item = treeRef.current?.get(itemId)?.data;
   if (item) {
-    item.children = item.children?.map((node: any) => {
+    item.children = item.children?.map((node: treeFormat) => {
       if (node?.children) {
         node.children = node?.children.map((child: any) => {
           const childId = child.id.split(";").at(-1) || "";
@@ -50,7 +50,6 @@ export function ToggleConfTree(
 
         if (foundElement) {
           if (node.type === "catAndAppList") {
-            console.log(node);
             node.children = Object.keys(
               config[id as keyof llngConfig] as Record<
                 string,
@@ -147,14 +146,15 @@ export default function TreeRender({
 }) {
   const treeRef = useRef<TreeApi<treeFormat>>(null);
   const [ITEMS, setItems] = useState(
-    tree?.map((el: any) => recursTree(el, config, "root"))
+    tree?.map((el: TreeNode) => recursTree(el, config, "root"))
   );
   const [selectedItem, setSelectedItem] = useState<NodeApi<treeFormat> | null>(
     null
   );
   const { ref, width, height = 1 } = useResizeObserver();
   useEffect(() => {
-    setItems(tree?.map((el: any) => recursTree(el, config, "root")));
+    setItems(tree?.map((el: TreeNode) => recursTree(el, config, "root")));
+    treeRef.current?.closeAll();
   }, [tree, config]);
 
   if (tree) {
@@ -166,7 +166,9 @@ export default function TreeRender({
             disableDrag={true}
             rowHeight={height / 25}
             ref={treeRef}
-            onToggle={(itemId) => ToggleConfTree(itemId, treeRef, tree, config)}
+            onToggle={(itemId) => {
+              ToggleConfTree(itemId, treeRef, tree, config);
+            }}
             height={height}
             width={width}
             onFocus={(node) => {
@@ -183,7 +185,10 @@ export default function TreeRender({
           <Paper style={{ backgroundColor: "lightgrey" }}>
             <strong className="title3">{selectedItem?.data?.name}</strong>
             {selectedItem?.data.help ? (
-              <Link target="blank" href={selectedItem?.data.help}>
+              <Link
+                target="blank"
+                href={config.managerDn + selectedItem?.data.help}
+              >
                 <HelpCenterOutlinedIcon />
                 {selectedItem?.data.help}
               </Link>
@@ -196,9 +201,6 @@ export default function TreeRender({
             {`: ${selectedItem?.data?.id}, `}
             <Typography variant="body2" color="textSecondary">
               type: {selectedItem?.data.type}
-            </Typography>
-            <Typography variant="caption" color="textSecondary">
-              app: {selectedItem?.data.app}
             </Typography>
             {selectedItem?.data?.type && (
               <table style={{ width: "100%" }}>

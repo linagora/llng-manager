@@ -147,16 +147,15 @@ export function Configuration({
         <div className="main">
           <Breadcrumbs>
             <Link underline="hover" color="inherit">
-              <span onClick={() => dispatch(push(`#tree/${metadata.cfgNum}`))}>
-                {t("conf")} {metadata.cfgNum}
+              <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
+            </Link>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
+                {metadata.cfgNum}
               </span>
             </Link>
-            <Link underline="none" color="inherit">
+            <Link underline="none" color="color.primary">
               {t(location.type)}
-            </Link>
-
-            <Link underline="hover" color="text.primary">
-              {t(location.info.name)}
             </Link>
           </Breadcrumbs>
           <TreeRender tree={tree ? tree : undefined} config={config} />

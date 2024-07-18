@@ -6,13 +6,16 @@ import {
   TextField,
 } from "@mui/material";
 import { t } from "i18next";
+import { updateConfigParams } from "../features/config/configSlice";
 import attributes from "../static/attributes.json";
 export default function PortalskinForm({
   value,
   portal,
+  dispatch,
 }: {
   value: string;
   portal: string;
+  dispatch: Function;
 }) {
   return (
     <>
@@ -24,7 +27,14 @@ export default function PortalskinForm({
           <RadioGroup
             row
             value={value || attributes.portalSkin.select[0].k}
-            onChange={(e) => {}}
+            onChange={(e) => {
+              dispatch(
+                updateConfigParams({
+                  param: "portalSkin",
+                  value: e.target.value,
+                })
+              );
+            }}
           >
             <FormControlLabel
               value={"bootstrap"}

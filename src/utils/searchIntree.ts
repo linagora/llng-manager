@@ -127,7 +127,6 @@ export function changeElementInConf(
       console.debug("Searching ", searchedId, " in ", el);
       if (el) {
         if (Object.keys(el).includes(searchedId)) {
-          console.log("changing: ", el);
           el[searchedId] = obj;
           return true;
         }
@@ -136,14 +135,8 @@ export function changeElementInConf(
           return found;
         } else {
           node.id.split(";").forEach((nook) => {
-            console.log("looking at ", nook, node.id.split(";"));
             Object.keys(config).forEach((key) => {
               if (key === nook || nook.includes(key)) {
-                console.log(
-                  "valueparent ",
-                  key,
-                  typeof config[key as keyof llngConfig]
-                );
                 if (typeof config[key as keyof llngConfig] === "object") {
                   if (
                     !(config[key as keyof llngConfig] as any)[node.app || ""]
@@ -152,7 +145,6 @@ export function changeElementInConf(
                       node.app || ""
                     ] as any) = {};
                   }
-                  console.log(obj);
                   if (node.type === "keyTextContainer") {
                     ((config[key as keyof llngConfig] as any)[
                       node.app || ""
@@ -192,7 +184,6 @@ function recursChangeConf(conf: any, id: string, obj: any): boolean {
 
   for (const key of Object.keys(conf)) {
     if (key === id) {
-      console.log("found ", key, " and changed to ", obj);
       conf[key] = obj;
       return true;
     }

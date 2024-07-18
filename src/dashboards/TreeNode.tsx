@@ -761,6 +761,7 @@ export function TreeNodeType({
             <PortalskinForm
               value={data || {}}
               portal={config.managerDn || ""}
+              dispatch={dispatch}
             />
           </td>
         </tr>
