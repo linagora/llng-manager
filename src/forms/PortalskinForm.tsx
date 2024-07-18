@@ -6,8 +6,8 @@ import {
   TextField,
 } from "@mui/material";
 import { t } from "i18next";
+import { useState } from "react";
 import { updateConfigParams } from "../features/config/configSlice";
-import attributes from "../static/attributes.json";
 export default function PortalskinForm({
   value,
   portal,
@@ -17,6 +17,9 @@ export default function PortalskinForm({
   portal: string;
   dispatch: Function;
 }) {
+  const [displayType, setDisplayType] = useState(
+    value === "bootstrap" ? value : "custom"
+  );
   return (
     <>
       <th>
@@ -26,7 +29,7 @@ export default function PortalskinForm({
         <FormControl>
           <RadioGroup
             row
-            value={value || attributes.portalSkin.select[0].k}
+            value={displayType}
             onChange={(e) => {
               dispatch(
                 updateConfigParams({
@@ -34,6 +37,7 @@ export default function PortalskinForm({
                   value: e.target.value,
                 })
               );
+              setDisplayType(e.target.value);
             }}
           >
             <FormControlLabel
@@ -62,7 +66,17 @@ export default function PortalskinForm({
               width="250px"
               alt={value}
             />
-            <TextField value={"" || value} />
+            <TextField
+              value={"" || value}
+              onChange={(e) => {
+                dispatch(
+                  updateConfigParams({
+                    param: "portalSkin",
+                    value: e.target.value,
+                  })
+                );
+              }}
+            />
           </>
         )}
       </td>
