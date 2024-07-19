@@ -71,10 +71,96 @@ export function recursTree(
         app: app,
       };
     }
+  } else if (tree.cnodes === "applicationList") {
+    console.log("je fais ca");
+    return {
+      name: t(tree.title),
+      help: tree.help,
+      type:
+        tree?.type || attributes[tree.title as keyof typeof attributes]?.type,
+      id: `${parentId};${tree.title}`,
+      children: Object.keys(
+        config[tree.title as keyof llngConfig] as Record<
+          string,
+          Record<string, string>
+        >
+      )
+        .sort(
+          (key1, key2) =>
+            (
+              config[tree.title as keyof llngConfig] as Record<
+                string,
+                Record<string, any>
+              >
+            )[key1].order -
+            (
+              config[tree.title as keyof llngConfig] as Record<
+                string,
+                Record<string, any>
+              >
+            )[key2].order
+        )
+        .map((el) => {
+          return {
+            name: (
+              config[tree.title as keyof llngConfig] as Record<
+                string,
+                Record<string, any>
+              >
+            )[el].catname,
+            id: `${tree.title};${el}`,
+            type: (
+              config[tree.title as keyof llngConfig] as Record<
+                string,
+                Record<string, any>
+              >
+            )[el].type,
+            children: Object.keys(
+              (
+                config[tree.title as keyof llngConfig] as Record<
+                  string,
+                  Record<string, any>
+                >
+              )[el]
+            )
+              .filter(
+                (key) => key !== "type" && key !== "catname" && key !== "order"
+              )
+              .sort(
+                (key1, key2) =>
+                  (
+                    config[tree.title as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el][key1].order -
+                  (
+                    config[tree.title as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el][key2].order
+              )
+              .map((key) => {
+                return {
+                  name: (
+                    config[tree.title as keyof llngConfig] as Record<
+                      string,
+                      Record<string, any>
+                    >
+                  )[el][key].options.name,
+                  id: `${tree.title};${el};${key}`,
+                  type: "application",
+                };
+              }),
+          };
+        }),
+    };
   } else if (tree._nodes) {
     if (tree._nodes_cond) {
       tree._nodes = tree._nodes.concat(tree._nodes_cond);
     }
+
     return {
       name: t(tree.title),
       help: tree.help,

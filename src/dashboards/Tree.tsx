@@ -22,7 +22,8 @@ export function ToggleConfTree(
   itemId: string,
   treeRef: RefObject<TreeApi<treeFormat>>,
   tree: TreeNode[],
-  config: llngConfig
+  config: llngConfig,
+  setItems: React.Dispatch<React.SetStateAction<treeFormat[] | undefined>>
 ): void {
   const item = treeRef.current?.get(itemId)?.data;
   if (item) {
@@ -49,91 +50,15 @@ export function ToggleConfTree(
         );
 
         if (foundElement) {
-          if (node.type === "catAndAppList") {
-            node.children = Object.keys(
-              config[id as keyof llngConfig] as Record<
-                string,
-                Record<string, string>
-              >
-            )
-              .sort(
-                (key1, key2) =>
-                  (
-                    config[id as keyof llngConfig] as Record<
-                      string,
-                      Record<string, any>
-                    >
-                  )[key1].order -
-                  (
-                    config[id as keyof llngConfig] as Record<
-                      string,
-                      Record<string, any>
-                    >
-                  )[key2].order
-              )
-              .map((el) => {
-                return {
-                  name: (
-                    config[id as keyof llngConfig] as Record<
-                      string,
-                      Record<string, any>
-                    >
-                  )[el].catname,
-                  id: `${node.id};${el}`,
-                  type: (
-                    config[id as keyof llngConfig] as Record<
-                      string,
-                      Record<string, any>
-                    >
-                  )[el].type,
-                  children: Object.keys(
-                    (
-                      config[id as keyof llngConfig] as Record<
-                        string,
-                        Record<string, any>
-                      >
-                    )[el]
-                  )
-                    .filter(
-                      (key) =>
-                        key !== "type" && key !== "catname" && key !== "order"
-                    )
-                    .sort(
-                      (key1, key2) =>
-                        (
-                          config[id as keyof llngConfig] as Record<
-                            string,
-                            Record<string, any>
-                          >
-                        )[el][key1].order -
-                        (
-                          config[id as keyof llngConfig] as Record<
-                            string,
-                            Record<string, any>
-                          >
-                        )[el][key2].order
-                    )
-                    .map((key) => {
-                      return {
-                        name: (
-                          config[id as keyof llngConfig] as Record<
-                            string,
-                            Record<string, any>
-                          >
-                        )[el][key].options.name,
-                        id: `${node.id};${el};${key}`,
-                        type: "application",
-                      };
-                    }),
-                };
-              });
-          } else {
-            return recursTree(foundElement, config, item.id, item.app);
-          }
+          return recursTree(foundElement, config, item.id, item.app);
         }
       }
       return node;
     });
+
+    setItems((prevItems) =>
+      prevItems?.map((el) => (el.id === itemId ? { ...item } : el))
+    );
   }
 }
 
@@ -157,6 +82,21 @@ export default function TreeRender({
     treeRef.current?.closeAll();
   }, [tree, config]);
 
+  useEffect(() => {
+    if (selectedItem) {
+      let node = selectedItem;
+      const parents = [];
+      while (node?.parent) {
+        node = node.parent;
+        parents.push(node);
+      }
+      parents.reverse().forEach((parent) => {
+        ToggleConfTree(parent.id, treeRef, tree || [], config, setItems);
+        treeRef.current?.get(parent.id)?.open();
+      });
+      ToggleConfTree(selectedItem.id, treeRef, tree || [], config, setItems);
+    }
+  }, [selectedItem, tree, config]);
   if (tree) {
     return (
       <div className="treePage">
@@ -167,7 +107,7 @@ export default function TreeRender({
             rowHeight={height / 25}
             ref={treeRef}
             onToggle={(itemId) => {
-              ToggleConfTree(itemId, treeRef, tree, config);
+              ToggleConfTree(itemId, treeRef, tree, config, setItems);
             }}
             height={height}
             width={width}
@@ -187,21 +127,25 @@ export default function TreeRender({
             {selectedItem?.data.help ? (
               <Link
                 target="blank"
-                href={config.managerDn + selectedItem?.data.help}
+                href={
+                  config.managerDn +
+                  "/doc/pages/documentation/current/" +
+                  selectedItem?.data.help
+                }
               >
                 <HelpCenterOutlinedIcon />
-                {selectedItem?.data.help}
+                {/* {selectedItem?.data.help} */}
               </Link>
             ) : (
               <></>
             )}
           </Paper>
           <div className="nodeContent">
-            <strong>Clicked Node</strong>
+            {/* <strong>Clicked Node</strong>
             {`: ${selectedItem?.data?.id}, `}
             <Typography variant="body2" color="textSecondary">
               type: {selectedItem?.data.type}
-            </Typography>
+            </Typography> */}
             {selectedItem?.data?.type && (
               <table style={{ width: "100%" }}>
                 <tbody>
