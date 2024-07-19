@@ -128,36 +128,42 @@ export function HomePage() {
               <TextField
                 type="number"
                 size="small"
-                error={aimedConf <= 0}
-                helperText={`${
-                  aimedConf === 0
-                    ? "Enter only positive and non nul numbers"
-                    : ""
-                }`}
+                error={Boolean(aimedConf && aimedConf <= 0)}
+                helperText={`${"Enter only positive and non nul numbers"}`}
                 placeholder={t("search config num")}
                 onChange={(e) => SetAimedConf(Number(e.target.value))}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    if (aimedConf <= config.data.metadata.cfgNum) {
+                    if (
+                      0 <= aimedConf &&
+                      aimedConf <= config.data.metadata.cfgNum
+                    ) {
                       dispatch(push(`#conf/${aimedConf}`));
-                    } else
+                    } else {
                       dispatch(
                         setError(
-                          `Latest Config : ${config.data.metadata.cfgNum}`
+                          `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
                         )
                       );
+                    }
                   }
                 }}
               />
               <Button
                 variant="contained"
                 onClick={() => {
-                  if (aimedConf <= config.data.metadata.cfgNum) {
+                  if (
+                    0 <= aimedConf &&
+                    aimedConf <= config.data.metadata.cfgNum
+                  ) {
                     dispatch(push(`#conf/${aimedConf}`));
-                  } else
+                  } else {
                     dispatch(
-                      setError(`Latest Config : ${config.data.metadata.cfgNum}`)
+                      setError(
+                        `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
+                      )
                     );
+                  }
                 }}
               >
                 {t("go")}
@@ -165,11 +171,11 @@ export function HomePage() {
             </div>
           </div>
           <div className="desc">
-            <div>
+            <div className="descBox">
               <table className="infoTable">
                 <thead>
                   <tr>
-                    <th>
+                    <th colSpan={2}>
                       <strong>{t("Latest conf info")}</strong>
                     </th>
                   </tr>
@@ -212,7 +218,7 @@ export function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div>
+            <div className="descBox">
               <table className="infoTable">
                 <tbody>
                   <tr>
@@ -224,10 +230,11 @@ export function HomePage() {
                 </tbody>
               </table>
             </div>
-            <div className="statBox">
+            <div className="descBox">
               <ConfStats config={config.data.config} />
             </div>
           </div>
+
           <div
             style={{
               visibility: config.error.errorContent ? "visible" : "hidden",

@@ -25,7 +25,6 @@ export function CreationAssistant({
   const [name, setName] = useState(attributes.virtualHostName.default);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.config.data.config);
-
   return (
     <div className="modal">
       <div className="createAssistant">
@@ -48,21 +47,21 @@ export function CreationAssistant({
                       if (e.target.value === "native") {
                         setName(attributes.virtualHostName.default);
                       }
-                      if (e.target.value === "saml") {
+                      if (e.target.value === "SPsaml") {
                         setName("sp-example");
                       }
-                      if (e.target.value === "oidc") {
+                      if (e.target.value === "RPoidc") {
                         setName("rp-example");
                       }
-                      if (e.target.value === "cas") {
+                      if (e.target.value === "AppCas") {
                         setName("app-example");
                       }
                     }}
                   >
                     <MenuItem value="native">Native</MenuItem>
-                    <MenuItem value="saml">{t("saml")}</MenuItem>
-                    <MenuItem value="oidc">{t("OpenIDConnect")}</MenuItem>
-                    <MenuItem value="cas">{t("issuerDBCAS")}</MenuItem>
+                    <MenuItem value="SPsaml">{t("saml")}</MenuItem>
+                    <MenuItem value="RPoidc">{t("OpenIDConnect")}</MenuItem>
+                    <MenuItem value="AppCas">{t("issuerDBCAS")}</MenuItem>
                   </Select>
                 </FormControl>
               </div>
@@ -89,7 +88,7 @@ export function CreationAssistant({
                     closeModal(e);
                     setPage(page - 1);
                     setAppType("native");
-                    dispatch(delApp(name));
+                    dispatch(delApp({ name, type: "native" }));
                   }}
                 >
                   {t("cancel")}
@@ -108,7 +107,7 @@ export function CreationAssistant({
             </div>
           </>
         )}
-        {page === 1 && (appType === "saml" || appType === "oidc") && (
+        {page === 1 && (appType === "SPsaml" || appType === "RPoidc") && (
           <>
             <MandatoryFields type={appType} name={name}></MandatoryFields>
             <div>
@@ -117,7 +116,7 @@ export function CreationAssistant({
                   onClick={(e) => {
                     closeModal(e);
                     setPage(page - 1);
-                    dispatch(delApp(name));
+                    dispatch(delApp({ name, type: appType }));
                   }}
                 >
                   {t("cancel")}
@@ -126,7 +125,7 @@ export function CreationAssistant({
                   variant="outlined"
                   onClick={() => {
                     setPage(page - 1);
-                    dispatch(delApp(name));
+                    dispatch(delApp({ name, type: appType }));
                   }}
                 >
                   {t("previous")}
@@ -158,8 +157,8 @@ export function CreationAssistant({
             </div>
           </>
         )}
-        {((page === 1 && !(appType === "saml" || appType === "oidc")) ||
-          (page === 2 && (appType === "saml" || appType === "oidc"))) && (
+        {((page === 1 && !(appType === "SPsaml" || appType === "RPoidc")) ||
+          (page === 2 && (appType === "SPsaml" || appType === "RPoidc"))) && (
           <>
             <div>
               <span>

@@ -50,7 +50,7 @@ export function ConfStats({ config }: { config: llngConfig }) {
               : 0,
             color: "#6A2135",
           },
-        ]}
+        ].filter((el) => el.value !== 0)}
         label={({ dataEntry }) => dataEntry.title + " : " + dataEntry.value}
         labelStyle={() => ({
           fontSize: "5px",

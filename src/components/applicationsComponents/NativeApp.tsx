@@ -552,16 +552,6 @@ export function NativeApp({ name }: { name: string }) {
                           control={<Radio />}
                           label={t("off")}
                         />
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
                       </RadioGroup>
                     </FormControl>
                   </td>

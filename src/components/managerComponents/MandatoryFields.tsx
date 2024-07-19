@@ -47,7 +47,7 @@ export function MandatoryFields({
   const dispatch = useAppDispatch();
 
   switch (type) {
-    case "saml":
+    case "SPsaml":
       return (
         <div className="mandatoryField">
           <div>
@@ -111,7 +111,7 @@ export function MandatoryFields({
           <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
         </div>
       );
-    case "oidc":
+    case "RPoidc":
       return (
         <div className="mandatoryField">
           <table>

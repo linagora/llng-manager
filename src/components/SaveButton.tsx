@@ -16,6 +16,7 @@ export default function SaveButton() {
   return (
     <div>
       <Fab
+        className="saveButton"
         style={{ position: "fixed", bottom: "2%", left: "2%" }}
         color="primary"
         onClick={async () => {

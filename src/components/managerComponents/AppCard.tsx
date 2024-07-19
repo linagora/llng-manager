@@ -214,7 +214,7 @@ function AppCard({
             sx={{ margin: "10px" }}
             variant="outlined"
             onClick={() => {
-              dispatch(delApp(info.name));
+              dispatch(delApp({ name: info.name, type }));
               setOpenDel(false);
               setAnchorEl(null);
             }}

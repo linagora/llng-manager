@@ -10,7 +10,7 @@ import {
   saveSAMLPrivSig,
   saveSAMLPubSig,
 } from "../../features/config/configSlice";
-import { GenerateKeys } from "../../utils/generateKey";
+import { GenerateEcKeys, NewCertificate } from "../../utils/generateKey";
 import { handleChangeFile } from "../../utils/readFiles";
 import "./CreationAssistant.css";
 import "./IssuerAssistant.css";
@@ -51,13 +51,15 @@ export function IssuerAssistant({
 
   const handleGenerateKeys = async (type: string) => {
     try {
-      const result = await GenerateKeys("RSA");
+      let result;
 
       switch (type) {
         case "oidc":
+          result = await GenerateEcKeys();
           setNewKeysOIDC(result);
           break;
         case "saml":
+          result = await NewCertificate();
           setNewKeysSAML(result);
           break;
         default:

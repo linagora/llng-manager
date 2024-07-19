@@ -1,13 +1,13 @@
-import "./Filters.css";
-import { t } from "i18next";
 import { Button, Checkbox, Menu, MenuItem, TextField } from "@mui/material";
+import { t } from "i18next";
 import React from "react";
+import "./Filters.css";
 function FilterToggle({
   filters,
   setFilters,
 }: {
   filters: { alpha: boolean; search: string };
-  setFilters: any;
+  setFilters: Function;
 }) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

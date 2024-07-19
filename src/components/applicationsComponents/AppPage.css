@@ -40,21 +40,15 @@ tr:nth-child(even) {
 }
 
 .plus {
-  padding: 0px 4px;
   color: rgb(6, 190, 0);
   font-size: xx-large;
   background-color: transparent;
-  border: 1px solid rgb(6, 190, 0);
-  border-radius: 5px;
 }
 
 .minus {
-  padding: 0px 10px;
   color: red;
   font-size: xx-large;
   background-color: transparent;
-  border: 1px solid red;
-  border-radius: 5px;
 }
 
 .appDesc table {

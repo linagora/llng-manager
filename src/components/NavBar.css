@@ -9,7 +9,7 @@
   overflow-wrap: break-word;
   z-index: 1100;
 }
-.navbar :hover {
+.navbar div :hover {
   color: white;
 }
 

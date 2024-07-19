@@ -1,12 +1,10 @@
 .infoTable {
-  border: 1px solid #acacac;
   width: 100%;
   margin: 10px;
   text-align: left;
   max-width: 100%;
   flex-wrap: wrap;
   border-collapse: collapse;
-  box-shadow: 5% #acacac;
 }
 
 .infoTable tr,
@@ -20,6 +18,15 @@ th {
   flex-direction: row;
   align-content: space-evenly;
   margin: 2%;
+}
+
+.descBox {
+  margin: 1%;
+  border: 2px solid #acacac;
+  padding: 2%;
+  border-radius: 15px;
+  align-content: center;
+  flex-wrap: wrap;
 }
 
 .logo {
