@@ -80,7 +80,7 @@ export default function MenuCatForm({
             })
             .map((key) =>
               typeof values[key] === "object" ? (
-                <li>
+                <li key={key}>
                   <IconButton
                     size="small"
                     onClick={() =>

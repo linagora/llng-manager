@@ -72,7 +72,6 @@ export function recursTree(
       };
     }
   } else if (tree.cnodes === "applicationList") {
-    console.log("je fais ca");
     return {
       name: t(tree.title),
       help: tree.help,
@@ -160,7 +159,6 @@ export function recursTree(
     if (tree._nodes_cond) {
       tree._nodes = tree._nodes.concat(tree._nodes_cond);
     }
-
     return {
       name: t(tree.title),
       help: tree.help,

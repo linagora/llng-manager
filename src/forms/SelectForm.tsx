@@ -15,6 +15,14 @@ export default function SelectForm({
 }) {
   const attribute = attributes[fieldName as keyof typeof attributes];
   if (attribute && "select" in attribute && attribute.type === "select") {
+    const selectedValue =
+      value || ("default" in attribute ? attribute.default : "");
+
+    const isValidValue = (attribute.select as { k: string; v: string }[]).some(
+      (el) => el.k === selectedValue
+    );
+    const currentValue = isValidValue ? selectedValue : "";
+
     return (
       <>
         <Tooltip
@@ -34,12 +42,12 @@ export default function SelectForm({
               labelId={fieldName}
               size="small"
               displayEmpty
-              value={value || ("default" in attribute ? attribute.default : "")}
+              value={currentValue}
               onChange={(e) => updateFunc(e.target.value)}
             >
               {(attribute.select as { k: string; v: string }[]).map((el) => {
                 return (
-                  <MenuItem key={"auth" + el.v} value={el.k}>
+                  <MenuItem key={el.v} value={el.k}>
                     {t(el.v)}
                   </MenuItem>
                 );

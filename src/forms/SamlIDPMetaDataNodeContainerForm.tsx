@@ -1,7 +1,10 @@
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import { IconButton } from "@mui/material";
+import { Button, Dialog, IconButton, TextField } from "@mui/material";
+import { t } from "i18next";
+import { useState } from "react";
 import { NodeApi } from "react-arborist";
-import { changeAppName, delApp } from "../features/config/configSlice";
+import { changeAppName, delApp, newApp } from "../features/config/configSlice";
 import { treeFormat } from "../utils/recursTree";
 import SamlIDPMetaDataNodeForm from "./SamlIDPMetaDataNodeForm";
 
@@ -13,9 +16,20 @@ export default function SamlIDPMetaDataContainerForm({
   dispatch: Function;
 }) {
   let i = 0;
+  const [genPopup, setGenPopup] = useState(false);
+  const [name, setName] = useState<string>();
   return (
-    <td>
+    <>
       <table>
+        <thead>
+          <tr>
+            <th>
+              <IconButton className="plus" onClick={() => setGenPopup(true)}>
+                <AddCircleIcon color="success" />
+              </IconButton>
+            </th>
+          </tr>
+        </thead>
         <tbody>
           {node.children?.map((child) => {
             i++;
@@ -56,6 +70,24 @@ export default function SamlIDPMetaDataContainerForm({
           })}
         </tbody>
       </table>
-    </td>
+      <Dialog open={genPopup}>
+        <TextField
+          size="small"
+          margin="normal"
+          className="formInput"
+          value={name}
+          placeholder={t("enterName")}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Button
+          onClick={() => {
+            dispatch(newApp({ name: name || "", type: "IdPsaml" }));
+            setGenPopup(false);
+          }}
+        >
+          {t("close")}
+        </Button>
+      </Dialog>
+    </>
   );
 }

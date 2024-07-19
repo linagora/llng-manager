@@ -20,7 +20,7 @@ export default function CasSrvMetaDataNodeContainerForm({
   const [name, setName] = useState<string>();
 
   return (
-    <td>
+    <>
       <table>
         <thead>
           <tr>
@@ -55,21 +55,19 @@ export default function CasSrvMetaDataNodeContainerForm({
                   }}
                 />
                 <td>
-                  <td>
-                    <IconButton
-                      onClick={() => {
-                        dispatch(
-                          delApp({
-                            name: child.data.name || "",
-                            type: "SrvCas",
-                          })
-                        );
-                      }}
-                      className="minus"
-                    >
-                      <RemoveCircleIcon color="error" />
-                    </IconButton>
-                  </td>
+                  <IconButton
+                    onClick={() => {
+                      dispatch(
+                        delApp({
+                          name: child.data.name || "",
+                          type: "SrvCas",
+                        })
+                      );
+                    }}
+                    className="minus"
+                  >
+                    <RemoveCircleIcon color="error" />
+                  </IconButton>
                 </td>
               </tr>
             );
@@ -87,13 +85,15 @@ export default function CasSrvMetaDataNodeContainerForm({
         />
         <Button
           onClick={() => {
-            dispatch(newApp({ name: name || "", type: "SrvCas" }));
+            if (name) {
+              dispatch(newApp({ name: name, type: "SrvCas" }));
+            }
             setGenPopup(false);
           }}
         >
           {t("close")}
         </Button>
       </Dialog>
-    </td>
+    </>
   );
 }

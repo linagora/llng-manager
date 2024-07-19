@@ -204,7 +204,6 @@ export function TreeNodeType({
       );
     case "simpleInputContainer":
       i = 0;
-
       return (
         <>
           {node.children?.map((child: NodeApi<treeFormat>) => {
@@ -214,15 +213,15 @@ export function TreeNodeType({
         </>
       );
     case "authParams":
-      i = 0;
       return (
         <>
           {node.children?.map((child: NodeApi<treeFormat>) => {
-            i++;
             if (child.data.type === "select") {
-              return <TreeNodeType key={i} node={child} config={config} />;
+              return (
+                <TreeNodeType key={child.id} node={child} config={config} />
+              );
             }
-            return <></>;
+            return null;
           })}
         </>
       );
@@ -454,11 +453,19 @@ export function TreeNodeType({
       );
     case "samlIDPMetaDataNodeContainer":
       return (
-        <SamlIDPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <SamlIDPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "samlSPMetaDataNodeContainer":
       return (
-        <SamlSPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <SamlSPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "virtualHost":
       return (
@@ -622,22 +629,44 @@ export function TreeNodeType({
         </tr>
       );
     case "virtualHostContainer":
-      return <VirtualHostContainerForm dispatch={dispatch} node={node} />;
+      return (
+        <tr>
+          <td>
+            <VirtualHostContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
+      );
     case "oidcRPMetaDataNodeContainer":
       return (
-        <OidcRPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <OidcRPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "oidcOPMetaDataNodeContainer":
       return (
-        <OidcOPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <OidcOPMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "casAppMetaDataNodeContainer":
       return (
-        <CasAppMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <CasAppMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "casSrvMetaDataNodeContainer":
       return (
-        <CasSrvMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+        <tr>
+          <td>
+            <CasSrvMetaDataNodeContainerForm dispatch={dispatch} node={node} />
+          </td>
+        </tr>
       );
     case "ruleContainer":
       return (
@@ -700,24 +729,30 @@ export function TreeNodeType({
     case "authChoiceContainer":
       return (
         <tr>
-          <AuthChoiceContainerForm
-            data={(data as Record<string, string>) || {}}
-            dispatch={dispatch}
-          />
+          <td>
+            <AuthChoiceContainerForm
+              data={(data as Record<string, string>) || {}}
+              dispatch={dispatch}
+            />
+          </td>
         </tr>
       );
     case "oidcAttributeContainer":
       return (
-        <tr>
-          <OidcAttributeContainerForm
-            value={(data as Record<string, string>) || {}}
-            fieldName={node.data.id.split(";").at(-1) || ""}
-            appName={node.data.app || ""}
-          />
-        </tr>
+        <OidcAttributeContainerForm
+          value={(data as Record<string, string>) || {}}
+          fieldName={node.data.id.split(";").at(-1) || ""}
+          appName={node.data.app || ""}
+        />
       );
     case "cmbModuleContainer":
-      return <CmbModuleContainerForm data={data || {}} dispatch={dispatch} />;
+      return (
+        <tr>
+          <td>
+            <CmbModuleContainerForm data={data || {}} dispatch={dispatch} />
+          </td>
+        </tr>
+      );
     case "catAndAppList":
       return <CatAndAppListForm values={data || {}} dispatch={dispatch} />;
     case "category":
@@ -743,9 +778,21 @@ export function TreeNodeType({
         />
       );
     case "displayOidcMetadata":
-      return <DisplayOidcMetaDataForm confNum={config.cfgNum || 0} />;
+      return (
+        <tr>
+          <td>
+            <DisplayOidcMetaDataForm confNum={config.cfgNum || 0} />
+          </td>
+        </tr>
+      );
     case "displaySamlMetadata":
-      return <DisplaySamlMetaDataForm confNum={config.cfgNum || 0} />;
+      return (
+        <tr>
+          <td>
+            <DisplaySamlMetaDataForm confNum={config.cfgNum || 0} />
+          </td>
+        </tr>
+      );
     case "portalskinbackground":
       return (
         <PortalskinbackgroundForm

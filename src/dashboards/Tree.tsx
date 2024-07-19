@@ -10,7 +10,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import useResizeObserver from "use-resize-observer";
 import { TreeNode, recursTree, treeFormat } from "../utils/recursTree";
@@ -18,18 +18,19 @@ import { findElementByTitleOrValue } from "../utils/searchIntree";
 import { llngConfig } from "../utils/types";
 import "./Tree.css";
 import { TreeNodeType } from "./TreeNode";
+
 export function ToggleConfTree(
   itemId: string,
-  treeRef: RefObject<TreeApi<treeFormat>>,
+  treeRef: React.RefObject<TreeApi<treeFormat>>,
   tree: TreeNode[],
   config: llngConfig,
   setItems: React.Dispatch<React.SetStateAction<treeFormat[] | undefined>>
 ): void {
   const item = treeRef.current?.get(itemId)?.data;
   if (item) {
-    item.children = item.children?.map((node: treeFormat) => {
+    const updateChildren = (node: treeFormat): treeFormat => {
       if (node?.children) {
-        node.children = node?.children.map((child: any) => {
+        node.children = node.children.map((child: any) => {
           const childId = child.id.split(";").at(-1) || "";
           const foundElement = findElementByTitleOrValue(
             tree,
@@ -39,6 +40,7 @@ export function ToggleConfTree(
           if (foundElement) {
             child = recursTree(foundElement, config, node.id, node.app);
           }
+          child = updateChildren(child);
           return child;
         });
       } else {
@@ -48,13 +50,14 @@ export function ToggleConfTree(
           id,
           node.id.split(";").at(-2)
         );
-
         if (foundElement) {
           return recursTree(foundElement, config, item.id, item.app);
         }
       }
       return node;
-    });
+    };
+
+    item.children = item.children?.map(updateChildren);
 
     setItems((prevItems) =>
       prevItems?.map((el) => (el.id === itemId ? { ...item } : el))
@@ -94,7 +97,6 @@ export default function TreeRender({
         ToggleConfTree(parent.id, treeRef, tree || [], config, setItems);
         treeRef.current?.get(parent.id)?.open();
       });
-      ToggleConfTree(selectedItem.id, treeRef, tree || [], config, setItems);
     }
   }, [selectedItem, tree, config]);
   if (tree) {

@@ -60,172 +60,184 @@ export default function MenuAppForm({
     );
   }, [values.options]);
   return (
-    <td>
-      <div>
-        <h3>{t("application")}</h3>
-      </div>
-      <table>
-        <tbody>
-          <tr>
-            <TextForm
-              fieldName="name"
-              value={(values.options as Record<string, string>).name}
-              updateFunc={(e: string) =>
-                dispatch(
-                  changeApplicationField({ catid, id, field: "name", value: e })
-                )
-              }
-            />
-          </tr>
-          <tr>
-            <LongtextForm
-              fieldName="description"
-              value={(values.options as Record<string, string>).description}
-              updateFunc={(e: string) =>
-                dispatch(
-                  changeApplicationField({
-                    catid,
-                    id,
-                    field: "description",
-                    value: e,
-                  })
-                )
-              }
-            />
-          </tr>
-          <tr>
-            <TextForm
-              fieldName="uri"
-              value={(values.options as Record<string, string>).uri}
-              updateFunc={(e: string) =>
-                dispatch(
-                  changeApplicationField({ catid, id, field: "uri", value: e })
-                )
-              }
-            />
-          </tr>
-          <tr>
-            <TextForm
-              fieldName="tooltip"
-              value={(values.options as Record<string, string>).tooltip}
-              updateFunc={(e: string) =>
-                dispatch(
-                  changeApplicationField({
-                    catid,
-                    id,
-                    field: "tooltip",
-                    value: e,
-                  })
-                )
-              }
-            />
-          </tr>
-          <tr>
-            <th>
-              <span>{t("logo")}</span>
-            </th>
-            <td>
-              <FormControl>
-                <Select
-                  value={
-                    (values.options as Record<string, string>).logo ||
-                    "network.png"
-                  }
-                  onChange={(e) =>
-                    dispatch(
-                      changeApplicationField({
-                        catid,
-                        id,
-                        field: "logo",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                >
-                  {logoOptions.map((option) => (
-                    <MenuItem value={option} key={option}>
-                      <img
-                        src={`${portal}/static/common/apps/${option}`}
-                        height="30px"
-                        width="30px"
-                        alt={option}
-                      />
-                    </MenuItem>
-                  ))}
-                </Select>
-                <TextField
-                  value={(values.options as Record<string, string>).logo}
-                />
-              </FormControl>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <span>{t("applicationDisplay")}</span>
-            </th>
-            <td>
-              <FormControl>
-                <FormLabel>{t("applicationDisplay")}</FormLabel>
-                <RadioGroup
-                  row
-                  value={display}
-                  onChange={(e) => {
-                    dispatch(
-                      changeApplicationField({
-                        catid,
-                        id,
-                        field: "display",
-                        value: e.target.value,
-                      })
-                    );
-                    setDisplay(e.target.value);
-                  }}
-                >
-                  <FormControlLabel
-                    value={"on"}
-                    control={<Radio />}
-                    label={t("on")}
+    <tr>
+      <td>
+        <div>
+          <h3>{t("application")}</h3>
+        </div>
+        <table>
+          <tbody>
+            <tr>
+              <TextForm
+                fieldName="name"
+                value={(values.options as Record<string, string>).name}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    changeApplicationField({
+                      catid,
+                      id,
+                      field: "name",
+                      value: e,
+                    })
+                  )
+                }
+              />
+            </tr>
+            <tr>
+              <LongtextForm
+                fieldName="description"
+                value={(values.options as Record<string, string>).description}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    changeApplicationField({
+                      catid,
+                      id,
+                      field: "description",
+                      value: e,
+                    })
+                  )
+                }
+              />
+            </tr>
+            <tr>
+              <TextForm
+                fieldName="uri"
+                value={(values.options as Record<string, string>).uri}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    changeApplicationField({
+                      catid,
+                      id,
+                      field: "uri",
+                      value: e,
+                    })
+                  )
+                }
+              />
+            </tr>
+            <tr>
+              <TextForm
+                fieldName="tooltip"
+                value={(values.options as Record<string, string>).tooltip}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    changeApplicationField({
+                      catid,
+                      id,
+                      field: "tooltip",
+                      value: e,
+                    })
+                  )
+                }
+              />
+            </tr>
+            <tr>
+              <th>
+                <span>{t("logo")}</span>
+              </th>
+              <td>
+                <FormControl>
+                  <Select
+                    value={
+                      (values.options as Record<string, string>).logo ||
+                      "network.png"
+                    }
+                    onChange={(e) =>
+                      dispatch(
+                        changeApplicationField({
+                          catid,
+                          id,
+                          field: "logo",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                  >
+                    {logoOptions.map((option) => (
+                      <MenuItem value={option} key={option}>
+                        <img
+                          src={`${portal}/static/common/apps/${option}`}
+                          height="30px"
+                          width="30px"
+                          alt={option}
+                        />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <TextField
+                    value={(values.options as Record<string, string>).logo}
                   />
-                  <FormControlLabel
-                    value={"off"}
-                    control={<Radio />}
-                    label={t("off")}
+                </FormControl>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span>{t("applicationDisplay")}</span>
+              </th>
+              <td>
+                <FormControl>
+                  <FormLabel>{t("applicationDisplay")}</FormLabel>
+                  <RadioGroup
+                    row
+                    value={display}
+                    onChange={(e) => {
+                      dispatch(
+                        changeApplicationField({
+                          catid,
+                          id,
+                          field: "display",
+                          value: e.target.value,
+                        })
+                      );
+                      setDisplay(e.target.value);
+                    }}
+                  >
+                    <FormControlLabel
+                      value={"on"}
+                      control={<Radio />}
+                      label={t("on")}
+                    />
+                    <FormControlLabel
+                      value={"off"}
+                      control={<Radio />}
+                      label={t("off")}
+                    />
+                    <FormControlLabel
+                      value={"auto"}
+                      control={<Radio />}
+                      label={t("auto")}
+                    />
+                    <FormControlLabel
+                      value={"specialRule"}
+                      control={<Radio />}
+                      label={t("specialRule")}
+                    />
+                  </RadioGroup>
+                </FormControl>
+                {display === "specialRule" && (
+                  <TextField
+                    size="small"
+                    multiline
+                    variant="filled"
+                    rows={4}
+                    onChange={(e) =>
+                      dispatch(
+                        changeApplicationField({
+                          catid,
+                          id,
+                          field: "specialRule",
+                          value: e.target.value,
+                        })
+                      )
+                    }
+                    value={(values.options as Record<string, string>).display}
                   />
-                  <FormControlLabel
-                    value={"auto"}
-                    control={<Radio />}
-                    label={t("auto")}
-                  />
-                  <FormControlLabel
-                    value={"specialRule"}
-                    control={<Radio />}
-                    label={t("specialRule")}
-                  />
-                </RadioGroup>
-              </FormControl>
-              {display === "specialRule" && (
-                <TextField
-                  size="small"
-                  multiline
-                  variant="filled"
-                  rows={4}
-                  onChange={(e) =>
-                    dispatch(
-                      changeApplicationField({
-                        catid,
-                        id,
-                        field: "specialRule",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={(values.options as Record<string, string>).display}
-                />
-              )}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
+                )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
   );
 }

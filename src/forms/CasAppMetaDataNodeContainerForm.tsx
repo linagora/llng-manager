@@ -19,7 +19,7 @@ export default function CasAppMetaDataNodeContainerForm({
   const [genPopup, setGenPopup] = useState(false);
   const [name, setName] = useState<string>();
   return (
-    <td>
+    <>
       <table>
         <thead>
           <tr>
@@ -88,6 +88,6 @@ export default function CasAppMetaDataNodeContainerForm({
           {t("close")}
         </Button>
       </Dialog>
-    </td>
+    </>
   );
 }
