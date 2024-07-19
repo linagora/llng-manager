@@ -31,7 +31,7 @@ import {
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import { exportData } from "../../utils/exportData";
-import { GenerateKeys } from "../../utils/generateKey";
+import { NewCertificate } from "../../utils/generateKey";
 import { handleChangeFile } from "../../utils/readFiles";
 import { TableVars } from "../applicationsComponents/TableVars";
 import { VisuallyHiddenInput } from "../managerComponents/VisuallyHiddenInput";
@@ -41,9 +41,8 @@ export function SAMLIssuer() {
   const [option, setOption] = useState("basic");
   const handleGenerateKeys = async () => {
     try {
-      const result = await GenerateKeys("RSA");
+      const result = await NewCertificate();
 
-      result.hash ? dispatch(saveSAMLPrivIdSig(result.hash)) : console.debug();
       dispatch(saveSAMLPrivSig(result.private));
       dispatch(saveSAMLPubSig(result.public));
     } catch (error) {

@@ -1,42 +1,23 @@
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Tooltip,
-  styled,
-} from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Button, IconButton, TextField, Tooltip, styled } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { ChangeEvent, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import {
   delSAMLSPMetaDataMacros,
-  delSamlSPMetadataExportedAttribute,
   newSAMLSPMetaDataMacros,
-  newSamlSPMetadataExportedAttribute,
   updateSAMLSPMetaDataMacros,
   updateSamlSPMetadata,
-  updateSamlSPMetadataExportedAttribute,
 } from "../../features/config/configSlice";
-import attributes from "../../static/attributes.json";
+import SamlAttributeContainerForm from "../../forms/SamlAttributeContainerForm";
 import definitions from "../../static/definitions.json";
 import { handleChangeFile } from "../../utils/readFiles";
 import { URLLoader } from "../managerComponents/URLLoader";
 import "./AppPage.css";
 import { OptionSaml } from "./OptionSaml";
 import { TableVars } from "./TableVars";
-
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -49,185 +30,6 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-function updateExpAttr(tableID: string, key?: string, updatedFormat?: string) {
-  const attrList: Record<string, string> = {};
-
-  const table = document.getElementById(tableID);
-  const rows = table?.getElementsByTagName("tr");
-  if (rows) {
-    for (let i = 1; i < rows.length; i++) {
-      const cells = rows[i].getElementsByTagName("td");
-      const name = cells[0].querySelector("input")?.value;
-      const attName = cells[1].querySelector("input")?.value;
-      const friendlyName = cells[2].querySelector("input")?.value;
-      let format = cells[4].querySelector("input")?.value;
-      if (key === name && updatedFormat) {
-        format = updatedFormat;
-      }
-      let mandatory: number = 0;
-      cells[3].querySelectorAll("label").forEach((e) => {
-        if (e.innerText === t("on")) {
-          if (e.querySelector("input")?.checked) {
-            mandatory = 1;
-          }
-        }
-        if (e.innerText === t("off")) {
-          if (e.querySelector("input")?.checked) {
-            mandatory = 0;
-          }
-        }
-      });
-      attrList[
-        name ? name : ""
-      ] = `${mandatory};${attName};${format};${friendlyName}`;
-    }
-  }
-
-  return attrList;
-}
-
-function ExportedAttribute(appName: string, vars: Record<string, string>) {
-  const dispatch = useAppDispatch();
-  let i = 0;
-  return (
-    <tbody>
-      {Object.keys(vars).map((key) => {
-        const [mandatory, name, format, friendlyName] = vars[key].split(";");
-        i++;
-        return (
-          <tr key={i}>
-            <td>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                className="form"
-                onChange={() =>
-                  dispatch(
-                    updateSamlSPMetadataExportedAttribute({
-                      appName,
-                      data: updateExpAttr("exportedAttribute"),
-                    })
-                  )
-                }
-                type="text"
-                value={key}
-              />
-            </td>
-            <td>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                className="form"
-                onChange={() =>
-                  dispatch(
-                    updateSamlSPMetadataExportedAttribute({
-                      appName,
-                      data: updateExpAttr("exportedAttribute"),
-                    })
-                  )
-                }
-                type="text"
-                value={name}
-              />
-            </td>
-            <td>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                className="form"
-                onChange={() =>
-                  dispatch(
-                    updateSamlSPMetadataExportedAttribute({
-                      appName,
-                      data: updateExpAttr("exportedAttribute"),
-                    })
-                  )
-                }
-                type="text"
-                value={friendlyName}
-              />
-            </td>
-            <td>
-              <FormControl>
-                <RadioGroup
-                  row
-                  value={mandatory}
-                  onChange={() =>
-                    dispatch(
-                      updateSamlSPMetadataExportedAttribute({
-                        appName,
-                        data: updateExpAttr("exportedAttribute"),
-                      })
-                    )
-                  }
-                >
-                  <FormControlLabel
-                    value={1}
-                    control={<Radio />}
-                    label={t("on")}
-                  />
-                  <FormControlLabel
-                    value={0}
-                    control={<Radio />}
-                    label={t("off")}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </td>
-            <td>
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel shrink>{t("format")}</InputLabel>
-                <Select
-                  value={format}
-                  label={t("format")}
-                  displayEmpty
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlSPMetadataExportedAttribute({
-                        appName,
-                        data: updateExpAttr(
-                          "exportedAttribute",
-                          key,
-                          e.target.value
-                        ),
-                      })
-                    )
-                  }
-                >
-                  {attributes.samlSPMetaDataExportedAttributes.select.map(
-                    (el) => {
-                      return (
-                        <MenuItem key={el.k} value={el.k}>
-                          {t(el.v)}
-                        </MenuItem>
-                      );
-                    }
-                  )}
-                </Select>
-              </FormControl>
-            </td>
-
-            <td>
-              <IconButton
-                onClick={() => {
-                  dispatch(
-                    delSamlSPMetadataExportedAttribute({ appName, key })
-                  );
-                }}
-                className="minus"
-              >
-                <RemoveCircleIcon color="error" />
-              </IconButton>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>
-  );
-}
 
 export function SAMLApp({
   name,
@@ -362,52 +164,19 @@ export function SAMLApp({
         {(optionSelected === "samlSPMetaDataExportedAttributes" ||
           optionSelected === "basic") && (
           <div className="box">
-            <strong className="title2">
-              {t("samlSPMetaDataExportedAttributes")}
-            </strong>
-
-            <table id="exportedAttribute">
-              <thead>
-                <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("variableName")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("attributeName")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("friendlyName")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("mandatory")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("format")}</th>
-                  </Tooltip>
-                  <th>
-                    <Button
-                      onClick={() =>
-                        dispatch(newSamlSPMetadataExportedAttribute(name))
-                      }
-                      color="success"
-                      startIcon={<AddCircleIcon />}
-                    />
-                  </th>
-                </tr>
-              </thead>
-              {data.samlSPMetaDataExportedAttributes
-                ? ExportedAttribute(
-                    name,
-                    data.samlSPMetaDataExportedAttributes[name]
-                  )
-                : ""}
+            <table>
+              <tbody>
+                <SamlAttributeContainerForm
+                  value={
+                    data.samlSPMetaDataExportedAttributes
+                      ? data.samlSPMetaDataExportedAttributes[name]
+                      : {}
+                  }
+                  appName={name}
+                  fieldName="samlSPMetaDataExportedAttributes"
+                />
+              </tbody>
             </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newSamlSPMetadataExportedAttribute(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
           </div>
         )}
         {optionSelected === "samlSPMetaDataMacros" && (

@@ -95,7 +95,7 @@ export default function Manager() {
           ...Object.keys(config.data.config.samlSPMetaDataXML).map((key) => (
             <AppCard
               key={key}
-              type="saml"
+              type="SPsaml"
               info={{
                 name: key,
                 config: config.data.config.samlSPMetaDataXML
@@ -118,7 +118,7 @@ export default function Manager() {
             (key) => (
               <AppCard
                 key={key}
-                type="oidc"
+                type="RPoidc"
                 info={{
                   name: key,
                   config: config.data.config.oidcRPMetaDataOptions
@@ -142,7 +142,7 @@ export default function Manager() {
             (key) => (
               <AppCard
                 key={key}
-                type="cas"
+                type="AppCas"
                 info={{
                   name: key,
                   config: config.data.config.casAppMetaDataOptions

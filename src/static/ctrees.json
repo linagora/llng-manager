@@ -1,9 +1,9 @@
 {
-   "casAppMetaDataNode" : [
+   "casAppMetaDataNode": [
       "casAppMetaDataExportedVars",
       {
-         "form" : "simpleInputContainer",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "nodes": [
             "casAppMetaDataOptionsService",
             "casAppMetaDataOptionsUserAttribute",
             "casAppMetaDataOptionsLogout",
@@ -11,52 +11,52 @@
             "casAppMetaDataOptionsRule",
             "casAppMetaDataOptionsComment"
          ],
-         "title" : "casAppMetaDataOptions"
+         "title": "casAppMetaDataOptions"
       },
       {
-         "form" : "simpleInputContainer",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "nodes": [
             "casAppMetaDataOptionsDisplayName"
          ],
-         "title" : "casAppMetaDataOptionsDisplay"
+         "title": "casAppMetaDataOptionsDisplay"
       },
       "casAppMetaDataMacros"
    ],
-   "casSrvMetaDataNode" : [
+   "casSrvMetaDataNode": [
       "casSrvMetaDataExportedVars",
       "casSrvMetaDataOptionsProxiedServices",
       {
-         "form" : "simpleInputContainer",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "nodes": [
             "casSrvMetaDataOptionsUrl",
             "casSrvMetaDataOptionsRenew",
             "casSrvMetaDataOptionsGateway",
             "casSrvMetaDataOptionsComment"
          ],
-         "title" : "casSrvMetaDataOptions"
+         "title": "casSrvMetaDataOptions"
       },
       {
-         "form" : "simpleInputContainer",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "nodes": [
             "casSrvMetaDataOptionsDisplayName",
             "casSrvMetaDataOptionsIcon",
             "casSrvMetaDataOptionsTooltip",
             "casSrvMetaDataOptionsResolutionRule",
             "casSrvMetaDataOptionsSortNumber"
          ],
-         "title" : "casSrvMetaDataOptionsDisplay"
+         "title": "casSrvMetaDataOptionsDisplay"
       }
    ],
-   "oidcOPMetaDataNode" : [
+   "oidcOPMetaDataNode": [
       "oidcOPMetaDataJSON",
       "oidcOPMetaDataJWKS",
       "oidcOPMetaDataExportedVars",
       {
-         "help" : "authopenidconnect.html#options",
-         "nodes" : [
+         "help": "authopenidconnect.html#options",
+         "nodes": [
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcOPMetaDataOptionsConfigurationURI",
                   "oidcOPMetaDataOptionsJWKSTimeout",
                   "oidcOPMetaDataOptionsClientID",
@@ -65,11 +65,11 @@
                   "oidcOPMetaDataOptionsUserAttribute",
                   "oidcOPMetaDataOptionsRequirePkce"
                ],
-               "title" : "oidcOPMetaDataOptionsConfiguration"
+               "title": "oidcOPMetaDataOptionsConfiguration"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcOPMetaDataOptionsScope",
                   "oidcOPMetaDataOptionsDisplay",
                   "oidcOPMetaDataOptionsPrompt",
@@ -83,44 +83,44 @@
                   "oidcOPMetaDataOptionsIDTokenMaxAge",
                   "oidcOPMetaDataOptionsUseNonce"
                ],
-               "title" : "oidcOPMetaDataOptionsProtocol"
+               "title": "oidcOPMetaDataOptionsProtocol"
             },
             "oidcOPMetaDataOptionsComment"
          ],
-         "title" : "oidcOPMetaDataOptions"
+         "title": "oidcOPMetaDataOptions"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authopenidconnect.html#display",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authopenidconnect.html#display",
+         "nodes": [
             "oidcOPMetaDataOptionsDisplayName",
             "oidcOPMetaDataOptionsIcon",
             "oidcOPMetaDataOptionsTooltip",
             "oidcOPMetaDataOptionsResolutionRule",
             "oidcOPMetaDataOptionsSortNumber"
          ],
-         "title" : "oidcOPMetaDataOptionsDisplayParams"
+         "title": "oidcOPMetaDataOptionsDisplayParams"
       }
    ],
-   "oidcRPMetaDataNode" : [
+   "oidcRPMetaDataNode": [
       {
-         "form" : "simpleInputContainer",
-         "help" : "idpopenidconnect.html#basic-options",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "idpopenidconnect.html#basic-options",
+         "nodes": [
             "oidcRPMetaDataOptionsPublic",
             "oidcRPMetaDataOptionsClientID",
             "oidcRPMetaDataOptionsClientSecret",
             "oidcRPMetaDataOptionsRedirectUris"
          ],
-         "title" : "oidcRPMetaDataOptionsBasic"
+         "title": "oidcRPMetaDataOptionsBasic"
       },
       "oidcRPMetaDataExportedVars",
       {
-         "help" : "idpopenidconnect.html#options",
-         "nodes" : [
+         "help": "idpopenidconnect.html#options",
+         "nodes": [
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcRPMetaDataOptionsBypassConsent",
                   "oidcRPMetaDataOptionsIDTokenForceClaims",
                   "oidcRPMetaDataOptionsAccessTokenJWT",
@@ -129,18 +129,18 @@
                   "oidcRPMetaDataOptionsUserIDAttr",
                   "oidcRPMetaDataOptionsAdditionalAudiences"
                ],
-               "title" : "oidcRPMetaDataOptionsAdvanced"
+               "title": "oidcRPMetaDataOptionsAdvanced"
             },
             {
-               "nodes" : [
+               "nodes": [
                   "oidcRPMetaDataOptionsExtraClaims",
                   "oidcRPMetaDataScopeRules"
                ],
-               "title" : "oidcRPMetaDataOptionsScopes"
+               "title": "oidcRPMetaDataOptionsScopes"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcRPMetaDataOptionsRequirePKCE",
                   "oidcRPMetaDataOptionsAllowOffline",
                   "oidcRPMetaDataOptionsAllowPasswordGrant",
@@ -154,11 +154,11 @@
                   "oidcRPMetaDataOptionsAuthnRequireNonce",
                   "oidcRPMetaDataOptionsUserinfoRequireHeaderToken"
                ],
-               "title" : "security"
+               "title": "security"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcRPMetaDataOptionsIDTokenSignAlg",
                   "oidcRPMetaDataOptionsAccessTokenSignAlg",
                   "oidcRPMetaDataOptionsUserInfoSignAlg",
@@ -171,139 +171,133 @@
                   "oidcRPMetaDataOptionsLogoutEncKeyMgtAlg",
                   "oidcRPMetaDataOptionsLogoutEncContentEncAlg"
                ],
-               "title" : "algorithms"
+               "title": "algorithms"
             },
             {
-               "nodes" : [
+               "nodes": [
                   "oidcRPMetaDataOptionsJwksUri",
                   "oidcRPMetaDataOptionsJwks"
                ],
-               "title" : "keys"
+               "title": "keys"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcRPMetaDataOptionsAuthorizationCodeExpiration",
                   "oidcRPMetaDataOptionsIDTokenExpiration",
                   "oidcRPMetaDataOptionsAccessTokenExpiration",
                   "oidcRPMetaDataOptionsOfflineSessionExpiration"
                ],
-               "title" : "oidcRPMetaDataOptionsTimeouts"
+               "title": "oidcRPMetaDataOptionsTimeouts"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "oidcRPMetaDataOptionsLogoutBypassConfirm",
                   "oidcRPMetaDataOptionsLogoutSessionRequired",
                   "oidcRPMetaDataOptionsLogoutType",
                   "oidcRPMetaDataOptionsLogoutUrl",
                   "oidcRPMetaDataOptionsPostLogoutRedirectUris"
                ],
-               "title" : "logout"
+               "title": "logout"
             },
             "oidcRPMetaDataOptionsComment"
          ],
-         "title" : "oidcRPMetaDataOptions"
+         "title": "oidcRPMetaDataOptions"
       },
       "oidcRPMetaDataMacros",
       {
-         "form" : "simpleInputContainer",
-         "help" : "idpopenidconnect.html#display",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "idpopenidconnect.html#display",
+         "nodes": [
             "oidcRPMetaDataOptionsDisplayName",
             "oidcRPMetaDataOptionsIcon"
          ],
-         "title" : "oidcRPMetaDataOptionsDisplay"
+         "title": "oidcRPMetaDataOptionsDisplay"
       }
    ],
-   "samlIDPMetaDataNode" : [
+   "samlIDPMetaDataNode": [
       "samlIDPMetaDataXML",
       "samlIDPMetaDataExportedAttributes",
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#session",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#session",
+         "nodes": [
             "samlIDPMetaDataOptionsAdaptSessionUtime",
             "samlIDPMetaDataOptionsForceUTF8",
             "samlIDPMetaDataOptionsStoreSAMLToken",
             "samlIDPMetaDataOptionsUserAttribute"
          ],
-         "title" : "samlIDPMetaDataOptionsSession"
+         "title": "samlIDPMetaDataOptionsSession"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#signature",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#signature",
+         "nodes": [
             "samlIDPMetaDataOptionsSignatureMethod",
             "samlIDPMetaDataOptionsSignSSOMessage",
             "samlIDPMetaDataOptionsCheckSSOMessageSignature",
             "samlIDPMetaDataOptionsSignSLOMessage",
             "samlIDPMetaDataOptionsCheckSLOMessageSignature"
          ],
-         "title" : "samlIDPMetaDataOptionsSignature"
+         "title": "samlIDPMetaDataOptionsSignature"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#binding",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#binding",
+         "nodes": [
             "samlIDPMetaDataOptionsSSOBinding",
             "samlIDPMetaDataOptionsSLOBinding"
          ],
-         "title" : "samlIDPMetaDataOptionsBinding"
+         "title": "samlIDPMetaDataOptionsBinding"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#security",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#security",
+         "nodes": [
             "samlIDPMetaDataOptionsEncryptionMode",
             "samlIDPMetaDataOptionsCheckTime",
             "samlIDPMetaDataOptionsCheckAudience"
          ],
-         "title" : "samlIDPMetaDataOptionsSecurity"
+         "title": "samlIDPMetaDataOptionsSecurity"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#options",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#options",
+         "nodes": [
             "samlIDPMetaDataOptionsNameIDFormat",
             "samlIDPMetaDataOptionsForceAuthn",
             "samlIDPMetaDataOptionsIsPassive",
             "samlIDPMetaDataOptionsAllowLoginFromIDP",
             "samlIDPMetaDataOptionsRequestedAuthnContext",
             "samlIDPMetaDataOptionsRelayStateURL",
-            {
-               "form" : "simpleInputContainer",
-               "nodes" : [
-                  "samlIDPMetaDataOptionsFederationEntityID"
-               ],
-               "title" : "samlIDPMetaDataOptionsFederation"
-            },
+            "samlIDPMetaDataOptionsFederationEntityID",
             "samlIDPMetaDataOptionsComment"
          ],
-         "title" : "samlIDPMetaDataOptions"
+         "title": "samlIDPMetaDataOptions"
       },
       {
-         "form" : "simpleInputContainer",
-         "help" : "authsaml.html#display",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "authsaml.html#display",
+         "nodes": [
             "samlIDPMetaDataOptionsDisplayName",
             "samlIDPMetaDataOptionsIcon",
             "samlIDPMetaDataOptionsTooltip",
             "samlIDPMetaDataOptionsResolutionRule",
             "samlIDPMetaDataOptionsSortNumber"
          ],
-         "title" : "samlIDPMetaDataOptionsDisplay"
+         "title": "samlIDPMetaDataOptionsDisplay"
       }
    ],
-   "samlSPMetaDataNode" : [
+   "samlSPMetaDataNode": [
       "samlSPMetaDataXML",
       "samlSPMetaDataExportedAttributes",
       {
-         "help" : "idpsaml.html#options",
-         "nodes" : [
+         "help": "idpsaml.html#options",
+         "nodes": [
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "samlSPMetaDataOptionsNameIDFormat",
                   "samlSPMetaDataOptionsNameIDSessionKey",
                   "samlSPMetaDataOptionsOneTimeUse",
@@ -311,52 +305,52 @@
                   "samlSPMetaDataOptionsNotOnOrAfterTimeout",
                   "samlSPMetaDataOptionsForceUTF8"
                ],
-               "title" : "samlSPMetaDataOptionsAuthnResponse"
+               "title": "samlSPMetaDataOptionsAuthnResponse"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "samlSPMetaDataOptionsSignatureMethod",
                   "samlSPMetaDataOptionsSignSSOMessage",
                   "samlSPMetaDataOptionsCheckSSOMessageSignature",
                   "samlSPMetaDataOptionsSignSLOMessage",
                   "samlSPMetaDataOptionsCheckSLOMessageSignature"
                ],
-               "title" : "samlSPMetaDataOptionsSignature"
+               "title": "samlSPMetaDataOptionsSignature"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "samlSPMetaDataOptionsEncryptionMode",
                   "samlSPMetaDataOptionsEnableIDPInitiatedURL",
                   "samlSPMetaDataOptionsAuthnLevel",
                   "samlSPMetaDataOptionsRule"
                ],
-               "title" : "samlSPMetaDataOptionsSecurity"
+               "title": "samlSPMetaDataOptionsSecurity"
             },
             {
-               "form" : "simpleInputContainer",
-               "nodes" : [
+               "form": "simpleInputContainer",
+               "nodes": [
                   "samlSPMetaDataOptionsFederationEntityID",
                   "samlSPMetaDataOptionsFederationOptionalAttributes",
                   "samlSPMetaDataOptionsFederationRequiredAttributes"
                ],
-               "title" : "samlSPMetaDataOptionsFederation"
+               "title": "samlSPMetaDataOptionsFederation"
             },
             "samlSPMetaDataOptionsComment"
          ],
-         "title" : "samlSPMetaDataOptions"
+         "title": "samlSPMetaDataOptions"
       },
       "samlSPMetaDataMacros"
    ],
-   "virtualHost" : [
+   "virtualHost": [
       "locationRules",
       "exportedHeaders",
       "post",
       {
-         "form" : "simpleInputContainer",
-         "help" : "configvhost.html#options",
-         "nodes" : [
+         "form": "simpleInputContainer",
+         "help": "configvhost.html#options",
+         "nodes": [
             "vhostPort",
             "vhostHttps",
             "vhostMaintenance",
@@ -368,7 +362,7 @@
             "vhostServiceTokenTTL",
             "vhostComment"
          ],
-         "title" : "vhostOptions"
+         "title": "vhostOptions"
       }
    ]
 }

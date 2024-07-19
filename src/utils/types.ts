@@ -16,7 +16,13 @@ export interface llngConfig {
   activeTimer?: boolean | number;
   adaptativeAuthenticationLevelRules?: Record<string, Record<string, string>>;
   apacheAuthnLevel?: number;
-  applicationList?: Record<string, object>;
+  applicationList?: Record<
+    string,
+    Record<
+      string,
+      string | number | Record<string, string | number | Record<string, string>>
+    >
+  >;
   authChoiceAuthBasic?: string;
   authChoiceFindUser?: string;
   authChoiceModules?: Record<string, string>;
@@ -61,7 +67,10 @@ export interface llngConfig {
   casBackChannelSingleLogout?: boolean | number;
   casSrvMetaDataExportedVars?: Record<string, Record<string, string>>;
   casSrvMetaDataNodes?: Record<string, object>;
-  casSrvMetaDataOptions?: Record<string, object>;
+  casSrvMetaDataOptions?: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   casSrvMetaDataOptionsComment?: string;
   casSrvMetaDataOptionsDisplayName?: string;
   casSrvMetaDataOptionsGateway?: boolean | number;
@@ -381,10 +390,13 @@ export interface llngConfig {
   oidcAuthnLevel?: number;
   oidcDropCspHeaders?: boolean | number;
   oidcOPMetaDataExportedVars?: Record<string, Record<string, string>>;
-  oidcOPMetaDataJSON?: string;
-  oidcOPMetaDataJWKS?: string;
-  oidcOPMetaDataNodes?: Record<string, object>;
-  oidcOPMetaDataOptions?: Record<string, object>;
+  oidcOPMetaDataJSON?: Record<string, string>;
+  oidcOPMetaDataJWKS?: Record<string, string>;
+  oidcOPMetaDataNodes?: Record<string, Record<string, string | number>>;
+  oidcOPMetaDataOptions?: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   oidcOPMetaDataOptionsAcrValues?: string;
   oidcOPMetaDataOptionsAuthnEndpointAuthMethod?: Array<{
     k: string;
@@ -682,7 +694,7 @@ export interface llngConfig {
   restPwdModifyUrl?: string;
   restSessionServer?: boolean | number;
   restUserDBUrl?: string;
-  sameSite?: Array<{ k: string; v: string }>;
+  sameSite?: string;
   samlAttributeAuthorityDescriptorAttributeServiceSOAP?: string;
   samlAuthnContextMapKerberos?: number;
   samlAuthnContextMapPassword?: number;
@@ -698,7 +710,7 @@ export interface llngConfig {
   samlDiscoveryProtocolURL?: string;
   samlEntityID?: string;
   samlFederationFiles?: string;
-  samlIDPMetaDataExportedAttributes?: Record<string, string>;
+  samlIDPMetaDataExportedAttributes?: Record<string, Record<string, string>>;
   samlIDPMetaDataNodes?: Record<string, object>;
   samlIDPMetaDataOptions?: Record<string, Record<string, string>>;
   samlIDPMetaDataOptionsAdaptSessionUtime?: boolean | number;
@@ -728,7 +740,7 @@ export interface llngConfig {
   samlIDPMetaDataOptionsStoreSAMLToken?: boolean | number;
   samlIDPMetaDataOptionsTooltip?: string;
   samlIDPMetaDataOptionsUserAttribute?: string;
-  samlIDPMetaDataXML?: string;
+  samlIDPMetaDataXML?: Record<string, Record<string, string>>;
   samlIDPSSODescriptorArtifactResolutionServiceArtifact?: string;
   samlIDPSSODescriptorSingleLogoutServiceHTTPPost?: string;
   samlIDPSSODescriptorSingleLogoutServiceHTTPRedirect?: string;
@@ -812,14 +824,11 @@ export interface llngConfig {
   sfEngine?: string;
   sfExtra?: Record<
     string,
-    Record<
-      string,
-      {
-        type?: string;
-        over?: Record<string, string | number>;
-        register?: number | boolean;
-      }
-    >
+    {
+      type?: string;
+      over?: Record<string, string | number>;
+      register?: number | boolean;
+    }
   >;
   sfLoginTimeout?: number | null;
   sfManagerRule?: boolean | number | string;

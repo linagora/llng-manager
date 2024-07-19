@@ -1,7 +1,7 @@
 import TuneIcon from "@mui/icons-material/Tune";
 import { Breadcrumbs, IconButton, Link } from "@mui/material";
 import { t } from "i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AddApp from "../components/managerComponents/AddApp";
@@ -10,16 +10,35 @@ import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
 import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
 import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
+import TreeRender from "../dashboards/Tree";
+import { getConfigAsync } from "../features/config/configSlice";
+import { getTree } from "../utils/getTree";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
+
 export function Configuration({
   location,
 }: {
   location: { type: string; info: { name: string; type?: string } };
 }) {
   const metadata = useAppSelector((state) => state.config.data.metadata);
+  const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
   const [authSimple, setAuthSimple] = useState(true);
+  const [tree, setTree] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (location.type === "tree") {
+        if (!config.cfgNum) {
+          dispatch(getConfigAsync());
+        }
+        const tree = await getTree();
+        setTree(tree.data);
+      }
+    }
+    fetchData();
+  }, [config, dispatch, location.type]);
 
   switch (location.type) {
     case "app":
@@ -113,14 +132,34 @@ export function Configuration({
               </span>
             </Link>
             <Link underline="none" color="inherit">
-              {t(location.type)}
+              {location.type}
             </Link>
-
-            <Link underline="hover" color="text.primary">
-              {t(location.info.name)}
+            <Link underline="none" color="text.primary">
+              {location.info.name}
             </Link>
           </Breadcrumbs>
           <IssuerDashboard type={location.info.name} />
+          <SaveButton />
+        </div>
+      );
+    case "tree":
+      return (
+        <div className="main">
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
+            </Link>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
+                {metadata.cfgNum}
+              </span>
+            </Link>
+            <Link underline="none" color="color.primary">
+              {t(location.type)}
+            </Link>
+          </Breadcrumbs>
+          <TreeRender tree={tree ? tree : undefined} config={config} />
+
           <SaveButton />
         </div>
       );
