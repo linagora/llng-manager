@@ -104,6 +104,7 @@ export function SimpleAuthParams() {
     passwordDB,
   ]);
 
+  const [optionSelected, setOptionSelected] = useState(authModule);
   const [ADKoptionSelected, setADKOptionSelected] = useState("AD");
   try {
     return (
@@ -236,11 +237,11 @@ export function SimpleAuthParams() {
             }}
           />
         </div>
-
         <div className="options">
           {optionSelected === "adv" && (
             <div>Use the Advanced Panel to manage your configuration.</div>
           )}
+
           {optionSelected === "LDAP" && <LDAPSimpleView />}
           {optionSelected === "AD+K" && (
             <>
