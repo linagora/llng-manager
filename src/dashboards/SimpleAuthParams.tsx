@@ -104,7 +104,6 @@ export function SimpleAuthParams() {
     passwordDB,
   ]);
 
-  const [optionSelected, setOptionSelected] = useState(authModule);
   const [ADKoptionSelected, setADKOptionSelected] = useState("AD");
   try {
     return (
