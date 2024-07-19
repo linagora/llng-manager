@@ -29,13 +29,13 @@ describe("Application Dashboard", () => {
   it('should render ApplicationDashboard for app type "saml"', async () => {
     const location = {
       type: "app",
-      info: { name: "saml_test", type: "saml" },
+      info: { name: "saml_test", type: "SPsaml" },
     };
 
     renderWithProviders(<Configuration location={location} />);
 
     expect(screen.getAllByText("saml_test")[0]).toBeInTheDocument();
-    expect(screen.getByText("saml")).toBeInTheDocument();
+    expect(screen.getByText("SPsaml")).toBeInTheDocument();
     clickOption("samlSPMetaDataXML");
     const mockAxiosPost = axios.post as jest.Mock;
     mockAxiosPost.mockResolvedValue({
@@ -54,24 +54,24 @@ describe("Application Dashboard", () => {
   it('should render ApplicationDashboard for app type "oidc"', () => {
     const location = {
       type: "app",
-      info: { name: "oidc_test", type: "oidc" },
+      info: { name: "oidc_test", type: "RPoidc" },
     };
 
     renderWithProviders(<Configuration location={location} />);
 
     expect(screen.getAllByText("oidc_test")[0]).toBeInTheDocument();
-    expect(screen.getByText("oidc")).toBeInTheDocument();
+    expect(screen.getByText("RPoidc")).toBeInTheDocument();
   });
   it('should render ApplicationDashboard for app type "cas"', () => {
     const location = {
       type: "app",
-      info: { name: "cas_test", type: "cas" },
+      info: { name: "cas_test", type: "AppCas" },
     };
 
     renderWithProviders(<Configuration location={location} />);
 
     expect(screen.getAllByText("cas_test")[0]).toBeInTheDocument();
-    expect(screen.getByText("cas")).toBeInTheDocument();
+    expect(screen.getByText("AppCas")).toBeInTheDocument();
   });
   it('should render ApplicationDashboard for app type "native" and change data', () => {
     const location = {
@@ -134,7 +134,7 @@ describe("Application Dashboard", () => {
   it("should trigger navigation when clicking on Breadcrumbs link", () => {
     const location = {
       type: "app",
-      info: { name: "oidc_test", type: "oidc" },
+      info: { name: "oidc_test", type: "RPoidc" },
     };
     renderWithProviders(<Configuration location={location} />);
     fireEvent.click(
@@ -147,7 +147,7 @@ describe("Application Dashboard", () => {
   it('should render ApplicationDashboard for app type "cas" and navigate through data', () => {
     const location = {
       type: "app",
-      info: { name: "cas_test", type: "cas" },
+      info: { name: "cas_test", type: "AppCas" },
     };
 
     renderWithProviders(<Configuration location={location} />);
@@ -175,7 +175,7 @@ describe("Application Dashboard", () => {
   test('should render ApplicationDashboard for app type "cas" and adds new exported variable', () => {
     const location = {
       type: "app",
-      info: { name: "cas_test", type: "cas" },
+      info: { name: "cas_test", type: "AppCas" },
     };
     renderWithProviders(<Configuration location={location} />);
 
@@ -185,7 +185,7 @@ describe("Application Dashboard", () => {
   test('should render ApplicationDashboard for app type "cas" and adds new macro', () => {
     const location = {
       type: "app",
-      info: { name: "cas_test", type: "cas" },
+      info: { name: "cas_test", type: "AppCas" },
     };
     renderWithProviders(<Configuration location={location} />);
     fireEvent.click(
@@ -197,7 +197,7 @@ describe("Application Dashboard", () => {
   test('should render ApplicationDashboard for app type "cas" and change datas', () => {
     const location = {
       type: "app",
-      info: { name: "cas_test", type: "cas" },
+      info: { name: "cas_test", type: "AppCas" },
     };
     renderWithProviders(<Configuration location={location} />);
     fireEvent.click(
@@ -232,7 +232,7 @@ describe("Application Dashboard", () => {
   test('should render ApplicationDashboard for app type "oidc" and change datas', async () => {
     const location = {
       type: "app",
-      info: { name: "oidc_test", type: "oidc" },
+      info: { name: "oidc_test", type: "RPoidc" },
     };
     renderWithProviders(<Configuration location={location} />);
 
@@ -327,7 +327,7 @@ describe("Application Dashboard", () => {
   test('should render ApplicationDashboard for app type "saml" and change datas', async () => {
     const location = {
       type: "app",
-      info: { name: "saml_test", type: "saml" },
+      info: { name: "saml_test", type: "SPsaml" },
     };
     renderWithProviders(<Configuration location={location} />);
 

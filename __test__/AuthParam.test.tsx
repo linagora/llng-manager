@@ -21,9 +21,11 @@ describe("AuthParam Dashboard", () => {
     changeInput(1, "New Value");
 
     changeSelect("Demo", 0, "AD+K");
+    expect(screen.getByText("LDAP")).toBeDefined();
+    expect(screen.getByText("AD")).toBeDefined();
+    expect(screen.getByText("Kerberos")).toBeDefined();
+    fireEvent.click(screen.getByText("LDAP"));
     expect(screen.getByText("LDAP parameters")).toBeDefined();
-    expect(screen.getByText("Active Directory parameters")).toBeDefined();
-    expect(screen.getByText("Kerberos parameters")).toBeDefined();
 
     fireEvent.click(screen.getByText("Groups"));
     expect(screen.getByText("Search base")).toBeVisible();
@@ -40,8 +42,6 @@ describe("AuthParam Dashboard", () => {
     changeRadio(6);
     changeRadio(7);
     changeRadio(8);
-    changeRadio(9);
-    changeRadio(10);
     changeSelect("Active Directory + Kerberos", 0, "LDAP");
     expect(screen.getByText("LDAP parameters")).toBeDefined();
     changeInput(0, "test1");

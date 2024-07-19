@@ -15,7 +15,7 @@ describe("Issuer Dashboard", () => {
   it("should render simple SAML Dashboard", async () => {
     const location = { type: "issuer", info: { name: "saml" } };
     const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
+      data: { private: "private", public: "public" },
     };
     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
     renderWithProviders(<Configuration location={location} />);
@@ -32,7 +32,6 @@ describe("Issuer Dashboard", () => {
     fireEvent.click(screen.getByText(t("newRSAKey")));
     await screen.findByDisplayValue("public");
     expect(await screen.findByDisplayValue("public")).toBeDefined();
-    expect(await screen.findByDisplayValue("hash")).toBeDefined();
     expect(await screen.findByDisplayValue("private")).toBeDefined();
     const file = new File(["file content"], "file.txt", { type: "text/plain" });
     fireEvent.change(screen.getAllByLabelText(t("upload"))[0], {

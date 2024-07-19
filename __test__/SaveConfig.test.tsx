@@ -112,7 +112,7 @@ it("should go to latest", async () => {
 
   fireEvent.click(screen.getAllByRole("button")[2]);
   await waitFor(() => {
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledTimes(1);
   });
 });
 

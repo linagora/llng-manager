@@ -144,7 +144,7 @@ describe("Manager homepage", () => {
   it("travel though configs", async () => {
     const location = { type: "conf", info: { name: "latest" } };
     renderWithProviders(<Configuration location={location} />);
-    fireEvent.click(screen.getByText("14"));
+    fireEvent.click(screen.getAllByText("14")[1]);
 
     expect(screen.getByText("Previous")).toBeInTheDocument();
     expect(screen.getByText("Next")).toHaveClass(

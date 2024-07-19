@@ -39,7 +39,7 @@ describe("CreationAssistant", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "saml" } });
+    fireEvent.change(selectElement!, { target: { value: "SPsaml" } });
     expect(screen.getByDisplayValue("sp-example")).toBeInTheDocument();
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "New Name" },
@@ -53,7 +53,7 @@ describe("CreationAssistant", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "saml" } });
+    fireEvent.change(selectElement!, { target: { value: "SPsaml" } });
     fireEvent.click(screen.getByText("Next"));
     expect(screen.getByText("Cancel")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Previous"));
@@ -74,7 +74,7 @@ describe("CreationAssistant", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "oidc" } });
+    fireEvent.change(selectElement!, { target: { value: "RPoidc" } });
     expect(screen.getByDisplayValue("rp-example")).toBeInTheDocument();
     // Change name
     fireEvent.change(screen.getByRole("textbox"), {
@@ -100,7 +100,7 @@ describe("MandatoryFields component", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "saml" } });
+    fireEvent.change(selectElement!, { target: { value: "SPsaml" } });
     expect(screen.getByDisplayValue("sp-example")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
 
@@ -116,7 +116,7 @@ describe("MandatoryFields component", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "oidc" } });
+    fireEvent.change(selectElement!, { target: { value: "RPoidc" } });
     expect(screen.getByDisplayValue("rp-example")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
 
@@ -135,7 +135,7 @@ describe("MandatoryFields component", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "oidc" } });
+    fireEvent.change(selectElement!, { target: { value: "RPoidc" } });
     expect(screen.getByDisplayValue("rp-example")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
     const clientSecretInput = screen.getByPlaceholderText(
@@ -155,7 +155,7 @@ describe("MandatoryFields component", () => {
     const selectInput = screen.getByLabelText(t("chooseType"));
     // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "oidc" } });
+    fireEvent.change(selectElement!, { target: { value: "RPoidc" } });
     expect(screen.getByDisplayValue("rp-example")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
     const publicClientOn = screen.getByLabelText(t("on"));

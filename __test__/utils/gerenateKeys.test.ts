@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GenerateKeys } from "../../src/utils/generateKey";
+import { GenerateEcKeys, NewCertificate } from "../../src/utils/generateKey";
 
 jest.mock("axios");
 
@@ -11,9 +11,12 @@ describe("GenerateKeys function", () => {
 
     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    const result = await GenerateKeys("RSA");
+    const result = await NewCertificate("RSA");
 
-    expect(axios.post).toHaveBeenCalledWith("/manager.fcgi/confs//newRSAKey");
+    expect(axios.post).toHaveBeenCalledWith(
+      "/manager.fcgi/confs//newCertificate",
+      { password: "RSA" }
+    );
 
     expect(result).toEqual(mockResponse.data);
   });
@@ -25,7 +28,7 @@ describe("GenerateKeys function", () => {
 
     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    const result = await GenerateKeys("EC");
+    const result = await GenerateEcKeys();
 
     expect(axios.post).toHaveBeenCalledWith("/manager.fcgi/confs//newEcKeys");
 
@@ -36,6 +39,6 @@ describe("GenerateKeys function", () => {
     const errorMessage = "400";
     (axios.post as jest.Mock).mockRejectedValueOnce(new Error(errorMessage));
 
-    await expect(GenerateKeys("RSA")).rejects.toThrow(errorMessage);
+    await expect(NewCertificate("test")).rejects.toThrow(errorMessage);
   });
 });
