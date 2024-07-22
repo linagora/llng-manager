@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import AddApp from "../components/managerComponents/AddApp";
 import { AdvancedAuthParams } from "../dashboards/AdvancedAuthParams";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
+import { CatAndAppList } from "../dashboards/CatAndAppList";
 import { HomePage } from "../dashboards/HomePage";
 import { IssuerDashboard } from "../dashboards/IssuerDashboard";
 import { SimpleAuthParams } from "../dashboards/SimpleAuthParams";
@@ -160,6 +161,26 @@ export function Configuration({
           </Breadcrumbs>
           <TreeRender tree={tree ? tree : undefined} config={config} />
 
+          <SaveButton />
+        </div>
+      );
+    case "catandapp":
+      return (
+        <div className="main">
+          <Breadcrumbs>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
+            </Link>
+            <Link underline="hover" color="inherit">
+              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
+                {metadata.cfgNum}
+              </span>
+            </Link>
+            <Link underline="none" color="color.primary">
+              {t("applicationList")}
+            </Link>
+          </Breadcrumbs>
+          <CatAndAppList />
           <SaveButton />
         </div>
       );

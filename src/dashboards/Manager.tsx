@@ -1,6 +1,7 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CachedIcon from "@mui/icons-material/Cached";
+import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import { Button, Divider, Menu, MenuItem, Pagination } from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -192,6 +193,13 @@ export default function Manager() {
             }}
           >
             {config.data.metadata.cfgNum}
+          </Button>
+          <Button
+            onClick={() => {
+              dispatch(push("#catandapp"));
+            }}
+          >
+            <WidgetsOutlinedIcon color="secondary" />
           </Button>
           <Issuers />
           <FilterToggle filters={filters} setFilters={setFilters} />

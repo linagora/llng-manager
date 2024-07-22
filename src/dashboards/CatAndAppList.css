@@ -1,0 +1,12 @@
+.catCard {
+  background-color: rgb(215, 239, 247);
+  border: 2px solid #acacac;
+  padding: 5%;
+  border-radius: 15px;
+  align-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.applications {
+  text-align: left;
+}

@@ -60,15 +60,13 @@ function AppCard({
   return (
     <>
       <div
+        className={`card ${
+          (!issuer && !(type === "native")) || !rule ? "issue" : ""
+        }${maintenanceToggled ? "Maintenance" : ""}`}
         data-testid="appcard"
         onClick={() => dispatch(push(`#app/${type}/${info.name}`))}
       >
-        <div
-          className={`card ${
-            (!issuer && !(type === "native")) || !rule ? "issue" : ""
-          }${maintenanceToggled ? "Maintenance" : ""}`}
-          data-testid={info.name}
-        >
+        <div data-testid={info.name}>
           <div>
             <strong className="title2">
               {info.name} <span> {!rule ? "⚠️" : ""}</span>
