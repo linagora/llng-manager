@@ -225,7 +225,7 @@ export default function MenuAppForm({
                         changeApplicationField({
                           catid,
                           id,
-                          field: "specialRule",
+                          field: "display",
                           value: e.target.value,
                         })
                       )
