@@ -1,24 +1,30 @@
 .navbar {
-  overflow: hidden;
   position: fixed;
   top: 0;
-  width: 100%;
+  width: 100vw;
   color: gray;
-  display: flex;
-  flex-wrap: wrap;
-  overflow-wrap: break-word;
   z-index: 1100;
 }
-.navbar div :hover {
-  color: white;
+
+.navbar img {
+  margin-right: 2vw;
 }
 
 .navbar p {
   cursor: pointer;
 }
 
-.bm-cross {
-  background: gray;
+.navbarOptions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+  justify-content: space-between;
+}
+
+.menuBurger {
+  position: fixed;
+  right: 2vw;
 }
 
 .menu {

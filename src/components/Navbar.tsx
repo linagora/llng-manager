@@ -29,7 +29,7 @@ function Navbar() {
   return (
     <AppBar color="secondary" className="navbar">
       <Toolbar>
-        <Typography sx={{ flexGrow: 1 }}>
+        <Typography>
           <img
             src={require("../static/llng-logo-32.png")}
             alt="LemonLogo"
@@ -37,48 +37,51 @@ function Navbar() {
           />
         </Typography>
         <Divider />
-        <Typography
-          variant="h6"
-          component="div"
-          onClick={() => dispatch(push("/manager.html"))}
-          style={{ cursor: "pointer", marginRight: "15px" }}
-          sx={{ flexGrow: 1 }}
-        >
-          {t("Configuration")}
-        </Typography>
-        <Typography
-          variant="h6"
-          component="div"
-          style={{ cursor: "pointer", marginRight: "15px" }}
-          sx={{ flexGrow: 1 }}
-        >
-          {t("sessions")}
-        </Typography>
-        <Typography
-          variant="h6"
-          component="div"
-          style={{ cursor: "pointer", marginRight: "15px" }}
-          sx={{ flexGrow: 1 }}
-        >
-          {t("notifications")}
-        </Typography>
-        <Typography
-          variant="h6"
-          component="div"
-          style={{ cursor: "pointer", marginRight: "15px" }}
-          sx={{ flexGrow: 1 }}
-        >
-          {t("secondFactors")}
-        </Typography>
+        <div className="navbarOptions">
+          <Typography
+            variant="h6"
+            component="div"
+            onClick={() => dispatch(push("/manager.html"))}
+            style={{ cursor: "pointer", marginRight: "15px" }}
+            sx={{ flexGrow: 1 }}
+          >
+            {t("Configuration")}
+          </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            style={{ cursor: "pointer", marginRight: "15px" }}
+            sx={{ flexGrow: 1 }}
+          >
+            {t("sessions")}
+          </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            style={{ cursor: "pointer", marginRight: "15px" }}
+            sx={{ flexGrow: 1 }}
+          >
+            {t("notifications")}
+          </Typography>
+          <Typography
+            variant="h6"
+            component="div"
+            style={{ cursor: "pointer", marginRight: "15px" }}
+            sx={{ flexGrow: 1 }}
+          >
+            {t("secondFactors")}
+          </Typography>
+        </div>
+
         <IconButton
           size="large"
           edge="end"
-          aria-label="account of current user"
+          className="menuBurger"
+          aria-label="menu burger"
           aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={() => setMenuOpen(true)}
           color="inherit"
-          sx={{ flexGrow: 1 }}
         >
           <MenuIcon />
         </IconButton>

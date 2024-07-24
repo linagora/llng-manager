@@ -18,6 +18,8 @@ th {
   flex-direction: row;
   align-content: space-evenly;
   margin: 2%;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
 }
 
 .descBox {
@@ -30,12 +32,14 @@ th {
 }
 
 .logo {
-  width: 400px;
+  width: 20vw;
 }
 
 .search-container {
   display: flex;
   margin: 15px;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
 }
 
 .search {
