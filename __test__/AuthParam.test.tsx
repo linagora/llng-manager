@@ -42,6 +42,11 @@ describe("AuthParam Dashboard", () => {
     changeRadio(6);
     changeRadio(7);
     changeRadio(8);
+    fireEvent.click(screen.getByText("Kerberos"));
+    changeRadio(0);
+    changeRadio(1);
+    changeInput(0, "test1");
+    changeInput(1, "test2");
     changeSelect("Active Directory + Kerberos", 0, "LDAP");
     expect(screen.getByText("LDAP parameters")).toBeDefined();
     changeInput(0, "test1");

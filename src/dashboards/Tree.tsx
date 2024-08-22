@@ -103,7 +103,6 @@ export default function TreeRender({
     return (
       <div className="treePage">
         <div className="tree" ref={ref}>
-          {width} {height}
           <Tree
             disableDrag={true}
             rowHeight={height / 25}

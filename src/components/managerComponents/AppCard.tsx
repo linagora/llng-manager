@@ -63,10 +63,11 @@ function AppCard({
         className={`card ${
           (!issuer && !(type === "native")) || !rule ? "issue" : ""
         }${maintenanceToggled ? "Maintenance" : ""}`}
-        data-testid="appcard"
+        data-testid={info.name}
+        role="gridcell"
         onClick={() => dispatch(push(`#app/${type}/${info.name}`))}
       >
-        <div data-testid={info.name}>
+        <div data-testid="appcard">
           <div>
             <strong className="title2">
               {info.name} <span> {!rule ? "⚠️" : ""}</span>
