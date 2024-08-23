@@ -35,7 +35,7 @@ function Navbar({ partial }: { partial?: number }) {
             style={{ backgroundColor: "white" }}
           />
         </Typography>
-        {!partial && (
+        {partial && (
           <>
             <Typography
               variant="h6"
