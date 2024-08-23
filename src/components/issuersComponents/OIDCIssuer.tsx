@@ -34,7 +34,9 @@ export function OIDCIssuer() {
 
   return (
     <div>
-      <strong className="title">{t("OIDCServiceMetaData")}</strong>
+      <div className="top">
+        <strong className="title">{t("OIDCServiceMetaData")}</strong>
+      </div>
       <div className="optionNavbar">
         <label
           className={`option ${option === "basic" ? "selected" : ""}`}
