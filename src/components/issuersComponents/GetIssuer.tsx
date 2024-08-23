@@ -20,8 +20,9 @@ export function GetIssuer() {
 
   return (
     <div>
-      <strong className="title">{t("issuerDBGetParameters")}</strong>
-
+      <div className="top">
+        <strong className="title">{t("issuerDBGetParameters")}</strong>
+      </div>
       <div className="appDesc">
         <div className="box">
           <table>

@@ -1,13 +1,5 @@
 .addButton {
-  position: fixed;
-  width: 75px;
-  height: 75px;
-  background: #fff;
-  cursor: pointer;
-  border: 2px solid coral;
-  border-radius: 50%;
-  bottom: 2%;
-  right: 2%;
+  left: 2vw;
 }
 
 .modal > .close {

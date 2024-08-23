@@ -1,6 +1,6 @@
-import { Button, Checkbox, Menu, MenuItem, TextField } from "@mui/material";
+import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
+import { Button, TextField } from "@mui/material";
 import { t } from "i18next";
-import React from "react";
 import "./Filters.css";
 function FilterToggle({
   filters,
@@ -9,14 +9,6 @@ function FilterToggle({
   filters: { alpha: boolean; search: string };
   setFilters: Function;
 }) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <div className="filters">
       <div>
@@ -29,27 +21,13 @@ function FilterToggle({
         />
       </div>
       <Button
-        variant="outlined"
-        className="filter"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        aria-labelledby="alpha-label"
+        onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
+        color={filters.alpha ? "primary" : "secondary"}
       >
-        {t("ldapFilters")}
+        <SortByAlphaIcon />
       </Button>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem
-          onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
-        >
-          <label id="alpha-label">{t("alphabetical")}</label>
-          <Checkbox
-            aria-labelledby="alpha-label"
-            onChange={() => setFilters({ ...filters, alpha: !filters.alpha })}
-            checked={filters.alpha}
-          />
-        </MenuItem>
-      </Menu>
+      <label>{t("Sort")}</label>
     </div>
   );
 }
