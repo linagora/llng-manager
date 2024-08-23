@@ -8,30 +8,23 @@
 }
 
 .grid {
-  display: grid;
+  display: flex;
   justify-content: center;
-  margin: 2%;
-  margin-bottom: 75px;
+  margin-left: 2vw;
+  margin-right: 5vw;
   grid-gap: 5px;
-  grid-auto-flow: row;
-  grid-auto-rows: 1fr;
+  flex-flow: column;
 }
 
-@media only screen and (min-width: 640px) {
-  .grid {
-    grid-template-columns: 45% 45%;
-  }
-}
-
-@media (min-width: 981px) {
-  .grid {
-    grid-template-columns: 30% 30% 30%;
-  }
+.top {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  padding: 2vw;
 }
 
 .title {
   font-size: xx-large;
-  padding: 5px;
 }
 .title2 {
   font-size: larger;

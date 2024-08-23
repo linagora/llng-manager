@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Dialog, DialogContent, DialogTitle, Fab } from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
 import "./AddApp.css";
@@ -11,16 +11,17 @@ function AddApp() {
   };
   return (
     <div>
-      <Fab
+      <Button
         className="addButton"
-        style={{ position: "fixed", bottom: "2%", right: "2%" }}
+        variant="contained"
         color="primary"
         onClick={() => {
           setOpen(!open);
         }}
       >
         <AddIcon fontSize="large" />
-      </Fab>
+        <span>{t("newApp")}</span>
+      </Button>
       <Dialog
         fullWidth
         open={open}

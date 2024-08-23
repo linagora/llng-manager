@@ -133,7 +133,7 @@ function Issuers() {
             ))}
           >
             <WarningTwoToneIcon
-              color="warning"
+              color="primary"
               data-testid="warning"
               style={{
                 visibility: warnings.samlWarning ? "visible" : "hidden",
@@ -199,7 +199,7 @@ function Issuers() {
             ))}
           >
             <WarningTwoToneIcon
-              color="warning"
+              color="primary"
               data-testid="warning"
               style={{
                 visibility: warnings.oidcWarning ? "visible" : "hidden",
@@ -237,7 +237,7 @@ function Issuers() {
             ))}
           >
             <WarningTwoToneIcon
-              color="warning"
+              color="primary"
               data-testid="warning"
               style={{ visibility: warnings.casWarning ? "visible" : "hidden" }}
             />

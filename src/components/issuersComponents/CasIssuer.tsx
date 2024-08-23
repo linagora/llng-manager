@@ -31,7 +31,9 @@ export function CasIssuer() {
   const [option, setOption] = useState("basic");
   return (
     <div>
-      <strong className="title">{t("casServiceMetadata")}</strong>
+      <div className="top">
+        <strong className="title">{t("casServiceMetadata")}</strong>{" "}
+      </div>
       <div className="optionNavbar">
         <label
           className={`option ${option === "basic" ? "selected" : ""}`}

@@ -17,7 +17,6 @@ export default function SaveButton({ partial }: { partial?: boolean }) {
     <div>
       <Fab
         className="saveButton"
-        style={{ position: "fixed", bottom: "2%", left: "2%" }}
         color="primary"
         onClick={async () => {
           let stateOk = true;
