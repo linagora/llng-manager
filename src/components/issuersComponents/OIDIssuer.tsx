@@ -18,7 +18,9 @@ export function OIDIssuer() {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <strong className="title">{t("issuerDBOIDParameters")}</strong>
+      <div className="top">
+        <strong className="title">{t("issuerDBOIDParameters")}</strong>
+      </div>
       <div className="appDesc">
         <div className="box">
           <table>

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import AddApp from "../components/managerComponents/AddApp";
 import AppCard from "../components/managerComponents/AppCard";
 import FilterToggle from "../components/managerComponents/Filters";
 import Issuers from "../components/managerComponents/Issuers";
@@ -170,7 +171,7 @@ export default function Manager() {
           el1.props.info.name > el2.props.info.name ? 1 : -1
         );
       }
-      const pageLimit = 12;
+      const pageLimit = 6;
       const pageNb = Math.ceil(renderedData.length / pageLimit);
       const pages = Array.from(
         { length: Math.ceil(renderedData.length / pageLimit) },
@@ -182,40 +183,31 @@ export default function Manager() {
 
       return (
         <>
-          <strong className="title"> {t("currentConfiguration")}</strong>
-          <Button
-            variant="contained"
-            sx={{ verticalAlign: "top" }}
-            className="cfgNum"
-            color={config.data.metadata.next ? "warning" : "success"}
-            onClick={(e) => {
-              handleClick(e);
-            }}
-          >
-            {config.data.metadata.cfgNum}
-          </Button>
-          <Button
-            onClick={() => {
-              dispatch(push("#catandapp"));
-            }}
-          >
-            <WidgetsOutlinedIcon color="secondary" />
-          </Button>
+          <div className="top">
+            <strong className="title"> {t("currentConfiguration")}</strong>
+            <Button
+              variant="contained"
+              sx={{ verticalAlign: "top" }}
+              className="cfgNum"
+              color={config.data.metadata.next ? "warning" : "success"}
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              {config.data.metadata.cfgNum}
+            </Button>
+            <Button
+              onClick={() => {
+                dispatch(push("#catandapp"));
+              }}
+            >
+              <WidgetsOutlinedIcon color="secondary" />
+            </Button>
+            <Divider />
+            <AddApp />
+          </div>
           <Issuers />
           <FilterToggle filters={filters} setFilters={setFilters} />
-          <Pagination
-            sx={{
-              justifyContent: "center",
-              display: "flex",
-            }}
-            count={pageNb}
-            page={page}
-            onChange={handleChangePage}
-            color="primary"
-            size="large"
-            showFirstButton
-            showLastButton
-          />
           <div className="grid">{pages[page - 1]}</div>
           <Pagination
             sx={{

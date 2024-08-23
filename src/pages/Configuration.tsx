@@ -4,7 +4,6 @@ import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import AddApp from "../components/managerComponents/AddApp";
 import { AdvancedAuthParams } from "../dashboards/AdvancedAuthParams";
 import { ApplicationDashboard } from "../dashboards/ApplicationDashboard";
 import { CatAndAppList } from "../dashboards/CatAndAppList";
@@ -45,7 +44,7 @@ export function Configuration({
     case "app":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -74,7 +73,7 @@ export function Configuration({
     case "conf":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -87,14 +86,13 @@ export function Configuration({
           <Manager />
           <div>
             <SaveButton />
-            <AddApp />
           </div>
         </div>
       );
     case "authParams":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -123,7 +121,7 @@ export function Configuration({
     case "issuer":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -146,7 +144,7 @@ export function Configuration({
     case "tree":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -167,7 +165,7 @@ export function Configuration({
     case "catandapp":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -187,7 +185,7 @@ export function Configuration({
     default:
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="text.primary">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>

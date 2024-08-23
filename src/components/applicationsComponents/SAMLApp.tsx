@@ -42,7 +42,9 @@ export function SAMLApp({
   const [optionSelected, setOptionSelected] = useState("basic");
   return (
     <div>
-      <strong className="title">{name}</strong>
+      <div className="top">
+        <strong className="title">{name}</strong>
+      </div>
       <div className="optionNavbar">
         <label
           className={`option ${optionSelected === "basic" ? "selected" : ""}`}
