@@ -2,9 +2,14 @@
   text-align: center;
 }
 .main {
-  margin-top: 75px;
-  text-align: center;
+  margin-left: 250px;
 }
+
+.breadcrumbs {
+  padding-top: 1vw;
+  padding-left: 2vw;
+}
+
 @media (max-width: 500px) {
   .main {
     margin-top: 100px;

@@ -33,7 +33,9 @@ export function OIDCApp({ name }: { name: string }) {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <strong className="title">{name}</strong>
+      <div className="top">
+        <strong className="title">{name}</strong>
+      </div>
       <div className="optionNavbar">
         <label
           className={`option ${

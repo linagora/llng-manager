@@ -8,6 +8,7 @@
   border-radius: 50%;
   bottom: 2%;
   right: 2%;
+  z-index: 2000;
 }
 
 .notif {
