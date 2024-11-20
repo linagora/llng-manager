@@ -105,14 +105,6 @@ export const savePartialConfigAsync = createAsyncThunk(
   }
 );
 
-export const savePartialConfigAsync = createAsyncThunk(
-  "config/savePartialConfig",
-  async (config: llngConfig): Promise<Object> => {
-    const response = await savePartialConfig(config)
-    return response.json()
-  }
-)
-
 const configSlice = createSlice({
   name: "config",
   initialState,
@@ -1011,9 +1003,10 @@ const configSlice = createSlice({
       if (!state.data.config.combModules[action.payload].over) {
         state.data.config.combModules[action.payload].over = {};
       }
-      const id: string = `new${Object.keys(state.data.config.combModules[action.payload].over).length +
+      const id: string = `new${
+        Object.keys(state.data.config.combModules[action.payload].over).length +
         1
-        }`;
+      }`;
 
       (
         state.data.config.combModules[action.payload].over as unknown as Record<
@@ -1292,11 +1285,11 @@ const configSlice = createSlice({
           .map((key) =>
             state.data.config.applicationList
               ? (
-                state.data.config.applicationList as Record<
-                  string,
-                  Record<string, number>
-                >
-              )[key].order
+                  state.data.config.applicationList as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
               : 0
           )
           .filter((el) => typeof el === "number"),
@@ -1338,18 +1331,19 @@ const configSlice = createSlice({
           .map((key) =>
             state.data.config.applicationList
               ? (
-                state.data.config.applicationList[action.payload] as Record<
-                  string,
-                  Record<string, number>
-                >
-              )[key].order
+                  state.data.config.applicationList[action.payload] as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
               : 0
           )
           .filter((el) => typeof el === "number"),
         0
       );
       state.data.config.applicationList[action.payload][
-        `new_application${Object.keys(state.data.config.applicationList[action.payload]).length
+        `new_application${
+          Object.keys(state.data.config.applicationList[action.payload]).length
         }`
       ] = {
         options: { name: "New Application" },
@@ -1510,12 +1504,12 @@ const configSlice = createSlice({
               return (
                 (
                   state.data.config.applicationList[
-                  action.payload.category
+                    action.payload.category
                   ] as Record<string, Record<string, number>>
                 )[key1].order -
                 (
                   state.data.config.applicationList[
-                  action.payload.category
+                    action.payload.category
                   ] as Record<string, Record<string, number>>
                 )[key2].order
               );
@@ -1535,16 +1529,16 @@ const configSlice = createSlice({
         if (action.payload.direction === "up" && appIndex > 0) {
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[action.payload.appName].order = (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex - 1]].order;
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex - 1]].order = order;
         } else if (
@@ -1553,16 +1547,16 @@ const configSlice = createSlice({
         ) {
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[action.payload.appName].order = (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex + 1]].order;
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex + 1]].order = order;
         }
