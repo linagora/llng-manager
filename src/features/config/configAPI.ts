@@ -21,7 +21,7 @@ export function getConfig(num: number) {
   }
 }
 
-export function getPartialConfig(num: number) {
+export function getPartialConfig() {
   try {
     const response = window.fetch(`${baseUrl}/partial`);
     return response;

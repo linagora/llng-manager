@@ -8,7 +8,13 @@ import attributes from "../../static/attributes.json";
 import { treeFormat } from "../../utils/recursTree";
 import { changeElementInConf } from "../../utils/searchIntree";
 import { MetaData, llngConfig } from "../../utils/types";
-import { getConfig, getMetadataConfig, getPartialConfig, saveConfig, savePartialConfig } from "./configAPI";
+import {
+  getConfig,
+  getMetadataConfig,
+  getPartialConfig,
+  saveConfig,
+  savePartialConfig,
+} from "./configAPI";
 
 export interface ConfigState {
   loading: boolean;
@@ -35,20 +41,32 @@ export const getConfigAsync = createAsyncThunk(
       return { metadata: configMetadata, config: await response.json() };
     } else {
       const response = await getConfig(configlatestMetadata.cfgNum);
-      return { metadata: await configlatestMetadata, config: await response.json() };
+      return {
+        metadata: await configlatestMetadata,
+        config: await response.json(),
+      };
     }
   }
 );
 
 export const getPartialConfigAsync = createAsyncThunk(
   "config/fetchPartialConfig",
-  async (num?: number): Promise<Object> => {
-    const metaResponse = await getMetadataConfig(num ? num : undefined);
-    const configMetadata = await metaResponse.json()
-    const response = await getPartialConfig(num ? num : (configMetadata).cfgNum);
-    return { metadata: configMetadata, config: await response.json() }
+  async (): Promise<Object> => {
+    const response = await getPartialConfig();
+    const partialConf = await response.json();
+    const metadata = {
+      cfgAuthor: partialConf.cfgAuthor,
+      cfgAuthorIP: partialConf.cfgAuthorIP,
+      cfgDate: partialConf.cfgDate,
+      cfgLog: partialConf.cfgLog,
+      cfgNum: partialConf.cfgNum,
+      cfgVersion: partialConf.cfgVersion,
+      prev: partialConf.prev,
+      next: partialConf.next,
+    };
+    return { metadata, config: partialConf };
   }
-)
+);
 
 export const saveConfigAsync = createAsyncThunk(
   "config/saveConfig",
@@ -61,10 +79,10 @@ export const saveConfigAsync = createAsyncThunk(
 export const savePartialConfigAsync = createAsyncThunk(
   "config/savePartialConfig",
   async (config: llngConfig): Promise<Object> => {
-    const response = await savePartialConfig(config)
-    return response.json()
+    const response = await savePartialConfig(config);
+    return response.json();
   }
-)
+);
 
 const configSlice = createSlice({
   name: "config",
@@ -91,36 +109,39 @@ const configSlice = createSlice({
     },
     toggleSAML(state) {
       if (!state.data.config.issuerDBSAMLActivation) {
-        state.data.config.issuerDBSAMLActivation = 0
+        state.data.config.issuerDBSAMLActivation = 0;
       }
       state.data.config.issuerDBSAMLActivation =
         1 - Number(state.data.config.issuerDBSAMLActivation);
     },
     toggleOIDC(state) {
       if (!state.data.config.issuerDBOpenIDConnectActivation) {
-        state.data.config.issuerDBOpenIDConnectActivation = 0
+        state.data.config.issuerDBOpenIDConnectActivation = 0;
       }
       state.data.config.issuerDBOpenIDConnectActivation =
         1 - Number(state.data.config.issuerDBOpenIDConnectActivation);
     },
     toggleCAS(state) {
       if (!state.data.config.issuerDBCASActivation) {
-        state.data.config.issuerDBCASActivation = 0
+        state.data.config.issuerDBCASActivation = 0;
       }
       state.data.config.issuerDBCASActivation =
         1 - Number(state.data.config.issuerDBCASActivation);
-      console.log(state.data.config.issuerDBCASActivation, 1 - Number(state.data.config.issuerDBCASActivation))
+      console.log(
+        state.data.config.issuerDBCASActivation,
+        1 - Number(state.data.config.issuerDBCASActivation)
+      );
     },
     toggleOID2(state) {
       if (!state.data.config.issuerDBOpenIDActivation) {
-        state.data.config.issuerDBOpenIDActivation = 0
+        state.data.config.issuerDBOpenIDActivation = 0;
       }
       state.data.config.issuerDBOpenIDActivation =
         1 - Number(state.data.config.issuerDBOpenIDActivation);
     },
     toggleGET(state) {
       if (!state.data.config.issuerDBGetActivation) {
-        state.data.config.issuerDBGetActivation = 0
+        state.data.config.issuerDBGetActivation = 0;
       }
       state.data.config.issuerDBGetActivation =
         1 - Number(state.data.config.issuerDBGetActivation);
@@ -963,9 +984,10 @@ const configSlice = createSlice({
       if (!state.data.config.combModules[action.payload].over) {
         state.data.config.combModules[action.payload].over = {};
       }
-      const id: string = `new${Object.keys(state.data.config.combModules[action.payload].over).length +
+      const id: string = `new${
+        Object.keys(state.data.config.combModules[action.payload].over).length +
         1
-        }`;
+      }`;
 
       (
         state.data.config.combModules[action.payload].over as unknown as Record<
@@ -1244,11 +1266,11 @@ const configSlice = createSlice({
           .map((key) =>
             state.data.config.applicationList
               ? (
-                state.data.config.applicationList as Record<
-                  string,
-                  Record<string, number>
-                >
-              )[key].order
+                  state.data.config.applicationList as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
               : 0
           )
           .filter((el) => typeof el === "number"),
@@ -1290,18 +1312,19 @@ const configSlice = createSlice({
           .map((key) =>
             state.data.config.applicationList
               ? (
-                state.data.config.applicationList[action.payload] as Record<
-                  string,
-                  Record<string, number>
-                >
-              )[key].order
+                  state.data.config.applicationList[action.payload] as Record<
+                    string,
+                    Record<string, number>
+                  >
+                )[key].order
               : 0
           )
           .filter((el) => typeof el === "number"),
         0
       );
       state.data.config.applicationList[action.payload][
-        `new_application${Object.keys(state.data.config.applicationList[action.payload]).length
+        `new_application${
+          Object.keys(state.data.config.applicationList[action.payload]).length
         }`
       ] = {
         options: { name: "New Application" },
@@ -1355,11 +1378,11 @@ const configSlice = createSlice({
         .filter((key: string) =>
           state.data.config.applicationList
             ? (
-              state.data.config.applicationList as Record<
-                string,
-                Record<string, number>
-              >
-            )[key].order
+                state.data.config.applicationList as Record<
+                  string,
+                  Record<string, number>
+                >
+              )[key].order
               ? true
               : false
             : false
@@ -1395,15 +1418,20 @@ const configSlice = createSlice({
       console.log(state);
       if (appIndex === -1) return;
       if (action.payload.direction === "up" && appIndex > 0) {
-        console.log((state.data.config.applicationList as Record<
-          string,
-          Record<string, number>
-        >
-        )[categories[appIndex]], (state.data.config.applicationList as Record<
-          string,
-          Record<string, number>
-        >
-        )[categories[appIndex - 1]]);
+        console.log(
+          (
+            state.data.config.applicationList as Record<
+              string,
+              Record<string, number>
+            >
+          )[categories[appIndex]],
+          (
+            state.data.config.applicationList as Record<
+              string,
+              Record<string, number>
+            >
+          )[categories[appIndex - 1]]
+        );
         (
           state.data.config.applicationList as Record<
             string,
@@ -1459,10 +1487,10 @@ const configSlice = createSlice({
           .filter((key: string) =>
             state.data.config.applicationList
               ? (
-                state.data.config.applicationList[
-                action.payload.category
-                ] as Record<string, Record<string, number>>
-              )[key].order
+                  state.data.config.applicationList[
+                    action.payload.category
+                  ] as Record<string, Record<string, number>>
+                )[key].order
                 ? true
                 : false
               : false
@@ -1472,12 +1500,12 @@ const configSlice = createSlice({
               return (
                 (
                   state.data.config.applicationList[
-                  action.payload.category
+                    action.payload.category
                   ] as Record<string, Record<string, number>>
                 )[key1].order -
                 (
                   state.data.config.applicationList[
-                  action.payload.category
+                    action.payload.category
                   ] as Record<string, Record<string, number>>
                 )[key2].order
               );
@@ -1497,16 +1525,16 @@ const configSlice = createSlice({
         if (action.payload.direction === "up" && appIndex > 0) {
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[action.payload.appName].order = (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex - 1]].order;
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex - 1]].order = order;
         } else if (
@@ -1515,16 +1543,16 @@ const configSlice = createSlice({
         ) {
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[action.payload.appName].order = (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex + 1]].order;
           (
             state.data.config.applicationList[
-            action.payload.category
+              action.payload.category
             ] as Record<string, Record<string, number>>
           )[apps[appIndex + 1]].order = order;
         }
@@ -1591,7 +1619,8 @@ const configSlice = createSlice({
             state.error.errorContent = action.payload.message;
           }
         }
-      ).addCase(getPartialConfigAsync.pending, (state: ConfigState) => {
+      )
+      .addCase(getPartialConfigAsync.pending, (state: ConfigState) => {
         state.loading = true;
       })
       .addCase(
