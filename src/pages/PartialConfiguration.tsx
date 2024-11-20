@@ -26,7 +26,11 @@ export function PartialConfiguration({
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
             <Link underline="hover" color="inherit">
-              <span onClick={() => dispatch(push(`#conf/${config.data.config.cfgNum}`))}>
+              <span
+                onClick={() =>
+                  dispatch(push(`#conf/${config.data.config.cfgNum}`))
+                }
+              >
                 {metadata.cfgNum}
               </span>
             </Link>
@@ -47,26 +51,6 @@ export function PartialConfiguration({
           <SaveButton partial={true} />
         </div>
       );
-    case "catandapp":
-      return (
-        <div className="main">
-          <Breadcrumbs>
-            <Link underline="hover" color="inherit">
-              <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
-            </Link>
-            <Link underline="hover" color="inherit">
-              <span onClick={() => dispatch(push(`#conf/${metadata.cfgNum}`))}>
-                {metadata.cfgNum}
-              </span>
-            </Link>
-            <Link underline="none" color="color.primary">
-              {t("applicationList")}
-            </Link>
-          </Breadcrumbs>
-          <CatAndAppList />
-          <SaveButton />
-        </div>
-      );
     default:
       return (
         <div className="main">
@@ -76,6 +60,7 @@ export function PartialConfiguration({
             </Link>
           </Breadcrumbs>
           <PartialManager />
+          <SaveButton partial={true} />
         </div>
       );
   }

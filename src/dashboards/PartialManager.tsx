@@ -40,12 +40,12 @@ export default function PartialManager() {
   useEffect(() => {
     if (!configPresent) {
       setConfigPresent(true);
-      dispatch(
-        getPartialConfigAsync(configNum === "latest" ? undefined : Number(configNum))
-      );
+      dispatch(getPartialConfigAsync());
     }
     const appNum =
-      (config.data.config.locationRules ? Object.keys(config.data.config.locationRules).length : 0) +
+      (config.data.config.locationRules
+        ? Object.keys(config.data.config.locationRules).length
+        : 0) +
       (config.data.config.samlSPMetaDataXML
         ? Object.keys(config.data.config.samlSPMetaDataXML).length
         : 0) +
@@ -56,10 +56,22 @@ export default function PartialManager() {
         ? Object.keys(config.data.config.casAppMetaDataOptions).length
         : 0);
     if (appNum === 1) {
-      const name = config.data.config.locationRules || config.data.config.samlSPMetaDataXML || config.data.config.oidcRPMetaDataOptions || config.data.config.casAppMetaDataOptions
-      const type = config.data.config.locationRules ? "native" : false || config.data.config.samlSPMetaDataXML ? "SPsaml" : false || config.data.config.oidcRPMetaDataOptions ? "RPoidc" : false || config.data.config.casAppMetaDataOptions ? "AppCas" : false
-      console.log(Object.keys(name ? name : {})[0])
-      dispatch(push(`#app/${type}/${Object.keys(name ? name : {})[0]}`))
+      const name =
+        config.data.config.locationRules ||
+        config.data.config.samlSPMetaDataXML ||
+        config.data.config.oidcRPMetaDataOptions ||
+        config.data.config.casAppMetaDataOptions;
+      const type = config.data.config.locationRules
+        ? "native"
+        : false || config.data.config.samlSPMetaDataXML
+        ? "SPsaml"
+        : false || config.data.config.oidcRPMetaDataOptions
+        ? "RPoidc"
+        : false || config.data.config.casAppMetaDataOptions
+        ? "AppCas"
+        : false;
+      console.log(Object.keys(name ? name : {})[0]);
+      dispatch(push(`#app/${type}/${Object.keys(name ? name : {})[0]}`));
     }
   }, [dispatch, configNum, config.data.metadata, location, configPresent]);
   try {
@@ -200,13 +212,15 @@ export default function PartialManager() {
           >
             {config.data.metadata.cfgNum}
           </Button>
-          {false && <Button
-            onClick={() => {
-              dispatch(push("#catandapp"));
-            }}
-          >
-            <WidgetsOutlinedIcon color="secondary" />
-          </Button>}
+          {false && (
+            <Button
+              onClick={() => {
+                dispatch(push("#catandapp"));
+              }}
+            >
+              <WidgetsOutlinedIcon color="secondary" />
+            </Button>
+          )}
           {false && <Issuers />}
           <FilterToggle filters={filters} setFilters={setFilters} />
           <Pagination
