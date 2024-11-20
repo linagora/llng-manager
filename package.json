@@ -2,7 +2,7 @@
   "name": "llng-manager",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://manager.example.com:19876",
+  "allowedHosts": "all",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -21,6 +21,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-router-redux": "^5.0.27",
     "axios": "^1.7.4",
+    "http-proxy-middleware": "^3.0.3",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.0",
@@ -38,7 +39,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HOST=newmanager.example.com react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
     "jest-preview": "jest-preview",
