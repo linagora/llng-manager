@@ -17,7 +17,7 @@ import { useAppDispatch } from "../app/hooks";
 import i18n from "../i18n";
 import "./NavBar.css";
 
-function Navbar() {
+function Navbar({ partial }: { partial?: number }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -37,41 +37,43 @@ function Navbar() {
           />
         </Typography>
         <Divider />
-        <div className="navbarOptions">
-          <Typography
-            variant="h6"
-            component="div"
-            onClick={() => dispatch(push("/manager.html"))}
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("Configuration")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("sessions")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("notifications")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("secondFactors")}
-          </Typography>
-        </div>
+        {!partial && (
+          <div className="navbarOptions">
+            <Typography
+              variant="h6"
+              component="div"
+              onClick={() => dispatch(push(""))}
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("Configuration")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("sessions")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("notifications")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("secondFactors")}
+            </Typography>
+          </div>
+        )}
 
         <IconButton
           size="large"

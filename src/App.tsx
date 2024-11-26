@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 import { Configuration } from "./pages/Configuration";
 import { PartialConfiguration } from "./pages/PartialConfiguration";
 
-function App() {
+function App({ partial }: { partial?: number }) {
   useTranslation();
   const location = useAppSelector((state) => state.router.location);
   const infos = location?.hash.replace("#", "").split("/");
@@ -17,37 +17,36 @@ function App() {
   return (
     <Suspense fallback="loading">
       <Router history={history}>
-        <Navbar />
+        <Navbar partial={partial} />
         <Routes>
           <Route
-            path="manager.html"
+            path=""
             element={
-              <Configuration
-                location={{
-                  type: infos ? infos[0] : "",
-                  info: infos
-                    ? {
-                      name: infos.length === 3 ? infos[2] : infos[1],
-                      type: infos.length === 3 ? infos[1] : "",
-                    }
-                    : { name: "", type: "" },
-                }}
-              />
-            }
-          />
-          <Route
-            path="manager.partial.html"
-            element={
-              <PartialConfiguration
-                location={{
-                  type: infos ? infos[0] : "",
-                  info: infos
-                    ? {
-                      name: infos.length === 3 ? infos[2] : infos[1],
-                      type: infos.length === 3 ? infos[1] : "",
-                    }
-                    : { name: "", type: "" },
-                }} />
+              partial ? (
+                <PartialConfiguration
+                  location={{
+                    type: infos ? infos[0] : "",
+                    info: infos
+                      ? {
+                          name: infos.length === 3 ? infos[2] : infos[1],
+                          type: infos.length === 3 ? infos[1] : "",
+                        }
+                      : { name: "", type: "" },
+                  }}
+                />
+              ) : (
+                <Configuration
+                  location={{
+                    type: infos ? infos[0] : "",
+                    info: infos
+                      ? {
+                          name: infos.length === 3 ? infos[2] : infos[1],
+                          type: infos.length === 3 ? infos[1] : "",
+                        }
+                      : { name: "", type: "" },
+                  }}
+                />
+              )
             }
           />
         </Routes>

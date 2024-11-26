@@ -24,7 +24,6 @@ const theme = createTheme({
     warning: yellow,
   },
 });
-
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 root.render(
@@ -32,7 +31,7 @@ root.render(
     <StyledEngineProvider injectFirst>
       <React.StrictMode>
         <Provider store={store}>
-          <App />
+          <App partial={Number(process.env.REACT_APP_PARTIAL)} />
         </Provider>
       </React.StrictMode>
     </StyledEngineProvider>
