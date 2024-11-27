@@ -1,6 +1,6 @@
 import { llngConfig } from "../../utils/types";
 
-const baseUrl = "http://manager.example.com:19876"
+const baseUrl = "";
 
 export function getMetadataConfig(num?: number) {
   try {
