@@ -1,10 +1,21 @@
-import axios from "axios";
-
-export function getFromURL(url: string) {
+export async function getFromURL(url: string) {
   try {
-    const response = axios.post("/prx", { url });
-    return response;
+    const response = await fetch("/prx", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return result;
   } catch (error) {
-    throw new Error("400");
+    console.error("Error fetching data from URL:", error);
+    throw new Error(JSON.stringify(error));
   }
 }
