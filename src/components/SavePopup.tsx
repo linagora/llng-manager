@@ -6,7 +6,11 @@ import {
   Divider,
 } from "@mui/material";
 import { t } from "i18next";
-import { ConfigState, getConfigAsync } from "../features/config/configSlice";
+import {
+  ConfigState,
+  getConfigAsync,
+  getPartialConfigAsync,
+} from "../features/config/configSlice";
 import "./SaveButton.css";
 
 export function SavePopup({
@@ -14,11 +18,13 @@ export function SavePopup({
   openSavePopup,
   setOpenSavePopup,
   dispatch,
+  partial,
 }: {
   config: ConfigState;
   openSavePopup: boolean;
   setOpenSavePopup: Function;
   dispatch: Function;
+  partial?: boolean;
 }) {
   return (
     <Dialog open={openSavePopup}>
@@ -64,7 +70,7 @@ export function SavePopup({
 
       <Button
         onClick={() => {
-          dispatch(getConfigAsync());
+          dispatch(partial ? getPartialConfigAsync() : getConfigAsync());
           setOpenSavePopup(false);
         }}
       >
