@@ -1,10 +1,17 @@
-import axios from "axios";
-
-export function sendTestMail(dest: string) {
+export async function sendTestMail(dest: string) {
   try {
-    const response = axios.post("/manager.fcgi/confs//sendTestMail", { dest });
-    return response;
+    const response = await fetch("/manager.fcgi/confs//sendTestMail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ dest }),
+    });
+
+    const result = await response.json();
+    return result;
   } catch (error) {
-    throw new Error("400");
+    console.error("Error sending test mail:", error);
+    throw new Error(JSON.stringify(error));
   }
 }
