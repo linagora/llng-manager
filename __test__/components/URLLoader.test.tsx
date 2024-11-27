@@ -4,7 +4,7 @@ import { URLLoader } from "../../src/components/managerComponents/URLLoader";
 import { getFromURL } from "../../src/utils/getFromURL";
 import { renderWithProviders } from "../../src/utils/test-utils";
 
-jest.mock("axios");
+global.fetch = jest.fn();
 jest.mock("../../src/utils/getFromURL");
 
 describe("GenerateKeys function", () => {

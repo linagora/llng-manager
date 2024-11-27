@@ -1,5 +1,4 @@
 import { fireEvent, screen } from "@testing-library/react";
-import axios from "axios";
 import { t } from "i18next";
 import { Configuration } from "../src/pages/Configuration";
 import attributes from "../src/static/attributes.json";
@@ -12,7 +11,7 @@ import {
   clickOption,
 } from "./Configuration.test";
 
-jest.mock("axios");
+global.fetch = jest.fn();
 
 describe("Application Dashboard", () => {
   it('should render ApplicationDashboard for app type "native"', () => {
@@ -26,6 +25,7 @@ describe("Application Dashboard", () => {
     expect(screen.getAllByText("native.example.com")[0]).toBeInTheDocument();
     expect(screen.getByText("native")).toBeInTheDocument();
   });
+
   it('should render ApplicationDashboard for app type "saml"', async () => {
     const location = {
       type: "app",
@@ -37,20 +37,24 @@ describe("Application Dashboard", () => {
     expect(screen.getAllByText("saml_test")[0]).toBeInTheDocument();
     expect(screen.getByText("SPsaml")).toBeInTheDocument();
     clickOption("samlSPMetaDataXML");
-    const mockAxiosPost = axios.post as jest.Mock;
-    mockAxiosPost.mockResolvedValue({
-      data: { key: "value" },
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      json: () => Promise.resolve({ key: "value" }),
     });
+
     fireEvent.change(screen.getByPlaceholderText(t("url")), {
       target: { value: "http://example.com" },
     });
     fireEvent.click(screen.getByText(t("load")));
     await screen.findByText(t("loading"));
 
-    expect(mockAxiosPost).toHaveBeenCalledWith("/prx", {
-      url: "http://example.com",
+    expect(fetch).toHaveBeenCalledWith("/prx", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: "http://example.com" }),
     });
   });
+
   it('should render ApplicationDashboard for app type "oidc"', () => {
     const location = {
       type: "app",
@@ -62,6 +66,7 @@ describe("Application Dashboard", () => {
     expect(screen.getAllByText("oidc_test")[0]).toBeInTheDocument();
     expect(screen.getByText("RPoidc")).toBeInTheDocument();
   });
+
   it('should render ApplicationDashboard for app type "cas"', () => {
     const location = {
       type: "app",

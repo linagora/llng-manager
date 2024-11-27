@@ -1,5 +1,4 @@
 import { fireEvent, screen } from "@testing-library/react";
-import axios from "axios";
 import { t } from "i18next";
 import { Configuration } from "../src/pages/Configuration";
 import { renderWithProviders } from "../src/utils/test-utils";
@@ -9,15 +8,18 @@ import {
   changeSelect,
   clickOption,
 } from "./Configuration.test";
-jest.mock("axios");
+
+global.fetch = jest.fn();
 
 describe("Issuer Dashboard", () => {
   it("should render simple SAML Dashboard", async () => {
     const location = { type: "issuer", info: { name: "saml" } };
-    const mockResponse = {
-      data: { private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    );
     renderWithProviders(<Configuration location={location} />);
     expect(screen.getByText("SAML2 Service")).toBeDefined();
 
@@ -49,12 +51,13 @@ describe("Issuer Dashboard", () => {
     changeInput(0, "display");
     changeInput(1, "display1");
     changeInput(2, "display2");
-    const mockAxiosGet = axios.get as jest.Mock;
-    mockAxiosGet.mockResolvedValue({
-      data: { key: "value" },
+
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      text: async () => "",
     });
+
     fireEvent.click(screen.getByTestId("DownloadIcon"));
-    expect(mockAxiosGet).toHaveBeenCalledWith("/confs/1?samlMetadata=1");
+    expect(fetch).toHaveBeenCalledWith("/confs/1?samlMetadata=1");
   });
 
   it("should render simple CAS Dashboard", async () => {
@@ -85,10 +88,12 @@ describe("Issuer Dashboard", () => {
 
   it("should render simple OIDC Dashboard", async () => {
     const location = { type: "issuer", info: { name: "oidc" } };
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    // Mock fetch response for POST request
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      json: async () => mockResponse,
+    });
+
     renderWithProviders(<Configuration location={location} />);
     expect(screen.getByText("OIDCServiceMetaData")).toBeDefined();
 
@@ -116,11 +121,14 @@ describe("Issuer Dashboard", () => {
     });
     jest.fn().mockResolvedValue("file content");
     expect(await screen.findByText("file content")).toBeDefined();
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+
     fireEvent.click(screen.getByText(t("newRSAKey")));
     expect(await screen.findByText("private")).toBeDefined();
 
-    expect(axios.post).toHaveBeenCalledWith("/manager.fcgi/confs//newEcKeys");
+    expect(fetch).toHaveBeenCalledWith("/manager.fcgi/confs//newEcKeys", {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    });
 
     clickOption("oidcServiceMetaDataTimeouts");
     changeInput(0, 2);

@@ -1,11 +1,13 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, screen } from "@testing-library/react";
-import axios from "axios";
 import { t } from "i18next";
 import { Configuration } from "../src/pages/Configuration";
 import { renderWithProviders } from "../src/utils/test-utils";
 import { llngConfig } from "../src/utils/types";
-jest.mock("axios");
+import preview from "jest-preview";
+import { changeInput } from "./Configuration.test";
+global.fetch = jest.fn();
+
 describe("Manager homepage", () => {
   it("New app", async () => {
     const location = { type: "conf", info: { name: "latest" } };
@@ -50,7 +52,7 @@ describe("Manager homepage", () => {
     expect(screen.getByText("test")).toBeInTheDocument();
   });
   it("change data to be savebale and save", async () => {
-    const mockConfig = {
+    const mockConfig: llngConfig = {
       authentication: "Demo",
       casAppMetaDataOptions: {
         cas_test: {
@@ -98,7 +100,7 @@ describe("Manager homepage", () => {
     const mockResponse = {
       data: { hash: "hash", private: "private", public: "public" },
     };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    (fetch as jest.Mock).mockResolvedValueOnce(mockResponse);
     renderWithProviders(<Configuration location={location} />);
     const samlSwitch = screen.getByTestId("issuer.toggle.saml");
 
@@ -112,11 +114,12 @@ describe("Manager homepage", () => {
     }
 
     fireEvent.click(screen.getByText(t("doItTogether")));
-    fireEvent.click(screen.getByText(t("newRSAKey")));
-    expect(await screen.findByDisplayValue("public")).toBeDefined();
-    expect(await screen.findByDisplayValue("hash")).toBeDefined();
-    expect(await screen.findByDisplayValue("private")).toBeDefined();
+    preview.debug();
+    changeInput(4, "public");
+    changeInput(1, "private");
+    changeInput(2, "hash");
     fireEvent.click(screen.getByText(t("finish")));
+    preview.debug();
 
     expect(screen.getByTestId("issuer.toggle.saml")).toHaveClass("Mui-checked");
 
@@ -135,10 +138,13 @@ describe("Manager homepage", () => {
 
     fireEvent.click(screen.getAllByTestId("SaveIcon")[0]);
     expect(screen.getByText("Save report")).toBeDefined();
-    expect(axios.post).toHaveBeenLastCalledWith(
-      "/manager.fcgi/confs/raw",
-      mockConfig
+    preview.debug();
+    expect((fetch as jest.Mock).mock.calls[0][0]).toBe(
+      "/manager.fcgi/confs/raw"
     );
+    expect(
+      JSON.parse((fetch as jest.Mock).mock.calls[0][1].body)
+    ).toStrictEqual(mockConfig);
     fireEvent.click(screen.getByText("close"));
   });
   it("travel though configs", async () => {
