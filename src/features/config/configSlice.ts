@@ -33,14 +33,26 @@ export const getConfigAsync = createAsyncThunk(
   "config/fetchConfig",
   async (num?: number): Promise<Object> => {
     const latestMetaresponse = await getMetadataConfig();
+    if (latestMetaresponse.redirected) {
+      window.location.href = latestMetaresponse.url;
+    }
     const configlatestMetadata = await latestMetaresponse.json();
     if (num && num <= configlatestMetadata.cfgNum) {
       const metaresponse = await getMetadataConfig(num ? num : undefined);
+      if (metaresponse.redirected) {
+        window.location.href = metaresponse.url;
+      }
       const configMetadata = await metaresponse.json();
       const response = await getConfig(num ? num : configMetadata.cfgNum);
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
       return { metadata: configMetadata, config: await response.json() };
     } else {
       const response = await getConfig(configlatestMetadata.cfgNum);
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
       return {
         metadata: await configlatestMetadata,
         config: await response.json(),
@@ -53,6 +65,9 @@ export const getPartialConfigAsync = createAsyncThunk(
   "config/fetchPartialConfig",
   async (): Promise<Object> => {
     const response = await getPartialConfig();
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
     const partialConf = await response.json();
     const metadata = {
       cfgAuthor: partialConf.cfgAuthor,
@@ -72,6 +87,9 @@ export const saveConfigAsync = createAsyncThunk(
   "config/saveConfig",
   async (config: llngConfig): Promise<Object> => {
     const response = await saveConfig(config);
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
     return response.json();
   }
 );
@@ -80,6 +98,9 @@ export const savePartialConfigAsync = createAsyncThunk(
   "config/savePartialConfig",
   async (config: llngConfig): Promise<Object> => {
     const response = await savePartialConfig(config);
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
     return response.json();
   }
 );

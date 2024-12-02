@@ -9,18 +9,18 @@ import Navbar from "./components/Navbar";
 import { Configuration } from "./pages/Configuration";
 import { PartialConfiguration } from "./pages/PartialConfiguration";
 
-function App({ partial }: { partial?: number }) {
+function App({ htmlName }: { htmlName?: string }) {
   useTranslation();
   const location = useAppSelector((state) => state.router.location);
   const infos = location?.hash.replace("#", "").split("/");
-
+  const partial = htmlName === "partial.html" ? 1 : 0;
   return (
     <Suspense fallback="loading">
       <Router history={history}>
         <Navbar partial={partial} />
         <Routes>
           <Route
-            path=""
+            path={htmlName ? htmlName : "index.html"}
             element={
               partial ? (
                 <PartialConfiguration
