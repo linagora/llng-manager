@@ -1,10 +1,12 @@
 import { llngConfig } from "../../utils/types";
 
-const baseUrl = "";
+const baseUrl = process.env.REACT_APP_BASEURL;
 
 export function getMetadataConfig(num?: number) {
   try {
-    const response = fetch(`${baseUrl}/confs/${num ? num : "latest"}`);
+    const response = fetch(`${baseUrl}/confs/${num ? num : "latest"}`, {
+      credentials: "include",
+    });
     return response;
   } catch (error) {
     // console.error(error)
@@ -14,7 +16,9 @@ export function getMetadataConfig(num?: number) {
 
 export function getConfig(num: number) {
   try {
-    const response = fetch(`${baseUrl}/manager.fcgi/confs/${num}?full=1`);
+    const response = fetch(`${baseUrl}/manager.fcgi/confs/${num}?full=1`, {
+      credentials: "include",
+    });
     return response;
   } catch (error) {
     throw new Error(JSON.stringify(error));
@@ -23,7 +27,7 @@ export function getConfig(num: number) {
 
 export function getPartialConfig() {
   try {
-    const response = fetch(`${baseUrl}/partial`);
+    const response = fetch(`${baseUrl}/partial`, { credentials: "include" });
     return response;
   } catch (error) {
     throw new Error(JSON.stringify(error));
@@ -36,7 +40,7 @@ export function saveConfig(config: llngConfig) {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(config),
-      // credentials: "include"
+      credentials: "include",
     });
     return response;
   } catch (error) {
@@ -51,7 +55,7 @@ export function savePartialConfig(config: llngConfig) {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(config),
-      // credentials: "include"
+      credentials: "include",
     });
     return response;
   } catch (error) {

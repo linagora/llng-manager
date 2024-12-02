@@ -31,7 +31,7 @@ root.render(
     <StyledEngineProvider injectFirst>
       <React.StrictMode>
         <Provider store={store}>
-          <App partial={Number(process.env.REACT_APP_PARTIAL)} />
+          <App htmlName={process.env.REACT_APP_HTMLNAME} />
         </Provider>
       </React.StrictMode>
     </StyledEngineProvider>
