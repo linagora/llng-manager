@@ -1,6 +1,6 @@
 import { llngConfig } from "../../utils/types";
 
-const baseUrl = "";
+const baseUrl = process.env.REACT_APP_BASEURL;
 
 export function getMetadataConfig(num?: number) {
   try {
