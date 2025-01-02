@@ -30,9 +30,6 @@ export default function PartialManager() {
   const location = useLocation();
   const [page, setPage] = useState(1);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
   const [configPresent, setConfigPresent] = useState<boolean>(
     Boolean(config.data.metadata && !config.loading && !config.error.has)
   );
@@ -204,10 +201,7 @@ export default function PartialManager() {
             variant="contained"
             sx={{ verticalAlign: "top" }}
             className="cfgNum"
-            color={config.data.metadata.next ? "warning" : "success"}
-            onClick={(e) => {
-              handleClick(e);
-            }}
+            color={"success"}
           >
             {config.data.metadata.cfgNum}
           </Button>
