@@ -1,9 +1,15 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { Button, IconButton, TextField, Tooltip, styled } from "@mui/material";
+import {
+  Collapse,
+  Divider,
+  IconButton,
+  List,
+  Tooltip,
+  styled,
+} from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import {
   delSAMLSPMetaDataMacros,
@@ -13,23 +19,11 @@ import {
 } from "../../features/config/configSlice";
 import SamlAttributeContainerForm from "../../forms/SamlAttributeContainerForm";
 import definitions from "../../static/definitions.json";
-import { handleChangeFile } from "../../utils/readFiles";
-import { URLLoader } from "../managerComponents/URLLoader";
 import "./AppPage.css";
-import { OptionSaml } from "./OptionSaml";
+import { OptionSaml, SubObtionSelector } from "./OptionSaml";
 import { TableVars } from "./TableVars";
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import FileForm from "../../forms/FileForm";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 export function SAMLApp({
   name,
@@ -40,201 +34,210 @@ export function SAMLApp({
 }) {
   const data = useAppSelector((state) => state.config.data.config);
   const [optionSelected, setOptionSelected] = useState("basic");
+  const [suboptionSelect, setSubOptionSelected] = useState("authResponse");
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <div className="top">
         <strong className="title">{name}</strong>
       </div>
-      <div className="optionNavbar">
-        <label
-          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("basic")}
-        >
-          {t("Basic Option")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "samlSPMetaDataXML" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("samlSPMetaDataXML")}
-        >
-          {t("samlSPMetaDataXML")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "samlSPMetaDataExportedAttributes"
-              ? "selected"
-              : ""
-          }`}
-          onClick={() => setOptionSelected("samlSPMetaDataExportedAttributes")}
-        >
-          {t("samlSPMetaDataExportedAttributes")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "samlSPMetaDataMacros" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("samlSPMetaDataMacros")}
-        >
-          {t("samlSPMetaDataMacros")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "samlSPMetaDataOptions" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("samlSPMetaDataOptions")}
-        >
-          {t("samlSPMetaDataOptions")}
-        </label>
-      </div>
-      <div className="appDesc">
-        {optionSelected === "samlSPMetaDataXML" && (
-          <div className="box">
-            <strong className="title2">
-              {t("samlSPMetaDataXML")}
-              {name
-                ? data.samlSPMetaDataXML
-                  ? data.samlSPMetaDataXML[name]
-                    ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
-                      ? "⚠️"
-                      : ""
-                    : "⚠️"
-                  : ""
-                : "⚠️"}
-            </strong>
-            <div>
-              <TextField
-                size="small"
-                margin="normal"
-                variant="filled"
-                multiline
-                fullWidth
-                rows={4}
-                placeholder="XML MetaData"
-                onChange={(e) =>
-                  dispatch(
-                    updateSamlSPMetadata({
-                      name: name ? name : "",
-                      data: e.target.value,
-                    })
-                  )
-                }
-                value={
-                  (name
-                    ? data.samlSPMetaDataXML
-                      ? data.samlSPMetaDataXML[name]
-                        ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+      <div className="app">
+        <List className="optionNavbar">
+          <label
+            className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+            onClick={() => {
+              setOptionSelected("basic");
+              setOpen(false);
+            }}
+          >
+            {t("Basic Option")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "samlSPMetaDataXML" ? "selected" : ""
+            }`}
+            onClick={() => {
+              setOptionSelected("samlSPMetaDataXML");
+              setOpen(false);
+            }}
+          >
+            {t("samlSPMetaDataXML")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "samlSPMetaDataExportedAttributes"
+                ? "selected"
+                : ""
+            }`}
+            onClick={() => {
+              setOptionSelected("samlSPMetaDataExportedAttributes");
+              setOpen(false);
+            }}
+          >
+            {t("samlSPMetaDataExportedAttributes")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "samlSPMetaDataMacros" ? "selected" : ""
+            }`}
+            onClick={() => {
+              setOptionSelected("samlSPMetaDataMacros");
+              setOpen(false);
+            }}
+          >
+            {t("samlSPMetaDataMacros")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "samlSPMetaDataOptions" ? "selected" : ""
+            }`}
+            onClick={() => {
+              setOptionSelected("samlSPMetaDataOptions");
+              setOpen(!open);
+            }}
+          >
+            <div>{open ? <ExpandLess /> : <ExpandMore />}</div>
+            <span> {t("samlSPMetaDataOptions")}</span>
+          </label>
+          <Collapse
+            className={`option ${
+              optionSelected === "samlSPMetaDataOptions" ? "selected" : ""
+            }`}
+            in={open}
+            timeout="auto"
+            unmountOnExit
+          >
+            <SubObtionSelector
+              optionSelect={suboptionSelect}
+              setOptionSelected={setSubOptionSelected}
+            />
+          </Collapse>
+        </List>
+        <Divider
+          className="divider"
+          orientation="vertical"
+          variant="middle"
+          flexItem
+        />
+        <div className="appDesc">
+          {optionSelected === "samlSPMetaDataXML" && (
+            <div className="box">
+              <strong className="title2">
+                {t("samlSPMetaDataXML")}
+                {name
+                  ? data.samlSPMetaDataXML
+                    ? data.samlSPMetaDataXML[name]
+                      ? data.samlSPMetaDataXML[name].samlSPMetaDataXML === ""
+                        ? "⚠️"
+                        : ""
+                      : "⚠️"
+                    : ""
+                  : "⚠️"}
+              </strong>
+              <div>
+                <FileForm
+                  value={
+                    (name
+                      ? data.samlSPMetaDataXML
+                        ? data.samlSPMetaDataXML[name]
+                          ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                          : undefined
                         : undefined
-                      : undefined
-                    : undefined) || ""
-                }
-              />
-            </div>
-            <div>
-              <Button
-                sx={{ margin: "5px" }}
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                {t("upload")}
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(e) => {
-                    if (e.target instanceof HTMLInputElement) {
-                      handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
-                        (fileContent) => {
-                          console.debug("File content:", fileContent);
-                          dispatch(
-                            updateSamlSPMetadata({
-                              name: name ? name : "",
-                              data: fileContent,
-                            })
-                          );
-                        }
-                      );
-                    }
+                      : undefined) || ""
+                  }
+                  fieldName="samlSPMetaDataXML"
+                  updateFunc={(e: string) => {
+                    dispatch(
+                      updateSamlSPMetadata({
+                        name: name ? name : "",
+                        data: e,
+                      })
+                    );
                   }}
                 />
-              </Button>
+              </div>
             </div>
-            <URLLoader appName={name} loadFunction={updateSamlSPMetadata} />
-          </div>
-        )}
-        {(optionSelected === "samlSPMetaDataExportedAttributes" ||
-          optionSelected === "basic") && (
-          <div className="box">
-            <table>
-              <tbody>
-                <SamlAttributeContainerForm
-                  value={
-                    data.samlSPMetaDataExportedAttributes
-                      ? data.samlSPMetaDataExportedAttributes[name]
+          )}
+          {(optionSelected === "samlSPMetaDataExportedAttributes" ||
+            optionSelected === "basic") && (
+            <div className="box">
+              <table>
+                <tbody>
+                  <SamlAttributeContainerForm
+                    value={
+                      data.samlSPMetaDataExportedAttributes
                         ? data.samlSPMetaDataExportedAttributes[name]
+                          ? data.samlSPMetaDataExportedAttributes[name]
                         : {}
                       : {}
-                  }
-                  appName={name}
-                  fieldName="samlSPMetaDataExportedAttributes"
-                />
-              </tbody>
-            </table>
-          </div>
-        )}
-        {optionSelected === "samlSPMetaDataMacros" && (
-          <div className="box">
-            <strong className="title2">{t("samlSPMetaDataMacros")}</strong>
-
-            <table id="samlSPMetaDataMacros">
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
-                  <Tooltip
-                    title={
-                      <Markdown>{definitions.samlSPMetaDataMacros}</Markdown>
                     }
-                  >
-                    <th>{t("values")}</th>
-                  </Tooltip>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+                    appName={name}
+                    fieldName="samlSPMetaDataExportedAttributes"
+                  />
+                </tbody>
+              </table>
+            </div>
+          )}
+          {optionSelected === "samlSPMetaDataMacros" && (
+            <div className="box">
+              <strong className="title2">{t("samlSPMetaDataMacros")}</strong>
+
+              <table id="samlSPMetaDataMacros">
+                <thead>
+                  <tr>
+                    <th>{t("keys")}</th>
+                    <Tooltip
+                      title={
+                        <Markdown>{definitions.samlSPMetaDataMacros}</Markdown>
+                      }
                     >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              {data.samlSPMetaDataMacros ? (
-                <TableVars
-                  appName={name}
-                  vars={data.samlSPMetaDataMacros[name]}
-                  tableID={"samlSPMetaDataMacros"}
-                  dispatch={dispatch}
-                  delFunction={delSAMLSPMetaDataMacros}
-                  updateFunction={updateSAMLSPMetaDataMacros}
-                />
-              ) : (
-                ""
-              )}
-            </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
-          </div>
-        )}
-        {optionSelected === "samlSPMetaDataOptions" && (
-          <div className="box">
-            <strong className="title2">{t("samlSPMetaDataOptions")}</strong>
-            <OptionSaml name={name} dispatch={dispatch} />
-          </div>
-        )}
+                      <th>{t("values")}</th>
+                    </Tooltip>
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                {data.samlSPMetaDataMacros ? (
+                  <TableVars
+                    appName={name}
+                    vars={data.samlSPMetaDataMacros[name]}
+                    tableID={"samlSPMetaDataMacros"}
+                    dispatch={dispatch}
+                    delFunction={delSAMLSPMetaDataMacros}
+                    updateFunction={updateSAMLSPMetaDataMacros}
+                  />
+                ) : (
+                  ""
+                )}
+              </table>
+              <IconButton
+                className="plus"
+                onClick={() => dispatch(newSAMLSPMetaDataMacros(name))}
+              >
+                <AddCircleIcon color="success" />
+              </IconButton>
+            </div>
+          )}
+          {optionSelected === "samlSPMetaDataOptions" && (
+            <div className="box">
+              <strong className="title2">
+                {t("samlSPMetaDataOptions")} / {t(suboptionSelect)}
+              </strong>
+              <OptionSaml
+                name={name}
+                dispatch={dispatch}
+                optionSelect={suboptionSelect}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

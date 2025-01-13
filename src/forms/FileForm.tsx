@@ -24,7 +24,6 @@ export default function FileForm({
           <TextField
             size="small"
             margin="normal"
-            variant="filled"
             multiline
             fullWidth
             rows={12}

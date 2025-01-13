@@ -1,11 +1,11 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
+  Divider,
   FormControl,
   FormControlLabel,
   IconButton,
   Radio,
   RadioGroup,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import { t } from "i18next";
@@ -25,6 +25,9 @@ import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import "./AppPage.css";
 import { TableVars } from "./TableVars";
+import TextForm from "../../forms/TextForm";
+import IntForm from "../../forms/IntForm";
+import LongtextForm from "../../forms/LongtextForm";
 
 export function CasApp({ name }: { name: string }) {
   const vars =
@@ -52,367 +55,290 @@ export function CasApp({ name }: { name: string }) {
       <div className="top">
         <strong className="title">{name}</strong>
       </div>
-      <div className="optionNavbar">
-        <label
-          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("basic")}
-        >
-          {t("Basic Option")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "casAppMetaDataExportedVars" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("casAppMetaDataExportedVars")}
-        >
-          {t("casAppMetaDataExportedVars")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "casAppMetaDataMacros" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("casAppMetaDataMacros")}
-        >
-          {t("casAppMetaDataMacros")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "casAppMetaDataOptions" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("casAppMetaDataOptions")}
-        >
-          {t("casAppMetaDataOptions")}
-        </label>
-      </div>
-      <div className="appDesc">
-        {(optionSelected === "casAppMetaDataExportedVars" ||
-          optionSelected === "basic") && (
-          <div className="box">
-            <strong className="title2">
-              {t("casAppMetaDataExportedVars")}
-            </strong>
+      <div className="app">
+        <div className="optionNavbar">
+          <label
+            className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+            onClick={() => setOptionSelected("basic")}
+          >
+            {t("Basic Option")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "casAppMetaDataExportedVars" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("casAppMetaDataExportedVars")}
+          >
+            {t("casAppMetaDataExportedVars")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "casAppMetaDataMacros" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("casAppMetaDataMacros")}
+          >
+            {t("casAppMetaDataMacros")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "casAppMetaDataOptions" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("casAppMetaDataOptions")}
+          >
+            {t("casAppMetaDataOptions")}
+          </label>
+        </div>
+        <Divider className="divider" orientation="vertical" variant="middle" />
+        <div className="appDesc">
+          {(optionSelected === "casAppMetaDataExportedVars" ||
+            optionSelected === "basic") && (
+            <div className="box">
+              <strong className="title2">
+                {t("casAppMetaDataExportedVars")}
+              </strong>
 
-            <table id="exportedVars">
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataExportedVars}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("values")}</th>
-                  </Tooltip>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newCASexportedVars(name))}
+              <table id="exportedVars">
+                <thead>
+                  <tr>
+                    <th>{t("keys")}</th>
+                    <Tooltip
+                      title={
+                        <Markdown>
+                          {definitions.casAppMetaDataExportedVars}
+                        </Markdown>
+                      }
                     >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={name}
-                vars={vars}
-                tableID={"exportedVars"}
-                dispatch={dispatch}
-                delFunction={delCASexportedVars}
-                updateFunction={updateCASexportedVars}
-              />
-            </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newCASexportedVars(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
-          </div>
-        )}
-        {optionSelected === "casAppMetaDataMacros" && (
-          <div className="box">
-            <strong className="title2">{t("casAppMetaDataMacros")}</strong>
+                      <th>{t("values")}</th>
+                    </Tooltip>
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() => dispatch(newCASexportedVars(name))}
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                <TableVars
+                  appName={name}
+                  vars={vars}
+                  tableID={"exportedVars"}
+                  dispatch={dispatch}
+                  delFunction={delCASexportedVars}
+                  updateFunction={updateCASexportedVars}
+                />
+              </table>
+              <IconButton
+                className="plus"
+                onClick={() => dispatch(newCASexportedVars(name))}
+              >
+                <AddCircleIcon color="success" />
+              </IconButton>
+            </div>
+          )}
+          {optionSelected === "casAppMetaDataMacros" && (
+            <div className="box">
+              <strong className="title2">{t("casAppMetaDataMacros")}</strong>
 
-            <table id="macros">
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
+              <table id="macros">
+                <thead>
+                  <tr>
+                    <th>{t("keys")}</th>
 
-                  <Tooltip
-                    title={
-                      <Markdown>{definitions.casAppMetaDataMacros}</Markdown>
-                    }
-                  >
-                    <th>{t("values")}</th>
-                  </Tooltip>
-
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+                    <Tooltip
+                      title={
+                        <Markdown>{definitions.casAppMetaDataMacros}</Markdown>
+                      }
                     >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={name}
-                vars={casAppMetaDataMacros}
-                tableID={"macros"}
-                dispatch={dispatch}
-                delFunction={delCASAppMetaDataMacros}
-                updateFunction={updateCASAppMetaDataMacros}
-              />
-            </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newCASAppMetaDataMacros(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
-          </div>
-        )}
-        {optionSelected === "casAppMetaDataOptions" && (
-          <div className="box">
-            <strong className="title2">{t("casAppMetaDataOptions")}</strong>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsDisplayName
-                          ? definitions.casAppMetaDataOptionsDisplayName
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsDisplayName")}</th>
-                  </Tooltip>
+                      <th>{t("values")}</th>
+                    </Tooltip>
 
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                <TableVars
+                  appName={name}
+                  vars={casAppMetaDataMacros}
+                  tableID={"macros"}
+                  dispatch={dispatch}
+                  delFunction={delCASAppMetaDataMacros}
+                  updateFunction={updateCASAppMetaDataMacros}
+                />
+              </table>
+              <IconButton
+                className="plus"
+                onClick={() => dispatch(newCASAppMetaDataMacros(name))}
+              >
+                <AddCircleIcon color="success" />
+              </IconButton>
+            </div>
+          )}
+          {optionSelected === "casAppMetaDataOptions" && (
+            <div className="box">
+              <strong className="title2">{t("casAppMetaDataOptions")}</strong>
+              <table>
+                <tbody>
+                  <tr>
+                    <TextForm
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsDisplayName
                           ? casAppMetaDataOptions.casAppMetaDataOptionsDisplayName
                           : ""
                       )}
-                      onChange={(e) =>
+                      fieldName="casAppMetaDataOptionsDisplayName"
+                      updateFunc={(e: string) => {
                         dispatch(
                           updateCASOptions({
                             name,
                             option: "casAppMetaDataOptionsDisplayName",
-                            value: e.target.value,
+                            value: e,
                           })
-                        )
-                      }
+                        );
+                      }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsService}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsService")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
+                  </tr>
+                  <tr>
+                    <TextForm
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsService
                           ? casAppMetaDataOptions.casAppMetaDataOptionsService
                           : ""
                       )}
-                      onChange={(e) =>
+                      fieldName="casAppMetaDataOptionsService"
+                      updateFunc={(e: string) => {
                         dispatch(
                           updateCASOptions({
                             name,
                             option: "casAppMetaDataOptionsService",
-                            value: e.target.value,
+                            value: e,
                           })
-                        )
-                      }
+                        );
+                      }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsLogout
-                          ? definitions.casAppMetaDataOptionsLogout
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsLogout")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
-                            undefined &&
-                          casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
-                            null
-                            ? casAppMetaDataOptions.casAppMetaDataOptionsLogout
-                            : attributes.casAppMetaDataOptionsLogout.default
-                        }
-                        onChange={(e) => {
-                          dispatch(
-                            updateCASOptions({
-                              name,
-                              option: "casAppMetaDataOptionsLogout",
-                              value: Number(e.target.value),
-                            })
-                          );
-                        }}
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                        <FormControlLabel
-                          value={-1}
-                          control={<Radio />}
-                          label={t("default")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsAuthnLevel}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsAuthnLevel")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="number"
-                      value={String(
+                  </tr>
+                  <tr>
+                    <Tooltip
+                      title={
+                        <Markdown>
+                          {definitions.casAppMetaDataOptionsLogout
+                            ? definitions.casAppMetaDataOptionsLogout
+                            : ""}
+                        </Markdown>
+                      }
+                    >
+                      <th>{t("casAppMetaDataOptionsLogout")}</th>
+                    </Tooltip>
+                    <td>
+                      <FormControl>
+                        <RadioGroup
+                          row
+                          value={
+                            casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                              undefined &&
+                            casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                              null
+                              ? casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                              : attributes.casAppMetaDataOptionsLogout.default
+                          }
+                          onChange={(e) => {
+                            dispatch(
+                              updateCASOptions({
+                                name,
+                                option: "casAppMetaDataOptionsLogout",
+                                value: Number(e.target.value),
+                              })
+                            );
+                          }}
+                        >
+                          <FormControlLabel
+                            value={1}
+                            control={<Radio />}
+                            label={t("on")}
+                          />
+                          <FormControlLabel
+                            value={0}
+                            control={<Radio />}
+                            label={t("off")}
+                          />
+                          <FormControlLabel
+                            value={-1}
+                            control={<Radio />}
+                            label={t("default")}
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </td>
+                  </tr>
+                  <tr>
+                    <IntForm
+                      value={Number(
                         casAppMetaDataOptions.casAppMetaDataOptionsAuthnLevel
                           ? casAppMetaDataOptions.casAppMetaDataOptionsAuthnLevel
-                          : ""
+                          : 0
                       )}
-                      onChange={(e) =>
+                      fieldName="casAppMetaDataOptionsAuthnLevel"
+                      updateFunc={(e: string) => {
                         dispatch(
                           updateCASOptions({
                             name,
                             option: "casAppMetaDataOptionsAuthnLevel",
-                            value: e.target.value,
+                            value: e,
                           })
-                        )
-                      }
+                        );
+                      }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsRule}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsRule")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
+                  </tr>
+                  <tr>
+                    <TextForm
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsRule
                           ? casAppMetaDataOptions.casAppMetaDataOptionsRule
                           : ""
                       )}
-                      onChange={(e) =>
+                      fieldName="casAppMetaDataOptionsRule"
+                      updateFunc={(e: string) => {
                         dispatch(
                           updateCASOptions({
                             name,
                             option: "casAppMetaDataOptionsRule",
-                            value: e.target.value,
+                            value: e,
                           })
-                        )
-                      }
+                        );
+                      }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.casAppMetaDataOptionsComment}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("casAppMetaDataOptionsComment")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      variant="filled"
-                      size="small"
-                      margin="normal"
-                      multiline
-                      fullWidth
-                      rows={4}
-                      className="form"
+                  </tr>
+                  <tr>
+                    <LongtextForm
                       value={String(
                         casAppMetaDataOptions.casAppMetaDataOptionsComment
                           ? casAppMetaDataOptions.casAppMetaDataOptionsComment
                           : ""
                       )}
-                      onChange={(e) =>
+                      fieldName="casAppMetaDataOptionsComment"
+                      updateFunc={(e: string) => {
                         dispatch(
                           updateCASOptions({
                             name,
                             option: "casAppMetaDataOptionsComment",
-                            value: e.target.value,
+                            value: e,
                           })
-                        )
-                      }
+                        );
+                      }}
                     />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

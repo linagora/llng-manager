@@ -19,7 +19,6 @@ export function URLLoader({
     <div style={{ alignContent: "bottom" }}>
       <TextField
         size="small"
-        variant="filled"
         margin="normal"
         type="url"
         placeholder={t("url")}

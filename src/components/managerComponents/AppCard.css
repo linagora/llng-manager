@@ -12,8 +12,9 @@
 .cardInfo {
   display: flex;
   flex-flow: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  gap:10px
 }
 .card:hover {
   box-shadow: 5px 5px 5px #888888;
@@ -35,7 +36,7 @@
 
 .name {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 .menu-item {
   cursor: pointer;
@@ -59,4 +60,5 @@
 .bottomRectangle {
   font-size: 12px;
   text-align: center;
+  margin: 1%;
 }

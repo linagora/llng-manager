@@ -73,7 +73,6 @@ function AppCard({
             {info.name} <span> {!rule ? "⚠️" : ""}</span>
           </strong>
           <div className="name">
-            {" "}
             {type === "native" ? (
               <div className="maintenanceToggle">
                 <p>{t("maintenance")}</p>
@@ -98,7 +97,7 @@ function AppCard({
             ) : (
               ""
             )}
-            <ButtonGroup size="small" color="secondary">
+            <ButtonGroup variant="text" size="small" color="secondary">
               <Button
                 onClick={(e) => {
                   setOpenName(true);
