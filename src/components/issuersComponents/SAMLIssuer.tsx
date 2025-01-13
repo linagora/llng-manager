@@ -67,7 +67,7 @@ export function SAMLIssuer() {
           >
             <DownloadIcon />
           </IconButton>
-        </strong>{" "}
+        </strong>
       </div>
       <div className="optionNavbar">
         <label

@@ -6,27 +6,25 @@
     width: 5vh;
   }
 }
+.app {
+  display: flex;
+  flex-direction: row;
+}
 
 .appDesc {
   margin: 2%;
-  background-color: rgb(215, 239, 247);
-  border: 2px solid #acacac;
-  padding: 5%;
   border-radius: 15px;
-  align-content: center;
   flex-wrap: wrap;
+}
+
+.divider {
+  height: 75vh;
 }
 
 .box tr {
   text-align: left;
   flex-wrap: wrap;
-  border: 1px solid #acacac;
-}
-tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-tr:nth-child(even) {
-  background-color: rgb(249, 249, 249, 0.8);
+  border-bottom: 1px solid #acacac;
 }
 
 .box td {
@@ -52,8 +50,7 @@ tr:nth-child(even) {
 }
 
 .appDesc table {
-  margin-top: 2%;
-  border: 1px solid #acacac;
+  margin: 50px;
   width: 100%;
   max-width: 100%;
   flex-wrap: wrap;
@@ -73,22 +70,53 @@ textarea {
 .optionNavbar {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(37, 63, 63);
+  /* background-color: rgb(37, 63, 63); */
   padding: 2%;
-  color: #acacac;
-  display: flex;
+  color: rgb(95, 95, 95);
   justify-content: space-around;
-  flex-wrap: wrap;
-  overflow-wrap: break-word;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .optionNavbar :hover {
-  color: #ffffff;
+  background-color: antiquewhite;
 }
+
+.optionNavbar.sub :hover {
+  background-color: rgb(248, 217, 177);
+}
+
+.option {
+  margin: 1%;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+}
+.suboption {
+  margin: 1%;
+  margin-left: 2%;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.suboption.selected {
+  background-color: rgb(248, 217, 177);
+}
+
 .option.selected {
-  color: #ffffff;
+  background-color: antiquewhite;
 }
 
 .scopes {
   display: flex;
   justify-content: space-between;
+  padding: 20px;
+}
+
+.top {
+  background-color: #d6d6d6;
+}
+
+.app {
+  display: flex;
+  height: max-content;
 }

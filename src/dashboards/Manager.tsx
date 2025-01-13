@@ -218,8 +218,6 @@ export default function Manager() {
             count={pageNb}
             page={page}
             onChange={handleChangePage}
-            color="primary"
-            size="large"
             showFirstButton
             showLastButton
           />

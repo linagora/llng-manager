@@ -1,22 +1,20 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
-  Button,
   FormControl,
   FormControlLabel,
   IconButton,
   InputLabel,
+  List,
+  ListItemText,
   MenuItem,
   Radio,
   RadioGroup,
   Select,
-  TextField,
   Tooltip,
   styled,
 } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
-import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   delOidcRPMetaDataOptionsExtraClaims,
@@ -25,77 +23,27 @@ import {
   newOidcRPMetaDataScopeRules,
   updateOidcMetaDataOptions,
   updateOidcRPMetaDataOptionsExtraClaims,
-  updateOidcRPMetaDataOptionsJwks,
   updateOidcRPMetaDataScopeRules,
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
-import { handleChangeFile } from "../../utils/readFiles";
-import { URLLoader } from "../managerComponents/URLLoader";
 import { TableVars } from "./TableVars";
+import TextForm from "../../forms/TextForm";
+import FileForm from "../../forms/FileForm";
+import IntForm from "../../forms/IntForm";
+import LongtextForm from "../../forms/LongtextForm";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
-export function OptionOidc({ name }: { name: string }) {
-  const [optionSelect, setOptionSelected] = useState("advanced");
+export function OptionOidc({
+  name,
+  optionSelect,
+}: {
+  optionSelect: string;
+  name: string;
+}) {
   const data = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
   return (
     <>
-      <div className="optionNavbar">
-        <label
-          className={`option ${optionSelect === "advanced" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("advanced")}
-        >
-          {t("oidcRPMetaDataOptionsAdvanced")}
-        </label>
-        <label
-          className={`option ${optionSelect === "scope" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("scope")}
-        >
-          {t("oidcRPMetaDataOptionsScopes")}
-        </label>
-        <label
-          className={`option ${optionSelect === "security" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("security")}
-        >
-          {t("security")}
-        </label>
-        <label
-          className={`option ${optionSelect === "keys" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("keys")}
-        >
-          {t("keys")}
-        </label>
-        <label
-          className={`option ${optionSelect === "timouts" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("timouts")}
-        >
-          {t("oidcRPMetaDataOptionsTimeouts")}
-        </label>
-        <label
-          className={`option ${optionSelect === "logout" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("logout")}
-        >
-          {t("logout")}
-        </label>
-        <label
-          className={`option ${optionSelect === "comment" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("comment")}
-        >
-          {t("oidcRPMetaDataOptionsComment")}
-        </label>
-      </div>
       {optionSelect === "advanced" && (
         <table>
           <tbody>
@@ -330,84 +278,50 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsUserIDAttr
-                      ? definitions.oidcRPMetaDataOptionsUserIDAttr
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsUserIDAttr")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsUserIDAttr
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsUserIDAttr
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsUserIDAttr
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsUserIDAttr",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsUserIDAttr"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsUserIDAttr",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsAdditionalAudiences
-                      ? definitions.oidcRPMetaDataOptionsAdditionalAudiences
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsAdditionalAudiences")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAdditionalAudiences
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAdditionalAudiences
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAdditionalAudiences
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsAdditionalAudiences",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsAdditionalAudiences"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsAdditionalAudiences",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
@@ -849,118 +763,72 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsRequestUris
-                      ? definitions.oidcRPMetaDataOptionsRequestUris
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsRequestUris")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsRequestUris
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsRequestUris
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsRequestUris
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsRequestUris",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsRequestUris"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsRequestUris",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsAuthnLevel}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsAuthnLevel")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAuthnLevel
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAuthnLevel
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAuthnLevel
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsAuthnLevel",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsAuthnLevel"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsAuthnLevel",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>{definitions.oidcRPMetaDataOptionsRule}</Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsRule")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsRule
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsRule
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsRule
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsRule",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsRule"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsRule",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
               <Tooltip
@@ -1357,115 +1225,49 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsJwksUri}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsJwksUri")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsJwksUri
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsJwksUri
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsJwksUri
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsJwksUri",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsJwksUri"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsJwksUri",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <th className="title2">{t("oidcRPMetaDataOptionsJwks")}</th>
-              <td>
-                <div>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    multiline
-                    variant="filled"
-                    fullWidth
-                    rows={4}
-                    placeholder="oidcRPMetaDataOptionsJwks"
-                    value={String(
-                      name
-                        ? data.oidcRPMetaDataOptions
-                          ? data.oidcRPMetaDataOptions[name]
-                            ? data.oidcRPMetaDataOptions[name]
-                                .oidcRPMetaDataOptionsJwks
-                              ? data.oidcRPMetaDataOptions[name]
-                                  .oidcRPMetaDataOptionsJwks
-                              : ""
-                            : ""
-                          : ""
-                        : ""
-                    )}
-                    onChange={(e) => {
-                      dispatch(
-                        updateOidcMetaDataOptions({
-                          name,
-                          option: "oidcRPMetaDataOptionsJwks",
-                          value: e.target.value,
-                        })
-                      );
-                    }}
-                  />
-                </div>
-                <div>
-                  <Button
-                    sx={{ margin: "5px" }}
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                  >
-                    {t("upload")}
-                    <VisuallyHiddenInput
-                      type="file"
-                      onChange={(e) => {
-                        if (e.target instanceof HTMLInputElement) {
-                          handleChangeFile(
-                            e as ChangeEvent<HTMLInputElement>
-                          ).then((fileContent) => {
-                            console.debug("File content:", fileContent);
-                            dispatch(
-                              updateOidcMetaDataOptions({
-                                name,
-                                option: "oidcRPMetaDataOptionsJwks",
-                                value: fileContent,
-                              })
-                            );
-                          });
-                        }
-                      }}
-                    />
-                  </Button>
-                </div>
-                <URLLoader
-                  appName={name}
-                  loadFunction={updateOidcRPMetaDataOptionsJwks}
-                />
-              </td>
+              <FileForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsJwks
+                      ? data.oidcRPMetaDataOptions[name]
+                          .oidcRPMetaDataOptionsJwks
+                      : ""
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsJwks"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsJwks",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
@@ -1474,161 +1276,97 @@ export function OptionOidc({ name }: { name: string }) {
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsAuthorizationCodeExpiration
-                      ? definitions.oidcRPMetaDataOptionsAuthorizationCodeExpiration
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsAuthorizationCodeExpiration")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="number"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAuthorizationCodeExpiration
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAuthorizationCodeExpiration
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAuthorizationCodeExpiration
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option:
-                          "oidcRPMetaDataOptionsAuthorizationCodeExpiration",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsAuthorizationCodeExpiration"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option:
+                        "oidcRPMetaDataOptionsAuthorizationCodeExpiration",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsIDTokenExpiration
-                      ? definitions.oidcRPMetaDataOptionsIDTokenExpiration
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsIDTokenExpiration")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="number"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsIDTokenExpiration
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsIDTokenExpiration
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsIDTokenExpiration
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsIDTokenExpiration",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsIDTokenExpiration"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsIDTokenExpiration",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsAccessTokenExpiration
-                      ? definitions.oidcRPMetaDataOptionsAccessTokenExpiration
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsAccessTokenExpiration")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="number"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <IntForm
+                value={Number(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsAccessTokenExpiration
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsAccessTokenExpiration
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsAccessTokenExpiration
-                        : ""
-                      : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsAccessTokenExpiration",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                      : 0
+                    : 0
+                )}
+                fieldName="oidcRPMetaDataOptionsAccessTokenExpiration"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsAccessTokenExpiration",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsOfflineSessionExpiration
-                      ? definitions.oidcRPMetaDataOptionsOfflineSessionExpiration
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsOfflineSessionExpiration")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="number"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <IntForm
+                value={Number(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsOfflineSessionExpiration
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsOfflineSessionExpiration
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsOfflineSessionExpiration
-                        : ""
-                      : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsOfflineSessionExpiration",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                      : 0
+                    : 0
+                )}
+                fieldName="oidcRPMetaDataOptionsOfflineSessionExpiration"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsOfflineSessionExpiration",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
@@ -1775,110 +1513,135 @@ export function OptionOidc({ name }: { name: string }) {
               </td>
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsLogoutUrl}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsLogoutUrl")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsLogoutUrl
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsLogoutUrl
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsLogoutUrl
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsLogoutUrl",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsLogoutUrl"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsLogoutUrl",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.oidcRPMetaDataOptionsPostLogoutRedirectUris
-                      ? definitions.oidcRPMetaDataOptionsPostLogoutRedirectUris
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("oidcRPMetaDataOptionsPostLogoutRedirectUris")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  type="text"
-                  value={String(
-                    data.oidcRPMetaDataOptions
+              <TextForm
+                value={String(
+                  data.oidcRPMetaDataOptions
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsPostLogoutRedirectUris
                       ? data.oidcRPMetaDataOptions[name]
                           .oidcRPMetaDataOptionsPostLogoutRedirectUris
-                        ? data.oidcRPMetaDataOptions[name]
-                            .oidcRPMetaDataOptionsPostLogoutRedirectUris
-                        : ""
                       : ""
-                  )}
-                  onChange={(e) => {
-                    dispatch(
-                      updateOidcMetaDataOptions({
-                        name,
-                        option: "oidcRPMetaDataOptionsPostLogoutRedirectUris",
-                        value: e.target.value,
-                      })
-                    );
-                  }}
-                />
-              </td>
+                    : ""
+                )}
+                fieldName="oidcRPMetaDataOptionsPostLogoutRedirectUris"
+                updateFunc={(e: string) => {
+                  dispatch(
+                    updateOidcMetaDataOptions({
+                      name,
+                      option: "oidcRPMetaDataOptionsPostLogoutRedirectUris",
+                      value: e,
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
       )}
       {optionSelect === "comment" && (
-        <TextField
-          size="small"
-          margin="normal"
-          multiline
-          variant="filled"
-          fullWidth
-          rows={4}
-          value={String(
-            data.oidcRPMetaDataOptions
-              ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
-                ? data.oidcRPMetaDataOptions[name].oidcRPMetaDataOptionsComment
-                : ""
-              : ""
-          )}
-          onChange={(e) => {
-            dispatch(
-              updateOidcMetaDataOptions({
-                name,
-                option: "oidcRPMetaDataOptionsComment",
-                value: e.target.value,
-              })
-            );
-          }}
-        />
+        <table>
+          <tbody>
+            <LongtextForm
+              value={String(
+                data.oidcRPMetaDataOptions
+                  ? data.oidcRPMetaDataOptions[name]
+                      .oidcRPMetaDataOptionsComment
+                    ? data.oidcRPMetaDataOptions[name]
+                        .oidcRPMetaDataOptionsComment
+                    : ""
+                  : ""
+              )}
+              fieldName="oidcRPMetaDataOptionsComment"
+              updateFunc={(e: string) => {
+                dispatch(
+                  updateOidcMetaDataOptions({
+                    name,
+                    option: "oidcRPMetaDataOptionsComment",
+                    value: e,
+                  })
+                );
+              }}
+            />
+          </tbody>
+        </table>
       )}
     </>
+  );
+}
+export function OidcOptionSelection({
+  optionSelect,
+  setOptionSelected,
+}: {
+  optionSelect: string;
+  setOptionSelected: Function;
+}) {
+  return (
+    <List className="optionNavbar sub">
+      <ListItemText
+        className={`suboption ${optionSelect === "advanced" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("advanced")}
+      >
+        {t("oidcRPMetaDataOptionsAdvanced")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "scope" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("scope")}
+      >
+        {t("oidcRPMetaDataOptionsScopes")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "security" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("security")}
+      >
+        {t("security")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "keys" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("keys")}
+      >
+        {t("keys")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "timouts" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("timouts")}
+      >
+        {t("oidcRPMetaDataOptionsTimeouts")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "logout" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("logout")}
+      >
+        {t("logout")}
+      </ListItemText>
+      <ListItemText
+        className={`suboption ${optionSelect === "comment" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("comment")}
+      >
+        {t("oidcRPMetaDataOptionsComment")}
+      </ListItemText>
+    </List>
   );
 }

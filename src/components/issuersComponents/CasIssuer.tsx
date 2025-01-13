@@ -32,7 +32,7 @@ export function CasIssuer() {
   return (
     <div>
       <div className="top">
-        <strong className="title">{t("casServiceMetadata")}</strong>{" "}
+        <strong className="title">{t("casServiceMetadata")}</strong>
       </div>
       <div className="optionNavbar">
         <label

@@ -20,9 +20,11 @@ import definitions from "../../static/definitions.json";
 export function OptionSaml({
   name,
   dispatch,
+  optionSelect,
 }: {
   name: string;
   dispatch: Function;
+  optionSelect: string;
 }) {
   const data =
     useAppSelector((state) => {
@@ -30,45 +32,8 @@ export function OptionSaml({
         return state.config.data.config.samlSPMetaDataOptions[name];
       }
     }) || {};
-  const [optionSelect, setOptionSelected] = useState("authResponse");
   return (
     <>
-      <div className="optionNavbar">
-        <label
-          className={`option ${
-            optionSelect === "authResponse" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("authResponse")}
-        >
-          {t("samlSPMetaDataOptionsAuthnResponse")}
-        </label>
-        <label
-          className={`option ${optionSelect === "signature" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("signature")}
-        >
-          {t("samlSPMetaDataOptionsSignature")}
-        </label>
-        <label
-          className={`option ${optionSelect === "security" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("security")}
-        >
-          {t("samlSPMetaDataOptionsSecurity")}
-        </label>
-        <label
-          className={`option ${
-            optionSelect === "federation" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("federation")}
-        >
-          {t("samlSPMetaDataOptionsFederation")}
-        </label>
-        <label
-          className={`option ${optionSelect === "comment" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("comment")}
-        >
-          {t("samlSPMetaDataOptionsComment")}
-        </label>
-      </div>
       {optionSelect === "authResponse" && (
         <table>
           <tbody>
@@ -897,5 +862,53 @@ export function OptionSaml({
         />
       )}
     </>
+  );
+}
+export function SubObtionSelector({
+  optionSelect,
+  setOptionSelected,
+}: {
+  optionSelect: string;
+  setOptionSelected: Function;
+}) {
+  return (
+    <div className="optionNavbar sub">
+      <label
+        className={`suboption ${
+          optionSelect === "authResponse" ? "selected" : ""
+        }`}
+        onClick={() => setOptionSelected("authResponse")}
+      >
+        {t("samlSPMetaDataOptionsAuthnResponse")}
+      </label>
+      <label
+        className={`suboption ${
+          optionSelect === "signature" ? "selected" : ""
+        }`}
+        onClick={() => setOptionSelected("signature")}
+      >
+        {t("samlSPMetaDataOptionsSignature")}
+      </label>
+      <label
+        className={`suboption ${optionSelect === "security" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("security")}
+      >
+        {t("samlSPMetaDataOptionsSecurity")}
+      </label>
+      <label
+        className={`suboption ${
+          optionSelect === "federation" ? "selected" : ""
+        }`}
+        onClick={() => setOptionSelected("federation")}
+      >
+        {t("samlSPMetaDataOptionsFederation")}
+      </label>
+      <label
+        className={`suboption ${optionSelect === "comment" ? "selected" : ""}`}
+        onClick={() => setOptionSelected("comment")}
+      >
+        {t("samlSPMetaDataOptionsComment")}
+      </label>
+    </div>
   );
 }

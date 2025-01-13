@@ -4,6 +4,8 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-left: -35px;
+  
 }
 
 .issuers {

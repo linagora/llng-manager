@@ -8,6 +8,7 @@
 .breadcrumbs {
   padding-top: 1vw;
   padding-left: 2vw;
+  background-color: #d6d6d6;
 }
 
 @media (max-width: 500px) {
