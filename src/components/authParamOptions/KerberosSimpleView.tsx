@@ -1,17 +1,9 @@
-import {
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
-} from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
+import TextForm from "../../forms/TextForm";
+import BoolForm from "../../forms/BoolForm";
 
 export function KerberosSimpleView() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -22,124 +14,62 @@ export function KerberosSimpleView() {
       <table>
         <tbody>
           <tr>
-            <Tooltip title={<Markdown>{definitions.krbKeytab}</Markdown>}>
-              <th>{t("krbKeytab")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "krbKeytab",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.krbKeytab || ""}
-              />
-            </td>
-          </tr>
-          <tr>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions ? definitions.krbByJs : "") + ""}
-                </Markdown>
+            <TextForm
+              fieldName="krbKeytab"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "krbKeytab",
+                    value: e,
+                  })
+                )
               }
-            >
-              <th>{t("krbByJs")}</th>
-            </Tooltip>
-            <td>
-              <FormControl>
-                <RadioGroup
-                  row
-                  value={config.krbByJs || attributes.krbByJs.default}
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "krbByJs",
-                        value: Number(e.target.value),
-                      })
-                    )
-                  }
-                >
-                  <FormControlLabel
-                    value={1}
-                    control={<Radio />}
-                    label={t("on")}
-                  />
-                  <FormControlLabel
-                    value={0}
-                    control={<Radio />}
-                    label={t("off")}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </td>
+              value={config.krbKeytab || ""}
+            />
           </tr>
           <tr>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions ? definitions.krbRemoveDomain : "") + ""}
-                </Markdown>
+            <BoolForm
+              fieldName="krbByJs"
+              value={Number(config.krbByJs) || attributes.krbByJs.default}
+              updateFunc={(e: number) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "krbByJs",
+                    value: Number(e),
+                  })
+                )
               }
-            >
-              <th>{t("krbRemoveDomain")}</th>
-            </Tooltip>
-            <td>
-              <FormControl>
-                <RadioGroup
-                  row
-                  value={
-                    config.krbRemoveDomain || attributes.krbRemoveDomain.default
-                  }
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "krbRemoveDomain",
-                        value: Number(e.target.value),
-                      })
-                    )
-                  }
-                >
-                  <FormControlLabel
-                    value={1}
-                    control={<Radio />}
-                    label={t("on")}
-                  />
-                  <FormControlLabel
-                    value={0}
-                    control={<Radio />}
-                    label={t("off")}
-                  />
-                </RadioGroup>
-              </FormControl>
-            </td>
+            />
           </tr>
           <tr>
-            <Tooltip
-              title={<Markdown>{definitions.krbAllowedDomains}</Markdown>}
-            >
-              <th>{t("krbAllowedDomains")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "krbAllowedDomains",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.krbAllowedDomains || ""}
-              />
-            </td>
+            <BoolForm
+              fieldName="krbRemoveDomain"
+              value={Number(
+                config.krbRemoveDomain || attributes.krbRemoveDomain.default
+              )}
+              updateFunc={(e: number) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "krbRemoveDomain",
+                    value: Number(e),
+                  })
+                )
+              }
+            />
+          </tr>
+          <tr>
+            <TextForm
+              fieldName="krbAllowedDomains"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "krbAllowedDomains",
+                    value: e,
+                  })
+                )
+              }
+              value={config.krbAllowedDomains || ""}
+            />
           </tr>
         </tbody>
       </table>

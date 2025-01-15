@@ -1,12 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  Collapse,
-  Divider,
-  IconButton,
-  List,
-  Tooltip,
-  styled,
-} from "@mui/material";
+import { Collapse, Divider, IconButton, List, Tooltip } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useState } from "react";

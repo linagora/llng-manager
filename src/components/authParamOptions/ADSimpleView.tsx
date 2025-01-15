@@ -1,10 +1,8 @@
-import { TextField, Tooltip } from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
+import IntForm from "../../forms/IntForm";
 
 export function ADSimpleView() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -15,49 +13,37 @@ export function ADSimpleView() {
       <table>
         <tbody>
           <tr>
-            <Tooltip title={<Markdown>{definitions.ADPwdMaxAge}</Markdown>}>
-              <th>{t("ADPwdMaxAge")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="number"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "ADPwdMaxAge",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.ADPwdMaxAge || attributes.ADPwdMaxAge.default}
-              />
-            </td>
+            <IntForm
+              fieldName="ADPwdMaxAge"
+              updateFunc={(e: number) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "ADPwdMaxAge",
+                    value: e,
+                  })
+                )
+              }
+              value={Number(
+                config.ADPwdMaxAge || attributes.ADPwdMaxAge.default
+              )}
+            />
           </tr>
           <tr>
-            <Tooltip
-              title={<Markdown>{definitions.ADPwdExpireWarning}</Markdown>}
-            >
-              <th>{t("ADPwdExpireWarning")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="number"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "ADPwdExpireWarning",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={
-                  config.ADPwdExpireWarning ||
+            <IntForm
+              fieldName="ADPwdExpireWarning"
+              updateFunc={(e: number) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "ADPwdExpireWarning",
+                    value: e,
+                  })
+                )
+              }
+              value={Number(
+                config.ADPwdExpireWarning ||
                   attributes.ADPwdExpireWarning.default
-                }
-              />
-            </td>
+              )}
+            />
           </tr>
         </tbody>
       </table>
