@@ -1,21 +1,12 @@
-import {
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Tooltip,
-} from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
-import { useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 import { updateSamlMetaDataOptions } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
+import TextForm from "../../forms/TextForm";
+import SelectForm from "../../forms/SelectForm";
+import BoolForm from "../../forms/BoolForm";
+import TroolForm from "../../forms/TroolForm";
+import LongtextForm from "../../forms/LongtextForm";
 
 export function OptionSaml({
   name,
@@ -38,248 +29,117 @@ export function OptionSaml({
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsNameIDFormat
-                      ? definitions.samlSPMetaDataOptionsNameIDFormat
-                      : ""}
-                  </Markdown>
+              <SelectForm
+                fieldName="samlSPMetaDataOptionsNameIDFormat"
+                value={String(
+                  data.samlSPMetaDataOptionsNameIDFormat ||
+                    attributes.samlSPMetaDataOptionsNameIDFormat.default
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsNameIDFormat",
+                      value: String(e || ""),
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsNameIDFormat")}</th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsNameIDFormat")}
-                  </InputLabel>
-                  <Select
-                    value={
-                      data.samlSPMetaDataOptionsNameIDFormat ||
-                      attributes.samlSPMetaDataOptionsNameIDFormat.default
-                    }
-                    label={t("samlSPMetaDataOptionsNameIDFormat")}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsNameIDFormat",
-                          value: String(e.target.value || ""),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsNameIDFormat.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsNameIDSessionKey
-                      ? definitions.samlSPMetaDataOptionsNameIDSessionKey
-                      : ""}
-                  </Markdown>
+              <TextForm
+                fieldName="samlSPMetaDataOptionsNameIDSessionKey"
+                value={String(
+                  data.samlSPMetaDataOptionsNameIDSessionKey
+                    ? data.samlSPMetaDataOptionsNameIDSessionKey
+                    : ""
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsNameIDSessionKey",
+                      value: e || "",
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsNameIDSessionKey")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.samlSPMetaDataOptionsNameIDSessionKey
-                      ? data.samlSPMetaDataOptionsNameIDSessionKey
-                      : ""
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsNameIDSessionKey",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsOneTimeUse
-                      ? definitions.samlSPMetaDataOptionsOneTimeUse
-                      : ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="samlSPMetaDataOptionsOneTimeUse"
+                value={
+                  Number(data.samlSPMetaDataOptionsOneTimeUse) ||
+                  attributes.samlSPMetaDataOptionsOneTimeUse.default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsOneTimeUse")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsOneTimeUse ||
-                      attributes.samlSPMetaDataOptionsOneTimeUse.default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsOneTimeUse",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsOneTimeUse",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
-                      ? definitions.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("samlSPMetaDataOptionsSessionNotOnOrAfterTimeout")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="number"
-                  value={String(
-                    data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout ||
-                      attributes.samlSPMetaDataOptionsNotOnOrAfterTimeout
+              <TextForm
+                fieldName="samlSPMetaDataOptionsSessionNotOnOrAfterTimeout"
+                value={String(
+                  data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
+                    ? data.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
+                    : attributes.samlSPMetaDataOptionsSessionNotOnOrAfterTimeout
                         .default
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option:
-                          "samlSPMetaDataOptionsSessionNotOnOrAfterTimeout",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsSessionNotOnOrAfterTimeout",
+                      value: e || "",
+                    })
+                  )
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsNotOnOrAfterTimeout
-                      ? definitions.samlSPMetaDataOptionsNotOnOrAfterTimeout
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("samlSPMetaDataOptionsNotOnOrAfterTimeout")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="number"
-                  value={String(
-                    data.samlSPMetaDataOptionsNotOnOrAfterTimeout ||
-                      attributes.samlSPMetaDataOptionsNotOnOrAfterTimeout
+              <TextForm
+                fieldName="samlSPMetaDataOptionsNotOnOrAfterTimeout"
+                value={String(
+                  data.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                    ? data.samlSPMetaDataOptionsNotOnOrAfterTimeout
+                    : attributes.samlSPMetaDataOptionsNotOnOrAfterTimeout
                         .default
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsNotOnOrAfterTimeout",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsNotOnOrAfterTimeout",
+                      value: e || "",
+                    })
+                  )
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsForceUTF8
-                      ? definitions.samlSPMetaDataOptionsForceUTF8
-                      : ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="samlSPMetaDataOptionsForceUTF8"
+                value={
+                  Number(data.samlSPMetaDataOptionsForceUTF8) ||
+                  attributes.samlMetadataForceUTF8.default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsForceUTF8")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsForceUTF8 ||
-                      attributes.samlMetadataForceUTF8.default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsForceUTF8",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsForceUTF8",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
@@ -288,245 +148,100 @@ export function OptionSaml({
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsSignatureMethod
-                      ? definitions.samlSPMetaDataOptionsSignatureMethod
-                      : ""}
-                  </Markdown>
+              <SelectForm
+                fieldName="samlSPMetaDataOptionsSignatureMethod"
+                value={String(
+                  data.samlSPMetaDataOptionsSignatureMethod ||
+                    attributes.samlSPMetaDataOptionsSignatureMethod.default
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsSignatureMethod",
+                      value: String(e || ""),
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsSignatureMethod")}</th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsSignatureMethod")}
-                  </InputLabel>
-                  <Select
-                    value={
-                      data.samlSPMetaDataOptionsSignatureMethod ||
-                      attributes.samlSPMetaDataOptionsSignatureMethod.default
-                    }
-                    label={t("samlSPMetaDataOptionsSignatureMethod")}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsSignatureMethod",
-                          value: String(e.target.value || ""),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsSignatureMethod.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsSignSSOMessage
-                      ? definitions.samlSPMetaDataOptionsSignSSOMessage
-                      : ""}
-                  </Markdown>
+              <TroolForm
+                fieldName="samlSPMetaDataOptionsSignSSOMessage"
+                value={
+                  data.samlSPMetaDataOptionsSignSSOMessage !== undefined &&
+                  data.samlSPMetaDataOptionsSignSSOMessage !== null
+                    ? Number(data.samlSPMetaDataOptionsSignSSOMessage)
+                    : attributes.samlSPMetaDataOptionsSignSSOMessage.default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsSignSSOMessage")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsSignSSOMessage !== undefined &&
-                      data.samlSPMetaDataOptionsSignSSOMessage !== null
-                        ? data.samlSPMetaDataOptionsSignSSOMessage
-                        : attributes.samlSPMetaDataOptionsSignSSOMessage.default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsSignSSOMessage",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                    <FormControlLabel
-                      value={-1}
-                      control={<Radio />}
-                      label={t("default")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsSignSSOMessage",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsCheckSSOMessageSignature
-                      ? definitions.samlSPMetaDataOptionsCheckSSOMessageSignature
-                      : ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="samlSPMetaDataOptionsCheckSSOMessageSignature"
+                value={
+                  Number(data.samlSPMetaDataOptionsCheckSSOMessageSignature) ||
+                  attributes.samlSPMetaDataOptionsCheckSSOMessageSignature
+                    .default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsCheckSSOMessageSignature")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsCheckSSOMessageSignature ||
-                      attributes.samlSPMetaDataOptionsCheckSSOMessageSignature
-                        .default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option:
-                            "samlSPMetaDataOptionsCheckSSOMessageSignature",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsCheckSSOMessageSignature",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsSignSLOMessage
-                      ? definitions.samlSPMetaDataOptionsSignSLOMessage
-                      : ""}
-                  </Markdown>
+              <TroolForm
+                fieldName="samlSPMetaDataOptionsSignSLOMessage"
+                value={
+                  data.samlSPMetaDataOptionsSignSLOMessage !== undefined &&
+                  data.samlSPMetaDataOptionsSignSLOMessage !== null
+                    ? Number(data.samlSPMetaDataOptionsSignSLOMessage)
+                    : attributes.samlSPMetaDataOptionsSignSLOMessage.default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsSignSLOMessage")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsSignSLOMessage !== undefined &&
-                      data.samlSPMetaDataOptionsSignSLOMessage !== null
-                        ? data.samlSPMetaDataOptionsSignSLOMessage
-                        : attributes.samlSPMetaDataOptionsSignSLOMessage.default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsSignSLOMessage",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                    <FormControlLabel
-                      value={-1}
-                      control={<Radio />}
-                      label={t("default")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsSignSLOMessage",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsCheckSLOMessageSignature
-                      ? definitions.samlSPMetaDataOptionsCheckSLOMessageSignature
-                      : ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="samlSPMetaDataOptionsCheckSLOMessageSignature"
+                value={
+                  Number(data.samlSPMetaDataOptionsCheckSLOMessageSignature) ||
+                  attributes.samlSPMetaDataOptionsCheckSLOMessageSignature
+                    .default
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsCheckSLOMessageSignature")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsCheckSLOMessageSignature ||
-                      attributes.samlSPMetaDataOptionsCheckSLOMessageSignature
-                        .default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option:
-                            "samlSPMetaDataOptionsCheckSLOMessageSignature",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsCheckSLOMessageSignature",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
           </tbody>
         </table>
@@ -535,154 +250,71 @@ export function OptionSaml({
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsEncryptionMode
-                      ? definitions.samlSPMetaDataOptionsEncryptionMode
-                      : ""}
-                  </Markdown>
+              <SelectForm
+                fieldName="samlSPMetaDataOptionsEncryptionMode"
+                value={String(
+                  data.samlSPMetaDataOptionsEncryptionMode ||
+                    attributes.samlSPMetaDataOptionsEncryptionMode.default
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsEncryptionMode",
+                      value: String(e || ""),
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsEncryptionMode")}</th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsEncryptionMode")}
-                  </InputLabel>
-                  <Select
-                    value={
-                      data.samlSPMetaDataOptionsEncryptionMode ||
-                      attributes.samlSPMetaDataOptionsEncryptionMode.default
-                    }
-                    label={t("samlSPMetaDataOptionsEncryptionMode")}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsEncryptionMode",
-                          value: String(e.target.value || ""),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsEncryptionMode.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsEnableIDPInitiatedURL
-                      ? definitions.samlSPMetaDataOptionsEnableIDPInitiatedURL
-                      : ""}
-                  </Markdown>
-                }
-              >
-                <th>{t("samlSPMetaDataOptionsEnableIDPInitiatedURL")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      data.samlSPMetaDataOptionsEnableIDPInitiatedURL ||
-                      attributes.samlSPMetaDataOptionsEnableIDPInitiatedURL
-                        .default
-                    }
-                    onChange={(e) => {
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option: "samlSPMetaDataOptionsEnableIDPInitiatedURL",
-                          value: Number(e.target.value || ""),
-                        })
-                      );
-                    }}
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              <BoolForm
+                fieldName="samlSPMetaDataOptionsEnableIDPInitiatedURL"
+                value={Number(
+                  data.samlSPMetaDataOptionsEnableIDPInitiatedURL ||
+                    attributes.samlSPMetaDataOptionsEnableIDPInitiatedURL
+                      .default
+                )}
+                updateFunc={(e: number) => {
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsEnableIDPInitiatedURL",
+                      value: Number(e || ""),
+                    })
+                  );
+                }}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsAuthnLevel}
-                  </Markdown>
+              <TextForm
+                fieldName="samlSPMetaDataOptionsAuthnLevel"
+                value={String(data.samlSPMetaDataOptionsAuthnLevel || "")}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsAuthnLevel",
+                      value: e || "",
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsAuthnLevel")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(data.samlSPMetaDataOptionsAuthnLevel || "")}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsAuthnLevel",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>{definitions.samlSPMetaDataOptionsRule}</Markdown>
+              <TextForm
+                fieldName="samlSPMetaDataOptionsRule"
+                value={String(data.samlSPMetaDataOptionsRule || "")}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsRule",
+                      value: e || "",
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsRule")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="number"
-                  value={String(data.samlSPMetaDataOptionsRule || "")}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsRule",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+              />
             </tr>
           </tbody>
         </table>
@@ -691,171 +323,81 @@ export function OptionSaml({
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsFederationEntityID
-                      ? definitions.samlSPMetaDataOptionsFederationEntityID
-                      : ""}
-                  </Markdown>
+              <TextForm
+                fieldName="samlSPMetaDataOptionsFederationEntityID"
+                value={String(
+                  data.samlSPMetaDataOptionsFederationEntityID
+                    ? data.samlSPMetaDataOptionsFederationEntityID
+                    : ""
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option: "samlSPMetaDataOptionsFederationEntityID",
+                      value: e || "",
+                    })
+                  )
                 }
-              >
-                <th>{t("samlSPMetaDataOptionsFederationEntityID")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  margin="normal"
-                  variant="filled"
-                  className="form"
-                  type="text"
-                  value={String(
-                    data.samlSPMetaDataOptionsFederationEntityID
-                      ? data.samlSPMetaDataOptionsFederationEntityID
-                      : ""
-                  )}
-                  onChange={(e) =>
-                    dispatch(
-                      updateSamlMetaDataOptions({
-                        name,
-                        option: "samlSPMetaDataOptionsFederationEntityID",
-                        value: e.target.value || "",
-                      })
-                    )
-                  }
-                />
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsFederationOptionalAttributes
-                      ? definitions.samlSPMetaDataOptionsFederationOptionalAttributes
-                      : ""}
-                  </Markdown>
+              <SelectForm
+                fieldName="samlSPMetaDataOptionsFederationOptionalAttributes"
+                value={String(
+                  data.samlSPMetaDataOptionsFederationOptionalAttributes ||
+                    attributes.samlSPMetaDataOptionsFederationOptionalAttributes
+                      .default
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option:
+                        "samlSPMetaDataOptionsFederationOptionalAttributes",
+                      value: String(e || ""),
+                    })
+                  )
                 }
-              >
-                <th>
-                  {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
-                </th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsFederationOptionalAttributes")}
-                  </InputLabel>
-                  <Select
-                    value={
-                      data.samlSPMetaDataOptionsFederationOptionalAttributes ||
-                      attributes
-                        .samlSPMetaDataOptionsFederationOptionalAttributes
-                        .default
-                    }
-                    label={t(
-                      "samlSPMetaDataOptionsFederationOptionalAttributes"
-                    )}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option:
-                            "samlSPMetaDataOptionsFederationOptionalAttributes",
-                          value: String(e.target.value || ""),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsFederationOptionalAttributes.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {definitions.samlSPMetaDataOptionsFederationRequiredAttributes
-                      ? definitions.samlSPMetaDataOptionsFederationRequiredAttributes
-                      : ""}
-                  </Markdown>
+              <SelectForm
+                fieldName="samlSPMetaDataOptionsFederationRequiredAttributes"
+                value={String(
+                  data.samlSPMetaDataOptionsFederationRequiredAttributes ||
+                    attributes.samlSPMetaDataOptionsFederationRequiredAttributes
+                      .default
+                )}
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateSamlMetaDataOptions({
+                      name,
+                      option:
+                        "samlSPMetaDataOptionsFederationRequiredAttributes",
+                      value: String(e || ""),
+                    })
+                  )
                 }
-              >
-                <th>
-                  {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
-                </th>
-              </Tooltip>
-              <td>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel shrink>
-                    {t("samlSPMetaDataOptionsFederationRequiredAttributes")}
-                  </InputLabel>
-                  <Select
-                    value={
-                      data.samlSPMetaDataOptionsFederationRequiredAttributes ||
-                      attributes
-                        .samlSPMetaDataOptionsFederationRequiredAttributes
-                        .default
-                    }
-                    label={t(
-                      "samlSPMetaDataOptionsFederationRequiredAttributes"
-                    )}
-                    displayEmpty
-                    onChange={(e) =>
-                      dispatch(
-                        updateSamlMetaDataOptions({
-                          name,
-                          option:
-                            "samlSPMetaDataOptionsFederationRequiredAttributes",
-                          value: String(e.target.value || ""),
-                        })
-                      )
-                    }
-                  >
-                    {attributes.samlSPMetaDataOptionsFederationRequiredAttributes.select.map(
-                      (el) => {
-                        return (
-                          <MenuItem key={el.k} value={el.k}>
-                            {t(el.v)}
-                          </MenuItem>
-                        );
-                      }
-                    )}
-                  </Select>
-                </FormControl>
-              </td>
+              />
             </tr>
           </tbody>
         </table>
       )}
       {optionSelect === "comment" && (
-        <TextField
-          size="small"
-          margin="normal"
-          multiline
-          variant="filled"
-          fullWidth
-          rows={4}
+        <LongtextForm
+          fieldName="samlSPMetaDataOptionsComment"
           value={String(
             data.samlSPMetaDataOptionsComment
               ? data.samlSPMetaDataOptionsComment
               : ""
           )}
-          onChange={(e) =>
+          updateFunc={(e: string) =>
             dispatch(
               updateSamlMetaDataOptions({
                 name,
                 option: "samlSPMetaDataOptionsComment",
-                value: e.target.value || "",
+                value: e || "",
               })
             )
           }

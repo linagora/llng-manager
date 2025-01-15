@@ -45,7 +45,11 @@ export default function BlackWhiteListForm({
               value.split(";")[0] ||
               ("default" in attribute ? attribute.default : 0)
             }
-            onChange={(e) => updateFunc(e)}
+            onChange={(e) =>
+              updateFunc(
+                `${Number(e.target.value)};${String(value).split(";")[1]}`
+              )
+            }
           >
             <FormControlLabel
               value={1}
@@ -61,7 +65,9 @@ export default function BlackWhiteListForm({
         </FormControl>
         <TextField
           size="small"
-          onChange={(e) => updateFunc(e.target.value)}
+          onChange={(e) =>
+            updateFunc(`${String(value).split(";")[0]};${e.target.value}`)
+          }
           placeholder={t(fieldName)}
           value={
             value.split(";")[1] ||

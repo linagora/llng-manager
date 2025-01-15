@@ -18,6 +18,7 @@ import SamlServiceForm from "../../forms/SamlServiceForm";
 import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import { llngConfig } from "../../utils/types";
+import TextForm from "../../forms/TextForm";
 
 export function SAMLRenderer() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -34,38 +35,22 @@ export function SAMLRenderer() {
           <table>
             <tbody>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlNameIDFormatMapEmail
-                        : "") + ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlNameIDFormatMapEmail"
+                  value={
+                    config.samlNameIDFormatMapEmail
+                      ? config.samlNameIDFormatMapEmail
+                      : ""
                   }
-                >
-                  <th>{t("samlNameIDFormatMapEmail")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlNameIDFormatMapEmail
-                        ? config.samlNameIDFormatMapEmail
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlNameIDFormatMapEmail",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlNameIDFormatMapEmail",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
               <tr>
                 <Tooltip
