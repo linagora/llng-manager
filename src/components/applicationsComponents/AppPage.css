@@ -2,6 +2,9 @@
   .box th {
     font-size: smaller;
   }
+  .appDesc table {
+    width: 45vw;
+  }
   select {
     width: 5vh;
   }
@@ -50,16 +53,10 @@
 }
 
 .appDesc table {
-  margin: 50px;
-  width: 100%;
+  width: 60vw;
   max-width: 100%;
   flex-wrap: wrap;
   border-collapse: collapse;
-  box-shadow: 5% #acacac;
-}
-
-.box .form {
-  width: 100%;
 }
 
 textarea {
@@ -114,9 +111,4 @@ textarea {
 
 .top {
   background-color: #d6d6d6;
-}
-
-.app {
-  display: flex;
-  height: max-content;
 }
