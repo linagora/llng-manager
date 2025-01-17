@@ -7,16 +7,10 @@ import {
   AccordionSummary,
   Button,
   Divider,
-  FormControl,
-  FormControlLabel,
   IconButton,
-  Radio,
-  RadioGroup,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { ChangeEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -30,7 +24,6 @@ import {
   updateModuleOpt,
 } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
 import { exportData } from "../../utils/exportData";
 import { NewCertificate } from "../../utils/generateKey";
 import { handleChangeFile } from "../../utils/readFiles";

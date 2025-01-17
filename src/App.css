@@ -1,8 +1,12 @@
 .App {
   text-align: center;
 }
-.main {
+.open {
   margin-left: 250px;
+}
+
+.closed {
+  margin-left: 40px;
 }
 
 .breadcrumbs {

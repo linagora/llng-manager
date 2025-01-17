@@ -3,9 +3,12 @@
 }
 
 .navbar .MuiDrawer-paper {
-  width: 250px;
-  background-color: rgb(92, 93, 111);
   color: rgb(209, 211, 223);
+  background-color: rgb(92, 93, 111);
+}
+
+.navbarclosed .MuiDrawer-paper {
+  width: 25px !important;
 }
 
 .navbar img {
@@ -32,7 +35,6 @@
 .menuBurger {
   position: fixed;
   bottom: 10px;
-  left: 10px;
 }
 
 .menu {
