@@ -10,6 +10,7 @@ import {
   RadioGroup,
   TextField,
   Tooltip,
+  Divider,
 } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
@@ -27,6 +28,8 @@ import attributes from "../../static/attributes.json";
 import definitions from "../../static/definitions.json";
 import { llngConfig } from "../../utils/types";
 import { TableVars } from "../applicationsComponents/TableVars";
+import TextForm from "../../forms/TextForm";
+import BoolForm from "../../forms/BoolForm";
 export function OIDCIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
@@ -37,608 +40,392 @@ export function OIDCIssuer() {
       <div className="top">
         <strong className="title">{t("OIDCServiceMetaData")}</strong>
       </div>
-      <div className="optionNavbar">
-        <label
-          className={`option ${option === "basic" ? "selected" : ""}`}
-          onClick={() => {
-            setOption("basic");
-          }}
-        >
-          {t("Basic Option")}
-        </label>
-        <label
-          className={`option ${
-            option === "oidcServiceDynamicRegistration" ? "selected" : ""
-          }`}
-          onClick={() => setOption("oidcServiceDynamicRegistration")}
-        >
-          {t("oidcServiceDynamicRegistration")}
-        </label>
-        <label
-          className={`option ${
-            option === "oidcServiceMetaDataSecurity" ? "selected" : ""
-          }`}
-          onClick={() => setOption("oidcServiceMetaDataSecurity")}
-        >
-          {t("oidcServiceMetaDataSecurity")}
-        </label>
-        <label
-          className={`option ${
-            option === "oidcServiceMetaDataTimeouts" ? "selected" : ""
-          }`}
-          onClick={() => setOption("oidcServiceMetaDataTimeouts")}
-        >
-          {t("oidcServiceMetaDataTimeouts")}
-        </label>
-        <label
-          className={`option ${
-            option === "oidcServiceMetaDataSessions" ? "selected" : ""
-          }`}
-          onClick={() => setOption("oidcServiceMetaDataSessions")}
-        >
-          {t("oidcServiceMetaDataSessions")}
-        </label>
-      </div>
-      <div className="appDesc">
-        {option === "basic" && (
+      <div className="app">
+        <div className="optionNavbar">
+          <label
+            className={`option ${option === "basic" ? "selected" : ""}`}
+            onClick={() => {
+              setOption("basic");
+            }}
+          >
+            {t("Basic Option")}
+          </label>
+          <label
+            className={`option ${
+              option === "oidcServiceDynamicRegistration" ? "selected" : ""
+            }`}
+            onClick={() => setOption("oidcServiceDynamicRegistration")}
+          >
+            {t("oidcServiceDynamicRegistration")}
+          </label>
+          <label
+            className={`option ${
+              option === "oidcServiceMetaDataSecurity" ? "selected" : ""
+            }`}
+            onClick={() => setOption("oidcServiceMetaDataSecurity")}
+          >
+            {t("oidcServiceMetaDataSecurity")}
+          </label>
+          <label
+            className={`option ${
+              option === "oidcServiceMetaDataTimeouts" ? "selected" : ""
+            }`}
+            onClick={() => setOption("oidcServiceMetaDataTimeouts")}
+          >
+            {t("oidcServiceMetaDataTimeouts")}
+          </label>
+          <label
+            className={`option ${
+              option === "oidcServiceMetaDataSessions" ? "selected" : ""
+            }`}
+            onClick={() => setOption("oidcServiceMetaDataSessions")}
+          >
+            {t("oidcServiceMetaDataSessions")}
+          </label>
+        </div>
+        <Divider className="divider" orientation="vertical" variant="middle" />
+        <div className="appDesc">
           <div className="box">
             <table>
               <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.issuerDBOpenIDConnectActivation
-                          : "") + ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("issuerDBOIDCActivation")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.issuerDBOpenIDConnectActivation ||
+                {option === "basic" && (
+                  <tr>
+                    <BoolForm
+                      fieldName="issuerDBOpenIDConnectActivation"
+                      value={Number(
+                        config.issuerDBOpenIDConnectActivation ||
                           attributes.issuerDBOpenIDActivation.default
-                        }
-                        onChange={() => dispatch(toggleOIDC())}
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
+                      )}
+                      updateFunc={() => dispatch(toggleOIDC())}
+                    />
+                  </tr>
+                )}
+                {option === "oidcServiceMetaDataSecurity" && (
+                  <>
+                    <tr>
+                      <td colSpan={2}>
+                        <OidcKeyForm
+                          value={{
+                            type: config.oidcServiceKeyTypeSig
+                              ? config.oidcServiceKeyTypeSig
+                              : attributes.oidcServiceKeyTypeSig.default,
+                            hash: config.oidcServiceKeyIdSig || "",
+                            priv: config.oidcServicePrivateKeySig || "",
+                            pub: config.oidcServicePublicKeySig || "",
+                          }}
+                          fieldNames={{
+                            type: "oidcServiceKeyTypeSig",
+                            hash: "oidcServiceKeyIdSig",
+                            priv: "oidcServicePrivateKeySig",
+                            pub: "oidcServicePublicKeySig",
+                          }}
+                          updateFunc={<K extends keyof llngConfig>(e: {
+                            param: K;
+                            value: llngConfig[K];
+                          }) => dispatch(updateConfigParams(e))}
                         />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-        {option === "oidcServiceMetaDataSecurity" && (
-          <>
-            <OidcKeyForm
-              value={{
-                type: config.oidcServiceKeyTypeSig
-                  ? config.oidcServiceKeyTypeSig
-                  : attributes.oidcServiceKeyTypeSig.default,
-                hash: config.oidcServiceKeyIdSig || "",
-                priv: config.oidcServicePrivateKeySig || "",
-                pub: config.oidcServicePublicKeySig || "",
-              }}
-              fieldNames={{
-                type: "oidcServiceKeyTypeSig",
-                hash: "oidcServiceKeyIdSig",
-                priv: "oidcServicePrivateKeySig",
-                pub: "oidcServicePublicKeySig",
-              }}
-              updateFunc={<K extends keyof llngConfig>(e: {
-                param: K;
-                value: llngConfig[K];
-              }) => dispatch(updateConfigParams(e))}
-            />
-
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.oidcServiceAllowAuthorizationCodeFlow
-                          ? definitions.oidcServiceAllowAuthorizationCodeFlow
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("oidcServiceAllowAuthorizationCodeFlow")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
+                      </td>
+                    </tr>
+                    <tr>
+                      <BoolForm
+                        fieldName="oidcServiceAllowAuthorizationCodeFlow"
+                        value={Number(
                           config.oidcServiceAllowAuthorizationCodeFlow
                             ? config.oidcServiceAllowAuthorizationCodeFlow
                             : attributes.oidcServiceAllowAuthorizationCodeFlow
                                 .default
-                        }
-                        onChange={(e) =>
+                        )}
+                        updateFunc={(e: number) =>
                           dispatch(
                             updateConfigParams({
                               param: "oidcServiceAllowAuthorizationCodeFlow",
-                              value: e.target.value,
+                              value: e,
                             })
                           )
                         }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.oidcServiceAllowImplicitFlow
-                          ? definitions.oidcServiceAllowImplicitFlow
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("oidcServiceAllowImplicitFlow")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
+                      />
+                    </tr>
+                    <tr>
+                      {" "}
+                      <BoolForm
+                        fieldName="oidcServiceAllowImplicitFlow"
+                        value={Number(
                           config.oidcServiceAllowImplicitFlow
                             ? config.oidcServiceAllowImplicitFlow
                             : attributes.oidcServiceAllowImplicitFlow.default
-                        }
-                        onChange={(e) =>
+                        )}
+                        updateFunc={(e: number) =>
                           dispatch(
                             updateConfigParams({
                               param: "oidcServiceAllowImplicitFlow",
-                              value: e.target.value,
+                              value: e,
                             })
                           )
                         }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.oidcServiceAllowHybridFlow
-                          ? definitions.oidcServiceAllowHybridFlow
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("oidcServiceAllowHybridFlow")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
+                      />
+                    </tr>
+                    <tr>
+                      <BoolForm
+                        fieldName="oidcServiceAllowHybridFlow"
+                        value={Number(
                           config.oidcServiceAllowHybridFlow
                             ? config.oidcServiceAllowHybridFlow
                             : attributes.oidcServiceAllowHybridFlow.default
-                        }
-                        onChange={(e) =>
+                        )}
+                        updateFunc={(e: number) =>
                           dispatch(
                             updateConfigParams({
                               param: "oidcServiceAllowHybridFlow",
-                              value: e.target.value,
+                              value: e,
                             })
                           )
                         }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
+                      />
+                    </tr>
+                  </>
+                )}
+                {option === "oidcServiceDynamicRegistration" && (
+                  <>
+                    <tr>
+                      <BoolForm
+                        fieldName="oidcServiceAllowDynamicRegistration"
+                        value={Number(
+                          config.oidcServiceAllowDynamicRegistration
+                            ? config.oidcServiceAllowDynamicRegistration
+                            : attributes.oidcServiceAllowDynamicRegistration
+                                .default
+                        )}
+                        updateFunc={(e: number) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcServiceAllowDynamicRegistration",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <Accordion>
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            {t("oidcServiceDynamicRegistrationExportedVars")}
+                          </AccordionSummary>
+                          <table id="oidcServiceDynamicRegistrationExportedVars">
+                            <thead>
+                              <tr>
+                                <th>{t("keys")}</th>
+                                <th>{t("values")}</th>
+                                <th>
+                                  <IconButton
+                                    className="plus"
+                                    onClick={() =>
+                                      dispatch(
+                                        newModuleOpt(
+                                          "oidcServiceDynamicRegistrationExportedVars"
+                                        )
+                                      )
+                                    }
+                                  >
+                                    <AddCircleIcon color="success" />
+                                  </IconButton>
+                                </th>
+                              </tr>
+                            </thead>
+                            <TableVars
+                              appName="oidcServiceDynamicRegistrationExportedVars"
+                              vars={
+                                config.oidcServiceDynamicRegistrationExportedVars
+                                  ? config.oidcServiceDynamicRegistrationExportedVars
+                                  : {}
+                              }
+                              tableID="oidcServiceDynamicRegistrationExportedVars"
+                              dispatch={dispatch}
+                              delFunction={delModuleOpt}
+                              updateFunction={updateModuleOpt}
+                            />
+                          </table>
+                        </Accordion>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <Accordion>
+                          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                            {t("oidcServiceDynamicRegistrationExtraClaims")}
+                          </AccordionSummary>
+                          <table id="oidcServiceDynamicRegistrationExtraClaims">
+                            <thead>
+                              <tr>
+                                <th>{t("keys")}</th>
+                                <th>{t("values")}</th>
+                                <th>
+                                  <IconButton
+                                    className="plus"
+                                    onClick={() =>
+                                      dispatch(
+                                        newModuleOpt(
+                                          "oidcServiceDynamicRegistrationExtraClaims"
+                                        )
+                                      )
+                                    }
+                                  >
+                                    <AddCircleIcon color="success" />
+                                  </IconButton>
+                                </th>
+                              </tr>
+                            </thead>
+                            <TableVars
+                              appName="oidcServiceDynamicRegistrationExtraClaims"
+                              vars={
+                                config.oidcServiceDynamicRegistrationExtraClaims
+                                  ? config.oidcServiceDynamicRegistrationExtraClaims
+                                  : {}
+                              }
+                              tableID="oidcServiceDynamicRegistrationExtraClaims"
+                              dispatch={dispatch}
+                              delFunction={delModuleOpt}
+                              updateFunction={updateModuleOpt}
+                            />
+                          </table>
+                        </Accordion>
+                      </td>
+                    </tr>
+                  </>
+                )}
+                {option === "oidcServiceMetaDataTimeouts" && (
+                  <>
+                    <tr>
+                      <TextForm
+                        fieldName="oidcServiceAuthorizationCodeExpiration"
+                        value={String(
+                          config.oidcServiceAuthorizationCodeExpiration ||
+                            attributes.oidcServiceAuthorizationCodeExpiration
+                              .default
+                        )}
+                        updateFunc={(e: string) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcServiceAuthorizationCodeExpiration",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                    <tr>
+                      <TextForm
+                        fieldName="oidcServiceIDTokenExpiration"
+                        value={String(
+                          config.oidcServiceIDTokenExpiration ||
+                            attributes.oidcServiceIDTokenExpiration.default
+                        )}
+                        updateFunc={(e: string) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcServiceIDTokenExpiration",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                    <tr>
+                      <TextForm
+                        fieldName="oidcServiceAccessTokenExpiration"
+                        value={String(
+                          config.oidcServiceAccessTokenExpiration ||
+                            attributes.oidcServiceAccessTokenExpiration.default
+                        )}
+                        updateFunc={(e: string) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcServiceAccessTokenExpiration",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                    <tr>
+                      <TextForm
+                        fieldName="oidcServiceOfflineSessionExpiration"
+                        value={String(
+                          config.oidcServiceOfflineSessionExpiration ||
+                            attributes.oidcServiceOfflineSessionExpiration
+                              .default
+                        )}
+                        updateFunc={(e: string) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcServiceOfflineSessionExpiration",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                  </>
+                )}
+                {option === "oidcServiceMetaDataSessions" && (
+                  <>
+                    <tr>
+                      <TextForm
+                        fieldName="oidcStorage"
+                        value={config.oidcStorage || ""}
+                        updateFunc={(e: string) =>
+                          dispatch(
+                            updateConfigParams({
+                              param: "oidcStorage",
+                              value: e,
+                            })
+                          )
+                        }
+                      />
+                    </tr>
+                    <tr>
+                      <th colSpan={2}>{t("oidcStorageOptions")}</th>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <table id="oidcStorageOptions">
+                          <thead>
+                            <tr>
+                              <th>{t("keys")}</th>
+                              <th> {t("values")}</th>
+                              <th>
+                                <IconButton
+                                  className="plus"
+                                  onClick={() =>
+                                    dispatch(newModuleOpt("oidcStorageOptions"))
+                                  }
+                                >
+                                  <AddCircleIcon color="success" />
+                                </IconButton>
+                              </th>
+                            </tr>
+                          </thead>
+                          <TableVars
+                            appName="oidcStorageOptions"
+                            vars={
+                              config.oidcStorageOptions
+                                ? config.oidcStorageOptions
+                                : {}
+                            }
+                            tableID="oidcStorageOptions"
+                            dispatch={dispatch}
+                            delFunction={delModuleOpt}
+                            updateFunction={updateModuleOpt}
+                          />
+                        </table>
+                      </td>
+                    </tr>
+                  </>
+                )}
               </tbody>
             </table>
-          </>
-        )}
-        {option === "oidcServiceDynamicRegistration" && (
-          <table>
-            <tbody>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcServiceAllowDynamicRegistration}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcServiceAllowDynamicRegistration")}</th>
-                </Tooltip>
-                <td>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      value={
-                        config.oidcServiceAllowDynamicRegistration
-                          ? config.oidcServiceAllowDynamicRegistration
-                          : attributes.oidcServiceAllowDynamicRegistration
-                              .default
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "oidcServiceAllowDynamicRegistration",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    >
-                      <FormControlLabel
-                        value={1}
-                        control={<Radio />}
-                        label={t("on")}
-                      />
-                      <FormControlLabel
-                        value={0}
-                        control={<Radio />}
-                        label={t("off")}
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      {t("oidcServiceDynamicRegistrationExportedVars")}
-                    </AccordionSummary>
-                    <table id="oidcServiceDynamicRegistrationExportedVars">
-                      <thead>
-                        <tr>
-                          <th>{t("keys")}</th>
-                          <th>{t("values")}</th>
-                          <th>
-                            <IconButton
-                              className="plus"
-                              onClick={() =>
-                                dispatch(
-                                  newModuleOpt(
-                                    "oidcServiceDynamicRegistrationExportedVars"
-                                  )
-                                )
-                              }
-                            >
-                              <AddCircleIcon color="success" />
-                            </IconButton>
-                          </th>
-                        </tr>
-                      </thead>
-                      <TableVars
-                        appName="oidcServiceDynamicRegistrationExportedVars"
-                        vars={
-                          config.oidcServiceDynamicRegistrationExportedVars
-                            ? config.oidcServiceDynamicRegistrationExportedVars
-                            : {}
-                        }
-                        tableID="oidcServiceDynamicRegistrationExportedVars"
-                        dispatch={dispatch}
-                        delFunction={delModuleOpt}
-                        updateFunction={updateModuleOpt}
-                      />
-                    </table>
-                  </Accordion>
-                </td>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      {t("oidcServiceDynamicRegistrationExtraClaims")}
-                    </AccordionSummary>
-                    <table id="oidcServiceDynamicRegistrationExtraClaims">
-                      <thead>
-                        <tr>
-                          <th>{t("keys")}</th>
-                          <th>{t("values")}</th>
-                          <th>
-                            <IconButton
-                              className="plus"
-                              onClick={() =>
-                                dispatch(
-                                  newModuleOpt(
-                                    "oidcServiceDynamicRegistrationExtraClaims"
-                                  )
-                                )
-                              }
-                            >
-                              <AddCircleIcon color="success" />
-                            </IconButton>
-                          </th>
-                        </tr>
-                      </thead>
-                      <TableVars
-                        appName="oidcServiceDynamicRegistrationExtraClaims"
-                        vars={
-                          config.oidcServiceDynamicRegistrationExtraClaims
-                            ? config.oidcServiceDynamicRegistrationExtraClaims
-                            : {}
-                        }
-                        tableID="oidcServiceDynamicRegistrationExtraClaims"
-                        dispatch={dispatch}
-                        delFunction={delModuleOpt}
-                        updateFunction={updateModuleOpt}
-                      />
-                    </table>
-                  </Accordion>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        )}
-        {option === "oidcServiceMetaDataTimeouts" && (
-          <table>
-            <tbody>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcServiceAuthorizationCodeExpiration
-                        ? definitions.oidcServiceAuthorizationCodeExpiration
-                        : ""}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcServiceAuthorizationCodeExpiration")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    type="number"
-                    className="formInput"
-                    value={
-                      config.oidcServiceAuthorizationCodeExpiration ||
-                      attributes.oidcServiceAuthorizationCodeExpiration.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "oidcServiceAuthorizationCodeExpiration",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcServiceIDTokenExpiration
-                        ? definitions.oidcServiceIDTokenExpiration
-                        : ""}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcServiceIDTokenExpiration")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    type="number"
-                    className="formInput"
-                    value={
-                      config.oidcServiceIDTokenExpiration ||
-                      attributes.oidcServiceIDTokenExpiration.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "oidcServiceIDTokenExpiration",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcServiceAccessTokenExpiration
-                        ? definitions.oidcServiceAccessTokenExpiration
-                        : ""}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcServiceAccessTokenExpiration")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    type="number"
-                    className="formInput"
-                    value={
-                      config.oidcServiceAccessTokenExpiration ||
-                      attributes.oidcServiceAccessTokenExpiration.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "oidcServiceAccessTokenExpiration",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcServiceOfflineSessionExpiration
-                        ? definitions.oidcServiceOfflineSessionExpiration
-                        : ""}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcServiceOfflineSessionExpiration")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    type="number"
-                    className="formInput"
-                    value={
-                      config.oidcServiceOfflineSessionExpiration ||
-                      attributes.oidcServiceOfflineSessionExpiration.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "oidcServiceOfflineSessionExpiration",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        )}
-        {option === "oidcServiceMetaDataSessions" && (
-          <table>
-            <tbody>
-              <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {definitions.oidcStorage ? definitions.oidcStorage : ""}
-                    </Markdown>
-                  }
-                >
-                  <th>{t("oidcStorage")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    fullWidth
-                    className="formInput"
-                    value={config.oidcStorage || ""}
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "oidcStorage",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th colSpan={2}>{t("oidcStorageOptions")}</th>
-              </tr>
-              <tr>
-                <td colSpan={2}>
-                  <table id="oidcStorageOptions">
-                    <thead>
-                      <tr>
-                        <th>{t("keys")}</th>
-                        <th> {t("values")}</th>
-                        <th>
-                          <IconButton
-                            className="plus"
-                            onClick={() =>
-                              dispatch(newModuleOpt("oidcStorageOptions"))
-                            }
-                          >
-                            <AddCircleIcon color="success" />
-                          </IconButton>
-                        </th>
-                      </tr>
-                    </thead>
-                    <TableVars
-                      appName="oidcStorageOptions"
-                      vars={
-                        config.oidcStorageOptions
-                          ? config.oidcStorageOptions
-                          : {}
-                      }
-                      tableID="oidcStorageOptions"
-                      dispatch={dispatch}
-                      delFunction={delModuleOpt}
-                      updateFunction={updateModuleOpt}
-                    />
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ const theme = createTheme({
 });
 const container = document.getElementById("root")!;
 const script = document.createElement("script");
-script.src = `${process.env.REACT_APP_BASEURL}/psgi.js`;
+//script.src = `/psgi.js`;
 
 document.body.appendChild(script);
 
