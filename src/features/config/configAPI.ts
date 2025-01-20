@@ -1,7 +1,5 @@
 import { llngConfig } from "../../utils/types";
 
-const baseUrl = process.env.REACT_APP_BASEURL;
-
 export function getMetadataConfig(num?: number) {
   try {
     const response = fetch(`/confs/${num ? num : "latest"}`, {
