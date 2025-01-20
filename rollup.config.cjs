@@ -16,7 +16,7 @@ const svgr =require('@svgr/rollup');
 const postcssModules =require('postcss-modules');
 const postcssPresetEnv =require('postcss-preset-env');
 const postcss =require('rollup-plugin-postcss');
-const { terser } =require('rollup-plugin-terser');
+const terser =require('@rollup/plugin-terser');
 const ts = require('@rollup/plugin-typescript');
 
 module.exports = [{
