@@ -66,7 +66,7 @@ module.exports = [{
     //terser(),
     html({
       fileName: 'index.html',
-      title: 'React app built with rollup',
+      title: 'LLNG configuration manager',
       template: ({ attributes, bundle, files, publicPath, title }) => {
         let scripts = '';
         files.js.forEach(bundle => {
