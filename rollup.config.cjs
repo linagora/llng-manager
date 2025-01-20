@@ -25,7 +25,7 @@ module.exports = [{
     dir: 'dist',
     format: 'iife',
     sourcemap: true,
-    entryFileNames: '[name]-[hash].js',
+    entryFileNames: 'static/js/[name]-[hash].js',
     inlineDynamicImports: true,
   },
   plugins: [
