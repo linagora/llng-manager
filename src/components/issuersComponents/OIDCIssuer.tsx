@@ -138,7 +138,6 @@ export function OIDCIssuer() {
                       />
                     </tr>
                     <tr>
-                      {" "}
                       <BoolForm
                         fieldName="oidcServiceAllowImplicitFlow"
                         value={Number(
