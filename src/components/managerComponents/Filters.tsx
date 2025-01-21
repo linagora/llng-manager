@@ -1,5 +1,5 @@
 import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Divider } from "@mui/material";
 import { t } from "i18next";
 import "./Filters.css";
 function FilterToggle({
@@ -26,8 +26,10 @@ function FilterToggle({
         color={filters.alpha ? "primary" : "secondary"}
       >
         <SortByAlphaIcon />
+        <label aria-label="alpha-label" hidden>
+          alpha-label
+        </label>
       </Button>
-      <label>{t("Sort")}</label>
     </div>
   );
 }
