@@ -1,5 +1,6 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
+  Divider,
   FormControl,
   FormControlLabel,
   IconButton,
@@ -243,7 +244,7 @@ export function SimpleAuthParams() {
 
           {optionSelected === "LDAP" && <LDAPSimpleView />}
           {optionSelected === "AD+K" && (
-            <>
+            <div className="app">
               <div className="optionNavbar">
                 <span
                   className={`option ${
@@ -270,10 +271,15 @@ export function SimpleAuthParams() {
                   {t("LDAP")}
                 </span>
               </div>
+              <Divider
+                className="divider"
+                orientation="vertical"
+                variant="middle"
+              />
               {ADKoptionSelected === "AD" && <ADSimpleView />}
               {ADKoptionSelected === "Kerberos" && <KerberosSimpleView />}
               {ADKoptionSelected === "LDAP" && <LDAPSimpleView />}
-            </>
+            </div>
           )}
           {optionSelected === "Demo" && (
             <div className="appDesc">

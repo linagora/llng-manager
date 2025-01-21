@@ -132,7 +132,6 @@ export function CasIssuer() {
                     />
                   </tr>
                   <tr>
-                    {" "}
                     <BoolForm
                       fieldName="casBackChannelSingleLogout"
                       value={Number(

@@ -35,7 +35,6 @@ export function LDAPSimpleView() {
             />
           </tr>
           <tr>
-            {" "}
             <TextForm
               fieldName="managerDn"
               updateFunc={(e: string) =>

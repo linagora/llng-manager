@@ -105,7 +105,7 @@ export function Configuration({
               {t(location.type)}
             </Link>
           </Breadcrumbs>
-          <div>
+          <div className="top">
             <strong className="title">{t("authParams")}</strong>
             <IconButton onClick={() => setAuthSimple(!authSimple)}>
               <TuneIcon />
