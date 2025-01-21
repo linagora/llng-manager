@@ -3,17 +3,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionSummary,
-  FormControl,
-  FormControlLabel,
   IconButton,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
   Divider,
 } from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -25,7 +18,6 @@ import {
 } from "../../features/config/configSlice";
 import OidcKeyForm from "../../forms/OidcKeyForm";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
 import { llngConfig } from "../../utils/types";
 import { TableVars } from "../applicationsComponents/TableVars";
 import TextForm from "../../forms/TextForm";

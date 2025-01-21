@@ -21,7 +21,9 @@ describe("API functions", () => {
     });
 
     await getMetadataConfig();
-    expect(fetch).toHaveBeenCalledWith("/confs/latest");
+    expect(fetch).toHaveBeenCalledWith("/confs/latest", {
+      credentials: "include",
+    });
   });
 
   it("should call getMetadataConfig with the passed num", async () => {
@@ -31,7 +33,9 @@ describe("API functions", () => {
     });
 
     await getMetadataConfig(123);
-    expect(fetch).toHaveBeenCalledWith("/confs/123");
+    expect(fetch).toHaveBeenCalledWith("/confs/123", {
+      credentials: "include",
+    });
   });
 
   it("should call getConfig with the correct URL", async () => {
@@ -41,7 +45,9 @@ describe("API functions", () => {
     });
 
     await getConfig(456);
-    expect(fetch).toHaveBeenCalledWith("/manager.fcgi/confs/456?full=1");
+    expect(fetch).toHaveBeenCalledWith("/manager.fcgi/confs/456?full=1", {
+      credentials: "include",
+    });
   });
 
   it("should call getPartialConfig with the correct URL", async () => {
@@ -51,7 +57,7 @@ describe("API functions", () => {
     });
 
     await getPartialConfig();
-    expect(fetch).toHaveBeenCalledWith("/partial");
+    expect(fetch).toHaveBeenCalledWith("/partial", { credentials: "include" });
   });
 
   it("should call saveConfig with the correct URL and payload", async () => {
@@ -68,6 +74,7 @@ describe("API functions", () => {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(mockConfig),
+        credentials: "include",
       })
     );
   });
@@ -82,11 +89,12 @@ describe("API functions", () => {
 
     await savePartialConfig(mockConfig);
     expect(fetch).toHaveBeenCalledWith(
-      "/partial/raw",
+      "/partial",
       expect.objectContaining({
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(mockConfig),
+        credentials: "include",
       })
     );
   });

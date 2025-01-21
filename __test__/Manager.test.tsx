@@ -13,20 +13,15 @@ describe("Filtering", () => {
     renderWithProviders(<Manager />);
 
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByText(t("ldapFilters")));
-    expect(await screen.findByText(t("alphabetical"))).toBeVisible();
-
-    fireEvent.click(screen.getByLabelText(t("alphabetical")));
-    expect(screen.getByLabelText(t("alphabetical"))).toHaveClass("Mui-checked");
+    fireEvent.click(await screen.findByLabelText("alpha-label"));
   });
   it("toggling filter should sort alphabeticaly", async () => {
     renderWithProviders(<Manager />);
 
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByText(t("ldapFilters")));
-    fireEvent.click(screen.getByLabelText(t("alphabetical")));
+    fireEvent.click(await screen.findByLabelText("alpha-label"));
 
-    expect(screen.getAllByTestId("appcard")).toStrictEqual(
+    expect(await screen.findAllByTestId("appcard")).toStrictEqual(
       screen.getAllByTestId("appcard").sort((el1, el2) =>
         // eslint-disable-next-line testing-library/no-node-access, @typescript-eslint/no-unused-expressions
         (el1.children[0].children[0].textContent

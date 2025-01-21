@@ -22,7 +22,6 @@ export default function BlackWhiteListForm({
   updateFunc: Function;
 }) {
   const attribute = attributes[fieldName as keyof typeof attributes];
-
   return (
     <>
       <Tooltip
@@ -43,7 +42,9 @@ export default function BlackWhiteListForm({
             row
             value={
               value.split(";")[0] ||
-              ("default" in attribute ? attribute.default : 0)
+              ("default" in attribute
+                ? String(attribute.default).split(";")[0]
+                : 0)
             }
             onChange={(e) =>
               updateFunc(
@@ -71,7 +72,9 @@ export default function BlackWhiteListForm({
           placeholder={t(fieldName)}
           value={
             value.split(";")[1] ||
-            ("default" in attribute ? attribute.default : 0)
+            ("default" in attribute
+              ? String(attribute.default).split(";")[1]
+              : 0)
           }
         />
       </td>
