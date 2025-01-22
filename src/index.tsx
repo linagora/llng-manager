@@ -26,7 +26,7 @@ const theme = createTheme({
 });
 const container = document.getElementById("root")!;
 const script = document.createElement("script");
-//script.src = `/psgi.js`;
+script.src = `/psgi.js`;
 
 document.body.appendChild(script);
 

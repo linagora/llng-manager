@@ -9,7 +9,7 @@ Assuming that you already installed all the packages using `npm install`, you ne
 
 ## Warning
 
-This will build the manager assuming your manager url is "manager.example.com". If the base url is different, you need to change in the _package.json_ file the REACT_APP_BASEURL enviroment variable to your url.
+This will build the manager assuming your manager url is "manager.example.com". If the base url is different, you need to change in the _setupProxy.js_ file the proxy to your url.
 
 # Putting the build in the manager
 

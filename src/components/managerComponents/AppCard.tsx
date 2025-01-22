@@ -42,6 +42,7 @@ function AppCard({
   info: {
     name: string;
     config: Record<string, boolean | number | string>;
+    partial?: boolean;
   };
   type: string;
   issuer?: boolean | number;
@@ -108,120 +109,125 @@ function AppCard({
                 <DriveFileRenameOutlineIcon />
               </Button>
 
-              <Button
-                onClick={(e) => {
-                  setOpenDup(true);
-                  e.stopPropagation();
-                  handleClick(e);
-                }}
-              >
-                <ControlPointDuplicateOutlinedIcon />
-              </Button>
+                <Button
+                  onClick={(e) => {
+                    setOpenDup(true);
+                    e.stopPropagation();
+                    handleClick(e);
+                  }}
+                >
+                  <ControlPointDuplicateOutlinedIcon />
+                </Button>
 
-              <Button
-                onClick={(e) => {
-                  setOpenDel(true);
-                  e.stopPropagation();
-                  handleClick(e);
-                }}
-              >
-                <DeleteOutlineOutlinedIcon />
-              </Button>
-            </ButtonGroup>
+                <Button
+                  onClick={(e) => {
+                    setOpenDel(true);
+                    e.stopPropagation();
+                    handleClick(e);
+                  }}
+                >
+                  <DeleteOutlineOutlinedIcon />
+                </Button>
+              </ButtonGroup>
+            )}
           </div>
         </div>
       </div>
-      <Menu
-        id="name-menu"
-        anchorEl={anchorEl}
-        open={openName}
-        onClose={() => {
-          setOpenName(false);
-          setAnchorEl(null);
-        }}
-      >
-        <div>
-          <TextField
-            sx={{ margin: "10px" }}
-            placeholder={t("hostname")}
-            size="small"
-            margin="normal"
-            variant="filled"
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <Button
-            sx={{ verticalAlign: "-28px", margin: "15px" }}
-            variant="outlined"
-            onClick={() => {
-              if (name) {
-                dispatch(changeAppName({ name: info.name, newName: name }));
-                setOpenName(false);
-                setAnchorEl(null);
-              }
+      {info.partial && (
+        <>
+          <Menu
+            id="name-menu"
+            anchorEl={anchorEl}
+            open={openName}
+            onClose={() => {
+              setOpenName(false);
+              setAnchorEl(null);
             }}
           >
-            {t("confirm")}
-          </Button>
-        </div>
-      </Menu>
-      <Menu
-        id="dup-menu"
-        anchorEl={anchorEl}
-        open={openDup}
-        onClose={() => {
-          setOpenDup(false);
-          setAnchorEl(null);
-        }}
-      >
-        <TextField
-          sx={{ margin: "10px" }}
-          placeholder={t("hostname")}
-          size="small"
-          margin="normal"
-          variant="filled"
-          type="text"
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Button
-          sx={{ verticalAlign: "-28px", margin: "10px" }}
-          variant="outlined"
-          onClick={() => {
-            if (name) {
-              dispatch(dupApp({ oldName: info.name, newAppName: name }));
+            <div>
+              <TextField
+                sx={{ margin: "10px" }}
+                placeholder={t("hostname")}
+                size="small"
+                margin="normal"
+                variant="filled"
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+              />
+              <Button
+                sx={{ verticalAlign: "-28px", margin: "15px" }}
+                variant="outlined"
+                onClick={() => {
+                  if (name) {
+                    dispatch(changeAppName({ name: info.name, newName: name }));
+                    setOpenName(false);
+                    setAnchorEl(null);
+                  }
+                }}
+              >
+                {t("confirm")}
+              </Button>
+            </div>
+          </Menu>
+          <Menu
+            id="dup-menu"
+            anchorEl={anchorEl}
+            open={openDup}
+            onClose={() => {
               setOpenDup(false);
               setAnchorEl(null);
-            }
-          }}
-        >
-          {t("confirm")}
-        </Button>
-      </Menu>
-      <Menu
-        id="del-menu"
-        anchorEl={anchorEl}
-        open={openDel}
-        onClose={() => {
-          setOpenDel(false);
-          setAnchorEl(null);
-        }}
-      >
-        <div>
-          <label style={{ margin: "10px" }}>Are You Sure?</label>
-
-          <Button
-            sx={{ margin: "10px" }}
-            variant="outlined"
-            onClick={() => {
-              dispatch(delApp({ name: info.name, type }));
+            }}
+          >
+            <TextField
+              sx={{ margin: "10px" }}
+              placeholder={t("hostname")}
+              size="small"
+              margin="normal"
+              variant="filled"
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <Button
+              sx={{ verticalAlign: "-28px", margin: "10px" }}
+              variant="outlined"
+              onClick={() => {
+                if (name) {
+                  dispatch(dupApp({ oldName: info.name, newAppName: name }));
+                  setOpenDup(false);
+                  setAnchorEl(null);
+                }
+              }}
+            >
+              {t("confirm")}
+            </Button>
+          </Menu>
+          <Menu
+            id="del-menu"
+            anchorEl={anchorEl}
+            open={openDel}
+            onClose={() => {
               setOpenDel(false);
               setAnchorEl(null);
             }}
           >
-            {t("confirm")}
-          </Button>
-        </div>
-      </Menu>
+            <div>
+              <label style={{ margin: "10px" }}>Are You Sure?</label>
+
+              <Button
+                sx={{ margin: "10px" }}
+                variant="outlined"
+                onClick={() => {
+                  dispatch(delApp({ name: info.name, type }));
+                  setOpenDel(false);
+                  setAnchorEl(null);
+                }}
+              >
+                {t("confirm")}
+              </Button>
+            </div>
+          </Menu>
+        </>
+      )}
     </>
   );
 }

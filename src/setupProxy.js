@@ -3,6 +3,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const rewriteFn = function (path, req) {
   return path;
 };
+const target = "http://manager.example.com:19876";
 
 module.exports = function (app) {
   app.use(
@@ -41,13 +42,13 @@ module.exports = function (app) {
       pathRewrite: { "^/": "/prx/" },
     })
   );
-  // app.use(
-  //   "/static",
-  //   createProxyMiddleware({
-  //     target: "http://manager.example.com:19876",
-  //     changeOrigin: true,
-  //     logger: console,
-  //     pathRewrite: { "^/": "/static/" },
-  //   })
-  // );
+  app.use(
+    "/psgi.js",
+    createProxyMiddleware({
+      target: "http://manager.example.com:19876",
+      changeOrigin: true,
+      logger: console,
+      pathRewrite: { "^/": "/psgi.js", "^/psgi.js": "/psgi.js" },
+    })
+  );
 };
