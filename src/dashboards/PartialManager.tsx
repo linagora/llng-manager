@@ -140,6 +140,7 @@ export default function PartialManager() {
                   config: config.data.config.oidcRPMetaDataOptions
                     ? config.data.config.oidcRPMetaDataOptions[key]
                     : {},
+                  partial: true,
                 }}
                 issuer={config.data.config.issuerDBOpenIDConnectActivation}
                 rule={ruleOIDC(
