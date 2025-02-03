@@ -121,10 +121,12 @@ const configSlice = createSlice({
       }
       if (state.data.config.vhostOptions[action.payload]) {
         state.data.config.vhostOptions[action.payload].vhostMaintenance =
-          !state.data.config.vhostOptions[action.payload].vhostMaintenance;
+          Number(
+            !state.data.config.vhostOptions[action.payload].vhostMaintenance
+          );
       } else {
         state.data.config.vhostOptions[action.payload] = {
-          vhostMaintenance: true,
+          vhostMaintenance: 1,
         };
       }
     },
@@ -1400,9 +1402,9 @@ const configSlice = createSlice({
                   Record<string, number>
                 >
               )[key].order
-              ? true
-              : false
-            : false
+              ? 1
+              : 0
+            : 0
         )
         .sort((key1, key2) => {
           if (state.data.config.applicationList) {
@@ -1493,9 +1495,9 @@ const configSlice = createSlice({
                     action.payload.category
                   ] as Record<string, Record<string, number>>
                 )[key].order
-                ? true
-                : false
-              : false
+                ? 1
+                : 0
+              : 0
           )
           .sort((key1, key2) => {
             if (state.data.config.applicationList) {
