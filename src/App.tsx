@@ -20,7 +20,7 @@ function App({ htmlName }: { htmlName?: string }) {
         <Navbar partial={partial} />
         <Routes>
           <Route
-            path={htmlName ? htmlName : "index.html"}
+            path={"/"}
             element={
               partial ? (
                 <PartialConfiguration

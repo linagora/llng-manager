@@ -47,11 +47,9 @@ export default {
         ? JSON.stringify('development')
         : JSON.stringify('production'),
       preventAssignment: true,
+      'process.env.REACT_APP_HTMLNAME': '""',
+
     }),  
-    replace({
-      'process.env.HTMLNAME': '',
-      preventAssignment: true,
-    }),
     typescript({
       tsconfig: './tsconfig.build.json',
       declaration: true,
@@ -73,7 +71,7 @@ export default {
     }),
     //terser(),
     html({
-      fileName: 'index.html',
+      fileName: 'manager.html',
       title: 'React app built with rollup',
       template: ({ attributes, bundle, files, publicPath, title }) => {
         let scripts = '';
@@ -93,6 +91,5 @@ export default {
       },
     }),
     // terser(),
-  ],  external: ['react', 'react-dom'],
-
+  ]
 };
