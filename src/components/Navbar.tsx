@@ -16,6 +16,7 @@ import { push } from "redux-first-history";
 import { useAppDispatch } from "../app/hooks";
 import i18n from "../i18n";
 import "./NavBar.css";
+import logo from "../static/llng-logo-32.png";
 
 function Navbar({ partial }: { partial?: number }) {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ function Navbar({ partial }: { partial?: number }) {
       <Toolbar>
         <Typography>
           <img
-            src={require("../static/llng-logo-32.png")}
+            src={logo}
             alt="LemonLogo"
             style={{ backgroundColor: "white" }}
           />
