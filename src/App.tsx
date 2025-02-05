@@ -18,11 +18,7 @@ function App({ htmlName }: { htmlName?: string }) {
     <Suspense fallback="loading">
       <Router history={history}>
         <Navbar partial={partial} />
-        <Routes>
-          <Route
-            path={"/"}
-            element={
-              partial ? (
+                   { partial ? (
                 <PartialConfiguration
                   location={{
                     type: infos ? infos[0] : "",
@@ -48,8 +44,6 @@ function App({ htmlName }: { htmlName?: string }) {
                 />
               )
             }
-          />
-        </Routes>
       </Router>
     </Suspense>
   );

@@ -4,28 +4,28 @@
  * @copyright Yadd <yadd@debian.org>
  * license MIT
  */
-import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
-import html from '@rollup/plugin-html';
-import image from '@rollup/plugin-image';
-import inject from '@rollup/plugin-inject';
-import json from '@rollup/plugin-json'
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import replace from '@rollup/plugin-replace';
-import svgr from '@svgr/rollup';
-import postcssModules from 'postcss-modules'
-import postcssPresetEnv from 'postcss-preset-env'
-import postcss from 'rollup-plugin-postcss';
-import { terser } from 'rollup-plugin-terser';
-import typescript from '@rollup/plugin-typescript';
+import babel from "@rollup/plugin-babel";
+import commonjs from "@rollup/plugin-commonjs";
+import html from "@rollup/plugin-html";
+import image from "@rollup/plugin-image";
+import inject from "@rollup/plugin-inject";
+import json from "@rollup/plugin-json";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
+import svgr from "@svgr/rollup";
+import postcssModules from "postcss-modules";
+import postcssPresetEnv from "postcss-preset-env";
+import postcss from "rollup-plugin-postcss";
+import typescript from "@rollup/plugin-typescript";
+import { terser } from "rollup-plugin-terser";
 
 export default {
-  input: ['src/index.tsx'],
+  input: ["src/index.tsx"],
   output: {
-    dir: 'dist',
-    format: 'iife',
+    dir: "dist",
+    format: "iife",
     sourcemap: true,
-    entryFileNames: '[name]-[hash].js',
+    entryFileNames: "[name]-[hash].js",
     inlineDynamicImports: true,
   },
   plugins: [
@@ -33,32 +33,31 @@ export default {
     image(),
     nodeResolve({
       browser: true,
-      extensions: ['.js', '.ts', '.jsx', '.tsx'],
-    }),   
-     babel({
-      // exclude: 'node_modules/**',
-      presets: ['@babel/env', '@babel/preset-react'],
-      plugins: ['@babel/plugin-transform-react-jsx'],
-      babelHelpers: 'bundled',
+      extensions: [".js", ".ts", ".jsx", ".tsx"],
+    }),
+    babel({
+      presets: ["@babel/env", "@babel/preset-react"],
+      plugins: ["@babel/plugin-transform-react-jsx"],
+      babelHelpers: "bundled",
     }),
     json(),
     replace({
-      'process.env.NODE_ENV': process.env.NODE_ENV === 'development'
-        ? JSON.stringify('development')
-        : JSON.stringify('production'),
+      "process.env.NODE_ENV":
+        process.env.NODE_ENV === "development"
+          ? JSON.stringify("development")
+          : JSON.stringify("production"),
       preventAssignment: true,
-      'process.env.REACT_APP_HTMLNAME': '""',
-
-    }),  
+      "process.env.REACT_APP_HTMLNAME": '""',
+    }),
     typescript({
-      tsconfig: './tsconfig.build.json',
+      tsconfig: "./tsconfig.build.json",
       declaration: true,
-      declarationDir: 'dist',
+      declarationDir: "dist",
     }),
     postcss({
       plugins: [
         postcssModules({
-          generateScopedName: '[local]',
+          generateScopedName: "[local]",
         }),
         postcssPresetEnv({
           stage: 0,
@@ -67,15 +66,14 @@ export default {
     }),
     commonjs(),
     inject({
-      React: 'react',
+      React: "react",
     }),
-    //terser(),
     html({
-      fileName: 'manager.html',
-      title: 'React app built with rollup',
+      fileName: "index.html",
+      title: "React app built with rollup",
       template: ({ attributes, bundle, files, publicPath, title }) => {
-        let scripts = '';
-        files.js.forEach(bundle => {
+        let scripts = "";
+        files.js.forEach((bundle) => {
           scripts += `<script src="${bundle.fileName}"></script>`;
         });
         return `<!DOCTYPE html>
