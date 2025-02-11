@@ -10,7 +10,7 @@ export default function CasAppMetaDataNodeForm({
 }) {
   return (
     <>
-      <th className="title3">{t("casAppName")}</th>
+      <th >{t("casAppName")}</th>
       <td>
         <TextField
           size="small"

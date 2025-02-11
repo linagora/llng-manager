@@ -47,7 +47,7 @@ export default function GrantContainerForm({
           </Markdown>
         }
       >
-        <th className="title3">{t(fieldName)}</th>
+        <th >{t(fieldName)}</th>
       </Tooltip>
       <td>
         <table id="grantTable">

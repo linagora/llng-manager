@@ -10,7 +10,7 @@ export default function SamlSPMetaDataNodeForm({
 }) {
   return (
     <>
-      <th className="title3">{t("samlSPName")}</th>
+      <th >{t("samlSPName")}</th>
       <td>
         <TextField
           size="small"

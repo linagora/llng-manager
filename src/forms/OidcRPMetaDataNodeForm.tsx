@@ -10,7 +10,7 @@ export default function OidcRPMetaDataNodeForm({
 }) {
   return (
     <>
-      <th className="title3">{t("oidcRPName")}</th>
+      <th >{t("oidcRPName")}</th>
       <td>
         <TextField
           size="small"

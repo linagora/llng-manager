@@ -10,7 +10,7 @@ export default function VirtualHostForm({
 }) {
   return (
     <>
-      <th className="title3">{t("vHostName")}</th>
+      <th >{t("vHostName")}</th>
       <td>
         <TextField
           size="small"
