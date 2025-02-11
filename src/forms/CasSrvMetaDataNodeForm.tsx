@@ -10,7 +10,7 @@ export default function CasSrvMetaDataNodeForm({
 }) {
   return (
     <>
-      <th className="title3">{t("casSrvName")}</th>
+      <th >{t("casSrvName")}</th>
       <td>
         <TextField
           size="small"

@@ -1,12 +1,6 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
-  Divider,
-  FormControl,
-  FormControlLabel,
-  IconButton,
-  Radio,
-  RadioGroup,
-  Tooltip,
+  Divider, IconButton, Tooltip
 } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
@@ -28,6 +22,7 @@ import { TableVars } from "./TableVars";
 import TextForm from "../../forms/TextForm";
 import IntForm from "../../forms/IntForm";
 import LongtextForm from "../../forms/LongtextForm";
+import TroolForm from "../../forms/TroolForm";
 
 export function CasApp({ name }: { name: string }) {
   const vars =
@@ -225,57 +220,26 @@ export function CasApp({ name }: { name: string }) {
                     />
                   </tr>
                   <tr>
-                    <Tooltip
-                      title={
-                        <Markdown>
-                          {definitions.casAppMetaDataOptionsLogout
-                            ? definitions.casAppMetaDataOptionsLogout
-                            : ""}
-                        </Markdown>
-                      }
-                    >
-                      <th>{t("casAppMetaDataOptionsLogout")}</th>
-                    </Tooltip>
-                    <td>
-                      <FormControl>
-                        <RadioGroup
-                          row
-                          value={
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
-                              undefined &&
-                            casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
-                              null
-                              ? casAppMetaDataOptions.casAppMetaDataOptionsLogout
-                              : attributes.casAppMetaDataOptionsLogout.default
-                          }
-                          onChange={(e) => {
-                            dispatch(
-                              updateCASOptions({
-                                name,
-                                option: "casAppMetaDataOptionsLogout",
-                                value: Number(e.target.value),
-                              })
-                            );
-                          }}
-                        >
-                          <FormControlLabel
-                            value={1}
-                            control={<Radio />}
-                            label={t("on")}
-                          />
-                          <FormControlLabel
-                            value={0}
-                            control={<Radio />}
-                            label={t("off")}
-                          />
-                          <FormControlLabel
-                            value={-1}
-                            control={<Radio />}
-                            label={t("default")}
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </td>
+                    <TroolForm
+                      fieldName="casAppMetaDataOptionsLogout"
+                      value={Number(
+                        casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                          undefined &&
+                          casAppMetaDataOptions.casAppMetaDataOptionsLogout !==
+                            null
+                          ? casAppMetaDataOptions.casAppMetaDataOptionsLogout
+                          : attributes.casAppMetaDataOptionsLogout.default
+                      )}
+                      updateFunc={(e: number) => {
+                        dispatch(
+                          updateCASOptions({
+                            name,
+                            option: "casAppMetaDataOptionsLogout",
+                            value: Number(e),
+                          })
+                        );
+                      }}
+                    />
                   </tr>
                   <tr>
                     <IntForm

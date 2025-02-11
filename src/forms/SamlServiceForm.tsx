@@ -33,7 +33,6 @@ export default function SamlServiceForm({
             <TextField
               size="small"
               margin="normal"
-              variant="filled"
               className="form"
               value={value?.split(";")[1] || ""}
               onChange={(e) =>
@@ -55,7 +54,6 @@ export default function SamlServiceForm({
             <TextField
               size="small"
               margin="normal"
-              variant="filled"
               className="form"
               value={value?.split(";")[2] || ""}
               onChange={(e) =>
