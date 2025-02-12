@@ -13,6 +13,13 @@ th {
   padding: 1%;
 }
 
+.head {
+  display: flex;
+  flex-direction: column;
+  background-color: #d6d6d6;
+  padding-left: 2vw;
+}
+
 .desc {
   display: flex;
   flex-direction: row;
