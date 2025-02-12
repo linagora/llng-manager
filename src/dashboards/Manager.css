@@ -21,6 +21,7 @@
   flex-flow: row;
   align-items: center;
   padding: 2vw;
+  background-color: #d6d6d6;
 }
 
 .title {
@@ -29,7 +30,8 @@
 .title2 {
   font-size: larger;
   padding: 15px;
-text-align: left;}
+  text-align: left;
+}
 .title3 {
   font-size: large;
   padding: 15px;

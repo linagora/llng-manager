@@ -14,7 +14,7 @@
   flex-direction: row;
 }
 
-.box{
+.box {
   height: 80vh;
   overflow-y: scroll;
 }
@@ -112,8 +112,4 @@ textarea {
   display: flex;
   justify-content: space-between;
   padding: 20px;
-}
-
-.top {
-  background-color: #d6d6d6;
 }

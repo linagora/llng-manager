@@ -55,119 +55,116 @@ export function HomePage() {
       return (
         <>
           <div>
-            <div>
-              <img
-                className="logo"
-                src={require("./../static/logo_llng_400px.png")}
-                alt="logo"
-              />
-            </div>
-            <strong className="title1">{t("Configuration Manager")}</strong>
-          </div>
-          <div className="search-container">
-            <div className="search">
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<DownloadIcon />}
-                onClick={async () =>
-                  await exportData("full", config.data.metadata.cfgNum)
-                }
-              >
-                {t("downloadIt")}
-              </Button>
-            </div>
-            <div className="search">
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-              >
-                {t("restore")}
-                <VisuallyHiddenInput
-                  type="file"
-                  onChange={(e) => {
-                    if (e.target instanceof HTMLInputElement) {
-                      handleChangeFile(e as ChangeEvent<HTMLInputElement>).then(
-                        (fileContent) => {
-                          console.debug("File content:", fileContent);
+            <div className="head">
+              <div>
+                <strong className="title">{t("Configuration Manager")}</strong>
+              </div>
+              <div className="search-container">
+                <div className="search">
+                  <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<DownloadIcon />}
+                    onClick={async () =>
+                      await exportData("full", config.data.metadata.cfgNum)
+                    }
+                  >
+                    {t("downloadIt")}
+                  </Button>
+                </div>
+                <div className="search">
+                  <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    {t("restore")}
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={(e) => {
+                        if (e.target instanceof HTMLInputElement) {
+                          handleChangeFile(
+                            e as ChangeEvent<HTMLInputElement>
+                          ).then((fileContent) => {
+                            console.debug("File content:", fileContent);
+                            dispatch(
+                              saveConfigAsync(
+                                JSON.parse(fileContent) as llngConfig
+                              )
+                            );
+                            setOpenSavePopup(true);
+                          });
+                        }
+                      }}
+                    />
+                  </Button>
+                </div>
+                <div className="search">
+                  <Button
+                    variant="contained"
+                    onClick={() => dispatch(push(`#authParams/latest`))}
+                  >
+                    {t("authParams")}
+                  </Button>
+                </div>
+                <div className="search">
+                  <Button
+                    variant="contained"
+                    onClick={() => dispatch(push(`#tree/latest`))}
+                  >
+                    {t("tree")}
+                  </Button>
+                </div>
+                <div className="search">
+                  <TextField
+                    type="number"
+                    size="small"
+                    error={Boolean(aimedConf && aimedConf <= 0)}
+                    helperText={`${"Enter only positive and non nul numbers"}`}
+                    placeholder={t("search config num")}
+                    onChange={(e) => SetAimedConf(Number(e.target.value))}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        if (
+                          0 <= aimedConf &&
+                          aimedConf <= config.data.metadata.cfgNum
+                        ) {
+                          dispatch(push(`#conf/${aimedConf}`));
+                        } else {
                           dispatch(
-                            saveConfigAsync(
-                              JSON.parse(fileContent) as llngConfig
+                            setError(
+                              `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
                             )
                           );
-                          setOpenSavePopup(true);
                         }
-                      );
-                    }
-                  }}
-                />
-              </Button>
-            </div>
-            <div className="search">
-              <Button
-                variant="contained"
-                onClick={() => dispatch(push(`#authParams/latest`))}
-              >
-                {t("authParams")}
-              </Button>
-            </div>
-            <div className="search">
-              <Button
-                variant="contained"
-                onClick={() => dispatch(push(`#tree/latest`))}
-              >
-                {t("tree")}
-              </Button>
-            </div>
-            <div className="search">
-              <TextField
-                type="number"
-                size="small"
-                error={Boolean(aimedConf && aimedConf <= 0)}
-                helperText={`${"Enter only positive and non nul numbers"}`}
-                placeholder={t("search config num")}
-                onChange={(e) => SetAimedConf(Number(e.target.value))}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    if (
-                      0 <= aimedConf &&
-                      aimedConf <= config.data.metadata.cfgNum
-                    ) {
-                      dispatch(push(`#conf/${aimedConf}`));
-                    } else {
-                      dispatch(
-                        setError(
-                          `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
-                        )
-                      );
-                    }
-                  }
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={() => {
-                  if (
-                    0 <= aimedConf &&
-                    aimedConf <= config.data.metadata.cfgNum
-                  ) {
-                    dispatch(push(`#conf/${aimedConf}`));
-                  } else {
-                    dispatch(
-                      setError(
-                        `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
-                      )
-                    );
-                  }
-                }}
-              >
-                {t("go")}
-              </Button>
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      if (
+                        0 <= aimedConf &&
+                        aimedConf <= config.data.metadata.cfgNum
+                      ) {
+                        dispatch(push(`#conf/${aimedConf}`));
+                      } else {
+                        dispatch(
+                          setError(
+                            `Wrong config number :${aimedConf}, try latest : ${config.data.metadata.cfgNum}`
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    {t("go")}
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
           <div className="desc">
@@ -215,16 +212,9 @@ export function HomePage() {
                     </th>
                     <td>{config.data.metadata.cfgAuthorIP}</td>
                   </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="descBox">
-              <table className="infoTable">
-                <tbody>
                   <tr>
                     <th>{t("cfgLog")}</th>
-                  </tr>
-                  <tr>
+
                     <td>{config.data.config.cfgLog}</td>
                   </tr>
                 </tbody>
