@@ -20,7 +20,7 @@ export interface ConfigState {
   loading: boolean;
   error: { has: boolean; errorContent: string };
   data: { metadata: MetaData; config: llngConfig };
-  saveResponse?: Record<string, Array<Record<string, string>>>;
+  saveResponse?: Record<string, Record<string, Array<Record<string, string>>>>;
 }
 
 export const initialState: ConfigState = {
@@ -148,10 +148,6 @@ const configSlice = createSlice({
       }
       state.data.config.issuerDBCASActivation =
         1 - Number(state.data.config.issuerDBCASActivation);
-      console.log(
-        state.data.config.issuerDBCASActivation,
-        1 - Number(state.data.config.issuerDBCASActivation)
-      );
     },
     toggleOID2(state) {
       if (!state.data.config.issuerDBOpenIDActivation) {
@@ -1436,23 +1432,8 @@ const configSlice = createSlice({
           Record<string, number>
         >
       )[action.payload.category].order;
-      console.log(state);
       if (appIndex === -1) return;
       if (action.payload.direction === "up" && appIndex > 0) {
-        console.log(
-          (
-            state.data.config.applicationList as Record<
-              string,
-              Record<string, number>
-            >
-          )[categories[appIndex]],
-          (
-            state.data.config.applicationList as Record<
-              string,
-              Record<string, number>
-            >
-          )[categories[appIndex - 1]]
-        );
         (
           state.data.config.applicationList as Record<
             string,
@@ -1628,6 +1609,7 @@ const configSlice = createSlice({
         saveConfigAsync.fulfilled,
         (state: ConfigState, action: PayloadAction<any>) => {
           state.loading = false;
+          console.log(action.payload);
           state.saveResponse = action.payload;
         }
       )

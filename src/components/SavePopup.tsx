@@ -37,7 +37,7 @@ export function SavePopup({
               <>
                 <strong>{t("warnings")}</strong>
                 <span>
-                  {config.saveResponse.__warnings__?.map(
+                  {config.saveResponse.details.__warnings__?.map(
                     (el: Record<string, string>) => (
                       <ul key={el.message}>{el.message}</ul>
                     )
@@ -47,11 +47,11 @@ export function SavePopup({
             ) : (
               ""
             )}
-            {config.saveResponse.__errors__ ? (
+            {config.saveResponse.details.__errors__ ? (
               <>
                 <strong>{t("errors")}</strong>
                 <span>
-                  {config.saveResponse.__errors__?.map(
+                  {config.saveResponse.details.__errors__?.map(
                     (el: Record<string, string>) => (
                       <ul key={el.message}>{el.message}</ul>
                     )
@@ -70,7 +70,9 @@ export function SavePopup({
 
       <Button
         onClick={() => {
-          dispatch(partial ? getPartialConfigAsync() : getConfigAsync());
+          if (!config.saveResponse?.details.__errors__) {
+            dispatch(partial ? getPartialConfigAsync() : getConfigAsync());
+          }
           setOpenSavePopup(false);
         }}
       >
