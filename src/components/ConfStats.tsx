@@ -25,7 +25,11 @@ export function ConfStats({ config }: { config: llngConfig }) {
             data: [
               {
                 id: 1,
-                label: t("saml"),
+                label: `${t("saml")} (${
+                  config.samlSPMetaDataXML
+                    ? Object.keys(config.samlSPMetaDataXML).length
+                    : 0
+                })`,
                 value: config.samlSPMetaDataXML
                   ? Object.keys(config.samlSPMetaDataXML).length
                   : 0,
@@ -33,7 +37,11 @@ export function ConfStats({ config }: { config: llngConfig }) {
               },
               {
                 id: 2,
-                label: t("virtualHost"),
+                label: `${t("virtualHost")} (${
+                  config.locationRules
+                    ? Object.keys(config.locationRules).length
+                    : 0
+                })`,
                 value: config.locationRules
                   ? Object.keys(config.locationRules).length
                   : 0,
@@ -41,7 +49,11 @@ export function ConfStats({ config }: { config: llngConfig }) {
               },
               {
                 id: 3,
-                label: t("oidc"),
+                label: `${t("oidc")} (${
+                  config.oidcRPMetaDataOptions
+                    ? Object.keys(config.oidcRPMetaDataOptions).length
+                    : 0
+                })`,
                 value: config.oidcRPMetaDataOptions
                   ? Object.keys(config.oidcRPMetaDataOptions).length
                   : 0,
@@ -49,7 +61,11 @@ export function ConfStats({ config }: { config: llngConfig }) {
               },
               {
                 id: 4,
-                label: t("cas"),
+                label: `${t("cas")} (${
+                  config.casAppMetaDataOptions
+                    ? Object.keys(config.casAppMetaDataOptions).length
+                    : 0
+                })`,
                 value: config.casAppMetaDataOptions
                   ? Object.keys(config.casAppMetaDataOptions).length
                   : 0,
@@ -60,7 +76,7 @@ export function ConfStats({ config }: { config: llngConfig }) {
           },
         ]}
         height={200}
-        width={400}
+        width={425}
       />
     </div>
   );
