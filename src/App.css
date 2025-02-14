@@ -13,6 +13,7 @@
   padding-top: 1vw;
   padding-left: 2vw;
   background-color: #d6d6d6;
+  cursor: pointer;
 }
 
 @media (max-width: 500px) {
