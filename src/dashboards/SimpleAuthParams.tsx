@@ -73,22 +73,22 @@ export function SimpleAuthParams() {
     if (
       authModule === "Demo" &&
       userDB === "Same" &&
-      registerDB === "Demo" &&
-      passwordDB === "Demo"
+      (registerDB === "Demo" || registerDB === "Null") &&
+      (passwordDB === "Demo" || passwordDB === "Null")
     ) {
       setOptionSelected("Demo");
     } else if (
       authModule === "LDAP" &&
       userDB === "Same" &&
-      registerDB === "LDAP" &&
-      passwordDB === "LDAP"
+      (registerDB === "LDAP" || registerDB === "Null") &&
+      (passwordDB === "LDAP" || passwordDB === "Null")
     ) {
       setOptionSelected("LDAP");
     } else if (
       authModule === "Kerberos" &&
       userDB === "AD" &&
-      registerDB === "AD" &&
-      passwordDB === "AD"
+      (registerDB === "AD" || registerDB === "Null") &&
+      (passwordDB === "AD" || passwordDB === "Null")
     ) {
       setOptionSelected("AD+K");
     } else {
@@ -197,12 +197,21 @@ export function SimpleAuthParams() {
             label={t("passwordDB")}
             onClick={() => {
               if (passwordDB === "Null") {
-                dispatch(
-                  updateAuthParams({
-                    param: "passwordDB",
-                    value: authModule ? authModule : "Null",
-                  })
-                );
+                if (authModule === "Kerberos") {
+                  dispatch(
+                    updateAuthParams({
+                      param: "passwordDB",
+                      value: authModule ? "AD" : "Null",
+                    })
+                  );
+                } else {
+                  dispatch(
+                    updateAuthParams({
+                      param: "passwordDB",
+                      value: authModule ? authModule : "Null",
+                    })
+                  );
+                }
               } else {
                 dispatch(
                   updateAuthParams({
@@ -219,12 +228,21 @@ export function SimpleAuthParams() {
             checked={registerDB !== "Null"}
             onClick={() => {
               if (registerDB === "Null") {
-                dispatch(
-                  updateAuthParams({
-                    param: "registerDB",
-                    value: authModule ? authModule : "Null",
-                  })
-                );
+                if (authModule === "Kerberos") {
+                  dispatch(
+                    updateAuthParams({
+                      param: "registerDB",
+                      value: authModule ? "AD" : "Null",
+                    })
+                  );
+                } else {
+                  dispatch(
+                    updateAuthParams({
+                      param: "registerDB",
+                      value: authModule ? authModule : "Null",
+                    })
+                  );
+                }
               } else {
                 dispatch(
                   updateAuthParams({

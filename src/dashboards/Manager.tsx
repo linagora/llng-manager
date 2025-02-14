@@ -73,7 +73,7 @@ export default function Manager() {
         </div>
       );
     } else {
-      const renderedData: JSX.Element[] = [];
+      var renderedData: JSX.Element[] = [];
       if (config.data.config.locationRules) {
         renderedData.push(
           ...Object.keys(config.data.config.locationRules).map((key) => (
@@ -161,7 +161,7 @@ export default function Manager() {
           )
         );
       }
-      renderedData.filter((el) => {
+      renderedData = renderedData.filter((el) => {
         return String(el.props.info.name).includes(filters.search);
       });
 

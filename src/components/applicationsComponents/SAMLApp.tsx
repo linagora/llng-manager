@@ -170,6 +170,8 @@ export function SAMLApp({
                   value={
                     data.samlSPMetaDataExportedAttributes
                       ? data.samlSPMetaDataExportedAttributes[name]
+                        ? data.samlSPMetaDataExportedAttributes[name]
+                        : {}
                       : {}
                   }
                   appName={name}
