@@ -14,15 +14,13 @@
   flex-direction: row;
 }
 
-.box {
-  height: 80vh;
-  overflow-y: scroll;
-}
-
 .appDesc {
   margin: 2%;
   border-radius: 15px;
   flex-wrap: wrap;
+  height: 75vh;
+  overflow-y: scroll;
+  width: 100vw;
 }
 
 .divider {
@@ -33,6 +31,10 @@
   text-align: left;
   flex-wrap: wrap;
   border-bottom: 1px solid #acacac;
+}
+
+.box tbody {
+  border-bottom: 2px solid #3f3f3f;
 }
 
 .box td {
