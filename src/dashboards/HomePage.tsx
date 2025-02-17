@@ -130,7 +130,7 @@ export function HomePage() {
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         if (
-                          0 <= aimedConf &&
+                          0 < aimedConf &&
                           aimedConf <= config.data.metadata.cfgNum
                         ) {
                           dispatch(push(`#conf/${aimedConf}`));
@@ -148,7 +148,7 @@ export function HomePage() {
                     variant="contained"
                     onClick={() => {
                       if (
-                        0 <= aimedConf &&
+                        0 < aimedConf &&
                         aimedConf <= config.data.metadata.cfgNum
                       ) {
                         dispatch(push(`#conf/${aimedConf}`));
