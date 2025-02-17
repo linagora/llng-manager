@@ -146,10 +146,30 @@ function OptionMenu() {
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
       >
-        <MenuItem onClick={() => console.debug("portal")}>
+        <MenuItem
+          onClick={() => {
+            (window as any).menulinks.map(
+              (el: { title: string; target: string }) => {
+                if (el.title === "backtoportal") {
+                  window.location.href = el.target;
+                }
+              }
+            );
+          }}
+        >
           {t("backtoportal")}
         </MenuItem>
-        <MenuItem onClick={() => console.debug("logout")}>
+        <MenuItem
+          onClick={() => {
+            (window as any).menulinks.map(
+              (el: { title: string; target: string }) => {
+                if (el.title === "logout") {
+                  window.location.href = el.target;
+                }
+              }
+            );
+          }}
+        >
           {t("logout")}
         </MenuItem>
         <Divider />
