@@ -1,11 +1,12 @@
 import "@testing-library/jest-dom/extend-expect";
 import { fireEvent, screen, within } from "@testing-library/react";
-import axios from "axios";
 import { t } from "i18next";
 import { IssuerAssistant } from "../src/components/managerComponents/IssuerAssistant";
 import Manager from "../src/dashboards/Manager";
 import { renderWithProviders } from "../src/utils/test-utils";
-jest.mock("axios");
+import preview from "jest-preview";
+
+global.fetch = jest.fn();
 
 describe("Filtering", () => {
   it("click should toggle filter", async () => {
@@ -149,12 +150,15 @@ describe("IssuerAssistants", () => {
   it("toggles saml assistant", async () => {
     renderWithProviders(<Manager />);
     const samlSwitch = screen.getByTestId("issuer.toggle.saml");
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
-    // eslint-disable-next-line testing-library/no-node-access
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    ); // eslint-disable-next-line testing-library/no-node-access
+
     const switchInput = samlSwitch.querySelector('input[role="switch"]');
+
     expect(samlSwitch).not.toHaveClass("Mui-checked");
 
     samlSwitch.click();
@@ -164,6 +168,7 @@ describe("IssuerAssistants", () => {
 
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.click(screen.getByText(t("newRSAKey")));
+    preview.debug();
     expect(await screen.findByDisplayValue("public")).toBeDefined();
     expect(await screen.findByDisplayValue("hash")).toBeDefined();
     expect(await screen.findByDisplayValue("private")).toBeDefined();
@@ -198,10 +203,12 @@ describe("IssuerAssistants", () => {
       />
     );
 
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    );
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.click(screen.getByText(t("newRSAKey")));
@@ -234,10 +241,12 @@ describe("IssuerAssistants", () => {
       />
     );
 
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    );
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.change(

@@ -7,34 +7,43 @@ import { useAppSelector } from "./app/hooks";
 import { history } from "./app/store";
 import Navbar from "./components/Navbar";
 import { Configuration } from "./pages/Configuration";
+import { PartialConfiguration } from "./pages/PartialConfiguration";
 
-function App() {
+function App({ htmlName }: { htmlName?: string }) {
   useTranslation();
   const location = useAppSelector((state) => state.router.location);
   const infos = location?.hash.replace("#", "").split("/");
-
+  const partial = htmlName === "partial.html" ? 1 : 0;
   return (
     <Suspense fallback="loading">
       <Router history={history}>
-        <Navbar />
-        <Routes>
-          <Route
-            path="manager.html"
-            element={
-              <Configuration
-                location={{
-                  type: infos ? infos[0] : "",
-                  info: infos
-                    ? {
-                        name: infos.length === 3 ? infos[2] : infos[1],
-                        type: infos.length === 3 ? infos[1] : "",
-                      }
-                    : { name: "", type: "" },
-                }}
-              />
+        <Navbar partial={partial} />
+                   { partial ? (
+                <PartialConfiguration
+                  location={{
+                    type: infos ? infos[0] : "",
+                    info: infos
+                      ? {
+                          name: infos.length === 3 ? infos[2] : infos[1],
+                          type: infos.length === 3 ? infos[1] : "",
+                        }
+                      : { name: "", type: "" },
+                  }}
+                />
+              ) : (
+                <Configuration
+                  location={{
+                    type: infos ? infos[0] : "",
+                    info: infos
+                      ? {
+                          name: infos.length === 3 ? infos[2] : infos[1],
+                          type: infos.length === 3 ? infos[1] : "",
+                        }
+                      : { name: "", type: "" },
+                  }}
+                />
+              )
             }
-          />
-        </Routes>
       </Router>
     </Suspense>
   );

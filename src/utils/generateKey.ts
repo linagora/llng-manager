@@ -1,9 +1,12 @@
-import axios from "axios";
-
 export async function GenerateEcKeys() {
   try {
-    const response = await axios.post("/manager.fcgi/confs//newEcKeys");
-    const result = response.data;
+    const response = await fetch("/manager.fcgi/confs//newEcKeys", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
     return result;
   } catch (error) {
     console.error("Error generating keys:", error);
@@ -12,17 +15,17 @@ export async function GenerateEcKeys() {
 }
 export async function NewCertificate(password?: string) {
   try {
-    if (password) {
-      const response = await axios.post(`/manager.fcgi/confs//newCertificate`, {
-        password: password,
-      });
-      const result = response.data;
-      return result;
-    } else {
-      const response = await axios.post(`/manager.fcgi/confs//newCertificate`);
-      const result = response.data;
-      return result;
-    }
+    const body = password ? JSON.stringify({ password }) : undefined;
+
+    const response = await fetch(`/manager.fcgi/confs//newCertificate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.error("Error generating keys:", error);
     throw error;

@@ -35,7 +35,7 @@ export function Configuration({
           dispatch(getConfigAsync());
         }
         const tree = await getTree();
-        setTree(tree.data);
+        setTree(await tree.json());
       }
     }
     fetchData();

@@ -10,14 +10,15 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { push } from "redux-first-history";
 import { useAppDispatch } from "../app/hooks";
 import i18n from "../i18n";
 import "./NavBar.css";
+import logo from "../static/llng-logo-32.png";
 
-function Navbar() {
+function Navbar({ partial }: { partial?: number }) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -25,53 +26,54 @@ function Navbar() {
     i18n.changeLanguage(language);
     console.debug(`Language changed to ${language}`);
   };
-
   return (
     <AppBar color="secondary" className="navbar">
       <Toolbar>
         <Typography>
           <img
-            src={require("../static/llng-logo-32.png")}
+            src={logo}
             alt="LemonLogo"
             style={{ backgroundColor: "white" }}
           />
         </Typography>
         <Divider />
-        <div className="navbarOptions">
-          <Typography
-            variant="h6"
-            component="div"
-            onClick={() => dispatch(push("/manager.html"))}
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("Configuration")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("sessions")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("notifications")}
-          </Typography>
-          <Typography
-            variant="h6"
-            component="div"
-            style={{ cursor: "pointer", marginRight: "15px" }}
-            sx={{ flexGrow: 1 }}
-          >
-            {t("secondFactors")}
-          </Typography>
-        </div>
+        {!partial && (
+          <div className="navbarOptions">
+            <Typography
+              variant="h6"
+              component="div"
+              onClick={() => dispatch(push(""))}
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("Configuration")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("sessions")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("notifications")}
+            </Typography>
+            <Typography
+              variant="h6"
+              component="div"
+              style={{ cursor: "pointer", marginRight: "15px" }}
+              sx={{ flexGrow: 1 }}
+            >
+              {t("secondFactors")}
+            </Typography>
+          </div>
+        )}
 
         <IconButton
           size="large"
@@ -99,10 +101,30 @@ function Navbar() {
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
         >
-          <MenuItem onClick={() => console.debug("portal")}>
+          <MenuItem
+            onClick={() => {
+              (window as any).menulinks.map(
+                (el: { title: string; target: string }) => {
+                  if (el.title === "backtoportal") {
+                    window.location.href = el.target;
+                  }
+                }
+              );
+            }}
+          >
             {t("backtoportal")}
           </MenuItem>
-          <MenuItem onClick={() => console.debug("logout")}>
+          <MenuItem
+            onClick={() => {
+              (window as any).menulinks.map(
+                (el: { title: string; target: string }) => {
+                  if (el.title === "logout") {
+                    window.location.href = el.target;
+                  }
+                }
+              );
+            }}
+          >
             {t("logout")}
           </MenuItem>
           <Divider />

@@ -1,12 +1,11 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
-import axios from "axios";
 import { t } from "i18next";
 import { useAppDispatch, useAppSelector } from "../src/app/hooks";
 import { SavePopup } from "../src/components/SavePopup";
 import { HomePage } from "../src/dashboards/HomePage";
 import { ConfigState } from "../src/features/config/configSlice";
 import { renderWithProviders } from "../src/utils/test-utils";
-jest.mock("axios");
+global.fetch = jest.fn();
 jest.mock("../src/app/hooks");
 
 const mockConfig = {
@@ -76,7 +75,7 @@ it("should restore the configuration when a valid file is uploaded", async () =>
       type: "text/plain",
     }
   );
-  (axios.post as jest.Mock).mockResolvedValueOnce(mockConfig.data.metadata);
+  (fetch as jest.Mock).mockResolvedValueOnce(mockConfig.data.metadata);
   (useAppSelector as jest.Mock).mockReturnValue(mockConfig);
   const dispatch = jest.fn();
   (useAppDispatch as jest.Mock).mockReturnValue(dispatch);

@@ -24,15 +24,19 @@ const theme = createTheme({
     warning: yellow,
   },
 });
-
 const container = document.getElementById("root")!;
+const script = document.createElement("script");
+script.src = `/psgi.js`;
+
+document.body.appendChild(script);
+
 const root = createRoot(container);
 root.render(
   <ThemeProvider theme={theme}>
     <StyledEngineProvider injectFirst>
       <React.StrictMode>
         <Provider store={store}>
-          <App />
+          <App htmlName={process.env.REACT_APP_HTMLNAME} />
         </Provider>
       </React.StrictMode>
     </StyledEngineProvider>
