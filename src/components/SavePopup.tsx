@@ -33,7 +33,7 @@ export function SavePopup({
       <DialogContent>
         {config.saveResponse ? (
           <>
-            {config.saveResponse.__warnings__ ? (
+            {config.saveResponse.details.__warnings__ ? (
               <>
                 <strong>{t("warnings")}</strong>
                 <span>

@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { fireEvent, screen } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { t } from "i18next";
 import { Configuration } from "../src/pages/Configuration";
 import { renderWithProviders } from "../src/utils/test-utils";
@@ -8,23 +8,31 @@ export const changeInput = async (index: number, value: string | number) => {
   const input = screen.getAllByText("", {
     selector: ".MuiInputBase-input",
   })[index];
-  fireEvent.change(input, { target: { value } });
-  expect(
-    (
-      await screen.findAllByText("", {
-        selector: ".MuiInputBase-input",
-      })
-    )[index]
-  ).toHaveDisplayValue(value.toString());
+
+  act(() => {
+    fireEvent.change(input, { target: { value } });
+  });
+
+  await waitFor(() =>
+    expect(
+      screen.getAllByText("", { selector: ".MuiInputBase-input" })[index]
+    ).toHaveDisplayValue(value.toString())
+  );
 };
 
-export const changeRadio = (index: number) => {
+export const changeRadio = async (index: number) => {
   const radioInput = screen.getAllByLabelText(t("on"))[index];
-  fireEvent.click(radioInput);
-  expect(radioInput).toBeChecked();
+
+  act(() => {
+    fireEvent.click(radioInput);
+  });
+
+  await waitFor(() => {
+    expect(radioInput).toBeChecked();
+  });
 };
 
-export const changeSelect = (
+export const changeSelect = async (
   text: string,
   index: number,
   value: string | number | string[] | null | undefined
@@ -33,9 +41,17 @@ export const changeSelect = (
     selector: ".MuiSelect-select",
   })[index]; // eslint-disable-next-line testing-library/no-node-access
   const selectElement = selectInput.parentElement?.querySelector("input");
-  fireEvent.change(selectElement!, { target: { value: value } });
+
+  act(() => {
+    fireEvent.change(selectElement!, { target: { value: value } });
+  });
+
+  await waitFor(() => {
+    expect(selectElement).toHaveValue(value?.toString() || "");
+  });
 };
-export const changeSelectbis = (
+
+export const changeSelectbis = async (
   index: number,
   value: string | number | string[] | null | undefined
 ) => {
@@ -43,14 +59,40 @@ export const changeSelectbis = (
     selector: ".MuiSelect-select",
   })[index]; // eslint-disable-next-line testing-library/no-node-access
   const selectElement = selectInput.parentElement?.querySelector("input");
-  fireEvent.change(selectElement!, { target: { value: value } });
+
+  act(() => {
+    fireEvent.change(selectElement!, { target: { value: value } });
+  });
+
+  await waitFor(() => {
+    expect(selectElement).toHaveValue(value?.toString() || "");
+  });
 };
 
-export const clickOption = (optionText: any | string | string[]) => {
+export const clickOption = async (optionText: any | string | string[]) => {
   const option = screen.getByText(t(optionText), { selector: ".option" });
-  fireEvent.click(option);
-  expect(option).toHaveClass("selected");
+
+  act(() => {
+    fireEvent.click(option);
+  });
+
+  await waitFor(() => {
+    expect(option).toHaveClass("selected");
+  });
 };
+
+export const clickSubOption = async (optionText: any | string | string[]) => {
+  const option = screen.getByTestId(optionText);
+
+  act(() => {
+    fireEvent.click(option);
+  });
+
+  await waitFor(() => {
+    expect(option).toHaveClass("selected");
+  });
+};
+
 describe("Configuration Component", () => {
   it('should render ApplicationDashboard for location type "app"', () => {
     const location = {
@@ -72,7 +114,7 @@ describe("Configuration Component", () => {
     expect(screen.getByText(t("currentConfiguration"))).toBeInTheDocument();
   });
 
-  it('should render SimpleAuthParams by default and toggle to AdvancedAuthParams for location type "authParams"', () => {
+  it('should render SimpleAuthParams by default and toggle to AdvancedAuthParams for location type "authParams"', async () => {
     const location = { type: "authParams", info: { name: "latest" } };
 
     renderWithProviders(<Configuration location={location} />);
@@ -80,14 +122,20 @@ describe("Configuration Component", () => {
     expect(
       screen.queryByText("", { selector: ".optionNavbar" })
     ).not.toBeInTheDocument();
+
     const selectInput = screen.getByLabelText(t("authentication"));
-    // eslint-disable-next-line testing-library/no-node-access
     const selectElement = selectInput.parentElement?.querySelector("input");
-    fireEvent.change(selectElement!, { target: { value: "Demo" } });
-    fireEvent.click(screen.getByTestId("TuneIcon"));
-    expect(
-      screen.getByText("", { selector: ".optionNavbar" })
-    ).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.change(selectElement!, { target: { value: "Demo" } });
+      fireEvent.click(screen.getByTestId("TuneIcon"));
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("", { selector: ".optionNavbar" })
+      ).toBeInTheDocument();
+    });
   });
 
   it('should render IssuerDashboard for location type "issuer"', () => {

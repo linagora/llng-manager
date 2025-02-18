@@ -89,6 +89,7 @@ export function SAMLApp({
               setOptionSelected("samlSPMetaDataOptions");
               setOpen(!open);
             }}
+            data-testid="samlSPMetaDataOptions"
           >
             <div>{open ? <ExpandLess /> : <ExpandMore />}</div>
             <span> {t("samlSPMetaDataOptions")}</span>
@@ -128,28 +129,32 @@ export function SAMLApp({
                     : ""
                   : "⚠️"}
               </strong>
-              <div>
-                <FileForm
-                  value={
-                    (name
-                      ? data.samlSPMetaDataXML
-                        ? data.samlSPMetaDataXML[name]
-                          ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
-                          : undefined
-                        : undefined
-                      : undefined) || ""
-                  }
-                  fieldName="samlSPMetaDataXML"
-                  updateFunc={(e: string) => {
-                    dispatch(
-                      updateSamlSPMetadata({
-                        name: name ? name : "",
-                        data: e,
-                      })
-                    );
-                  }}
-                />
-              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <FileForm
+                      value={
+                        (name
+                          ? data.samlSPMetaDataXML
+                            ? data.samlSPMetaDataXML[name]
+                              ? data.samlSPMetaDataXML[name].samlSPMetaDataXML
+                              : undefined
+                            : undefined
+                          : undefined) || ""
+                      }
+                      fieldName="samlSPMetaDataXML"
+                      updateFunc={(e: string) => {
+                        dispatch(
+                          updateSamlSPMetadata({
+                            name: name ? name : "",
+                            data: e,
+                          })
+                        );
+                      }}
+                    />
+                  </tr>
+                </tbody>
+              </table>
             </div>
           )}
           {(optionSelected === "samlSPMetaDataExportedAttributes" ||
@@ -157,17 +162,19 @@ export function SAMLApp({
             <div className="box">
               <table>
                 <tbody>
-                  <SamlAttributeContainerForm
-                    value={
-                      data.samlSPMetaDataExportedAttributes
-                        ? data.samlSPMetaDataExportedAttributes[name]
+                  <tr>
+                    <SamlAttributeContainerForm
+                      value={
+                        data.samlSPMetaDataExportedAttributes
                           ? data.samlSPMetaDataExportedAttributes[name]
-                        : {}
-                      : {}
-                    }
-                    appName={name}
-                    fieldName="samlSPMetaDataExportedAttributes"
-                  />
+                            ? data.samlSPMetaDataExportedAttributes[name]
+                            : {}
+                          : {}
+                      }
+                      appName={name}
+                      fieldName="samlSPMetaDataExportedAttributes"
+                    />
+                  </tr>
                 </tbody>
               </table>
             </div>

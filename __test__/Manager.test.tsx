@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { t } from "i18next";
 import { IssuerAssistant } from "../src/components/managerComponents/IssuerAssistant";
 import Manager from "../src/dashboards/Manager";
@@ -11,30 +11,41 @@ global.fetch = jest.fn();
 describe("Filtering", () => {
   it("click should toggle filter", async () => {
     renderWithProviders(<Manager />);
+    const alphaLabel = await screen.findByTestId("alpha-label");
 
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByLabelText("alpha-label"));
+    fireEvent.click(alphaLabel);
+    expect(alphaLabel).toHaveAttribute("aria-pressed", "true");
   });
-  it("toggling filter should sort alphabeticaly", async () => {
+  it("toggling filter should sort alphabetically", async () => {
     renderWithProviders(<Manager />);
 
+    // Ensure the initial element exists before sorting
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByLabelText("alpha-label"));
 
-    expect(await screen.findAllByTestId("appcard")).toStrictEqual(
-      screen.getAllByTestId("appcard").sort((el1, el2) =>
-        // eslint-disable-next-line testing-library/no-node-access, @typescript-eslint/no-unused-expressions
-        (el1.children[0].children[0].textContent
-          ? // eslint-disable-next-line testing-library/no-node-access
-            el1.children[0].children[0].textContent
-          : "") > // eslint-disable-next-line testing-library/no-node-access
-        (el2.children[0].children[0].textContent // eslint-disable-next-line testing-library/no-node-access
-          ? el2.children[0].children[0].textContent
-          : "")
-          ? 1
-          : -1
-      )
+    const alphaLabel = await screen.findByTestId("alpha-label");
+
+    const initialCards = screen.getAllByTestId("appcard");
+    const initialTexts = initialCards.map(
+      (card) => card.children[0].children[0].textContent || ""
     );
+
+    fireEvent.click(alphaLabel);
+
+    await waitFor(() => {
+      const sortedCards = screen
+        .getAllByTestId("appcard")
+        .map((card) => card.children[0].children[0].textContent || "");
+
+      const normalizedSortedCards = sortedCards.map((text) =>
+        text.toLowerCase()
+      );
+      const sortedAlphabetically = [...normalizedSortedCards].sort();
+
+      expect(normalizedSortedCards).toStrictEqual(sortedAlphabetically);
+
+      expect(initialTexts).not.toEqual(sortedCards);
+    });
   });
 });
 

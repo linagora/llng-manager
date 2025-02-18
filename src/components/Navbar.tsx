@@ -151,7 +151,7 @@ function OptionMenu() {
             (window as any).menulinks.map(
               (el: { title: string; target: string }) => {
                 if (el.title === "backtoportal") {
-                  window.location.href = el.target;
+                  window.location.assign(el.target);
                 }
               }
             );
@@ -164,7 +164,7 @@ function OptionMenu() {
             (window as any).menulinks.map(
               (el: { title: string; target: string }) => {
                 if (el.title === "logout") {
-                  window.location.href = el.target;
+                  window.location.assign(el.target);
                 }
               }
             );

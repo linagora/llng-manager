@@ -167,7 +167,7 @@ export default function Manager() {
       });
 
       if (filters.alpha) {
-        renderedData.sort((el1, el2) =>
+        renderedData = renderedData.sort((el1, el2) =>
           el1.props.info.name > el2.props.info.name ? 1 : -1
         );
       }

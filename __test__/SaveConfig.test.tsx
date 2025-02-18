@@ -115,29 +115,57 @@ it("should go to latest", async () => {
   });
 });
 
-it("save popup", async () => {
-  (useAppSelector as jest.Mock).mockReturnValue(mockConfig);
-  const dispatch = jest.fn();
-  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-  const setOpenSavePopup = jest.fn();
-  renderWithProviders(
-    <SavePopup
-      config={{
-        ...mockConfig,
-        saveResponse: {
-          __warnings__: [{ message: "warning" }],
-          __errors__: [{ message: "error" }],
-        },
-      }}
-      openSavePopup={true}
-      setOpenSavePopup={setOpenSavePopup}
-      dispatch={dispatch}
-    />
-  );
-  expect(await screen.findByText("warning")).toBeDefined();
-  expect(await screen.findByText("error")).toBeDefined();
+describe("save popup", () => {
+  it("saves with warnings", async () => {
+    (useAppSelector as jest.Mock).mockReturnValue(mockConfig);
+    const dispatch = jest.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
+    const setOpenSavePopup = jest.fn();
+    renderWithProviders(
+      <SavePopup
+        config={{
+          ...mockConfig,
+          saveResponse: {
+            details: {
+              __warnings__: [{ message: "warning" }],
+            },
+          },
+        }}
+        openSavePopup={true}
+        setOpenSavePopup={setOpenSavePopup}
+        dispatch={dispatch}
+      />
+    );
+    expect(await screen.findByText("warning")).toBeDefined();
 
-  fireEvent.click(screen.getByText(t("close")));
-  expect(dispatch).toHaveBeenCalled();
-  expect(setOpenSavePopup).toHaveBeenCalled();
+    fireEvent.click(screen.getByText(t("close")));
+    expect(dispatch).toHaveBeenCalled();
+    expect(setOpenSavePopup).toHaveBeenCalled();
+  });
+  it("doesnt save with errors", async () => {
+    (useAppSelector as jest.Mock).mockReturnValue(mockConfig);
+    const dispatch = jest.fn();
+    (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
+    const setOpenSavePopup = jest.fn();
+    renderWithProviders(
+      <SavePopup
+        config={{
+          ...mockConfig,
+          saveResponse: {
+            details: {
+              __errors__: [{ message: "error" }],
+            },
+          },
+        }}
+        openSavePopup={true}
+        setOpenSavePopup={setOpenSavePopup}
+        dispatch={dispatch}
+      />
+    );
+    expect(await screen.findByText("error")).toBeDefined();
+
+    fireEvent.click(screen.getByText(t("close")));
+    expect(dispatch).not.toHaveBeenCalled();
+    expect(setOpenSavePopup).toHaveBeenCalled();
+  });
 });

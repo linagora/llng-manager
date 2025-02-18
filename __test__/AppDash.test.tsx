@@ -9,6 +9,7 @@ import {
   changeSelect,
   changeSelectbis,
   clickOption,
+  clickSubOption,
 } from "./Configuration.test";
 
 global.fetch = jest.fn();
@@ -266,30 +267,31 @@ describe("Application Dashboard", () => {
     changeInput(0, "New Key");
     changeInput(1, "New Value");
 
-    clickOption("oidcRPMetaDataOptions");
-
+    const option = screen.getByTestId("oidcOptions");
+    fireEvent.click(option);
+    expect(option).toHaveClass("selected");
     changeInput(0, "New user");
     changeInput(1, "additionnal audience ");
     changeRadio(0);
     changeRadio(1);
     changeRadio(2);
     changeRadio(3);
-    clickOption("security");
+    clickSubOption("security");
     changeRadio(0);
     changeRadio(1);
     changeRadio(2);
     changeRadio(3);
-    changeInput(1, "url");
-    changeInput(2, "level");
-    changeInput(3, "access Rules");
+    changeInput(0, "url");
+    changeInput(1, "level");
+    changeInput(2, "access Rules");
     changeSelect("HS512", 0, "HS384");
     expect(screen.getByText(t("HS384"))).toBeDefined();
     changeSelect("RS256", 0, "EdDSA");
     expect(screen.getByText(t("EdDSA"))).toBeDefined();
-    changeSelectbis(0, "HS256");
+    changeSelect("JSON", 0, "HS256");
     expect(screen.getByText(t("JWT/HS256"))).toBeDefined();
 
-    clickOption("oidcRPMetaDataOptionsScopes");
+    clickSubOption("oidcRPMetaDataOptionsScopes");
     fireEvent.click(screen.getAllByTestId("AddCircleIcon")[0]);
     changeInput(0, "New key");
     changeInput(1, "New Value");
@@ -298,7 +300,7 @@ describe("Application Dashboard", () => {
     changeInput(3, "New e");
     fireEvent.click(screen.getAllByTestId("RemoveCircleIcon")[0]);
     fireEvent.click(screen.getAllByTestId("RemoveCircleIcon")[0]);
-    clickOption("keys");
+    clickSubOption("keys");
 
     const file = new File(["file content"], "file.txt", { type: "text/plain" });
 
@@ -307,13 +309,13 @@ describe("Application Dashboard", () => {
     });
     jest.fn().mockResolvedValue("file content");
     expect(await screen.findByText("file content")).toBeDefined();
-    clickOption("oidcRPMetaDataOptionsTimeouts");
+    clickSubOption("oidcRPMetaDataOptionsTimeouts");
     changeInput(0, 1);
     changeInput(1, 2);
     changeInput(2, 3);
     changeInput(3, 4);
 
-    clickOption("logout");
+    clickSubOption("logout");
     changeSelect(
       t("Front Channel"),
       0,
@@ -365,7 +367,9 @@ describe("Application Dashboard", () => {
     changeInput(0, "New Key");
     changeInput(1, "New Value");
 
-    clickOption("samlSPMetaDataOptions");
+    const option = screen.getByTestId("samlSPMetaDataOptions");
+    fireEvent.click(option);
+    expect(option).toHaveClass("selected");
     changeSelectbis(0, "email");
     changeInput(0, "auth");
     changeInput(1, 2);
@@ -373,7 +377,7 @@ describe("Application Dashboard", () => {
     changeRadio(0);
     changeRadio(1);
 
-    clickOption("samlSPMetaDataOptionsSignature");
+    clickSubOption("samlSPMetaDataOptionsSignature");
     changeRadio(0);
 
     changeSelect("Default", 0, "RSA_SHA256");
@@ -382,7 +386,7 @@ describe("Application Dashboard", () => {
     changeRadio(2);
     changeRadio(3);
 
-    clickOption("samlSPMetaDataOptionsSecurity");
+    clickSubOption("samlSPMetaDataOptionsSecurity");
     changeInput(0, "auth");
     changeInput(1, 2);
     changeRadio(0);
@@ -390,7 +394,7 @@ describe("Application Dashboard", () => {
     changeSelect("None", 0, "nameid");
     expect(screen.getByText(t("Name ID"))).toBeDefined();
 
-    clickOption("samlSPMetaDataOptionsFederation");
+    clickSubOption("samlSPMetaDataOptionsFederation");
 
     changeSelect("Keep", 0, "ignore");
     expect(screen.getByText(t("Ignore"))).toBeDefined();

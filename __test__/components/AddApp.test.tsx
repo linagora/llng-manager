@@ -104,7 +104,7 @@ describe("MandatoryFields component", () => {
     expect(screen.getByDisplayValue("sp-example")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Next"));
 
-    const clientIdInput = screen.getByPlaceholderText("XML MetaData");
+    const clientIdInput = screen.getByPlaceholderText(t("samlSPMetaDataXML"));
     fireEvent.change(clientIdInput, { target: { value: "test-xml-metadata" } });
 
     expect(clientIdInput).toHaveValue("test-xml-metadata");

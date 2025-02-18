@@ -1,5 +1,5 @@
 import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
-import { Button, TextField, Divider } from "@mui/material";
+import { Button, TextField, Divider, ToggleButton } from "@mui/material";
 import { t } from "i18next";
 import "./Filters.css";
 function FilterToggle({
@@ -13,6 +13,7 @@ function FilterToggle({
     <div className="filters">
       <div>
         <TextField
+          className="filter"
           size="small"
           margin="normal"
           variant="outlined"
@@ -20,16 +21,21 @@ function FilterToggle({
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
       </div>
-      <Button
+      <ToggleButton
+        className="filter"
         aria-labelledby="alpha-label"
+        data-testid="alpha-label"
         onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
+        selected={filters.alpha}
+        value={filters.alpha}
         color={filters.alpha ? "primary" : "secondary"}
+        size="small"
       >
         <SortByAlphaIcon />
         <label aria-label="alpha-label" hidden>
           alpha-label
         </label>
-      </Button>
+      </ToggleButton>
     </div>
   );
 }

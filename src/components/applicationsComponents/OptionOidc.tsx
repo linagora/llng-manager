@@ -977,42 +977,49 @@ export function OidcOptionSelection({
   return (
     <List className="optionNavbar sub">
       <ListItemText
+        data-testid="oidcRPMetaDataOptionsAdvanced"
         className={`suboption ${optionSelect === "advanced" ? "selected" : ""}`}
         onClick={() => setOptionSelected("advanced")}
       >
         {t("oidcRPMetaDataOptionsAdvanced")}
       </ListItemText>
       <ListItemText
+        data-testid="oidcRPMetaDataOptionsScopes"
         className={`suboption ${optionSelect === "scope" ? "selected" : ""}`}
         onClick={() => setOptionSelected("scope")}
       >
         {t("oidcRPMetaDataOptionsScopes")}
       </ListItemText>
       <ListItemText
+        data-testid="security"
         className={`suboption ${optionSelect === "security" ? "selected" : ""}`}
         onClick={() => setOptionSelected("security")}
       >
         {t("security")}
       </ListItemText>
       <ListItemText
+        data-testid="keys"
         className={`suboption ${optionSelect === "keys" ? "selected" : ""}`}
         onClick={() => setOptionSelected("keys")}
       >
         {t("keys")}
       </ListItemText>
       <ListItemText
+        data-testid="oidcRPMetaDataOptionsTimeouts"
         className={`suboption ${optionSelect === "timouts" ? "selected" : ""}`}
         onClick={() => setOptionSelected("timouts")}
       >
         {t("oidcRPMetaDataOptionsTimeouts")}
       </ListItemText>
       <ListItemText
+        data-testid="logout"
         className={`suboption ${optionSelect === "logout" ? "selected" : ""}`}
         onClick={() => setOptionSelected("logout")}
       >
         {t("logout")}
       </ListItemText>
       <ListItemText
+        data-testid="oidcRPMetaDataOptionsComment"
         className={`suboption ${optionSelect === "comment" ? "selected" : ""}`}
         onClick={() => setOptionSelected("comment")}
       >

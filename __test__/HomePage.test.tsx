@@ -43,8 +43,8 @@ describe("HomePage", () => {
 
   it("renders the pie chart with correct data", () => {
     renderWithProviders(<HomePage />);
-    expect(screen.getByText("SAML : 1")).toBeDefined();
-    expect(screen.getByText("oidc : 1")).toBeDefined();
-    expect(screen.getByText("cas : 1")).toBeDefined();
+    expect(screen.getByText("SAML (1)")).toBeDefined();
+    expect(screen.getByText("oidc (1)")).toBeDefined();
+    expect(screen.getByText("cas (1)")).toBeDefined();
   });
 });

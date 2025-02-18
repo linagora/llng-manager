@@ -129,7 +129,7 @@ export function SAMLRenderer() {
                 />
               </tr>
               <tr>
-                {" "}
+                
                 <IntForm
                   fieldName="samlAuthnContextMapPasswordProtectedTransport"
                   value={Number(
@@ -511,7 +511,7 @@ export function SAMLRenderer() {
                   />
                 </tr>
                 <tr>
-                  {" "}
+                  
                   <TextForm
                     fieldName="samlCommonDomainCookieReader"
                     value={config.samlCommonDomainCookieReader || ""}
@@ -526,7 +526,7 @@ export function SAMLRenderer() {
                   />
                 </tr>
                 <tr>
-                  {" "}
+                  
                   <TextForm
                     fieldName="samlCommonDomainCookieWriter"
                     value={config.samlCommonDomainCookieWriter || ""}

@@ -46,25 +46,33 @@ function RecursRender({
   return param.values.map((el: string | Record<string, any>) => {
     if (typeof el === "object") {
       return (
-        <Accordion key={el.title + param.tab}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            {t(el.title)}
-          </AccordionSummary>
-          <RecursRender
-            param={{
-              values: el.nodes,
-              config: param.config,
-              tab: param.tab + 1,
-              dispatch: param.dispatch,
-            }}
-          />
-        </Accordion>
+        <tr key={el.title}>
+          <td colSpan={2}>
+            <Accordion key={el.title + param.tab}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                {t(el.title)}
+              </AccordionSummary>
+              <table>
+                <tbody>
+                  <RecursRender
+                    param={{
+                      values: el.nodes,
+                      config: param.config,
+                      tab: param.tab + 1,
+                      dispatch: param.dispatch,
+                    }}
+                  />
+                </tbody>
+              </table>
+            </Accordion>
+          </td>
+        </tr>
       );
     }
     switch (attributes[el as TypeKeyValue].type) {
       case "int":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <IntForm
               fieldName={el}
               updateFunc={(e: number) =>
@@ -77,11 +85,11 @@ function RecursRender({
               }
               value={Number(param.config[el as keyof llngConfig] || 0)}
             />
-          </ul>
+          </tr>
         );
       case "text":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <TextForm
               fieldName={el}
               updateFunc={(e: string) =>
@@ -94,11 +102,11 @@ function RecursRender({
               }
               value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "PerlModule":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <TextForm
               fieldName={el}
               updateFunc={(e: string) =>
@@ -111,11 +119,11 @@ function RecursRender({
               }
               value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "password":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <PasswordForm
               fieldName={el}
               updateFunc={(e: string) =>
@@ -128,11 +136,11 @@ function RecursRender({
               }
               value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "intOrNull":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <IntForm
               fieldName={el}
               updateFunc={(e: number) =>
@@ -145,11 +153,11 @@ function RecursRender({
               }
               value={Number(param.config[el as keyof llngConfig] || 0)}
             />
-          </ul>
+          </tr>
         );
       case "authChoiceContainer":
         return (
-          <div key={el}>
+          <tr key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -159,22 +167,24 @@ function RecursRender({
                 </Markdown>
               }
             >
-              <strong className="title3">{t(el)}</strong>
+              <th>{t(el)}</th>
             </Tooltip>
-            <AuthChoiceContainerForm
-              data={
-                (param.config[el as keyof llngConfig] as Record<
-                  string,
-                  string
-                >) || {}
-              }
-              dispatch={param.dispatch}
-            />
-          </div>
+            <td>
+              <AuthChoiceContainerForm
+                data={
+                  (param.config[el as keyof llngConfig] as Record<
+                    string,
+                    string
+                  >) || {}
+                }
+                dispatch={param.dispatch}
+              />
+            </td>
+          </tr>
         );
       case "cmbModuleContainer":
         return (
-          <div key={el}>
+          <tr key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -184,22 +194,24 @@ function RecursRender({
                 </Markdown>
               }
             >
-              <strong className="title3">{t(el)}</strong>
+              <th>{t(el)}</th>
             </Tooltip>
-            <CmbModuleContainerForm
-              data={
-                (param.config[el as keyof llngConfig] as Record<
-                  string,
-                  Record<string, any>
-                >) || {}
-              }
-              dispatch={param.dispatch}
-            />
-          </div>
+            <td>
+              <CmbModuleContainerForm
+                data={
+                  (param.config[el as keyof llngConfig] as Record<
+                    string,
+                    Record<string, any>
+                  >) || {}
+                }
+                dispatch={param.dispatch}
+              />
+            </td>
+          </tr>
         );
       case "select":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <SelectForm
               fieldName={el}
               value={String(param.config[el as keyof llngConfig] || "")}
@@ -212,11 +224,11 @@ function RecursRender({
                 )
               }
             />
-          </ul>
+          </tr>
         );
       case "bool":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <BoolForm
               fieldName={el}
               value={Number(param.config[el as keyof llngConfig] || 0)}
@@ -229,11 +241,11 @@ function RecursRender({
                 )
               }
             />
-          </ul>
+          </tr>
         );
       case "keyTextContainer":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -243,44 +255,46 @@ function RecursRender({
                 </Markdown>
               }
             >
-              <strong className="title3">{t(el)}</strong>
+              <th>{t(el)}</th>
             </Tooltip>
-            <table id={el + "Table"}>
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() =>
-                        param.dispatch(newModuleOpt(el as keyof llngConfig))
-                      }
-                    >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={el}
-                vars={
-                  (param.config[el as keyof llngConfig] as Record<
-                    string,
-                    string
-                  >) || {}
-                }
-                tableID={el + "Table"}
-                dispatch={param.dispatch}
-                delFunction={delModuleOpt}
-                updateFunction={updateModuleOpt}
-              />
-            </table>
-          </ul>
+            <td>
+              <table id={el + "Table"}>
+                <thead>
+                  <tr>
+                    <th>{t("keys")}</th>
+                    <th>{t("values")}</th>
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() =>
+                          param.dispatch(newModuleOpt(el as keyof llngConfig))
+                        }
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                <TableVars
+                  appName={el}
+                  vars={
+                    (param.config[el as keyof llngConfig] as Record<
+                      string,
+                      string
+                    >) || {}
+                  }
+                  tableID={el + "Table"}
+                  dispatch={param.dispatch}
+                  delFunction={delModuleOpt}
+                  updateFunction={updateModuleOpt}
+                />
+              </table>
+            </td>
+          </tr>
         );
       case "url":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <UrlForm
               fieldName={el}
               value={String(param.config[el as keyof llngConfig] || "")}
@@ -293,11 +307,11 @@ function RecursRender({
                 )
               }
             />
-          </ul>
+          </tr>
         );
       case "blackWhiteList":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <BlackWhiteListForm
               fieldName={el}
               value={String(
@@ -314,10 +328,14 @@ function RecursRender({
                 )
               }
             />
-          </ul>
+          </tr>
         );
       default:
-        return <ul key={el}>{attributes[el as TypeKeyValue].type} </ul>;
+        return (
+          <tr key={el}>
+            <td>{attributes[el as TypeKeyValue].type}</td>
+          </tr>
+        );
     }
   });
 }
@@ -341,13 +359,17 @@ export function OptionRenderer({ selected }: { selected: string }) {
         <strong className="title2">{t(l)}</strong>
         <div className="appDesc">
           {nodeSelected ? (
-            <div key={selected}>
-              <RecursRender
-                param={{ values: nodeSelected, config, tab: 0, dispatch }}
-              />
-            </div>
+            <table key={selected}>
+              <tbody>
+                <RecursRender
+                  param={{ values: nodeSelected, config, tab: 0, dispatch }}
+                />
+              </tbody>
+            </table>
           ) : (
-            ""
+            <table key={selected}>
+              <tbody></tbody>
+            </table>
           )}
         </div>
       </div>

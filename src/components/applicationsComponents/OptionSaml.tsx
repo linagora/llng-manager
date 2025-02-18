@@ -416,6 +416,7 @@ export function SubObtionSelector({
   return (
     <div className="optionNavbar sub">
       <label
+        data-testid="samlSPMetaDataOptionsAuthnResponse"
         className={`suboption ${
           optionSelect === "authResponse" ? "selected" : ""
         }`}
@@ -424,6 +425,7 @@ export function SubObtionSelector({
         {t("samlSPMetaDataOptionsAuthnResponse")}
       </label>
       <label
+        data-testid="samlSPMetaDataOptionsSignature"
         className={`suboption ${
           optionSelect === "signature" ? "selected" : ""
         }`}
@@ -432,12 +434,14 @@ export function SubObtionSelector({
         {t("samlSPMetaDataOptionsSignature")}
       </label>
       <label
+        data-testid="samlSPMetaDataOptionsSecurity"
         className={`suboption ${optionSelect === "security" ? "selected" : ""}`}
         onClick={() => setOptionSelected("security")}
       >
         {t("samlSPMetaDataOptionsSecurity")}
       </label>
       <label
+        data-testid="samlSPMetaDataOptionsFederation"
         className={`suboption ${
           optionSelect === "federation" ? "selected" : ""
         }`}
@@ -446,6 +450,7 @@ export function SubObtionSelector({
         {t("samlSPMetaDataOptionsFederation")}
       </label>
       <label
+        data-testid="samlSPMetaDataOptionsComment"
         className={`suboption ${optionSelect === "comment" ? "selected" : ""}`}
         onClick={() => setOptionSelected("comment")}
       >

@@ -207,7 +207,7 @@ export function AdvancedAuthParams() {
             orientation="vertical"
             variant="middle"
           />
-          <div className="options">
+          <div className="box">
             <OptionRenderer selected={optionSelected ? optionSelected : ""} />
           </div>
         </div>

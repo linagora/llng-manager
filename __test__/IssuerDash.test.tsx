@@ -9,8 +9,9 @@ import {
   clickOption,
 } from "./Configuration.test";
 
-global.fetch = jest.fn();
-
+beforeAll(() => {
+  global.fetch = jest.fn();
+});
 describe("Issuer Dashboard", () => {
   it("should render simple SAML Dashboard", async () => {
     const location = { type: "issuer", info: { name: "saml" } };
@@ -152,7 +153,7 @@ describe("Issuer Dashboard", () => {
     changeInput(0, "test");
     changeInput(1, "test2");
     changeInput(2, "test3");
-    const radioInput = screen.getAllByLabelText(t("blacklist"))[0];
+    const radioInput = screen.getAllByLabelText(t("blackList"))[0];
     fireEvent.click(radioInput);
     expect(radioInput).toBeChecked();
   });

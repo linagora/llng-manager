@@ -26,7 +26,7 @@ export default function IntForm({
           </Markdown>
         }
       >
-        <th >{t(fieldName)}</th>
+        <th>{t(fieldName)}</th>
       </Tooltip>
       <td>
         <TextField

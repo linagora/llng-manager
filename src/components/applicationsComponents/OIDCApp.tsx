@@ -77,6 +77,7 @@ export function OIDCApp({ name }: { name: string }) {
               setOptionSelected("oidcRPMetaDataOptions");
               setOpen(!open);
             }}
+            data-testid="oidcOptions"
           >
             <div>{open ? <ExpandLess /> : <ExpandMore />}</div>
             <span>{t("oidcRPMetaDataOptions")}</span>
@@ -306,15 +307,19 @@ export function OIDCApp({ name }: { name: string }) {
           )}
           {optionSelected === "oidcRPMetaDataExportedVars" && (
             <div className="box">
-              <OidcAttributeContainerForm
-                appName={name}
-                value={
-                  data.oidcRPMetaDataExportedVars
-                    ? data.oidcRPMetaDataExportedVars[name]
-                    : {}
-                }
-                fieldName="oidcRPMetaDataExportedVars"
-              />
+              <table>
+                <tbody>
+                  <OidcAttributeContainerForm
+                    appName={name}
+                    value={
+                      data.oidcRPMetaDataExportedVars
+                        ? data.oidcRPMetaDataExportedVars[name]
+                        : {}
+                    }
+                    fieldName="oidcRPMetaDataExportedVars"
+                  />
+                </tbody>
+              </table>
             </div>
           )}
           {optionSelected === "oidcRPMetaDataMacros" && (

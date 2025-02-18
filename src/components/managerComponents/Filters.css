@@ -2,10 +2,12 @@
   display: flex;
   margin-left: 2vw;
   align-items: center;
+  vertical-align: middle;
 }
 
 .filter {
   border: 0px;
+  margin: 5px;
   font-size: larger;
   color: #aaa;
 }
