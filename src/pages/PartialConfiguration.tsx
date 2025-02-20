@@ -21,7 +21,7 @@ export function PartialConfiguration({
     case "app":
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="inherit">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
@@ -54,7 +54,7 @@ export function PartialConfiguration({
     default:
       return (
         <div className="main">
-          <Breadcrumbs>
+          <Breadcrumbs className="breadcrumbs">
             <Link underline="hover" color="text.primary">
               <span onClick={() => dispatch(push(``))}>{t("conf")}</span>
             </Link>
