@@ -140,7 +140,7 @@ function OptionMenu() {
         }}
         keepMounted
         transformOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
         open={menuOpen}

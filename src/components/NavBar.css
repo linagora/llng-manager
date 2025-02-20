@@ -37,15 +37,11 @@
   bottom: 10px;
 }
 
-.menu {
-  overflow: hidden;
-  padding: 15px;
-  background: #333;
-  color: gray;
+.MuiMenu-paper {
+  position: fixed;
+  top: auto !important;
+  bottom: 35px;
   z-index: 1001;
-}
-.menu :hover {
-  color: white;
 }
 
 .language-options {
