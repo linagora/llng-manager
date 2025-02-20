@@ -37,13 +37,6 @@
   bottom: 10px;
 }
 
-.MuiMenu-paper {
-  position: fixed;
-  top: auto !important;
-  bottom: 35px;
-  z-index: 1001;
-}
-
 .language-options {
   display: flex;
 }

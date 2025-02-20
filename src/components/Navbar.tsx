@@ -119,6 +119,7 @@ function OptionMenu() {
     i18n.changeLanguage(language);
     console.debug(`Language changed to ${language}`);
   };
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   return (
     <>
@@ -128,17 +129,17 @@ function OptionMenu() {
         aria-label="menu burger"
         aria-controls="menu-appbar"
         aria-haspopup="true"
-        onClick={() => setMenuOpen(true)}
+        onClick={(e) => {
+          setMenuOpen(true);
+          setAnchorEl(e.currentTarget);
+        }}
         color="inherit"
       >
         <MenuIcon />
       </IconButton>
       <Menu
         id="menu-appbar"
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
+        anchorEl={anchorEl}
         keepMounted
         transformOrigin={{
           vertical: "bottom",

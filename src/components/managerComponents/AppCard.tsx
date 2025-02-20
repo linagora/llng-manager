@@ -80,7 +80,6 @@ function AppCard({
                 <div
                   data-testid={`maintenanceButton.${info.name}`}
                   onClick={(e) => {
-                    setOpenName(true);
                     e.stopPropagation();
                   }}
                 >
@@ -132,7 +131,7 @@ function AppCard({
           </div>
         </div>
       </div>
-      {info.partial && (
+      {!info.partial && (
         <>
           <Menu
             id="name-menu"
