@@ -80,6 +80,7 @@ function AppCard({
                 <div
                   data-testid={`maintenanceButton.${info.name}`}
                   onClick={(e) => {
+                    setOpenName(true);
                     e.stopPropagation();
                   }}
                 >
@@ -108,28 +109,26 @@ function AppCard({
               >
                 <DriveFileRenameOutlineIcon />
               </Button>
+              <Button
+                onClick={(e) => {
+                  setOpenDup(true);
+                  e.stopPropagation();
+                  handleClick(e);
+                }}
+              >
+                <ControlPointDuplicateOutlinedIcon />
+              </Button>
 
-                <Button
-                  onClick={(e) => {
-                    setOpenDup(true);
-                    e.stopPropagation();
-                    handleClick(e);
-                  }}
-                >
-                  <ControlPointDuplicateOutlinedIcon />
-                </Button>
-
-                <Button
-                  onClick={(e) => {
-                    setOpenDel(true);
-                    e.stopPropagation();
-                    handleClick(e);
-                  }}
-                >
-                  <DeleteOutlineOutlinedIcon />
-                </Button>
-              </ButtonGroup>
-            )}
+              <Button
+                onClick={(e) => {
+                  setOpenDel(true);
+                  e.stopPropagation();
+                  handleClick(e);
+                }}
+              >
+                <DeleteOutlineOutlinedIcon />
+              </Button>
+            </ButtonGroup>
           </div>
         </div>
       </div>
