@@ -1609,7 +1609,6 @@ const configSlice = createSlice({
         saveConfigAsync.fulfilled,
         (state: ConfigState, action: PayloadAction<any>) => {
           state.loading = false;
-          console.log(action.payload);
           state.saveResponse = action.payload;
         }
       )

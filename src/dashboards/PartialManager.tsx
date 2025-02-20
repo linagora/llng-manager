@@ -70,7 +70,6 @@ export default function PartialManager() {
         : false || config.data.config.casAppMetaDataOptions
         ? "AppCas"
         : false;
-      console.log(Object.keys(name ? name : {})[0]);
       dispatch(push(`#app/${type}/${Object.keys(name ? name : {})[0]}`));
     }
   }, [dispatch, configNum, config.data.metadata, location, configPresent]);

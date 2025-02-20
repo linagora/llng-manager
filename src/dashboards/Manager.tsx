@@ -19,6 +19,7 @@ import {
 } from "../features/config/configSlice";
 import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import "./Manager.css";
+import HomeButton from "../components/HomeButton";
 
 export default function Manager() {
   const dispatch = useAppDispatch();

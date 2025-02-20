@@ -15,6 +15,7 @@ import { TableVars } from "../applicationsComponents/TableVars";
 import BoolForm from "../../forms/BoolForm";
 import TextForm from "../../forms/TextForm";
 import SelectForm from "../../forms/SelectForm";
+import HomeButton from "../HomeButton";
 export function CasIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
@@ -22,6 +23,7 @@ export function CasIssuer() {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{t("casServiceMetadata")}</strong>
       </div>
       <div className="app">

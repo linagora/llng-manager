@@ -38,6 +38,10 @@ th {
   flex-wrap: wrap;
 }
 
+.descBox button {
+  left: 50%;
+}
+
 .logo {
   width: 20vw;
 }

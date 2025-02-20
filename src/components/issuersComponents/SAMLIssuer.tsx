@@ -32,6 +32,7 @@ import { VisuallyHiddenInput } from "../managerComponents/VisuallyHiddenInput";
 import "../applicationsComponents/AppPage.css";
 import BoolForm from "../../forms/BoolForm";
 import TextForm from "../../forms/TextForm";
+import HomeButton from "../HomeButton";
 export function SAMLIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
@@ -50,6 +51,7 @@ export function SAMLIssuer() {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">
           {t("samlServiceMetaData")}
           <IconButton

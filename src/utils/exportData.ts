@@ -31,7 +31,7 @@ export const exportOidcMetadata = async (confNum: number) => {
 export const exportSamlMetadata = async (confNum: number) => {
   const response = await fetch(`/manager.fcgi/confs/${confNum}?samlMetadata=1`);
   const responseData = await response.text();
-  console.log(responseData);
+  console.debug(responseData);
   const jsonString = `data:application/octet-stream,${encodeURIComponent(
     responseData
   )}`;

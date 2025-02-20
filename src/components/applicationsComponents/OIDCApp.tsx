@@ -19,6 +19,7 @@ import BoolForm from "../../forms/BoolForm";
 import PasswordForm from "../../forms/PasswordForm";
 import TextForm from "../../forms/TextForm";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import HomeButton from "../HomeButton";
 
 export function OIDCApp({ name }: { name: string }) {
   const data = useAppSelector((state) => state.config.data.config);
@@ -32,6 +33,7 @@ export function OIDCApp({ name }: { name: string }) {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{name}</strong>
       </div>
       <div className="app">

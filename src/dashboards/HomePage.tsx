@@ -182,17 +182,7 @@ export function HomePage() {
                     <th>
                       <span>{t("latest")}</span>
                     </th>
-                    <td>
-                      <Button
-                        variant="contained"
-                        onClick={() => {
-                          dispatch(push(`#conf/latest`));
-                          dispatch(getConfigAsync());
-                        }}
-                      >
-                        {config.data.metadata.cfgNum}
-                      </Button>
-                    </td>
+                    <td>{config.data.metadata.cfgNum}</td>
                   </tr>
                   <tr>
                     <th>
@@ -219,6 +209,15 @@ export function HomePage() {
                   </tr>
                 </tbody>
               </table>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  dispatch(push(`#conf/latest`));
+                  dispatch(getConfigAsync());
+                }}
+              >
+                {t("go")}
+              </Button>
             </div>
             <div className="descBox">
               <ConfStats config={config.data.config} />

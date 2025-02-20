@@ -5,6 +5,7 @@ import attributes from "../../static/attributes.json";
 import TextForm from "../../forms/TextForm";
 import BoolForm from "../../forms/BoolForm";
 import BlackWhiteListForm from "../../forms/BlackWhiteListForm";
+import HomeButton from "../HomeButton";
 
 export function OIDIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -12,6 +13,7 @@ export function OIDIssuer() {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{t("issuerDBOIDParameters")}</strong>
       </div>
       <div className="appDesc">

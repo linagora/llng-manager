@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { toggleGET } from "../../features/config/configSlice";
 import BoolForm from "../../forms/BoolForm";
 import DoubleHashForm from "../../forms/DoubleHashForm";
+import HomeButton from "../HomeButton";
 
 export function GetIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -13,6 +14,7 @@ export function GetIssuer() {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{t("issuerDBGetParameters")}</strong>
       </div>
       <div className="appDesc">

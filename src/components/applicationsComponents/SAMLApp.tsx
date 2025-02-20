@@ -17,6 +17,7 @@ import { OptionSaml, SubObtionSelector } from "./OptionSaml";
 import { TableVars } from "./TableVars";
 import FileForm from "../../forms/FileForm";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import HomeButton from "../HomeButton";
 
 export function SAMLApp({
   name,
@@ -33,6 +34,7 @@ export function SAMLApp({
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{name}</strong>
       </div>
       <div className="app">

@@ -1,7 +1,5 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import {
-  Divider, IconButton, Tooltip
-} from "@mui/material";
+import { Divider, IconButton, Tooltip } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useState } from "react";
@@ -23,6 +21,7 @@ import TextForm from "../../forms/TextForm";
 import IntForm from "../../forms/IntForm";
 import LongtextForm from "../../forms/LongtextForm";
 import TroolForm from "../../forms/TroolForm";
+import HomeButton from "../HomeButton";
 
 export function CasApp({ name }: { name: string }) {
   const vars =
@@ -48,6 +47,7 @@ export function CasApp({ name }: { name: string }) {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{name}</strong>
       </div>
       <div className="app">

@@ -15,6 +15,7 @@ import { getConfigAsync } from "../features/config/configSlice";
 import { getTree } from "../utils/getTree";
 import SaveButton from "./../components/SaveButton";
 import Manager from "./../dashboards/Manager";
+import HomeButton from "../components/HomeButton";
 
 export function Configuration({
   location,
@@ -106,6 +107,7 @@ export function Configuration({
             </Link>
           </Breadcrumbs>
           <div className="top">
+            <HomeButton />
             <strong className="title">{t("authParams")}</strong>
             <IconButton onClick={() => setAuthSimple(!authSimple)}>
               <TuneIcon />

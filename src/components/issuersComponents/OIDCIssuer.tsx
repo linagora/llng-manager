@@ -22,6 +22,7 @@ import { llngConfig } from "../../utils/types";
 import { TableVars } from "../applicationsComponents/TableVars";
 import TextForm from "../../forms/TextForm";
 import BoolForm from "../../forms/BoolForm";
+import HomeButton from "../HomeButton";
 export function OIDCIssuer() {
   const config = useAppSelector((state) => state.config.data.config);
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ export function OIDCIssuer() {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{t("OIDCServiceMetaData")}</strong>
       </div>
       <div className="app">

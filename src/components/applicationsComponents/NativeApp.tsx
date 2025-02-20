@@ -31,6 +31,7 @@ import TroolForm from "../../forms/TroolForm";
 import BoolForm from "../../forms/BoolForm";
 import TextForm from "../../forms/TextForm";
 import SelectForm from "../../forms/SelectForm";
+import HomeButton from "../HomeButton";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -400,6 +401,7 @@ export function NativeApp({ name }: { name: string }) {
   return (
     <div>
       <div className="top">
+        <HomeButton />
         <strong className="title">{name}</strong>
       </div>
       <div className="app">

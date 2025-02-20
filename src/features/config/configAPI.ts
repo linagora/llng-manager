@@ -42,7 +42,7 @@ export function saveConfig(config: llngConfig) {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(JSON.stringify(error));
   }
 }
@@ -57,7 +57,7 @@ export function savePartialConfig(config: llngConfig) {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(JSON.stringify(error));
   }
 }
