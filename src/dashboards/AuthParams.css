@@ -1,7 +1,8 @@
 .authOptionChoices {
-  margin: 15px;
+  padding: 15px;
   display: flex;
   justify-content: space-around;
+  background-color: rgb(209, 211, 223);
 }
 
 .options {

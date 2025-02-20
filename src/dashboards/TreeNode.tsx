@@ -681,7 +681,7 @@ export function TreeNodeType({
       return (
         <tr>
           <PostContainerForm
-            value={data as Record<string, Record<string, string>>}
+            value={(data || {}) as Record<string, Record<string, string>>}
             appName={node.data.app || ""}
           />
         </tr>

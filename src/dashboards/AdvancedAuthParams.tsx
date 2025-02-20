@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
@@ -180,23 +186,30 @@ export function AdvancedAuthParams() {
             </Select>
           </FormControl>
         </div>
-        <div className="optionNavbar">
-          {allOptChoices.map((el) =>
-            selectedOptions.includes(el.k) && el.k !== "Same" ? (
-              <span
-                className={`option ${
-                  optionSelected === el.k ? "selected" : ""
-                }`}
-                key={"selected" + el.v}
-                onClick={() => setOptionSelected(el.k)}
-              >
-                {t(el.v)}
-              </span>
-            ) : null
-          )}
-        </div>
-        <div className="options">
-          <OptionRenderer selected={optionSelected ? optionSelected : ""} />
+        <div className="app">
+          <div className="optionNavbar">
+            {allOptChoices.map((el) =>
+              selectedOptions.includes(el.k) && el.k !== "Same" ? (
+                <span
+                  className={`option ${
+                    optionSelected === el.k ? "selected" : ""
+                  }`}
+                  key={"selected" + el.v}
+                  onClick={() => setOptionSelected(el.k)}
+                >
+                  {t(el.v)}
+                </span>
+              ) : null
+            )}
+          </div>
+          <Divider
+            className="divider"
+            orientation="vertical"
+            variant="middle"
+          />
+          <div className="box">
+            <OptionRenderer selected={optionSelected ? optionSelected : ""} />
+          </div>
         </div>
       </div>
     );

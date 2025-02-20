@@ -3,16 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionSummary,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
   Tooltip,
 } from "@mui/material";
 import { t } from "i18next";
@@ -32,6 +23,13 @@ import tree from "../../static/tree.json";
 import { llngConfig } from "../../utils/types";
 import { TableVars } from "../applicationsComponents/TableVars";
 import { SAMLRenderer } from "./SAMLRenderer";
+import TextForm from "../../forms/TextForm";
+import IntForm from "../../forms/IntForm";
+import PasswordForm from "../../forms/PasswordForm";
+import SelectForm from "../../forms/SelectForm";
+import BoolForm from "../../forms/BoolForm";
+import UrlForm from "../../forms/UrlForm";
+import BlackWhiteListForm from "../../forms/BlackWhiteListForm";
 
 function RecursRender({
   param,
@@ -48,175 +46,118 @@ function RecursRender({
   return param.values.map((el: string | Record<string, any>) => {
     if (typeof el === "object") {
       return (
-        <Accordion key={el.title + param.tab}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            {t(el.title)}
-          </AccordionSummary>
-          <RecursRender
-            param={{
-              values: el.nodes,
-              config: param.config,
-              tab: param.tab + 1,
-              dispatch: param.dispatch,
-            }}
-          />
-        </Accordion>
+        <tr key={el.title}>
+          <td colSpan={2}>
+            <Accordion key={el.title + param.tab}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                {t(el.title)}
+              </AccordionSummary>
+              <table>
+                <tbody>
+                  <RecursRender
+                    param={{
+                      values: el.nodes,
+                      config: param.config,
+                      tab: param.tab + 1,
+                      dispatch: param.dispatch,
+                    }}
+                  />
+                </tbody>
+              </table>
+            </Accordion>
+          </td>
+        </tr>
       );
     }
     switch (attributes[el as TypeKeyValue].type) {
       case "int":
         return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <TextField
-              size="small"
-              type="number"
-              onChange={(e) =>
+          <tr key={el}>
+            <IntForm
+              fieldName={el}
+              updateFunc={(e: number) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: Number(e.target.value),
+                    value: Number(e),
                   })
                 )
               }
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || 0}
+              value={Number(param.config[el as keyof llngConfig] || 0)}
             />
-          </ul>
+          </tr>
         );
       case "text":
         return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <TextField
-              size="small"
-              type="text"
-              onChange={(e) =>
+          <tr key={el}>
+            <TextForm
+              fieldName={el}
+              updateFunc={(e: string) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: e.target.value,
+                    value: e,
                   })
                 )
               }
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || ""}
+              value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "PerlModule":
         return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <TextField
-              size="small"
-              type="text"
-              onChange={(e) =>
+          <tr key={el}>
+            <TextForm
+              fieldName={el}
+              updateFunc={(e: string) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: e.target.value,
+                    value: e,
                   })
                 )
               }
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || ""}
+              value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "password":
         return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <TextField
-              size="small"
-              type="password"
-              onChange={(e) =>
+          <tr key={el}>
+            <PasswordForm
+              fieldName={el}
+              updateFunc={(e: string) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: e.target.value,
+                    value: e,
                   })
                 )
               }
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || ""}
+              value={String(param.config[el as keyof llngConfig] || "")}
             />
-          </ul>
+          </tr>
         );
       case "intOrNull":
         return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <TextField
-              size="small"
-              type="number"
-              onChange={(e) =>
+          <tr key={el}>
+            <IntForm
+              fieldName={el}
+              updateFunc={(e: number) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: Number(e.target.value),
+                    value: e,
                   })
                 )
               }
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || 0}
+              value={Number(param.config[el as keyof llngConfig] || 0)}
             />
-          </ul>
+          </tr>
         );
       case "authChoiceContainer":
         return (
-          <div key={el}>
+          <tr key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -226,163 +167,24 @@ function RecursRender({
                 </Markdown>
               }
             >
-              <strong className="title3">{t(el)}</strong>
+              <th>{t(el)}</th>
             </Tooltip>
-            <AuthChoiceContainerForm
-              data={
-                (param.config[el as keyof llngConfig] as Record<
-                  string,
-                  string
-                >) || {}
-              }
-              dispatch={param.dispatch}
-            />
-          </div>
-        );
-      case "cmbModuleContainer":
-        return (
-          <div key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <CmbModuleContainerForm
-              data={
-                (param.config[el as keyof llngConfig] as Record<
-                  string,
-                  Record<string, any>
-                >) || {}
-              }
-              dispatch={param.dispatch}
-            />
-          </div>
-        );
-      case "select":
-        return (
-          <ul key={el}>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel shrink>{t(el)}</InputLabel>
-              <Select
-                label={t(el)}
-                displayEmpty
-                value={param.config[el as keyof llngConfig] || ""}
-                onChange={(e) =>
-                  param.dispatch(
-                    updateConfigParams({
-                      param: el as keyof llngConfig,
-                      value: e.target.value,
-                    })
-                  )
-                }
-              >
-                {attributes[el as TypeKeyValue] &&
-                "select" in attributes[el as TypeKeyValue]
-                  ? (
-                      (
-                        attributes[el as TypeKeyValue] as {
-                          select?: YourType[];
-                        }
-                      ).select || []
-                    ).map((e) => {
-                      return (
-                        <MenuItem key={e.v} value={e.k}>
-                          {t(e.v)}
-                        </MenuItem>
-                      );
-                    })
-                  : ""}
-              </Select>
-            </FormControl>
-          </ul>
-        );
-      case "bool":
-        return (
-          <ul key={el}>
-            <FormControl>
-              <FormLabel>{t(el)}</FormLabel>
-              <RadioGroup
-                row
-                value={param.config[el as keyof llngConfig] || 0}
-                onChange={(e) =>
-                  param.dispatch(
-                    updateConfigParams({
-                      param: el as keyof llngConfig,
-                      value: Number(e.target.value),
-                    })
-                  )
-                }
-              >
-                <FormControlLabel
-                  value={1}
-                  control={<Radio />}
-                  label={t("on")}
-                />
-                <FormControlLabel
-                  value={0}
-                  control={<Radio />}
-                  label={t("off")}
-                />
-              </RadioGroup>
-            </FormControl>
-          </ul>
-        );
-      case "keyTextContainer":
-        return (
-          <ul key={el}>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions[el as keyof typeof definitions]
-                    ? definitions[el as keyof typeof definitions]
-                    : "") + ""}
-                </Markdown>
-              }
-            >
-              <strong className="title3">{t(el)}</strong>
-            </Tooltip>
-            <table id={el + "Table"}>
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
-                  <th>{t("values")}</th>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() =>
-                        param.dispatch(newModuleOpt(el as keyof llngConfig))
-                      }
-                    >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={el}
-                vars={
+            <td>
+              <AuthChoiceContainerForm
+                data={
                   (param.config[el as keyof llngConfig] as Record<
                     string,
                     string
                   >) || {}
                 }
-                tableID={el + "Table"}
                 dispatch={param.dispatch}
-                delFunction={delModuleOpt}
-                updateFunction={updateModuleOpt}
               />
-            </table>
-          </ul>
+            </td>
+          </tr>
         );
-      case "url":
+      case "cmbModuleContainer":
         return (
-          <ul key={el}>
+          <tr key={el}>
             <Tooltip
               title={
                 <Markdown>
@@ -392,94 +194,148 @@ function RecursRender({
                 </Markdown>
               }
             >
-              <strong className="title3">{t(el)}</strong>
+              <th>{t(el)}</th>
             </Tooltip>
-            <TextField
-              size="small"
-              type="url"
-              placeholder={t(el)}
-              value={param.config[el as keyof llngConfig] || ""}
-              onChange={(e) =>
+            <td>
+              <CmbModuleContainerForm
+                data={
+                  (param.config[el as keyof llngConfig] as Record<
+                    string,
+                    Record<string, any>
+                  >) || {}
+                }
+                dispatch={param.dispatch}
+              />
+            </td>
+          </tr>
+        );
+      case "select":
+        return (
+          <tr key={el}>
+            <SelectForm
+              fieldName={el}
+              value={String(param.config[el as keyof llngConfig] || "")}
+              updateFunc={(e: string) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: String(e.target.value),
+                    value: e,
                   })
                 )
               }
             />
-          </ul>
+          </tr>
+        );
+      case "bool":
+        return (
+          <tr key={el}>
+            <BoolForm
+              fieldName={el}
+              value={Number(param.config[el as keyof llngConfig] || 0)}
+              updateFunc={(e: number) =>
+                param.dispatch(
+                  updateConfigParams({
+                    param: el as keyof llngConfig,
+                    value: Number(e),
+                  })
+                )
+              }
+            />
+          </tr>
+        );
+      case "keyTextContainer":
+        return (
+          <tr key={el}>
+            <Tooltip
+              title={
+                <Markdown>
+                  {(definitions[el as keyof typeof definitions]
+                    ? definitions[el as keyof typeof definitions]
+                    : "") + ""}
+                </Markdown>
+              }
+            >
+              <th>{t(el)}</th>
+            </Tooltip>
+            <td>
+              <table id={el + "Table"}>
+                <thead>
+                  <tr>
+                    <th>{t("keys")}</th>
+                    <th>{t("values")}</th>
+                    <th>
+                      <IconButton
+                        className="plus"
+                        onClick={() =>
+                          param.dispatch(newModuleOpt(el as keyof llngConfig))
+                        }
+                      >
+                        <AddCircleIcon color="success" />
+                      </IconButton>
+                    </th>
+                  </tr>
+                </thead>
+                <TableVars
+                  appName={el}
+                  vars={
+                    (param.config[el as keyof llngConfig] as Record<
+                      string,
+                      string
+                    >) || {}
+                  }
+                  tableID={el + "Table"}
+                  dispatch={param.dispatch}
+                  delFunction={delModuleOpt}
+                  updateFunction={updateModuleOpt}
+                />
+              </table>
+            </td>
+          </tr>
+        );
+      case "url":
+        return (
+          <tr key={el}>
+            <UrlForm
+              fieldName={el}
+              value={String(param.config[el as keyof llngConfig] || "")}
+              updateFunc={(e: string) =>
+                param.dispatch(
+                  updateConfigParams({
+                    param: el as keyof llngConfig,
+                    value: String(e),
+                  })
+                )
+              }
+            />
+          </tr>
         );
       case "blackWhiteList":
         return (
-          <ul key={el}>
-            <FormControl>
-              <RadioGroup
-                row
-                value={
-                  String(
-                    param.config[el as keyof llngConfig]
-                      ? param.config[el as keyof llngConfig]
-                      : 0
-                  ).split(";")[0]
-                }
-                onChange={(e) =>
-                  param.dispatch(
-                    updateConfigParams({
-                      param: el as keyof llngConfig,
-                      value: `${Number(e.target.value)};${
-                        String(
-                          param.config[el as keyof llngConfig]
-                            ? param.config[el as keyof llngConfig]
-                            : ""
-                        ).split(";")[1]
-                      }`,
-                    })
-                  )
-                }
-              >
-                <FormControlLabel
-                  value={0}
-                  control={<Radio />}
-                  label={t("blacklist")}
-                />
-                <FormControlLabel
-                  value={1}
-                  control={<Radio />}
-                  label={t("whitelist")}
-                />
-              </RadioGroup>
-            </FormControl>
-            <TextField
-              size="small"
-              type="url"
-              value={
-                String(
-                  param.config[el as keyof llngConfig]
-                    ? param.config[el as keyof llngConfig]
-                    : ""
-                ).split(";")[1] || ""
-              }
-              onChange={(e) =>
+          <tr key={el}>
+            <BlackWhiteListForm
+              fieldName={el}
+              value={String(
+                param.config[el as keyof llngConfig]
+                  ? param.config[el as keyof llngConfig]
+                  : 0
+              )}
+              updateFunc={(e: string) =>
                 param.dispatch(
                   updateConfigParams({
                     param: el as keyof llngConfig,
-                    value: `${
-                      String(
-                        param.config[el as keyof llngConfig]
-                          ? param.config[el as keyof llngConfig]
-                          : ""
-                      ).split(";")[0]
-                    };${e.target.value}`,
+                    value: e,
                   })
                 )
               }
-              placeholder={t(el)}
             />
-          </ul>
+          </tr>
         );
       default:
-        return <ul key={el}>{attributes[el as TypeKeyValue].type} </ul>;
+        return (
+          <tr key={el}>
+            <td>{attributes[el as TypeKeyValue].type}</td>
+          </tr>
+        );
     }
   });
 }
@@ -503,13 +359,17 @@ export function OptionRenderer({ selected }: { selected: string }) {
         <strong className="title2">{t(l)}</strong>
         <div className="appDesc">
           {nodeSelected ? (
-            <div key={selected}>
-              <RecursRender
-                param={{ values: nodeSelected, config, tab: 0, dispatch }}
-              />
-            </div>
+            <table key={selected}>
+              <tbody>
+                <RecursRender
+                  param={{ values: nodeSelected, config, tab: 0, dispatch }}
+                />
+              </tbody>
+            </table>
           ) : (
-            ""
+            <table key={selected}>
+              <tbody></tbody>
+            </table>
           )}
         </div>
       </div>

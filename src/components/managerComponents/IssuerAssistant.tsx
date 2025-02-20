@@ -111,6 +111,7 @@ export function IssuerAssistant({
               multiline
               variant="filled"
               fullWidth
+              data-testid="private"
               rows={4}
               className="formInput"
               value={newKeysSAML.private || ""}
@@ -151,6 +152,7 @@ export function IssuerAssistant({
                 size="small"
                 margin="normal"
                 variant="filled"
+                data-testid="hash"
                 className="formInput"
                 value={newKeysSAML.hash || ""}
                 onChange={(e) =>
@@ -166,6 +168,7 @@ export function IssuerAssistant({
               variant="filled"
               fullWidth
               rows={4}
+              data-testid="public"
               className="formInput"
               value={newKeysSAML.public || ""}
               onChange={(e) =>

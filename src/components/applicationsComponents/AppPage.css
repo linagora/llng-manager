@@ -2,31 +2,39 @@
   .box th {
     font-size: smaller;
   }
+  .appDesc table {
+    width: 45vw;
+  }
   select {
     width: 5vh;
   }
 }
+.app {
+  display: flex;
+  flex-direction: row;
+}
 
 .appDesc {
   margin: 2%;
-  background-color: rgb(215, 239, 247);
-  border: 2px solid #acacac;
-  padding: 5%;
   border-radius: 15px;
-  align-content: center;
   flex-wrap: wrap;
+  height: 75vh;
+  overflow-y: scroll;
+  width: 100vw;
+}
+
+.divider {
+  height: 80vh;
 }
 
 .box tr {
   text-align: left;
   flex-wrap: wrap;
-  border: 1px solid #acacac;
+  border-bottom: 1px solid #acacac;
 }
-tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-tr:nth-child(even) {
-  background-color: rgb(249, 249, 249, 0.8);
+
+.box tbody {
+  border-bottom: 2px solid #3f3f3f;
 }
 
 .box td {
@@ -52,17 +60,10 @@ tr:nth-child(even) {
 }
 
 .appDesc table {
-  margin-top: 2%;
-  border: 1px solid #acacac;
-  width: 100%;
+  width: 60vw;
   max-width: 100%;
   flex-wrap: wrap;
   border-collapse: collapse;
-  box-shadow: 5% #acacac;
-}
-
-.box .form {
-  width: 100%;
 }
 
 textarea {
@@ -73,23 +74,44 @@ textarea {
 .optionNavbar {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(37, 63, 63);
+  /* background-color: rgb(37, 63, 63); */
   padding: 2%;
-  border-radius: 15px;
-  color: #acacac;
-  display: flex;
+  color: rgb(95, 95, 95);
   justify-content: space-around;
-  flex-wrap: wrap;
-  overflow-wrap: break-word;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .optionNavbar :hover {
-  color: #ffffff;
+  background-color: antiquewhite;
 }
+
+.optionNavbar.sub :hover {
+  background-color: rgb(248, 217, 177);
+}
+
+.option {
+  margin: 1%;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+}
+.suboption {
+  margin: 1%;
+  margin-left: 2%;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.suboption.selected {
+  background-color: rgb(248, 217, 177);
+}
+
 .option.selected {
-  color: #ffffff;
+  background-color: antiquewhite;
 }
 
 .scopes {
   display: flex;
   justify-content: space-between;
+  padding: 20px;
 }

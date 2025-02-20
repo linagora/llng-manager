@@ -8,20 +8,18 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { push } from "redux-first-history";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import AddApp from "../components/managerComponents/AddApp";
 import AppCard from "../components/managerComponents/AppCard";
 import FilterToggle from "../components/managerComponents/Filters";
 import Issuers from "../components/managerComponents/Issuers";
 import {
-  getConfigAsync,
+  getPartialConfigAsync,
   removeError,
   setError,
 } from "../features/config/configSlice";
 import { ruleCAS, ruleOIDC, ruleSAML } from "../utils/rules";
 import "./Manager.css";
-import HomeButton from "../components/HomeButton";
 
-export default function Manager() {
+export default function PartialManager() {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const config = useAppSelector((state) => state.config);
@@ -42,20 +40,37 @@ export default function Manager() {
   useEffect(() => {
     if (!configPresent) {
       setConfigPresent(true);
-      dispatch(
-        getConfigAsync(configNum === "latest" ? undefined : Number(configNum))
-      );
-    } else {
-      if (
-        configNum !== "latest" &&
-        Number(configNum) !== Number(config.data.metadata.cfgNum)
-      ) {
-        dispatch(
-          getConfigAsync(configNum === "latest" ? undefined : Number(configNum))
-        );
-      } else if (configNum === "latest" && config.data.metadata.next) {
-        dispatch(getConfigAsync());
-      }
+      dispatch(getPartialConfigAsync());
+    }
+    const appNum =
+      (config.data.config.locationRules
+        ? Object.keys(config.data.config.locationRules).length
+        : 0) +
+      (config.data.config.samlSPMetaDataXML
+        ? Object.keys(config.data.config.samlSPMetaDataXML).length
+        : 0) +
+      (config.data.config.oidcRPMetaDataOptions
+        ? Object.keys(config.data.config.oidcRPMetaDataOptions).length
+        : 0) +
+      (config.data.config.casAppMetaDataOptions
+        ? Object.keys(config.data.config.casAppMetaDataOptions).length
+        : 0);
+    if (appNum === 1) {
+      const name =
+        config.data.config.locationRules ||
+        config.data.config.samlSPMetaDataXML ||
+        config.data.config.oidcRPMetaDataOptions ||
+        config.data.config.casAppMetaDataOptions;
+      const type = config.data.config.locationRules
+        ? "native"
+        : false || config.data.config.samlSPMetaDataXML
+        ? "SPsaml"
+        : false || config.data.config.oidcRPMetaDataOptions
+        ? "RPoidc"
+        : false || config.data.config.casAppMetaDataOptions
+        ? "AppCas"
+        : false;
+      dispatch(push(`#app/${type}/${Object.keys(name ? name : {})[0]}`));
     }
   }, [dispatch, configNum, config.data.metadata, location, configPresent]);
   try {
@@ -75,7 +90,7 @@ export default function Manager() {
         </div>
       );
     } else {
-      var renderedData: JSX.Element[] = [];
+      const renderedData: JSX.Element[] = [];
       if (config.data.config.locationRules) {
         renderedData.push(
           ...Object.keys(config.data.config.locationRules).map((key) => (
@@ -163,16 +178,16 @@ export default function Manager() {
           )
         );
       }
-      renderedData = renderedData.filter((el) => {
+      renderedData.filter((el) => {
         return String(el.props.info.name).includes(filters.search);
       });
 
       if (filters.alpha) {
-        renderedData = renderedData.sort((el1, el2) =>
+        renderedData.sort((el1, el2) =>
           el1.props.info.name > el2.props.info.name ? 1 : -1
         );
       }
-      const pageLimit = 6;
+      const pageLimit = 12;
       const pageNb = Math.ceil(renderedData.length / pageLimit);
       const pages = Array.from(
         { length: Math.ceil(renderedData.length / pageLimit) },
@@ -184,19 +199,19 @@ export default function Manager() {
 
       return (
         <>
-          <div className="top">
-            <strong className="title"> {t("currentConfiguration")}</strong>
-            <Button
-              variant="contained"
-              sx={{ verticalAlign: "top" }}
-              className="cfgNum"
-              color={config.data.metadata.next ? "warning" : "success"}
-              onClick={(e) => {
-                handleClick(e);
-              }}
-            >
-              {config.data.metadata.cfgNum}
-            </Button>
+          <strong className="title"> {t("currentConfiguration")}</strong>
+          <Button
+            variant="contained"
+            sx={{ verticalAlign: "top" }}
+            className="cfgNum"
+            color={config.data.metadata.next ? "warning" : "success"}
+            onClick={(e) => {
+              handleClick(e);
+            }}
+          >
+            {config.data.metadata.cfgNum}
+          </Button>
+          {false && (
             <Button
               onClick={() => {
                 dispatch(push("#catandapp"));
@@ -204,11 +219,22 @@ export default function Manager() {
             >
               <WidgetsOutlinedIcon color="secondary" />
             </Button>
-            <Divider />
-            <AddApp />
-          </div>
-          <Issuers />
+          )}
+          {false && <Issuers />}
           <FilterToggle filters={filters} setFilters={setFilters} />
+          <Pagination
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+            }}
+            count={pageNb}
+            page={page}
+            onChange={handleChangePage}
+            color="primary"
+            size="large"
+            showFirstButton
+            showLastButton
+          />
           <div className="grid">{pages[page - 1]}</div>
           <Pagination
             sx={{
@@ -219,6 +245,8 @@ export default function Manager() {
             count={pageNb}
             page={page}
             onChange={handleChangePage}
+            color="primary"
+            size="large"
             showFirstButton
             showLastButton
           />

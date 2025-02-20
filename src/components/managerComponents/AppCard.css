@@ -1,13 +1,21 @@
 .card {
-  background-color: rgb(215, 239, 247);
-  border: 2px solid #acacac;
-  padding: 5%;
-  border-radius: 15px;
+  background-color: white;
+  box-shadow: 1px 1px 1px #888888;
+  padding: 15px;
+  border-radius: 5px;
   align-content: center;
   cursor: pointer;
   position: relative;
+  flex-direction: row;
 }
 
+.cardInfo {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  gap:10px
+}
 .card:hover {
   box-shadow: 5px 5px 5px #888888;
 }
@@ -26,14 +34,9 @@
   background-color: red;
 }
 
-.more {
-  width: 25px;
-  transform: rotate(-90deg) translateX(-25%);
-}
-
-.moreOptions {
-  background-color: white;
-  border-radius: 15px;
+.name {
+  display: flex;
+  flex-direction: row;
 }
 .menu-item {
   cursor: pointer;
@@ -55,18 +58,7 @@
 }
 
 .bottomRectangle {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.158
-  ); /* Change this to the desired background color */
-  padding: 5px 10px;
-  border: 1px solid #acacac;
-  border-radius: 10px;
   font-size: 12px;
   text-align: center;
-  position: absolute;
-  top: 0;
-  left: 0;
+  margin: 1%;
 }

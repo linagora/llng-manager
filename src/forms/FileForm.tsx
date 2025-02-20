@@ -24,11 +24,10 @@ export default function FileForm({
           <TextField
             size="small"
             margin="normal"
-            variant="filled"
             multiline
             fullWidth
             rows={12}
-            placeholder={fieldName}
+            placeholder={t(fieldName)}
             onChange={(e) => updateFunc(e.target.value)}
             value={value || ""}
           />

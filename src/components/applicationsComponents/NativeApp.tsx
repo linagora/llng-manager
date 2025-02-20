@@ -1,17 +1,6 @@
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import {
-  FormControl,
-  FormControlLabel,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Divider, IconButton, TextField, Tooltip } from "@mui/material";
 import { t } from "i18next";
 import Markdown from "markdown-to-jsx";
 import { useState } from "react";
@@ -37,6 +26,12 @@ import {
 import attributes from "./../../static/attributes.json";
 import "./AppPage.css";
 import { TableVars } from "./TableVars";
+import IntForm from "../../forms/IntForm";
+import TroolForm from "../../forms/TroolForm";
+import BoolForm from "../../forms/BoolForm";
+import TextForm from "../../forms/TextForm";
+import SelectForm from "../../forms/SelectForm";
+import HomeButton from "../HomeButton";
 function updateRules(tableID: string) {
   const ruleList = [];
 
@@ -405,572 +400,414 @@ export function NativeApp({ name }: { name: string }) {
   const dispatch = useAppDispatch();
   return (
     <div>
-      <strong className="title">{name}</strong>
-      <div className="optionNavbar">
-        <label
-          className={`option ${optionSelected === "basic" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("basic")}
-        >
-          {t("Basic Option")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "locationRules" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("locationRules")}
-        >
-          {t("locationRules")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "exportedHeaders" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("exportedHeaders")}
-        >
-          {t("exportedHeaders")}
-        </label>
-        <label
-          className={`option ${optionSelected === "post" ? "selected" : ""}`}
-          onClick={() => setOptionSelected("post")}
-        >
-          {t("post")}
-        </label>
-        <label
-          className={`option ${
-            optionSelected === "vhostOptions" ? "selected" : ""
-          }`}
-          onClick={() => setOptionSelected("vhostOptions")}
-        >
-          {t("vhostOptions")}
-        </label>
+      <div className="top">
+        <HomeButton />
+        <strong className="title">{name}</strong>
       </div>
-      <div className="appDesc">
-        {optionSelected === "basic" && (
+      <div className="app">
+        <div className="optionNavbar">
+          <label
+            className={`option ${optionSelected === "basic" ? "selected" : ""}`}
+            onClick={() => setOptionSelected("basic")}
+          >
+            {t("Basic Option")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "locationRules" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("locationRules")}
+          >
+            {t("locationRules")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "exportedHeaders" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("exportedHeaders")}
+          >
+            {t("exportedHeaders")}
+          </label>
+          <label
+            className={`option ${optionSelected === "post" ? "selected" : ""}`}
+            onClick={() => setOptionSelected("post")}
+          >
+            {t("post")}
+          </label>
+          <label
+            className={`option ${
+              optionSelected === "vhostOptions" ? "selected" : ""
+            }`}
+            onClick={() => setOptionSelected("vhostOptions")}
+          >
+            {t("vhostOptions")}
+          </label>
+        </div>
+        <Divider className="divider" orientation="vertical" variant="middle" />
+        <div className="appDesc">
           <div className="box">
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostComment
-                          ? definitions.vhostComment
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostComment")}</th>
-                  </Tooltip>
-
-                  <th>{t("regexp")}</th>
-
-                  <th>{t("rules")}</th>
-
-                  <th>{t("rulesAuthnLevel")}</th>
-                </tr>
-                <tr>
-                  <th>{t("defaultRule")}</th>
-
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
-                      value={"default"}
-                      disabled
-                    />
-                  </td>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
-                      onChange={(e) =>
-                        dispatch(
-                          updateDefaultLocationRule({
-                            appName: name,
-                            rule: e.target.value,
-                          })
-                        )
+            {optionSelected === "basic" && (
+              <table>
+                <tbody>
+                  <tr>
+                    <Tooltip
+                      title={
+                        <Markdown>
+                          {definitions.vhostComment
+                            ? definitions.vhostComment
+                            : ""}
+                        </Markdown>
                       }
-                      value={locationRules["default"]}
-                    />
-                  </td>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      type="text"
-                      value={"default"}
-                      className="authLevel"
-                      disabled
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    >
+                      <th>{t("vhostComment")}</th>
+                    </Tooltip>
 
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip
-                    title={<Markdown>{definitions.maintenance}</Markdown>}
-                  >
-                    <th>{t("maintenance")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          options
-                            ? options.vhostMaintenance
-                            : attributes.vhostMaintenance.default
-                        }
-                        onChange={(e) => {
+                    <th>{t("regexp")}</th>
+
+                    <th>{t("rules")}</th>
+
+                    <th>{t("rulesAuthnLevel")}</th>
+                  </tr>
+                  <tr>
+                    <th>{t("defaultRule")}</th>
+
+                    <td>
+                      <TextField
+                        size="small"
+                        margin="normal"
+                        variant="filled"
+                        className="form"
+                        type="text"
+                        value={"default"}
+                        disabled
+                      />
+                    </td>
+                    <td>
+                      <TextField
+                        size="small"
+                        margin="normal"
+                        variant="filled"
+                        className="form"
+                        type="text"
+                        onChange={(e) =>
                           dispatch(
-                            updateVhostOptions({
-                              name,
-                              option: "vhostMaintenance",
-                              value: Number(e.target.value),
+                            updateDefaultLocationRule({
+                              appName: name,
+                              rule: e.target.value,
                             })
-                          );
-                        }}
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
-        {optionSelected === "locationRules" && (
-          <div className="box">
-            <strong className="title2">{t("locationRules")}</strong>
-
-            <table id="locationRules">
-              <thead>
-                <tr>
-                  <th>{t("vhostComment")}</th>
-                  <th>{t("regexp")}</th>
-                  <th>{t("rules")}</th>
-                  <th>{t("rulesAuthnLevel")}</th>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newLocationRule(name))}
-                    >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              {NativeRule(name, locationRules, dispatch)}
-            </table>
-          </div>
-        )}
-        {(optionSelected === "exportedHeaders" ||
-          optionSelected === "basic") && (
-          <div className="box">
-            <div>
-              <strong className="title2">{t("exportedHeaders")}</strong>
-            </div>
-            <table id="exportedHeaders">
-              <thead>
-                <tr>
-                  <th>{t("keys")}</th>
-                  <Tooltip
-                    title={<Markdown>{definitions.exportedHeaders}</Markdown>}
-                  >
-                    <th>{t("values")}</th>
-                  </Tooltip>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newVhostHeaders(name))}
-                    >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              <TableVars
-                appName={name}
-                vars={exportedHeaders ? exportedHeaders : {}}
-                tableID={"exportedHeaders"}
-                dispatch={dispatch}
-                delFunction={delVhostHeader}
-                updateFunction={updateVhostHeaders}
-              />
-            </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newVhostHeaders(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
-          </div>
-        )}
-        {optionSelected === "post" && (
-          <div className="box">
-            <strong className="title2">{t("post")}</strong>
-
-            <table id="post">
-              <thead>
-                <tr>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("postUrl")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("postTargetUrl")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("jqueryUrl")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("jqueryFormSelector")}</th>
-                  </Tooltip>
-                  <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
-                    <th>{t("jqueryButtonSelector")}</th>
-                  </Tooltip>
-                  <th>
-                    <IconButton
-                      className="plus"
-                      onClick={() => dispatch(newVhostPost(name))}
-                    >
-                      <AddCircleIcon color="success" />
-                    </IconButton>
-                  </th>
-                </tr>
-              </thead>
-              {NativPost(name, post ? post : {}, dispatch)}
-            </table>
-            <IconButton
-              className="plus"
-              onClick={() => dispatch(newVhostPost(name))}
-            >
-              <AddCircleIcon color="success" />
-            </IconButton>
-          </div>
-        )}
-
-        {optionSelected === "vhostOptions" && (
-          <div className="box">
-            <strong className="title2">{t("vhostOptions")}</strong>
-            <table>
-              <tbody>
-                <tr>
-                  <Tooltip title={<Markdown>{definitions.port}</Markdown>}>
-                    <th>{t("port")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="number"
-                      value={String(
+                          )
+                        }
+                        value={locationRules["default"]}
+                      />
+                    </td>
+                    <td>
+                      <TextField
+                        size="small"
+                        margin="normal"
+                        variant="filled"
+                        type="text"
+                        value={"default"}
+                        className="authLevel"
+                        disabled
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <BoolForm
+                      value={Number(
                         options
-                          ? options.vhostPort
-                          : attributes.vhostPort.default
+                          ? options.vhostMaintenance
+                          : attributes.vhostMaintenance.default
                       )}
-                      onChange={(el) => {
+                      fieldName="maintenance"
+                      updateFunc={(e: number) => {
                         dispatch(
                           updateVhostOptions({
                             name,
-                            option: "vhostPort",
-                            value: el.target.value,
+                            option: "vhostMaintenance",
+                            value: Number(e),
                           })
                         );
                       }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostHttps ? definitions.vhostHttps : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostHttps")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
+            {optionSelected === "locationRules" && (
+              <>
+                <strong className="title2">{t("locationRules")}</strong>
+                <table id="locationRules">
+                  <thead>
+                    <tr>
+                      <th>{t("vhostComment")}</th>
+                      <th>{t("regexp")}</th>
+                      <th>{t("rules")}</th>
+                      <th>{t("rulesAuthnLevel")}</th>
+                      <th>
+                        <IconButton
+                          className="plus"
+                          onClick={() => dispatch(newLocationRule(name))}
+                        >
+                          <AddCircleIcon color="success" />
+                        </IconButton>
+                      </th>
+                    </tr>
+                  </thead>
+                  {NativeRule(name, locationRules, dispatch)}
+                </table>
+              </>
+            )}
+            {(optionSelected === "exportedHeaders" ||
+              optionSelected === "basic") && (
+              <>
+                <div>
+                  <strong className="title2">{t("exportedHeaders")}</strong>
+                </div>
+                <table id="exportedHeaders">
+                  <thead>
+                    <tr>
+                      <th>{t("keys")}</th>
+                      <Tooltip
+                        title={
+                          <Markdown>{definitions.exportedHeaders}</Markdown>
+                        }
+                      >
+                        <th>{t("values")}</th>
+                      </Tooltip>
+                      <th>
+                        <IconButton
+                          className="plus"
+                          onClick={() => dispatch(newVhostHeaders(name))}
+                        >
+                          <AddCircleIcon color="success" />
+                        </IconButton>
+                      </th>
+                    </tr>
+                  </thead>
+                  <TableVars
+                    appName={name}
+                    vars={exportedHeaders ? exportedHeaders : {}}
+                    tableID={"exportedHeaders"}
+                    dispatch={dispatch}
+                    delFunction={delVhostHeader}
+                    updateFunction={updateVhostHeaders}
+                  />
+                </table>
+                <IconButton
+                  className="plus"
+                  onClick={() => dispatch(newVhostHeaders(name))}
+                >
+                  <AddCircleIcon color="success" />
+                </IconButton>
+              </>
+            )}
+            {optionSelected === "post" && (
+              <>
+                <strong className="title2">{t("post")}</strong>
+                <table id="post">
+                  <thead>
+                    <tr>
+                      <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                        <th>{t("postUrl")}</th>
+                      </Tooltip>
+                      <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                        <th>{t("postTargetUrl")}</th>
+                      </Tooltip>
+                      <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                        <th>{t("jqueryUrl")}</th>
+                      </Tooltip>
+                      <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                        <th>{t("jqueryFormSelector")}</th>
+                      </Tooltip>
+                      <Tooltip title={<Markdown>{definitions.test}</Markdown>}>
+                        <th>{t("jqueryButtonSelector")}</th>
+                      </Tooltip>
+                      <th>
+                        <IconButton
+                          className="plus"
+                          onClick={() => dispatch(newVhostPost(name))}
+                        >
+                          <AddCircleIcon color="success" />
+                        </IconButton>
+                      </th>
+                    </tr>
+                  </thead>
+                  {NativPost(name, post ? post : {}, dispatch)}
+                </table>
+                <IconButton
+                  className="plus"
+                  onClick={() => dispatch(newVhostPost(name))}
+                >
+                  <AddCircleIcon color="success" />
+                </IconButton>
+              </>
+            )}
+            {optionSelected === "vhostOptions" && (
+              <>
+                <strong className="title">{t("vhostOptions")}</strong>
+                <table>
+                  <tbody>
+                    <tr>
+                      <IntForm
+                        value={Number(
+                          options
+                            ? options.vhostPort
+                            : attributes.vhostPort.default
+                        )}
+                        fieldName="port"
+                        updateFunc={(el: number) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostPort",
+                              value: el,
+                            })
+                          );
+                        }}
+                      />
+                    </tr>
+                    <tr>
+                      <TroolForm
+                        value={Number(
                           options
                             ? options.vhostHttps
                             : attributes.vhostHttps.default
-                        }
-                        onChange={(e) => {
+                        )}
+                        fieldName="vhostHttps"
+                        updateFunc={(e: number) => {
                           dispatch(
                             updateVhostOptions({
                               name,
                               option: "vhostHttps",
-                              value: Number(e.target.value),
+                              value: Number(e),
                             })
                           );
                         }}
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                        <FormControlLabel
-                          value={-1}
-                          control={<Radio />}
-                          label={t("default")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={<Markdown>{definitions.maintenance}</Markdown>}
-                  >
-                    <th>{t("maintenance")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
+                      />
+                    </tr>
+                    <tr>
+                      <BoolForm
+                        value={Number(
                           options
                             ? options.vhostMaintenance
                             : attributes.vhostMaintenance.default
-                        }
-                        onChange={(e) => {
+                        )}
+                        fieldName="maintenance"
+                        updateFunc={(e: number) => {
                           dispatch(
                             updateVhostOptions({
                               name,
                               option: "vhostMaintenance",
-                              value: Number(e.target.value),
+                              value: Number(e),
                             })
                           );
                         }}
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostAliases
-                          ? definitions.vhostAliases
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostAliases")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
-                      value={String(
-                        options
-                          ? options.vhostAliases
-                          : attributes.vhostAliases.default
-                      )}
-                      onChange={(el) => {
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostAliases",
-                            value: el.target.value,
-                          })
-                        );
-                      }}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostAccessToTrace
-                          ? definitions.vhostAccessToTrace
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostAccessToTrace")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="text"
-                      value={String(
-                        options
-                          ? options.vhostAccessToTrace
-                          : attributes.vhostAccessToTrace.default
-                      )}
-                      onChange={(el) => {
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostAccessToTrace",
-                            value: el.target.value,
-                          })
-                        );
-                      }}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip title={<Markdown>{definitions.vhostType}</Markdown>}>
-                    <th>{t("vhostType")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel>{t("vhostType")}</InputLabel>
-                      <Select
+                      />
+                    </tr>
+                    <tr>
+                      <TextForm
                         value={
-                          options
-                            ? options.vhostType
+                          options?.vhostAliases
+                            ? String(options.vhostAliases)
+                            : attributes.vhostAliases.default
+                        }
+                        fieldName="vhostAliases"
+                        updateFunc={(el: string) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostAliases",
+                              value: el,
+                            })
+                          );
+                        }}
+                      />
+                    </tr>
+                    <tr>
+                      <TextForm
+                        value={
+                          options?.vhostAccessToTrace
+                            ? String(options.vhostAccessToTrace)
+                            : attributes.vhostAccessToTrace.default
+                        }
+                        fieldName="vhostAccessToTrace"
+                        updateFunc={(el: string) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostAccessToTrace",
+                              value: el,
+                            })
+                          );
+                        }}
+                      />
+                    </tr>
+                    <tr>
+                      <SelectForm
+                        value={
+                          options?.vhostType
+                            ? String(options.vhostType)
                             : attributes.vhostType.default
                         }
-                        label={t("vhostType")}
-                        onChange={(el) =>
+                        fieldName="vhostType"
+                        updateFunc={(el: string) =>
                           dispatch(
                             updateVhostOptions({
                               name,
                               option: "vhostType",
-                              value: el.target.value,
+                              value: el,
                             })
                           )
                         }
-                      >
-                        {attributes.vhostType.select.map((type) => {
-                          return (
-                            <MenuItem key={type.k} value={type.k}>
-                              {t(type.v)}
-                            </MenuItem>
+                      />
+                    </tr>
+                    <tr>
+                      <IntForm
+                        value={
+                          options?.vhostAuthnLevel
+                            ? Number(options.vhostAuthnLevel)
+                            : 0
+                        }
+                        fieldName="vhostAuthnLevel"
+                        updateFunc={(el: number) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostAuthnLevel",
+                              value: el,
+                            })
                           );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostAuthnLevel
-                          ? definitions.vhostAuthnLevel
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostAuthnLevel")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="number"
-                      value={String(options ? options.vhostAuthnLevel : 0)}
-                      onChange={(el) => {
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostAuthnLevel",
-                            value: el.target.value,
-                          })
-                        );
-                      }}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.vhostServiceTokenTTL
-                          ? definitions.vhostServiceTokenTTL
-                          : ""}
-                      </Markdown>
-                    }
-                  >
-                    <th>{t("vhostServiceTokenTTL")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      type="number"
-                      value={String(
-                        options
-                          ? options.vhostServiceTokenTTL
-                          : attributes.vhostServiceTokenTTL.default
-                      )}
-                      onChange={(el) => {
-                        dispatch(
-                          updateVhostOptions({
-                            name,
-                            option: "vhostServiceTokenTTL",
-                            value: el.target.value,
-                          })
-                        );
-                      }}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                        }}
+                      />
+                    </tr>
+                    <tr>
+                      <IntForm
+                        value={
+                          options?.vhostServiceTokenTTL
+                            ? Number(options.vhostServiceTokenTTL)
+                            : 0
+                        }
+                        fieldName="vhostServiceTokenTTL"
+                        updateFunc={(el: number) => {
+                          dispatch(
+                            updateVhostOptions({
+                              name,
+                              option: "vhostServiceTokenTTL",
+                              value: el,
+                            })
+                          );
+                        }}
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

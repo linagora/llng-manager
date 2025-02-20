@@ -8,13 +8,19 @@ import attributes from "../../static/attributes.json";
 import { treeFormat } from "../../utils/recursTree";
 import { changeElementInConf } from "../../utils/searchIntree";
 import { MetaData, llngConfig } from "../../utils/types";
-import { getConfig, getMetadataConfig, saveConfig } from "./configAPI";
+import {
+  getConfig,
+  getMetadataConfig,
+  getPartialConfig,
+  saveConfig,
+  savePartialConfig,
+} from "./configAPI";
 
 export interface ConfigState {
   loading: boolean;
   error: { has: boolean; errorContent: string };
   data: { metadata: MetaData; config: llngConfig };
-  saveResponse?: Record<string, Array<Record<string, string>>>;
+  saveResponse?: Record<string, Record<string, Array<Record<string, string>>>>;
 }
 
 export const initialState: ConfigState = {
@@ -26,22 +32,76 @@ export const initialState: ConfigState = {
 export const getConfigAsync = createAsyncThunk(
   "config/fetchConfig",
   async (num?: number): Promise<Object> => {
-    const configlatestMetadata = await getMetadataConfig();
-    if (num && num <= configlatestMetadata.data.cfgNum) {
-      const configMetadata = await getMetadataConfig(num ? num : undefined);
-      const response = await getConfig(num ? num : configMetadata.data.cfgNum);
-      return { metadata: configMetadata.data, config: response.data };
+    const latestMetaresponse = await getMetadataConfig();
+    if (latestMetaresponse.redirected) {
+      window.location.assign(latestMetaresponse.url);
+    }
+    const configlatestMetadata = await latestMetaresponse.json();
+    if (num && num <= configlatestMetadata.cfgNum) {
+      const metaresponse = await getMetadataConfig(num ? num : undefined);
+      if (metaresponse.redirected) {
+        window.location.assign(metaresponse.url);
+      }
+      const configMetadata = await metaresponse.json();
+      const response = await getConfig(num ? num : configMetadata.cfgNum);
+      if (response.redirected) {
+        window.location.assign(response.url);
+      }
+      return { metadata: configMetadata, config: await response.json() };
     } else {
-      const response = await getConfig(configlatestMetadata.data.cfgNum);
-      return { metadata: configlatestMetadata.data, config: response.data };
+      const response = await getConfig(configlatestMetadata.cfgNum);
+      if (response.redirected) {
+        window.location.assign(response.url);
+      }
+      return {
+        metadata: await configlatestMetadata,
+        config: await response.json(),
+      };
     }
   }
 );
+
+export const getPartialConfigAsync = createAsyncThunk(
+  "config/fetchPartialConfig",
+  async (): Promise<Object> => {
+    const response = await getPartialConfig();
+    if (response.redirected) {
+      window.location.assign(response.url);
+    }
+    const partialConf = await response.json();
+    const metadata = {
+      cfgAuthor: partialConf.cfgAuthor,
+      cfgAuthorIP: partialConf.cfgAuthorIP,
+      cfgDate: partialConf.cfgDate,
+      cfgLog: partialConf.cfgLog,
+      cfgNum: partialConf.cfgNum,
+      cfgVersion: partialConf.cfgVersion,
+      prev: partialConf.prev,
+      next: partialConf.next,
+    };
+    return { metadata, config: partialConf };
+  }
+);
+
 export const saveConfigAsync = createAsyncThunk(
   "config/saveConfig",
   async (config: llngConfig): Promise<Object> => {
     const response = await saveConfig(config);
-    return response.data;
+    if (response.redirected) {
+      window.location.assign(response.url);
+    }
+    return response.json();
+  }
+);
+
+export const savePartialConfigAsync = createAsyncThunk(
+  "config/savePartialConfig",
+  async (config: llngConfig): Promise<Object> => {
+    const response = await savePartialConfig(config);
+    if (response.redirected) {
+      window.location.assign(response.url);
+    }
+    return response.json();
   }
 );
 
@@ -69,22 +129,37 @@ const configSlice = createSlice({
       }
     },
     toggleSAML(state) {
+      if (!state.data.config.issuerDBSAMLActivation) {
+        state.data.config.issuerDBSAMLActivation = 0;
+      }
       state.data.config.issuerDBSAMLActivation =
         1 - Number(state.data.config.issuerDBSAMLActivation);
     },
     toggleOIDC(state) {
+      if (!state.data.config.issuerDBOpenIDConnectActivation) {
+        state.data.config.issuerDBOpenIDConnectActivation = 0;
+      }
       state.data.config.issuerDBOpenIDConnectActivation =
         1 - Number(state.data.config.issuerDBOpenIDConnectActivation);
     },
     toggleCAS(state) {
+      if (!state.data.config.issuerDBCASActivation) {
+        state.data.config.issuerDBCASActivation = 0;
+      }
       state.data.config.issuerDBCASActivation =
         1 - Number(state.data.config.issuerDBCASActivation);
     },
     toggleOID2(state) {
+      if (!state.data.config.issuerDBOpenIDActivation) {
+        state.data.config.issuerDBOpenIDActivation = 0;
+      }
       state.data.config.issuerDBOpenIDActivation =
         1 - Number(state.data.config.issuerDBOpenIDActivation);
     },
     toggleGET(state) {
+      if (!state.data.config.issuerDBGetActivation) {
+        state.data.config.issuerDBGetActivation = 0;
+      }
       state.data.config.issuerDBGetActivation =
         1 - Number(state.data.config.issuerDBGetActivation);
     },
@@ -1357,7 +1432,6 @@ const configSlice = createSlice({
           Record<string, number>
         >
       )[action.payload.category].order;
-
       if (appIndex === -1) return;
       if (action.payload.direction === "up" && appIndex > 0) {
         (
@@ -1535,7 +1609,7 @@ const configSlice = createSlice({
         saveConfigAsync.fulfilled,
         (state: ConfigState, action: PayloadAction<any>) => {
           state.loading = false;
-          state.saveResponse = action.payload.details;
+          state.saveResponse = action.payload;
         }
       )
       .addCase(
@@ -1546,6 +1620,16 @@ const configSlice = createSlice({
           if (action.payload instanceof Error) {
             state.error.errorContent = action.payload.message;
           }
+        }
+      )
+      .addCase(getPartialConfigAsync.pending, (state: ConfigState) => {
+        state.loading = true;
+      })
+      .addCase(
+        getPartialConfigAsync.fulfilled,
+        (state: ConfigState, action: PayloadAction<any>) => {
+          state.loading = false;
+          state.data = action.payload;
         }
       );
   },

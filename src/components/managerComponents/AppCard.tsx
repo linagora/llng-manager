@@ -1,7 +1,7 @@
 import ControlPointDuplicateOutlinedIcon from "@mui/icons-material/ControlPointDuplicateOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { Button, ButtonGroup, Menu, TextField } from "@mui/material";
+import { Button, ButtonGroup, Chip, Menu, TextField } from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
 import { push } from "redux-first-history";
@@ -67,12 +67,37 @@ function AppCard({
         role="gridcell"
         onClick={() => dispatch(push(`#app/${type}/${info.name}`))}
       >
-        <div data-testid="appcard">
-          <div>
-            <strong className="title2">
-              {info.name} <span> {!rule ? "⚠️" : ""}</span>
-            </strong>
-            <ButtonGroup size="small" color="secondary">
+        <div className="cardInfo" data-testid="appcard">
+          <Chip label={t(type)} className="bottomRectangle" />
+          <strong className="title2">
+            {info.name} <span> {!rule ? "⚠️" : ""}</span>
+          </strong>
+          <div className="name">
+            {type === "native" ? (
+              <div className="maintenanceToggle">
+                <p>{t("maintenance")}</p>
+                <div
+                  data-testid={`maintenanceButton.${info.name}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <ToggleButton
+                    inputProps={{ role: "switch" }}
+                    data-testid={`maintenance.${info.name}`}
+                    color="secondary"
+                    role="switch"
+                    checked={maintenanceToggled}
+                    onChange={() =>
+                      dispatch(toggleMaintenance(String(info.name)))
+                    }
+                  />
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+            <ButtonGroup variant="text" size="small" color="secondary">
               <Button
                 onClick={(e) => {
                   setOpenName(true);
@@ -104,31 +129,6 @@ function AppCard({
               </Button>
             </ButtonGroup>
           </div>
-          {type === "native" ? (
-            <div className="maintenanceToggle">
-              <p>{t("maintenance")}</p>
-              <div
-                data-testid={`maintenanceButton.${info.name}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <ToggleButton
-                  inputProps={{ role: "switch" }}
-                  data-testid={`maintenance.${info.name}`}
-                  color="secondary"
-                  role="switch"
-                  checked={maintenanceToggled}
-                  onChange={() =>
-                    dispatch(toggleMaintenance(String(info.name)))
-                  }
-                />
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-          <div className="bottomRectangle">{t(type)}</div>
         </div>
       </div>
       <Menu

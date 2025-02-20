@@ -1,6 +1,6 @@
-import { Button, Checkbox, Menu, MenuItem, TextField } from "@mui/material";
+import SortByAlphaIcon from "@mui/icons-material/SortByAlpha";
+import { Button, TextField, Divider, ToggleButton } from "@mui/material";
 import { t } from "i18next";
-import React from "react";
 import "./Filters.css";
 function FilterToggle({
   filters,
@@ -9,18 +9,11 @@ function FilterToggle({
   filters: { alpha: boolean; search: string };
   setFilters: Function;
 }) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <div className="filters">
       <div>
         <TextField
+          className="filter"
           size="small"
           margin="normal"
           variant="outlined"
@@ -28,28 +21,21 @@ function FilterToggle({
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
       </div>
-      <Button
-        variant="outlined"
+      <ToggleButton
         className="filter"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        aria-labelledby="alpha-label"
+        data-testid="alpha-label"
+        onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
+        selected={filters.alpha}
+        value={filters.alpha}
+        color={filters.alpha ? "primary" : "secondary"}
+        size="small"
       >
-        {t("ldapFilters")}
-      </Button>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem
-          onClick={() => setFilters({ ...filters, alpha: !filters.alpha })}
-        >
-          <label id="alpha-label">{t("alphabetical")}</label>
-          <Checkbox
-            aria-labelledby="alpha-label"
-            onChange={() => setFilters({ ...filters, alpha: !filters.alpha })}
-            checked={filters.alpha}
-          />
-        </MenuItem>
-      </Menu>
+        <SortByAlphaIcon />
+        <label aria-label="alpha-label" hidden>
+          alpha-label
+        </label>
+      </ToggleButton>
     </div>
   );
 }

@@ -1,20 +1,11 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Accordion,
-  AccordionSummary,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
-} from "@mui/material";
+import { Accordion, AccordionSummary } from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
+import TextForm from "../../forms/TextForm";
+import BoolForm from "../../forms/BoolForm";
 
 export function LDAPSimpleView() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -30,92 +21,62 @@ export function LDAPSimpleView() {
             </th>
           </tr>
           <tr>
-            <Tooltip title={<Markdown>{definitions.ldapBase}</Markdown>}>
-              <th>{t("ldapBase")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "ldapBase",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.ldapBase || attributes.ldapBase.default}
-              />
-            </td>
-          </tr>
-          <tr>
-            <Tooltip title={<Markdown>{definitions.managerDn}</Markdown>}>
-              <th>{t("managerDn")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "managerDn",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.managerDn || attributes.managerDn.default}
-              />
-            </td>
-          </tr>
-          <tr>
-            <Tooltip title={<Markdown>{definitions.managerPassword}</Markdown>}>
-              <th>{t("managerPassword")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "managerPassword",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={
-                  config.managerPassword || attributes.managerPassword.default
-                }
-              />
-            </td>
-          </tr>
-          <tr>
-            <Tooltip
-              title={
-                <Markdown>
-                  {(definitions ? definitions.LDAPFilter : "") + ""}
-                </Markdown>
+            <TextForm
+              fieldName="ldapBase"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "ldapBase",
+                    value: e,
+                  })
+                )
               }
-            >
-              <th>{t("LDAPFilter")}</th>
-            </Tooltip>
-            <td>
-              <TextField
-                size="small"
-                type="text"
-                onChange={(e) =>
-                  dispatch(
-                    updateConfigParams({
-                      param: "LDAPFilter",
-                      value: e.target.value,
-                    })
-                  )
-                }
-                value={config.LDAPFilter || ""}
-              />
-            </td>
+              value={config.ldapBase || attributes.ldapBase.default}
+            />
+          </tr>
+          <tr>
+            <TextForm
+              fieldName="managerDn"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "managerDn",
+                    value: e,
+                  })
+                )
+              }
+              value={config.managerDn || attributes.managerDn.default}
+            />
+          </tr>
+          <tr>
+            <TextForm
+              fieldName="managerPassword"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "managerPassword",
+                    value: e,
+                  })
+                )
+              }
+              value={
+                config.managerPassword || attributes.managerPassword.default
+              }
+            />
+          </tr>
+          <tr>
+            <TextForm
+              fieldName="LDAPFilter"
+              updateFunc={(e: string) =>
+                dispatch(
+                  updateConfigParams({
+                    param: "LDAPFilter",
+                    value: e,
+                  })
+                )
+              }
+              value={config.LDAPFilter || ""}
+            />
           </tr>
         </tbody>
       </table>
@@ -126,292 +87,151 @@ export function LDAPSimpleView() {
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapGroupBase : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupBase"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupBase",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupBase")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupBase",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={config.ldapGroupBase || ""}
-                />
-              </td>
+                value={config.ldapGroupBase || ""}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.groupLDAPFilter : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="groupLDAPFilter"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "groupLDAPFilter",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("groupLDAPFilter")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "groupLDAPFilter",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={config.groupLDAPFilter || ""}
-                />
-              </td>
+                value={config.groupLDAPFilter || ""}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapGroupObjectClass : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupObjectClass"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupObjectClass",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupObjectClass")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupObjectClass",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapGroupObjectClass ||
-                    attributes.ldapGroupObjectClass.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapGroupObjectClass ||
+                  attributes.ldapGroupObjectClass.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapGroupAttributeName : "") +
-                      ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupAttributeName"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupAttributeName",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupAttributeName")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupAttributeName",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapGroupAttributeName ||
-                    attributes.ldapGroupAttributeName.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapGroupAttributeName ||
+                  attributes.ldapGroupAttributeName.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapGroupAttributeNameUser
-                      : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupAttributeNameUser"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupAttributeNameUser",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupAttributeNameUser")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupAttributeNameSearch",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapGroupAttributeNameUser ||
-                    attributes.ldapGroupAttributeNameUser.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapGroupAttributeNameUser ||
+                  attributes.ldapGroupAttributeNameUser.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapGroupAttributeNameSearch
-                      : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupAttributeNameSearch"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupAttributeNameSearch",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupAttributeNameSearch")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupAttributeNameSearch",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapGroupAttributeNameSearch ||
-                    attributes.ldapGroupAttributeNameSearch.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapGroupAttributeNameSearch ||
+                  attributes.ldapGroupAttributeNameSearch.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapGroupDecodeSearchedValue
-                      : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapGroupDecodeSearchedValue"
+                value={Number(
+                  config.ldapGroupDecodeSearchedValue ||
+                    attributes.ldapGroupDecodeSearchedValue.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupDecodeSearchedValue",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupDecodeSearchedValue")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapGroupDecodeSearchedValue ||
-                      attributes.ldapGroupDecodeSearchedValue.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapGroupDecodeSearchedValue",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapGroupRecursive : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapGroupRecursive"
+                value={Number(
+                  config.ldapGroupRecursive ||
+                    attributes.ldapGroupRecursive.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupRecursive",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupRecursive")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapGroupRecursive ||
-                      attributes.ldapGroupRecursive.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapGroupRecursive",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapGroupAttributeNameGroup
-                      : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapGroupAttributeNameGroup"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGroupAttributeNameGroup",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGroupAttributeNameGroup")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapGroupAttributeNameGroup",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapGroupAttributeNameGroup ||
-                    attributes.ldapGroupAttributeNameGroup.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapGroupAttributeNameGroup ||
+                  attributes.ldapGroupAttributeNameGroup.default
+                }
+              />
             </tr>
           </tbody>
         </table>
@@ -423,383 +243,167 @@ export function LDAPSimpleView() {
         <table>
           <tbody>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapPpolicyControl : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapPpolicyControl"
+                value={Number(
+                  config.ldapPpolicyControl ||
+                    attributes.ldapPpolicyControl.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapPpolicyControl",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapPpolicyControl")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapPpolicyControl ||
-                      attributes.ldapPpolicyControl.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapPpolicyControl",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapSetPassword : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapSetPassword"
+                value={Number(
+                  config.ldapSetPassword || attributes.ldapSetPassword.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapSetPassword",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapSetPassword")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapSetPassword ||
-                      attributes.ldapSetPassword.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapSetPassword",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapChangePasswordAsUser : "") +
-                      ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapChangePasswordAsUser"
+                value={Number(
+                  config.ldapChangePasswordAsUser ||
+                    attributes.ldapChangePasswordAsUser.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapChangePasswordAsUser",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapChangePasswordAsUser")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapChangePasswordAsUser ||
-                      attributes.ldapChangePasswordAsUser.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapChangePasswordAsUser",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapPwdEnc : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapPwdEnc"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapPwdEnc",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapPwdEnc")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapPwdEnc",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={config.ldapPwdEnc || attributes.ldapPwdEnc.default}
-                />
-              </td>
+                value={config.ldapPwdEnc || attributes.ldapPwdEnc.default}
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapUsePasswordResetAttribute
-                      : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapUsePasswordResetAttribute"
+                value={Number(
+                  config.ldapUsePasswordResetAttribute ||
+                    attributes.ldapUsePasswordResetAttribute.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapUsePasswordResetAttribute",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapUsePasswordResetAttribute")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapUsePasswordResetAttribute ||
-                      attributes.ldapUsePasswordResetAttribute.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapUsePasswordResetAttribute",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapPasswordResetAttribute
-                      : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapPasswordResetAttribute"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapPasswordResetAttribute",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapPasswordResetAttribute")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapPasswordResetAttribute",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapPasswordResetAttribute ||
-                    attributes.ldapPasswordResetAttribute.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapPasswordResetAttribute ||
+                  attributes.ldapPasswordResetAttribute.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapPasswordResetAttributeValue
-                      : "") + ""}
-                  </Markdown>
+              <TextForm
+                fieldName="ldapPasswordResetAttributeValue"
+                updateFunc={(e: string) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapPasswordResetAttributeValue",
+                      value: e,
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapPasswordResetAttributeValue")}</th>
-              </Tooltip>
-              <td>
-                <TextField
-                  size="small"
-                  type="text"
-                  onChange={(e) =>
-                    dispatch(
-                      updateConfigParams({
-                        param: "ldapPasswordResetAttributeValue",
-                        value: e.target.value,
-                      })
-                    )
-                  }
-                  value={
-                    config.ldapPasswordResetAttributeValue ||
-                    attributes.ldapPasswordResetAttributeValue.default
-                  }
-                />
-              </td>
+                value={
+                  config.ldapPasswordResetAttributeValue ||
+                  attributes.ldapPasswordResetAttributeValue.default
+                }
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapAllowResetExpiredPassword
-                      : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapAllowResetExpiredPassword"
+                value={Number(
+                  config.ldapAllowResetExpiredPassword ||
+                    attributes.ldapAllowResetExpiredPassword.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapAllowResetExpiredPassword",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapAllowResetExpiredPassword")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapAllowResetExpiredPassword ||
-                      attributes.ldapAllowResetExpiredPassword.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapAllowResetExpiredPassword",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions
-                      ? definitions.ldapGetUserBeforePasswordChange
-                      : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapGetUserBeforePasswordChange"
+                value={Number(
+                  config.ldapGetUserBeforePasswordChange ||
+                    attributes.ldapGetUserBeforePasswordChange.default
+                )}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapGetUserBeforePasswordChange",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapGetUserBeforePasswordChange")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={
-                      config.ldapGetUserBeforePasswordChange ||
-                      attributes.ldapGetUserBeforePasswordChange.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapGetUserBeforePasswordChange",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
             <tr>
-              <Tooltip
-                title={
-                  <Markdown>
-                    {(definitions ? definitions.ldapITDS : "") + ""}
-                  </Markdown>
+              <BoolForm
+                fieldName="ldapITDS"
+                value={Number(config.ldapITDS || attributes.ldapITDS.default)}
+                updateFunc={(e: number) =>
+                  dispatch(
+                    updateConfigParams({
+                      param: "ldapITDS",
+                      value: Number(e),
+                    })
+                  )
                 }
-              >
-                <th>{t("ldapITDS")}</th>
-              </Tooltip>
-              <td>
-                <FormControl>
-                  <RadioGroup
-                    row
-                    value={config.ldapITDS || attributes.ldapITDS.default}
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "ldapITDS",
-                          value: Number(e.target.value),
-                        })
-                      )
-                    }
-                  >
-                    <FormControlLabel
-                      value={1}
-                      control={<Radio />}
-                      label={t("on")}
-                    />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label={t("off")}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </td>
+              />
             </tr>
           </tbody>
         </table>

@@ -26,7 +26,7 @@ export default function TextForm({
           </Markdown>
         }
       >
-        <th className="title3">{t(fieldName)}</th>
+        <th >{t(fieldName)}</th>
       </Tooltip>
       <td>
         <TextField

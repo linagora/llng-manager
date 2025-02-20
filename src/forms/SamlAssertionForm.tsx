@@ -73,7 +73,6 @@ export default function SamlAssertionForm({
             <TextField
               size="small"
               margin="normal"
-              variant="filled"
               className="form"
               value={value?.split(";")[3] || ""}
               onChange={(e) =>

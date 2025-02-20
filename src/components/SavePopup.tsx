@@ -6,7 +6,11 @@ import {
   Divider,
 } from "@mui/material";
 import { t } from "i18next";
-import { ConfigState, getConfigAsync } from "../features/config/configSlice";
+import {
+  ConfigState,
+  getConfigAsync,
+  getPartialConfigAsync,
+} from "../features/config/configSlice";
 import "./SaveButton.css";
 
 export function SavePopup({
@@ -14,11 +18,13 @@ export function SavePopup({
   openSavePopup,
   setOpenSavePopup,
   dispatch,
+  partial,
 }: {
   config: ConfigState;
   openSavePopup: boolean;
   setOpenSavePopup: Function;
   dispatch: Function;
+  partial?: boolean;
 }) {
   return (
     <Dialog open={openSavePopup}>
@@ -27,11 +33,11 @@ export function SavePopup({
       <DialogContent>
         {config.saveResponse ? (
           <>
-            {config.saveResponse.__warnings__ ? (
+            {config.saveResponse.details.__warnings__ ? (
               <>
                 <strong>{t("warnings")}</strong>
                 <span>
-                  {config.saveResponse.__warnings__?.map(
+                  {config.saveResponse.details.__warnings__?.map(
                     (el: Record<string, string>) => (
                       <ul key={el.message}>{el.message}</ul>
                     )
@@ -41,11 +47,11 @@ export function SavePopup({
             ) : (
               ""
             )}
-            {config.saveResponse.__errors__ ? (
+            {config.saveResponse.details.__errors__ ? (
               <>
                 <strong>{t("errors")}</strong>
                 <span>
-                  {config.saveResponse.__errors__?.map(
+                  {config.saveResponse.details.__errors__?.map(
                     (el: Record<string, string>) => (
                       <ul key={el.message}>{el.message}</ul>
                     )
@@ -64,7 +70,9 @@ export function SavePopup({
 
       <Button
         onClick={() => {
-          dispatch(getConfigAsync());
+          if (!config.saveResponse?.details.__errors__) {
+            dispatch(partial ? getPartialConfigAsync() : getConfigAsync());
+          }
           setOpenSavePopup(false);
         }}
       >

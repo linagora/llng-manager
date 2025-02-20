@@ -22,7 +22,6 @@ export default function BlackWhiteListForm({
   updateFunc: Function;
 }) {
   const attribute = attributes[fieldName as keyof typeof attributes];
-
   return (
     <>
       <Tooltip
@@ -34,7 +33,7 @@ export default function BlackWhiteListForm({
           </Markdown>
         }
       >
-        <th className="title3">{t(fieldName)}</th>
+        <th >{t(fieldName)}</th>
       </Tooltip>
       <td>
         <FormControl>
@@ -43,9 +42,15 @@ export default function BlackWhiteListForm({
             row
             value={
               value.split(";")[0] ||
-              ("default" in attribute ? attribute.default : 0)
+              ("default" in attribute
+                ? String(attribute.default).split(";")[0]
+                : 0)
             }
-            onChange={(e) => updateFunc(e)}
+            onChange={(e) =>
+              updateFunc(
+                `${Number(e.target.value)};${String(value).split(";")[1]}`
+              )
+            }
           >
             <FormControlLabel
               value={1}
@@ -61,11 +66,15 @@ export default function BlackWhiteListForm({
         </FormControl>
         <TextField
           size="small"
-          onChange={(e) => updateFunc(e.target.value)}
+          onChange={(e) =>
+            updateFunc(`${String(value).split(";")[0]};${e.target.value}`)
+          }
           placeholder={t(fieldName)}
           value={
             value.split(";")[1] ||
-            ("default" in attribute ? attribute.default : 0)
+            ("default" in attribute
+              ? String(attribute.default).split(";")[1]
+              : 0)
           }
         />
       </td>

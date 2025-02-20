@@ -1,23 +1,18 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
-  AccordionSummary,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Tooltip,
+  AccordionSummary
 } from "@mui/material";
 import { t } from "i18next";
-import Markdown from "markdown-to-jsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateConfigParams } from "../../features/config/configSlice";
 import SamlAssertionForm from "../../forms/SamlAssertionForm";
 import SamlServiceForm from "../../forms/SamlServiceForm";
 import attributes from "../../static/attributes.json";
-import definitions from "../../static/definitions.json";
 import { llngConfig } from "../../utils/types";
+import TextForm from "../../forms/TextForm";
+import IntForm from "../../forms/IntForm";
+import BoolForm from "../../forms/BoolForm";
 
 export function SAMLRenderer() {
   const config = useAppSelector((state) => state.config.data.config);
@@ -34,140 +29,76 @@ export function SAMLRenderer() {
           <table>
             <tbody>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlNameIDFormatMapEmail
-                        : "") + ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlNameIDFormatMapEmail"
+                  value={
+                    config.samlNameIDFormatMapEmail
+                      ? config.samlNameIDFormatMapEmail
+                      : ""
                   }
-                >
-                  <th>{t("samlNameIDFormatMapEmail")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlNameIDFormatMapEmail
-                        ? config.samlNameIDFormatMapEmail
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlNameIDFormatMapEmail",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlNameIDFormatMapEmail",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlNameIDFormatMapX509
-                        : "") + ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlNameIDFormatMapX509"
+                  value={
+                    config.samlNameIDFormatMapX509
+                      ? config.samlNameIDFormatMapX509
+                      : ""
                   }
-                >
-                  <th>{t("samlNameIDFormatMapX509")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlNameIDFormatMapX509
-                        ? config.samlNameIDFormatMapX509
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlNameIDFormatMapX509",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlNameIDFormatMapX509",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlNameIDFormatMapWindows
-                        : "") + ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlNameIDFormatMapWindows"
+                  value={
+                    config.samlNameIDFormatMapWindows
+                      ? config.samlNameIDFormatMapWindows
+                      : ""
                   }
-                >
-                  <th>{t("samlNameIDFormatMapWindows")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlNameIDFormatMapWindows
-                        ? config.samlNameIDFormatMapWindows
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlNameIDFormatMapWindows",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlNameIDFormatMapWindows",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlNameIDFormatMapKerberos
-                        : "") + ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlNameIDFormatMapKerberos"
+                  value={
+                    config.samlNameIDFormatMapKerberos
+                      ? config.samlNameIDFormatMapKerberos
+                      : ""
                   }
-                >
-                  <th>{t("samlNameIDFormatMapKerberos")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={
-                      config.samlNameIDFormatMapKerberos
-                        ? config.samlNameIDFormatMapKerberos
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlNameIDFormatMapKerberos",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlNameIDFormatMapKerberos",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
             </tbody>
           </table>
@@ -180,145 +111,77 @@ export function SAMLRenderer() {
           <table>
             <tbody>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlAuthnContextMapPassword
-                        : "") + ""}
-                    </Markdown>
+                <IntForm
+                  fieldName="samlAuthnContextMapPassword"
+                  value={Number(
+                    config.samlAuthnContextMapPassword
+                      ? config.samlAuthnContextMapPassword
+                      : ""
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlAuthnContextMapPassword",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlAuthnContextMapPassword")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    type="number"
-                    value={
-                      config.samlAuthnContextMapPassword
-                        ? config.samlAuthnContextMapPassword
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlAuthnContextMapPassword",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlAuthnContextMapPasswordProtectedTransport
-                        : "") + ""}
-                    </Markdown>
+                
+                <IntForm
+                  fieldName="samlAuthnContextMapPasswordProtectedTransport"
+                  value={Number(
+                    config.samlAuthnContextMapPasswordProtectedTransport
+                      ? config.samlAuthnContextMapPasswordProtectedTransport
+                      : ""
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlAuthnContextMapPasswordProtectedTransport",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlAuthnContextMapPasswordProtectedTransport")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    type="number"
-                    value={
-                      config.samlAuthnContextMapPasswordProtectedTransport
-                        ? config.samlAuthnContextMapPasswordProtectedTransport
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param:
-                            "samlAuthnContextMapPasswordProtectedTransport",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlAuthnContextMapKerberos
-                        : "") + ""}
-                    </Markdown>
+                <IntForm
+                  fieldName="samlAuthnContextMapKerberos"
+                  value={Number(
+                    config.samlAuthnContextMapKerberos
+                      ? config.samlAuthnContextMapKerberos
+                      : ""
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlAuthnContextMapKerberos",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlAuthnContextMapKerberos")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    type="number"
-                    value={
-                      config.samlAuthnContextMapKerberos
-                        ? config.samlAuthnContextMapKerberos
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlAuthnContextMapKerberos",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlAuthnContextMapTLSClient
-                        : "") + ""}
-                    </Markdown>
+                <IntForm
+                  fieldName="samlAuthnContextMapTLSClient"
+                  value={Number(
+                    config.samlAuthnContextMapTLSClient
+                      ? config.samlAuthnContextMapTLSClient
+                      : ""
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlAuthnContextMapTLSClient",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlAuthnContextMapTLSClient")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    type="number"
-                    value={
-                      config.samlAuthnContextMapTLSClient
-                        ? config.samlAuthnContextMapTLSClient
-                        : ""
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlAuthnContextMapTLSClient",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                />
               </tr>
             </tbody>
           </table>
@@ -543,151 +406,69 @@ export function SAMLRenderer() {
           <table>
             <tbody>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions ? definitions.samlMetadataForceUTF8 : "") +
-                        ""}
-                    </Markdown>
+                <BoolForm
+                  fieldName="samlMetadataForceUTF8"
+                  value={Number(
+                    config.samlMetadataForceUTF8 ||
+                      attributes.samlMetadataForceUTF8.default
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlMetadataForceUTF8",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlMetadataForceUTF8")}</th>
-                </Tooltip>
-                <td>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      value={
-                        config.samlMetadataForceUTF8 ||
-                        attributes.samlMetadataForceUTF8.default
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlMetadataForceUTF8",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    >
-                      <FormControlLabel
-                        value={1}
-                        control={<Radio />}
-                        label={t("on")}
-                      />
-                      <FormControlLabel
-                        value={0}
-                        control={<Radio />}
-                        label={t("off")}
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </td>
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions ? definitions.samlRelayStateTimeout : "") +
-                        ""}
-                    </Markdown>
+                <BoolForm
+                  fieldName="samlRelayStateTimeout"
+                  value={
+                    config.samlRelayStateTimeout ||
+                    attributes.samlRelayStateTimeout.default
                   }
-                >
-                  <th>{t("samlRelayStateTimeout")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    type="number"
-                    className="form"
-                    value={
-                      config.samlRelayStateTimeout ||
-                      attributes.samlRelayStateTimeout.default
-                    }
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlRelayStateTimeout",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlRelayStateTimeout",
+                        value: e,
+                      })
+                    )
+                  }
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions
-                        ? definitions.samlUseQueryStringSpecific
-                        : "") + ""}
-                    </Markdown>
+                <BoolForm
+                  fieldName="samlUseQueryStringSpecific"
+                  value={Number(
+                    config.samlUseQueryStringSpecific ||
+                      attributes.samlUseQueryStringSpecific.default
+                  )}
+                  updateFunc={(e: number) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlUseQueryStringSpecific",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlUseQueryStringSpecific")}</th>
-                </Tooltip>
-                <td>
-                  <FormControl>
-                    <RadioGroup
-                      row
-                      value={
-                        config.samlUseQueryStringSpecific ||
-                        attributes.samlUseQueryStringSpecific.default
-                      }
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlUseQueryStringSpecific",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    >
-                      <FormControlLabel
-                        value={1}
-                        control={<Radio />}
-                        label={t("on")}
-                      />
-                      <FormControlLabel
-                        value={0}
-                        control={<Radio />}
-                        label={t("off")}
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </td>
+                />
               </tr>
               <tr>
-                <Tooltip
-                  title={
-                    <Markdown>
-                      {(definitions ? definitions.samlFederationFiles : "") +
-                        ""}
-                    </Markdown>
+                <TextForm
+                  fieldName="samlFederationFiles"
+                  value={config.samlFederationFiles || ""}
+                  updateFunc={(e: string) =>
+                    dispatch(
+                      updateConfigParams({
+                        param: "samlFederationFiles",
+                        value: e,
+                      })
+                    )
                   }
-                >
-                  <th>{t("samlFederationFiles")}</th>
-                </Tooltip>
-                <td>
-                  <TextField
-                    size="small"
-                    margin="normal"
-                    variant="filled"
-                    className="form"
-                    value={config.samlFederationFiles || ""}
-                    onChange={(e) =>
-                      dispatch(
-                        updateConfigParams({
-                          param: "samlFederationFiles",
-                          value: e.target.value,
-                        })
-                      )
-                    }
-                  />
-                </td>
+                />
               </tr>
             </tbody>
           </table>
@@ -699,137 +480,65 @@ export function SAMLRenderer() {
             <table>
               <tbody>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlCommonDomainCookieActivation
-                          : "") + ""}
-                      </Markdown>
+                  <BoolForm
+                    fieldName="samlCommonDomainCookieActivation"
+                    value={Number(
+                      config.samlCommonDomainCookieActivation ||
+                        attributes.samlCommonDomainCookieActivation.default
+                    )}
+                    updateFunc={(e: number) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlCommonDomainCookieActivation",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlCommonDomainCookieActivation")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlCommonDomainCookieActivation ||
-                          attributes.samlCommonDomainCookieActivation.default
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param: "samlCommonDomainCookieActivation",
-                              value: e.target.value,
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlCommonDomainCookieDomain
-                          : "") + ""}
-                      </Markdown>
+                  <TextForm
+                    fieldName="samlCommonDomainCookieDomain"
+                    value={config.samlCommonDomainCookieDomain || ""}
+                    updateFunc={(e: string) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlCommonDomainCookieDomain",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlCommonDomainCookieDomain")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={config.samlCommonDomainCookieDomain || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlCommonDomainCookieDomain",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlCommonDomainCookieReader
-                          : "") + ""}
-                      </Markdown>
+                  
+                  <TextForm
+                    fieldName="samlCommonDomainCookieReader"
+                    value={config.samlCommonDomainCookieReader || ""}
+                    updateFunc={(e: string) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlCommonDomainCookieReader",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlCommonDomainCookieReader")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={config.samlCommonDomainCookieReader || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlCommonDomainCookieReader",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {(definitions
-                          ? definitions.samlCommonDomainCookieWriter
-                          : "") + ""}
-                      </Markdown>
+                  
+                  <TextForm
+                    fieldName="samlCommonDomainCookieWriter"
+                    value={config.samlCommonDomainCookieWriter || ""}
+                    updateFunc={(e: string) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlCommonDomainCookieWriter",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlCommonDomainCookieWriter")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={config.samlCommonDomainCookieWriter || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlCommonDomainCookieWriter",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
+                  />
                 </tr>
               </tbody>
             </table>
@@ -842,142 +551,66 @@ export function SAMLRenderer() {
             <table>
               <tbody>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.samlDiscoveryProtocolActivation}
-                      </Markdown>
+                  <BoolForm
+                    fieldName="samlDiscoveryProtocolActivation"
+                    value={Number(
+                      config.samlDiscoveryProtocolActivation ||
+                        attributes.samlDiscoveryProtocolActivation.default
+                    )}
+                    updateFunc={(e: number) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlDiscoveryProtocolActivation",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlDiscoveryProtocolActivation")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlDiscoveryProtocolActivation ||
-                          attributes.samlDiscoveryProtocolActivation.default
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param: "samlDiscoveryProtocolActivation",
-                              value: e.target.value,
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.samlDiscoveryProtocolURL}
-                      </Markdown>
+                  <TextForm
+                    fieldName="samlDiscoveryProtocolURL"
+                    value={config.samlDiscoveryProtocolURL || ""}
+                    updateFunc={(e: string) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlDiscoveryProtocolURL",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlDiscoveryProtocolURL")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={config.samlDiscoveryProtocolURL || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlDiscoveryProtocolURL",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.samlDiscoveryProtocolPolicy}
-                      </Markdown>
+                  <TextForm
+                    fieldName="samlDiscoveryProtocolPolicy"
+                    value={config.samlDiscoveryProtocolPolicy || ""}
+                    updateFunc={(e: string) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlDiscoveryProtocolPolicy",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlDiscoveryProtocolPolicy")}</th>
-                  </Tooltip>
-                  <td>
-                    <TextField
-                      size="small"
-                      margin="normal"
-                      variant="filled"
-                      className="form"
-                      value={config.samlDiscoveryProtocolPolicy || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          updateConfigParams({
-                            param: "samlDiscoveryProtocolPolicy",
-                            value: e.target.value,
-                          })
-                        )
-                      }
-                    />
-                  </td>
+                  />
                 </tr>
                 <tr>
-                  <Tooltip
-                    title={
-                      <Markdown>
-                        {definitions.samlDiscoveryProtocolIsPassive}
-                      </Markdown>
+                  <BoolForm
+                    fieldName="samlDiscoveryProtocolIsPassive"
+                    value={Number(
+                      config.samlDiscoveryProtocolIsPassive ||
+                        attributes.samlDiscoveryProtocolIsPassive.default
+                    )}
+                    updateFunc={(e: number) =>
+                      dispatch(
+                        updateConfigParams({
+                          param: "samlDiscoveryProtocolIsPassive",
+                          value: e,
+                        })
+                      )
                     }
-                  >
-                    <th>{t("samlDiscoveryProtocolIsPassive")}</th>
-                  </Tooltip>
-                  <td>
-                    <FormControl>
-                      <RadioGroup
-                        row
-                        value={
-                          config.samlDiscoveryProtocolIsPassive ||
-                          attributes.samlDiscoveryProtocolIsPassive.default
-                        }
-                        onChange={(e) =>
-                          dispatch(
-                            updateConfigParams({
-                              param: "samlDiscoveryProtocolIsPassive",
-                              value: e.target.value,
-                            })
-                          )
-                        }
-                      >
-                        <FormControlLabel
-                          value={1}
-                          control={<Radio />}
-                          label={t("on")}
-                        />
-                        <FormControlLabel
-                          value={0}
-                          control={<Radio />}
-                          label={t("off")}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </td>
+                  />
                 </tr>
               </tbody>
             </table>

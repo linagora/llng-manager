@@ -2,12 +2,19 @@
   position: fixed;
   width: 75px;
   height: 75px;
-  background: #fff;
+  background: #ffdada;
   cursor: pointer;
-  border: 2px solid coral;
-  border-radius: 50%;
-  bottom: 2%;
+  border: 2px solid red;
+  border-radius: 15%;
+  top: 5%;
   right: 2%;
+  z-index: 2000;
+  box-shadow: none;
+}
+@media (max-width: 500px) {
+  .saveButton {
+    bottom: 2%;
+  }
 }
 
 .notif {

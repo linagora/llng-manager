@@ -32,6 +32,7 @@ import {
 } from "../features/config/configSlice";
 import attributes from "../static/attributes.json";
 import "./CatAndAppList.css";
+import HomeButton from "../components/HomeButton";
 
 const logoOptions = [
   "attach.png",
@@ -363,12 +364,15 @@ export function CatAndAppList() {
     );
   return (
     <div>
-      <strong className="title">
-        {t("applicationList")}
-        <Button onClick={() => dispatch(newCategory())}>
-          <AddOutlinedIcon fontSize="large" color="secondary" />
-        </Button>
-      </strong>
+      <div className="top">
+        <HomeButton />
+        <strong className="title">
+          {t("applicationList")}
+          <Button onClick={() => dispatch(newCategory())}>
+            <AddOutlinedIcon fontSize="large" color="secondary" />
+          </Button>
+        </strong>
+      </div>
       <div>
         {catList.map((key, index) => (
           <CatCard

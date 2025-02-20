@@ -1,11 +1,10 @@
 .issuersList {
-  background-color: coral;
-  border-radius: 20px;
+  background-color: white;
   padding: 15px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin: 15px;
+  margin-left: -35px;
 }
 
 .issuers {
@@ -17,6 +16,7 @@
 .issuers label {
   margin: 5px;
   align-items: center;
+  cursor: pointer;
 }
 
 .issuers img {

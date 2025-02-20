@@ -3,11 +3,14 @@ import { Fab } from "@mui/material";
 import { t } from "i18next";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { saveConfigAsync } from "../features/config/configSlice";
+import {
+  saveConfigAsync,
+  savePartialConfigAsync,
+} from "../features/config/configSlice";
 import { ruleOIDC, ruleSAML } from "../utils/rules";
 import "./SaveButton.css";
 import { SavePopup } from "./SavePopup";
-export default function SaveButton() {
+export default function SaveButton({ partial }: { partial?: boolean }) {
   const [openSavePopup, setOpenSavePopup] = useState(false);
   const [openErrorPopup, setOpenErrorPopup] = useState(false);
   const dispatch = useAppDispatch();
@@ -17,7 +20,6 @@ export default function SaveButton() {
     <div>
       <Fab
         className="saveButton"
-        style={{ position: "fixed", bottom: "2%", left: "2%" }}
         color="primary"
         onClick={async () => {
           let stateOk = true;
@@ -46,7 +48,11 @@ export default function SaveButton() {
             });
           }
           if (stateOk) {
-            dispatch(saveConfigAsync(config.data.config));
+            dispatch(
+              partial
+                ? savePartialConfigAsync(config.data.config)
+                : saveConfigAsync(config.data.config)
+            );
             setOpenSavePopup(true);
           } else {
             setOpenErrorPopup(true);
@@ -63,6 +69,7 @@ export default function SaveButton() {
         dispatch={dispatch}
         openSavePopup={openSavePopup}
         setOpenSavePopup={setOpenSavePopup}
+        partial={partial}
       />
       <div className={`notif red ${openErrorPopup ? "visible" : "hidden"}`}>
         {t("Cannot save with app warnings")}

@@ -1,90 +1,142 @@
-import axios from "axios";
 import {
   getConfig,
   getMetadataConfig,
+  getPartialConfig,
   saveConfig,
+  savePartialConfig,
 } from "../../../src/features/config/configAPI";
 import { llngConfig } from "../../../src/utils/types";
 
-jest.mock("axios");
+global.fetch = jest.fn();
 
-describe("getMetadataConfig", () => {
-  it("should return metadata configuration", async () => {
-    const mockResponse = {
-      data: {
-        cfgNum: "14",
-      },
-    };
-
-    (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
-
-    const result = await getMetadataConfig(14);
-
-    expect(axios.get).toHaveBeenCalledWith("/confs/14");
-
-    expect(result.data).toEqual(mockResponse.data);
+describe("API functions", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("should throw an error if axios.get fails", async () => {
-    (axios.get as jest.Mock).mockRejectedValueOnce(new Error("400"));
+  it("should call getMetadataConfig with 'latest' if no num is passed", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
 
-    await expect(getMetadataConfig(14)).rejects.toThrow("400");
-  });
-});
-
-describe("getConfig", () => {
-  it("should return configuration", async () => {
-    const mockResponse = {
-      data: {
-        nameConfig: "test",
-      },
-    };
-
-    (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
-
-    const result = await getConfig(0);
-
-    expect(axios.get).toHaveBeenCalledWith("/manager.fcgi/confs/0?full=1");
-
-    expect(result.data).toEqual(mockResponse.data);
+    await getMetadataConfig();
+    expect(fetch).toHaveBeenCalledWith("/confs/latest", {
+      credentials: "include",
+    });
   });
 
-  it("should throw an error if axios.get fails", async () => {
-    (axios.get as jest.Mock).mockRejectedValueOnce(new Error("400"));
-    await expect(getConfig(123)).rejects.toThrow("400");
+  it("should call getMetadataConfig with the passed num", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
+
+    await getMetadataConfig(123);
+    expect(fetch).toHaveBeenCalledWith("/confs/123", {
+      credentials: "include",
+    });
   });
-});
 
-describe("saveConfig", () => {
-  it("should save configuration", async () => {
-    const mockConfig = {
-      cfgAuthor: "test",
-    } as llngConfig;
+  it("should call getConfig with the correct URL", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
 
-    const mockResponse = {
-      data: {
-        message: "Configuration saved successfully",
-      },
-    };
+    await getConfig(456);
+    expect(fetch).toHaveBeenCalledWith("/manager.fcgi/confs/456?full=1", {
+      credentials: "include",
+    });
+  });
 
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+  it("should call getPartialConfig with the correct URL", async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
 
-    const result = await saveConfig(mockConfig);
+    await getPartialConfig();
+    expect(fetch).toHaveBeenCalledWith("/partial", { credentials: "include" });
+  });
 
-    expect(axios.post).toHaveBeenCalledWith(
+  it("should call saveConfig with the correct URL and payload", async () => {
+    const mockConfig: llngConfig = { cfgAuthor: "test" } as llngConfig;
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
+
+    await saveConfig(mockConfig);
+    expect(fetch).toHaveBeenCalledWith(
       "/manager.fcgi/confs/raw",
-      mockConfig
+      expect.objectContaining({
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(mockConfig),
+        credentials: "include",
+      })
     );
-
-    expect(result.data).toEqual(mockResponse.data);
   });
 
-  it("should throw an error if axios.post fails", async () => {
-    const mockConfig = {
-      cfgAuthor: "test",
-    } as llngConfig;
+  it("should call savePartialConfig with the correct URL and payload", async () => {
+    const mockConfig: llngConfig = { cfgAuthor: "test" } as llngConfig;
 
-    (axios.post as jest.Mock).mockRejectedValueOnce(new Error("400"));
-    await expect(saveConfig(mockConfig)).rejects.toThrow("400");
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      status: 200,
+      json: jest.fn().mockResolvedValue({}),
+    });
+
+    await savePartialConfig(mockConfig);
+    expect(fetch).toHaveBeenCalledWith(
+      "/partial",
+      expect.objectContaining({
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(mockConfig),
+        credentials: "include",
+      })
+    );
+  });
+
+  it("should throw an error if getMetadataConfig fails", async () => {
+    const error = new Error("Fetch failed");
+    (fetch as jest.Mock).mockRejectedValueOnce(error);
+
+    await expect(getMetadataConfig(123)).rejects.toThrowError("Fetch failed");
+  });
+
+  it("should throw an error if getConfig fails", async () => {
+    const error = new Error("Fetch failed");
+    (fetch as jest.Mock).mockRejectedValueOnce(error);
+
+    await expect(getConfig(456)).rejects.toThrowError("Fetch failed");
+  });
+
+  it("should throw an error if getPartialConfig fails", async () => {
+    const error = new Error("Fetch failed");
+    (fetch as jest.Mock).mockRejectedValueOnce(error);
+
+    await expect(getPartialConfig()).rejects.toThrowError("Fetch failed");
+  });
+
+  it("should throw an error if saveConfig fails", async () => {
+    const mockConfig: llngConfig = { cfgAuthor: "test" } as llngConfig;
+
+    const error = new Error("Fetch failed");
+    (fetch as jest.Mock).mockRejectedValueOnce(error);
+
+    await expect(saveConfig(mockConfig)).rejects.toThrowError("Fetch failed");
+  });
+
+  it("should throw an error if savePartialConfig fails", async () => {
+    const mockConfig: llngConfig = { cfgAuthor: "test" } as llngConfig;
+
+    const error = new Error("Fetch failed");
+    (fetch as jest.Mock).mockRejectedValueOnce(error);
+
+    await expect(savePartialConfig(mockConfig)).rejects.toThrowError(
+      "Fetch failed"
+    );
   });
 });

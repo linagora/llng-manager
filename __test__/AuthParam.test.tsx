@@ -32,7 +32,7 @@ describe("AuthParam Dashboard", () => {
     fireEvent.click(
       screen.getByText("Password", { selector: ".MuiAccordionSummary-content" })
     );
-    expect(screen.getByText("Password policy control")).toBeVisible();
+    expect(screen.getAllByText("Password policy control")[0]).toBeVisible();
     changeRadio(0);
     changeRadio(1);
     changeRadio(2);

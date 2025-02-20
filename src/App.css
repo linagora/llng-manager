@@ -1,10 +1,21 @@
 .App {
   text-align: center;
 }
-.main {
-  margin-top: 75px;
-  text-align: center;
+.open {
+  margin-left: 250px;
 }
+
+.closed {
+  margin-left: 40px;
+}
+
+.breadcrumbs {
+  padding-top: 1vw;
+  padding-left: 2vw;
+  background-color: #d6d6d6;
+  cursor: pointer;
+}
+
 @media (max-width: 500px) {
   .main {
     margin-top: 100px;

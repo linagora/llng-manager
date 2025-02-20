@@ -1,44 +1,51 @@
 import "@testing-library/jest-dom/extend-expect";
-import { fireEvent, screen, within } from "@testing-library/react";
-import axios from "axios";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { t } from "i18next";
 import { IssuerAssistant } from "../src/components/managerComponents/IssuerAssistant";
 import Manager from "../src/dashboards/Manager";
 import { renderWithProviders } from "../src/utils/test-utils";
-jest.mock("axios");
+import preview from "jest-preview";
+
+global.fetch = jest.fn();
 
 describe("Filtering", () => {
   it("click should toggle filter", async () => {
     renderWithProviders(<Manager />);
+    const alphaLabel = await screen.findByTestId("alpha-label");
 
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByText(t("ldapFilters")));
-    expect(await screen.findByText(t("alphabetical"))).toBeVisible();
-
-    fireEvent.click(screen.getByLabelText(t("alphabetical")));
-    expect(screen.getByLabelText(t("alphabetical"))).toHaveClass("Mui-checked");
+    fireEvent.click(alphaLabel);
+    expect(alphaLabel).toHaveAttribute("aria-pressed", "true");
   });
-  it("toggling filter should sort alphabeticaly", async () => {
+  it("toggling filter should sort alphabetically", async () => {
     renderWithProviders(<Manager />);
 
+    // Ensure the initial element exists before sorting
     expect(await screen.findByText("14")).toBeInTheDocument();
-    fireEvent.click(await screen.findByText(t("ldapFilters")));
-    fireEvent.click(screen.getByLabelText(t("alphabetical")));
 
-    expect(screen.getAllByTestId("appcard")).toStrictEqual(
-      screen.getAllByTestId("appcard").sort((el1, el2) =>
-        // eslint-disable-next-line testing-library/no-node-access, @typescript-eslint/no-unused-expressions
-        (el1.children[0].children[0].textContent
-          ? // eslint-disable-next-line testing-library/no-node-access
-            el1.children[0].children[0].textContent
-          : "") > // eslint-disable-next-line testing-library/no-node-access
-        (el2.children[0].children[0].textContent // eslint-disable-next-line testing-library/no-node-access
-          ? el2.children[0].children[0].textContent
-          : "")
-          ? 1
-          : -1
-      )
+    const alphaLabel = await screen.findByTestId("alpha-label");
+
+    const initialCards = screen.getAllByTestId("appcard");
+    const initialTexts = initialCards.map(
+      (card) => card.children[0].children[0].textContent || ""
     );
+
+    fireEvent.click(alphaLabel);
+
+    await waitFor(() => {
+      const sortedCards = screen
+        .getAllByTestId("appcard")
+        .map((card) => card.children[0].children[0].textContent || "");
+
+      const normalizedSortedCards = sortedCards.map((text) =>
+        text.toLowerCase()
+      );
+      const sortedAlphabetically = [...normalizedSortedCards].sort();
+
+      expect(normalizedSortedCards).toStrictEqual(sortedAlphabetically);
+
+      expect(initialTexts).not.toEqual(sortedCards);
+    });
   });
 });
 
@@ -149,12 +156,15 @@ describe("IssuerAssistants", () => {
   it("toggles saml assistant", async () => {
     renderWithProviders(<Manager />);
     const samlSwitch = screen.getByTestId("issuer.toggle.saml");
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
-    // eslint-disable-next-line testing-library/no-node-access
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    ); // eslint-disable-next-line testing-library/no-node-access
+
     const switchInput = samlSwitch.querySelector('input[role="switch"]');
+
     expect(samlSwitch).not.toHaveClass("Mui-checked");
 
     samlSwitch.click();
@@ -164,6 +174,7 @@ describe("IssuerAssistants", () => {
 
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.click(screen.getByText(t("newRSAKey")));
+    preview.debug();
     expect(await screen.findByDisplayValue("public")).toBeDefined();
     expect(await screen.findByDisplayValue("hash")).toBeDefined();
     expect(await screen.findByDisplayValue("private")).toBeDefined();
@@ -198,10 +209,12 @@ describe("IssuerAssistants", () => {
       />
     );
 
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    );
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.click(screen.getByText(t("newRSAKey")));
@@ -234,10 +247,12 @@ describe("IssuerAssistants", () => {
       />
     );
 
-    const mockResponse = {
-      data: { hash: "hash", private: "private", public: "public" },
-    };
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+    const mockResponse = { hash: "hash", private: "private", public: "public" };
+    (fetch as jest.Mock).mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockResponse),
+      })
+    );
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(screen.getByText(t("doItTogether")));
     fireEvent.change(
