@@ -61,7 +61,7 @@ function Navbar({
               <Typography
                 variant="h6"
                 component="div"
-                onClick={() => dispatch(push("/manager.html"))}
+                onClick={() => dispatch(push("/"))}
                 style={{ cursor: "pointer", marginRight: "15px" }}
               >
                 {t("Configuration")}
@@ -87,9 +87,9 @@ function Navbar({
               >
                 {t("secondFactors")}
               </Typography>
-              <OptionMenu />
             </>
           )}
+          <OptionMenu />
         </div>
       </Drawer>
       <Drawer
@@ -141,8 +141,8 @@ function OptionMenu() {
         }}
         keepMounted
         transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: "bottom",
+          horizontal: "left",
         }}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
