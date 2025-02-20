@@ -80,7 +80,7 @@ export default function PartialManager() {
       );
     } else if (config.error.has) {
       return (
-        <div>
+        <div className="top">
           <strong className="title"> {t("currentConfiguration")} </strong>
           <strong>{t("failedLoading")}</strong>
           <span>{config.error.errorContent}</span>
@@ -197,24 +197,26 @@ export default function PartialManager() {
 
       return (
         <>
-          <strong className="title"> {t("currentConfiguration")}</strong>
-          <Button
-            variant="contained"
-            sx={{ verticalAlign: "top" }}
-            className="cfgNum"
-            color={"success"}
-          >
-            {config.data.metadata.cfgNum}
-          </Button>
-          {false && (
+          <div className="top">
+            <strong className="title"> {t("currentConfiguration")}</strong>
             <Button
-              onClick={() => {
-                dispatch(push("#catandapp"));
-              }}
+              variant="contained"
+              sx={{ verticalAlign: "top" }}
+              className="cfgNum"
+              color={"success"}
             >
-              <WidgetsOutlinedIcon color="secondary" />
+              {config.data.metadata.cfgNum}
             </Button>
-          )}
+            {false && (
+              <Button
+                onClick={() => {
+                  dispatch(push("#catandapp"));
+                }}
+              >
+                <WidgetsOutlinedIcon color="secondary" />
+              </Button>
+            )}
+          </div>
           {false && <Issuers />}
           <FilterToggle filters={filters} setFilters={setFilters} />
           <Pagination
